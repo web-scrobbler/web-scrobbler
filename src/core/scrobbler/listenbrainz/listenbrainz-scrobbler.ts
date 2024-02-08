@@ -18,8 +18,7 @@ import { sendContentMessage } from '@/util/communication';
  */
 
 const listenBrainzTokenPage = 'https://listenbrainz.org/settings/';
-const baseUrl = 'https://api.listenbrainz.org/1';
-const apiUrl = `${baseUrl}/submit-listens`;
+const defaultUrl = 'https://api.listenbrainz.org/';
 export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'> {
 	public userApiUrl!: string;
 	public userToken!: string;
@@ -221,7 +220,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		try {
 			lookupResult = await this.listenBrainzApi<MetadataLookup>(
 				'GET',
-				`${baseUrl}/metadata/lookup?${lookupRequestParams.toString()}`,
+				`/1/metadata/lookup?${lookupRequestParams.toString()}`,
 				null,
 				null,
 			);
@@ -248,7 +247,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		};
 		const loveResult = await this.listenBrainzApi(
 			'POST',
-			`${baseUrl}/feedback/recording-feedback`,
+			'/1/feedback/recording-feedback',
 			loveRequestBody,
 			sessionID,
 		);
@@ -267,10 +266,30 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		T extends Record<string, unknown> = Record<string, unknown>,
 	>(
 		method: string,
-		url: string,
+		path: string,
 		body: ListenBrainzParams | null,
 		sessionID: string | null,
 	): Promise<T> {
+		let url: URL;
+		try {
+			url = new URL(this.userApiUrl || defaultUrl);
+		} catch (e) {
+			// try to automatically prepend https://
+			url = new URL(`https://${this.userApiUrl}`);
+		}
+		url.pathname = url.pathname.split('/1/')[0];
+		if (url.pathname.endsWith('/')) {
+			url.pathname = url.pathname.slice(0, -1);
+		}
+
+		const pathQuerySplitIndex = path.indexOf('?');
+		if (pathQuerySplitIndex === -1) {
+			url.pathname += path;
+		} else {
+			url.pathname = path.slice(0, pathQuerySplitIndex);
+			url.search = path.slice(pathQuerySplitIndex);
+		}
+
 		const requestInfo: RequestInit = {
 			method,
 			headers: {
@@ -320,7 +339,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	): Promise<ServiceCallResult> {
 		const result = await this.listenBrainzApi(
 			'POST',
-			this.userApiUrl || apiUrl,
+			'/1/submit-listens',
 			params,
 			sessionID,
 		);
