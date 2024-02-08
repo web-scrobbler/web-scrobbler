@@ -28,7 +28,6 @@ import { ScrobbleStatus } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import BaseConnector from '@/core/content/connector';
 import Blocklist from '@/core/storage/blocklist';
-import { DisallowedReason } from '../disallowed-reason';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -48,6 +47,7 @@ export type ControllerModeStr =
 export const isPrioritizedMode: Partial<Record<ControllerModeStr, true>> = {
 	[ControllerMode.Disallowed]: true,
 	[ControllerMode.Playing]: true,
+	[ControllerMode.Paused]: true,
 	[ControllerMode.Scrobbled]: true,
 	[ControllerMode.Loading]: true,
 	[ControllerMode.Unknown]: true,
@@ -78,6 +78,7 @@ export default class Controller {
 	private shouldScrobblePodcasts = true;
 	private scrobbleCacheId: number | null = null;
 	private blocklist: Blocklist;
+	private isPaused = false;
 
 	private forceScrobble = false;
 	private shouldHaveScrobbled = false;
@@ -231,7 +232,7 @@ export default class Controller {
 		this.blocklist = new Blocklist(this.connector.meta.id);
 		this.isEnabled = isEnabled;
 		this.mode = isEnabled ? ControllerMode.Base : ControllerMode.Disabled;
-		this.setMode(this.mode);
+		this.onModeChanged();
 		Options.getOption(Options.SCROBBLE_PODCASTS, connector.meta.id)
 			.then((shouldScrobblePodcasts) => {
 				if (typeof shouldScrobblePodcasts !== 'boolean') {
@@ -307,7 +308,7 @@ export default class Controller {
 			contentListener({
 				type: 'getConnectorDetails',
 				fn: () => ({
-					mode: this.mode,
+					mode: this.getMode(),
 					song: this.currentSong?.getCloneableData() ?? null,
 				}),
 			}),
@@ -374,7 +375,7 @@ export default class Controller {
 		this.updateInfoBox();
 		sendContentMessage({
 			type: 'controllerModeChange',
-			payload: this.mode,
+			payload: this.getMode(),
 		});
 	}
 
@@ -527,6 +528,14 @@ export default class Controller {
 	 * @returns Controller mode
 	 */
 	getMode(): (typeof ControllerMode)[keyof typeof ControllerMode] {
+		const pausableModes = [
+			ControllerMode.Playing,
+			ControllerMode.Scrobbled,
+		];
+		if (pausableModes.includes(this.mode) && this.isPaused) {
+			return ControllerMode.Paused;
+		}
+
 		return this.mode;
 	}
 
@@ -946,7 +955,7 @@ export default class Controller {
 				void this.setSongNowPlaying();
 			} else {
 				// Resend current mode
-				this.setMode(this.mode);
+				this.onModeChanged();
 			}
 		} else {
 			this.setPaused();
@@ -1095,6 +1104,9 @@ export default class Controller {
 		) {
 			return;
 		}
+
+		this.isPaused = true;
+		this.onModeChanged();
 		await sendContentMessage({
 			type: 'setPaused',
 			payload: {
@@ -1111,6 +1123,9 @@ export default class Controller {
 		) {
 			return;
 		}
+
+		this.isPaused = false;
+		this.onModeChanged();
 		await sendContentMessage({
 			type: 'setResumedPlaying',
 			payload: {

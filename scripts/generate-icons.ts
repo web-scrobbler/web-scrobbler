@@ -75,6 +75,10 @@ const monochromeColors = {
 		light: '#3b3b3b',
 		dark: '#f7f7f7',
 	},
+	'action_paused.svg': {
+		light: '#7f7f7f',
+		dark: '#9f9f9f',
+	},
 	'action_playing.svg': {
 		light: '#66a858',
 		dark: '#66a858',

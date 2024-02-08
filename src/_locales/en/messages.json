@@ -947,6 +947,10 @@
         "message": "Now playing $1",
         "description": "`playing` page action title, also used for infobox"
     },
+    "pageActionPaused": {
+        "message": "Paused $1",
+        "description": "`paused` page action title, also used for infobox"
+    },
     "pageActionScrobbled": {
         "message": "Scrobbled $1",
         "description": "`scrobbled` page action title, also used for infobox"
