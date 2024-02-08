@@ -13,13 +13,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
+        id: setup-node
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
 
       - name: Install dependencies
+        if: steps.setup-node.outputs.cache-hit != 'true'
         run: npm ci
-
       - name: Check for typescript errors
         run: npm run checkts
 
@@ -34,13 +35,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
+        id: setup-node
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: Install dependencies
+        if: steps.setup-node.outputs.cache-hit != 'true'
         run: npm ci
-
       - name: Check for typescript errors
         run: npm run checkts
