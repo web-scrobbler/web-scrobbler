@@ -22,7 +22,7 @@ import { SettingsOutlined } from '@/ui/components/icons';
 import browser from 'webextension-polyfill';
 import styles from './popup.module.scss';
 import { t } from '@/util/i18n';
-import { PopupAnchor, isIos } from '../components/util';
+import { PopupAnchor } from '../components/util';
 import ContextMenu from '../components/context-menu/context-menu';
 import {
 	Navigator,
@@ -30,6 +30,7 @@ import {
 } from '../options/components/navigator';
 import Disallowed from './disallowed';
 import Ignored from './ignored';
+import { isIos } from '../islatedUtil';
 
 /**
  * List of modes that have a settings button in the popup content, dont show supplementary settings icon.
@@ -51,6 +52,17 @@ const contextMenuModes = [
 	ControllerMode.Loading,
 	ControllerMode.Unknown,
 ];
+
+function postCurrentSize() {
+	window.parent.postMessage(
+		{
+			sender: 'web-scrobbler-popup',
+			width: body.scrollWidth,
+			height: body.scrollHeight,
+		},
+		'*',
+	);
+}
 
 /**
  * Component that determines what popup to show, and then shows it
@@ -140,16 +152,7 @@ function Popup() {
 
 // prepare observer to communicate when popup running as iframe.
 const body = document.body;
-const resizeObserver = new ResizeObserver(() => {
-	window.parent.postMessage(
-		{
-			sender: 'web-scrobbler-popup',
-			width: body.scrollWidth,
-			height: body.scrollHeight,
-		},
-		'*',
-	);
-});
+const resizeObserver = new ResizeObserver(postCurrentSize);
 resizeObserver.observe(body);
 
 // render the popup

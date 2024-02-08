@@ -12,6 +12,7 @@ import {
 	infoBoxOther,
 } from './infobox-selectors';
 import { t } from '@/util/i18n';
+import { isIos } from '../islatedUtil';
 
 /**
  * Solid is not used here as this is run from content script and the content is
@@ -120,7 +121,11 @@ function resizeIframe(e: MessageEvent<unknown>) {
 	}
 
 	iframe.width = e.data.width.toString();
-	iframe.height = e.data.height.toString();
+	if (isIos()) {
+		iframe.height = (window.innerHeight / 2).toString();
+	} else {
+		iframe.height = e.data.height.toString();
+	}
 }
 
 /**

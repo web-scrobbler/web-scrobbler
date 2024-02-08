@@ -38,12 +38,13 @@ import {
 } from '@/util/util';
 import scrobbleService from '@/core/object/scrobble-service';
 import { SessionData } from '@/core/scrobbler/base-scrobbler';
-import { PopupAnchor, Squircle, isIos } from '../components/util';
+import { PopupAnchor, Squircle } from '../components/util';
 import ContextMenu from '../components/context-menu/context-menu';
 import {
 	Navigator,
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
+import { isIos } from '../islatedUtil';
 
 /**
  * Component showing info for currently playing song if there is one
