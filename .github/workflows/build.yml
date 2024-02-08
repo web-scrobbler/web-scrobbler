@@ -27,7 +27,7 @@ jobs:
 
       - name: Upload the extension as an artifact
         if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: web-scrobbler-chrome
           path: build/chrome
@@ -58,7 +58,7 @@ jobs:
 
       - name: Upload the extension as an artifact
         if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: web-scrobbler-firefox
           path: build/firefox
@@ -85,7 +85,7 @@ jobs:
 
       - name: Upload the extension as an artifact
         if: github.ref == 'refs/heads/master'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: web-scrobbler-safari
           path: build/safari
