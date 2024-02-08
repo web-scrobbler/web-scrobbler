@@ -17,12 +17,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Install dependencies
         if: steps.setup-node.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Check for typescript errors
-        run: npm run checkts
 
       - name: Run tests
         run: npm run test
@@ -44,5 +43,6 @@ jobs:
       - name: Install dependencies
         if: steps.setup-node.outputs.cache-hit != 'true'
         run: npm ci
+
       - name: Check for typescript errors
         run: npm run checkts
