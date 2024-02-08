@@ -128,10 +128,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 			url = new URL(`https://${this.userApiUrl}`);
 		}
 		url.pathname = url.pathname.split('/apis/mlj_1')[0];
-		if (url.pathname.endsWith('/')) {
-			url.pathname = url.pathname.slice(0, -1);
-		}
-		url.pathname += path;
+		url.pathname += url.pathname.endsWith('/') ? path.slice(1) : path;
 
 		const promise = fetch(url, requestInfo);
 

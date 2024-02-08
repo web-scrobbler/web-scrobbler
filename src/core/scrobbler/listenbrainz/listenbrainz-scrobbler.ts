@@ -281,13 +281,10 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		if (url.pathname.endsWith('/1')) {
 			url.pathname = url.pathname.slice(0, -2);
 		}
-		if (url.pathname.endsWith('/')) {
-			url.pathname = url.pathname.slice(0, -1);
-		}
 
 		const pathQuerySplitIndex = path.indexOf('?');
 		if (pathQuerySplitIndex === -1) {
-			url.pathname += path;
+			url.pathname += url.pathname.endsWith('/') ? path.slice(1) : path;
 		} else {
 			url.pathname = path.slice(0, pathQuerySplitIndex);
 			url.search = path.slice(pathQuerySplitIndex);
