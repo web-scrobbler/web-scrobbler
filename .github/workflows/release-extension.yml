@@ -27,14 +27,20 @@ jobs:
           git config user.email "${{ secrets.BOT_EMAIL }}"
 
       - name: Setup Node.js
-        id: setup-node
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      - name: Cache NPM dependencies
+        id: npm-cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json')
+
       - name: Install dependencies
-        if: steps.setup-node.outputs.cache-hit != 'true'
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Release
         run: ./release-extension.sh ${{ inputs.release_type }}
