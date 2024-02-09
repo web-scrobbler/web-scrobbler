@@ -60,45 +60,45 @@ interface ContentCommunications {
 		payload: {
 			song: CloneableSong;
 		};
-		response: Promise<ServiceCallResult[]>;
+		response: ServiceCallResult[];
 	};
 	setPaused: {
 		payload: {
 			song: CloneableSong;
 		};
-		response: void;
+		response: ServiceCallResult[];
 	};
 	setResumedPlaying: {
 		payload: {
 			song: CloneableSong;
 		};
-		response: void;
+		response: ServiceCallResult[];
 	};
 	scrobble: {
 		payload: {
 			songs: CloneableSong[];
 			currentlyPlaying: boolean;
 		};
-		response: Promise<ServiceCallResult[][]>;
+		response: ServiceCallResult[][];
 	};
 	getSongInfo: {
 		payload: {
 			song: CloneableSong;
 		};
-		response: Promise<(Record<string, never> | ScrobblerSongInfo | null)[]>;
+		response: (Record<string, never> | ScrobblerSongInfo | null)[];
 	};
 	toggleLove: {
 		payload: {
 			song: CloneableSong;
 			isLoved: boolean;
 		};
-		response: Promise<(ServiceCallResult | Record<string, never>)[]>;
+		response: (ServiceCallResult | Record<string, never>)[];
 	};
 	sendListenBrainzRequest: {
 		payload: {
 			url: string;
 		};
-		response: Promise<string | null>;
+		response: string | null;
 	};
 	updateScrobblerProperties: {
 		payload: undefined;
@@ -109,10 +109,14 @@ interface ContentCommunications {
 			url: string;
 			init?: RequestInit | undefined;
 		};
-		response: Promise<{
+		response: {
 			ok: boolean;
 			content: string;
-		}>;
+		};
+	};
+	isTabAudible: {
+		payload: undefined;
+		response: boolean;
 	};
 }
 
@@ -170,11 +174,11 @@ interface BackgroundCommunications {
 	};
 	addToBlocklist: {
 		payload: undefined;
-		response: Promise<void>;
+		response: void;
 	};
 	removeFromBlocklist: {
 		payload: undefined;
-		response: Promise<void>;
+		response: void;
 	};
 	getChannelDetails: {
 		payload: undefined;
@@ -194,7 +198,9 @@ interface SpecificContentListener<K extends keyof BackgroundCommunications> {
 	fn: (
 		payload: BackgroundCommunications[K]['payload'],
 		sender: browser.Runtime.MessageSender,
-	) => BackgroundCommunications[K]['response'];
+	) =>
+		| BackgroundCommunications[K]['response']
+		| Promise<BackgroundCommunications[K]['response']>;
 }
 
 type ContentListener = <R>(
@@ -260,7 +266,9 @@ interface SpecificBackgroundListener<K extends keyof ContentCommunications> {
 	fn: (
 		payload: ContentCommunications[K]['payload'],
 		sender: browser.Runtime.MessageSender,
-	) => ContentCommunications[K]['response'];
+	) =>
+		| ContentCommunications[K]['response']
+		| Promise<ContentCommunications[K]['response']>;
 }
 
 type BackgroundListener = <R>(
@@ -323,7 +331,9 @@ interface SpecificPopupListener<K extends keyof PopupCommunications> {
 	fn: (
 		payload: PopupCommunications[K]['payload'],
 		sender: browser.Runtime.MessageSender,
-	) => PopupCommunications[K]['response'];
+	) =>
+		| PopupCommunications[K]['response']
+		| Promise<PopupCommunications[K]['response']>;
 }
 
 type PopupListener = <R>(

@@ -4,6 +4,7 @@ import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
 import { ConnectorMeta } from '../connectors';
 import type { DisallowedReason } from '../object/disallowed-reason';
+import { sendContentMessage } from '@/util/communication';
 
 export default class BaseConnector {
 	/**
@@ -546,6 +547,38 @@ export default class BaseConnector {
 	 */
 	public useMediaSessionApi: () => void = () => {
 		this.isMediaSessionAllowed = 'mediaSession' in navigator;
+	};
+
+	/**
+	 * used by {@link BaseConnector.useTabAudibleApi} for async {@link BaseConnector.isPlaying} updates
+	 */
+	private isPlayingAsync = true;
+
+	/**
+	 * Enable using tab audible function for deciding whether song is playing.
+	 *
+	 * Polls for audible once a second, this isn't expensive so it's fine.
+	 *
+	 * overrides {@link BaseConnector.isPlaying}
+	 */
+	public useTabAudibleApi: () => void = () => {
+		this.isPlaying = () => {
+			return this.isPlayingAsync;
+		};
+		setInterval(() => {
+			sendContentMessage({
+				type: 'isTabAudible',
+				payload: undefined,
+			})
+				.then((res) => {
+					this.isPlayingAsync = res;
+					this.onStateChanged();
+				})
+				.catch(() => {
+					this.isPlayingAsync = true;
+					this.onStateChanged();
+				});
+		}, 1000);
 	};
 
 	/**

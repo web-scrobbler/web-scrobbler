@@ -361,7 +361,6 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				});
 		const timeout = this.REQUEST_TIMEOUT;
 
-		// @ts-expect-error typescript is confused by the combination of ternary and promise wrapped promise. It's a skill issue on typescript's part.
 		const rawHtml = await Util.timeoutPromise(timeout, promise);
 
 		if (rawHtml !== null) {
