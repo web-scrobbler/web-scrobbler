@@ -34,6 +34,11 @@ export const Loading = 'Loading';
 export const Playing = 'Playing';
 
 /**
+ * A song is paused.
+ */
+export const Paused = 'Paused';
+
+/**
  * A song is scrobbled.
  */
 export const Scrobbled = 'Scrobbled';
@@ -52,3 +57,13 @@ export const Unknown = 'Unknown';
  * Site is unsupported.
  */
 export const Unsupported = 'Unsupported';
+
+/**
+ * A user loved a song.
+ */
+export const Loved = 'Loved';
+
+/**
+ * A user unloved a song.
+ */
+export const Unloved = 'Unloved';

@@ -48,11 +48,14 @@ export type ControllerModeStr =
 export const isPrioritizedMode: Partial<Record<ControllerModeStr, true>> = {
 	[ControllerMode.Disallowed]: true,
 	[ControllerMode.Playing]: true,
+	[ControllerMode.Paused]: true,
 	[ControllerMode.Scrobbled]: true,
 	[ControllerMode.Loading]: true,
 	[ControllerMode.Unknown]: true,
 	[ControllerMode.Ignored]: true,
 	[ControllerMode.Err]: true,
+	[ControllerMode.Loved]: true,
+	[ControllerMode.Unloved]: true,
 };
 
 type updateEvent = {
@@ -67,7 +70,9 @@ const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 export default class Controller {
 	public connector: BaseConnector;
 	public isEnabled: boolean;
-	public mode: ControllerModeStr;
+	private mode: ControllerModeStr;
+	private tempMode: ControllerModeStr | null;
+	private timeoutId: NodeJS.Timeout | undefined = undefined;
 
 	private pipeline = new Pipeline();
 	private playbackTimer = new Timer();
@@ -78,6 +83,7 @@ export default class Controller {
 	private shouldScrobblePodcasts = true;
 	private scrobbleCacheId: number | null = null;
 	private blocklist: Blocklist;
+	private isPaused = false;
 
 	private forceScrobble = false;
 	private shouldHaveScrobbled = false;
@@ -147,7 +153,8 @@ export default class Controller {
 		this.blocklist = new Blocklist(this.connector.meta.id);
 		this.isEnabled = isEnabled;
 		this.mode = isEnabled ? ControllerMode.Base : ControllerMode.Disabled;
-		this.setMode(this.mode);
+		this.onModeChanged();
+		this.tempMode = null; // temporary default setting for now
 		Options.getOption(Options.SCROBBLE_PODCASTS, connector.meta.id)
 			.then((shouldScrobblePodcasts) => {
 				if (typeof shouldScrobblePodcasts !== 'boolean') {
@@ -172,8 +179,8 @@ export default class Controller {
 			}),
 			contentListener({
 				type: 'toggleLove',
-				fn: ({ isLoved }) => {
-					this.toggleLove(isLoved);
+				fn: ({ isLoved, shouldShowNotification }) => {
+					this.toggleLove(isLoved, shouldShowNotification);
 				},
 			}),
 			contentListener({
@@ -223,7 +230,7 @@ export default class Controller {
 			contentListener({
 				type: 'getConnectorDetails',
 				fn: () => ({
-					mode: this.mode,
+					mode: this.getMode(),
 					song: this.currentSong?.getCloneableData() ?? null,
 				}),
 			}),
@@ -285,7 +292,7 @@ export default class Controller {
 		this.updateInfoBox();
 		sendContentMessage({
 			type: 'controllerModeChange',
-			payload: this.mode,
+			payload: this.getMode(),
 		});
 	}
 
@@ -460,6 +467,16 @@ export default class Controller {
 	 * @returns Controller mode
 	 */
 	getMode(): (typeof ControllerMode)[keyof typeof ControllerMode] {
+		const pausableModes = [
+			ControllerMode.Playing,
+			ControllerMode.Scrobbled,
+		];
+		if (this.tempMode !== null) {
+			return this.tempMode;
+		}
+		if (pausableModes.includes(this.mode) && this.isPaused) {
+			return ControllerMode.Paused;
+		}
 		return this.mode;
 	}
 
@@ -499,13 +516,16 @@ export default class Controller {
 	/**
 	 * Send request to love or unlove current song.
 	 * @param isLoved - Flag indicated song is loved
+	 * @param shouldShowNotification - Flag indicating that a notification should show up
 	 */
-	async toggleLove(isLoved: boolean): Promise<void> {
+	async toggleLove(
+		isLoved: boolean,
+		shouldShowNotification: boolean,
+	): Promise<void> {
 		this.assertSongIsPlaying();
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
-
 		if (!this.currentSong.isValid()) {
 			throw new Error('No valid song is now playing');
 		}
@@ -514,11 +534,17 @@ export default class Controller {
 		this.currentSong.setLoveStatus(isLoved, true);
 		this.onSongUpdated();
 		try {
+			if (isLoved) {
+				this.setTempMode(ControllerMode.Loved);
+			} else {
+				this.setTempMode(ControllerMode.Unloved);
+			}
 			await sendContentMessage({
 				type: 'toggleLove',
 				payload: {
 					song: this.currentSong.getCloneableData(),
 					isLoved,
+					shouldShowNotification,
 				},
 			});
 		} catch (err) {
@@ -578,7 +604,17 @@ export default class Controller {
 				this.connector.meta.id,
 			)
 		) {
-			this.toggleLove(isLoved);
+			if (
+				// do not show notification if:
+				// 1. song is already loved and is being toggled to love status
+				// 2. song is already unloved and is being toggled to unlove status
+				(this.currentSong.metadata.userloved === true && isLoved) ||
+				(this.currentSong.metadata.userloved === false && !isLoved)
+			) {
+				return;
+			}
+			// do send notification if song has not yet been (un)loved toggled yet
+			this.toggleLove(isLoved, true);
 		}
 	}
 
@@ -644,6 +680,35 @@ export default class Controller {
 		this.onModeChanged();
 	}
 
+	/**
+	 * Checks if the temp icon/mode is visible.
+	 */
+	private isTempIconVisible() {
+		return this.timeoutId !== undefined;
+	}
+
+	/**
+	 * Temporarily set the mode of the controller,
+	 * then returns to previous mode after 5 seconds.
+	 *
+	 * @param newMode - new controller mode to be set
+	 *
+	 */
+	private setTempMode(newMode: ControllerModeStr) {
+		if (this.isTempIconVisible()) {
+			clearTimeout(this.timeoutId);
+			this.timeoutId = undefined;
+		}
+		const TEMP_ICON_DISPLAY_DURATION = 5000;
+		this.tempMode = newMode;
+		this.onModeChanged();
+		this.timeoutId = setTimeout(() => {
+			this.timeoutId = undefined;
+			this.tempMode = null;
+			this.onModeChanged();
+		}, TEMP_ICON_DISPLAY_DURATION);
+	}
+
 	private dispatchEvent(event: string): void {
 		if (!event) {
 			throw new Error(`Unknown event: ${event}`);
@@ -661,6 +726,7 @@ export default class Controller {
 		 * We've hit a new song (or replaying the previous one)
 		 * clear any previous song and its bindings.
 		 */
+		this.isPaused = false;
 		this.resetState();
 		this.currentSong = new Song(newState, this.connector.meta);
 		this.currentSong.flags.isReplaying = this.isReplayingSong;
@@ -697,8 +763,7 @@ export default class Controller {
 		 * the timer is started.
 		 */
 		if (!newState.isPlaying) {
-			this.playbackTimer.pause();
-			this.replayDetectionTimer.pause();
+			this.setPaused();
 		}
 
 		void this.processSong();
@@ -879,12 +944,10 @@ export default class Controller {
 				void this.setSongNowPlaying();
 			} else {
 				// Resend current mode
-				this.setMode(this.mode);
+				this.onModeChanged();
 			}
 		} else {
 			this.setPaused();
-			this.playbackTimer.pause();
-			this.replayDetectionTimer.pause();
 		}
 	}
 
@@ -1021,6 +1084,9 @@ export default class Controller {
 	}
 
 	private async setPaused(): Promise<void> {
+		this.playbackTimer.pause();
+		this.replayDetectionTimer.pause();
+
 		if (
 			!assertSongNotNull(this.currentSong) ||
 			!this.currentSong.isValid() ||
@@ -1028,6 +1094,9 @@ export default class Controller {
 		) {
 			return;
 		}
+
+		this.isPaused = true;
+		this.onModeChanged();
 		await sendContentMessage({
 			type: 'setPaused',
 			payload: {
@@ -1037,6 +1106,8 @@ export default class Controller {
 	}
 
 	private async setResumedPlaying(): Promise<void> {
+		this.isPaused = false;
+
 		if (
 			!assertSongNotNull(this.currentSong) ||
 			!this.currentSong.isValid() ||
@@ -1044,6 +1115,8 @@ export default class Controller {
 		) {
 			return;
 		}
+
+		this.onModeChanged();
 		await sendContentMessage({
 			type: 'setResumedPlaying',
 			payload: {
