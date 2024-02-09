@@ -407,6 +407,39 @@ export async function showAuthNotification(): Promise<void> {
 }
 
 /**
+ * Show 'Loved'/'Unloved' notification when song is love/unlove toggled.
+ * @param song - Copy of song isntance
+ * @param isLoved - whether a song is loved or not
+ */
+export async function showLovedNotification(
+	song: BaseSong,
+	isLoved: boolean,
+): Promise<void> {
+	// do not show the notification when user has them disabled
+	if (!(await isAllowed(song.connector))) {
+		return;
+	}
+
+	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
+	const message = `${song.getTrack()}\n${song.getArtist()}`;
+
+	const title = isLoved
+		? browser.i18n.getMessage('pageActionLoved', message)
+		: browser.i18n.getMessage('pageActionUnloved', message);
+	const options = {
+		iconUrl,
+		title,
+		message,
+	};
+	try {
+		await showNotification(options, null);
+	} catch (err) {
+		debugLog('Unable to show loved notification: ', 'warn');
+		debugLog(err, 'warn');
+	}
+}
+
+/**
  * Completely remove notification.
  * Do nothing if ID does not match any existing notification.
  *

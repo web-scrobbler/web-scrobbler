@@ -91,6 +91,7 @@ interface ContentCommunications {
 		payload: {
 			song: CloneableSong;
 			isLoved: boolean;
+			shouldShowNotification: boolean;
 		};
 		response: Promise<(ServiceCallResult | Record<string, never>)[]>;
 	};
@@ -128,6 +129,7 @@ interface BackgroundCommunications {
 	toggleLove: {
 		payload: {
 			isLoved: boolean;
+			shouldShowNotification: boolean;
 		};
 		response: void;
 	};

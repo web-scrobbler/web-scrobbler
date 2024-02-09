@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-c1sh5i"
+   focusable="false"
+   aria-hidden="true"
+   viewBox="0 0 24 24"
+   data-testid="FavoriteIcon"
+   aria-label="fontSize large"
+   version="1.1"
+   id="svg480"
+   sodipodi:docname="action_loved.svg"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs484" />
+  <sodipodi:namedview
+     id="namedview482"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
+     inkscape:window-x="71"
+     inkscape:window-y="131"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg480" />
+  <path
+     d="M 12,23.01 10.26,21.426 C 4.08,15.822 0,12.126 0,7.59 0,3.894 2.904,0.99 6.6,0.99 c 2.088,0 4.092,0.972 5.4,2.508 1.308,-1.536 3.312,-2.508 5.4,-2.508 3.696,0 6.6,2.904 6.6,6.6 0,4.536 -4.08,8.232 -10.26,13.848 z"
+     id="path478"
+     style="stroke-width:1.2" />
+</svg>
