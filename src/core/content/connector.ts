@@ -555,6 +555,11 @@ export default class BaseConnector {
 	private isPlayingAsync = true;
 
 	/**
+	 * interval being used by {@link BaseConnector.useTabAudibleApi}
+	 */
+	private tabAudibleFetchingInterval: NodeJS.Timeout | null = null;
+
+	/**
 	 * Enable using tab audible function for deciding whether song is playing.
 	 *
 	 * Polls for audible once a second, this isn't expensive so it's fine.
@@ -565,7 +570,12 @@ export default class BaseConnector {
 		this.isPlaying = () => {
 			return this.isPlayingAsync;
 		};
-		setInterval(() => {
+
+		if (this.tabAudibleFetchingInterval !== null) {
+			clearInterval(this.tabAudibleFetchingInterval);
+		}
+
+		this.tabAudibleFetchingInterval = setInterval(() => {
 			sendContentMessage({
 				type: 'isTabAudible',
 				payload: undefined,
