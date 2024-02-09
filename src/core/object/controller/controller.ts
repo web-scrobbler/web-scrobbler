@@ -737,6 +737,7 @@ export default class Controller {
 		 * We've hit a new song (or replaying the previous one)
 		 * clear any previous song and its bindings.
 		 */
+		this.isPaused = false;
 		this.resetState();
 		this.currentSong = new Song(newState, this.connector.meta);
 		this.currentSong.flags.isReplaying = this.isReplayingSong;
@@ -765,8 +766,6 @@ export default class Controller {
 			this.debugLog('Replaying song...');
 			this.isReplayingSong = true;
 		});
-
-		this.isPaused = false;
 
 		/*
 		 * If we just detected the track and it's not playing yet,
@@ -1118,6 +1117,8 @@ export default class Controller {
 	}
 
 	private async setResumedPlaying(): Promise<void> {
+		this.isPaused = false;
+
 		if (
 			!assertSongNotNull(this.currentSong) ||
 			!this.currentSong.isValid() ||
@@ -1126,7 +1127,6 @@ export default class Controller {
 			return;
 		}
 
-		this.isPaused = false;
 		this.onModeChanged();
 		await sendContentMessage({
 			type: 'setResumedPlaying',
