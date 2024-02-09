@@ -766,6 +766,8 @@ export default class Controller {
 			this.isReplayingSong = true;
 		});
 
+		this.isPaused = false;
+
 		/*
 		 * If we just detected the track and it's not playing yet,
 		 * pause the timer right away; this is important, because
@@ -773,8 +775,7 @@ export default class Controller {
 		 * the timer is started.
 		 */
 		if (!newState.isPlaying) {
-			this.playbackTimer.pause();
-			this.replayDetectionTimer.pause();
+			this.setPaused();
 		}
 
 		void this.processSong();
@@ -959,8 +960,6 @@ export default class Controller {
 			}
 		} else {
 			this.setPaused();
-			this.playbackTimer.pause();
-			this.replayDetectionTimer.pause();
 		}
 	}
 
@@ -1097,6 +1096,9 @@ export default class Controller {
 	}
 
 	private async setPaused(): Promise<void> {
+		this.playbackTimer.pause();
+		this.replayDetectionTimer.pause();
+
 		if (
 			!assertSongNotNull(this.currentSong) ||
 			!this.currentSong.isValid() ||
