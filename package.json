@@ -48,7 +48,7 @@
     "@web-scrobbler/stylelint-config": "1.0.1",
     "archiver": "6.0.1",
     "canvas": "2.11.2",
-    "chokidar": "3.5.3",
+    "chokidar": "3.6.0",
     "esbuild": "0.20.0",
     "eslint": "8.56.0",
     "eslint-plugin-react": "7.33.2",
