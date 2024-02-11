@@ -34,7 +34,7 @@ export const infoBoxIds = {
 	/**
 	 * The button that toggles display of {@link infoBoxIds.dialog}.
 	 *
-	 * Contains {@link infoBoxIds.title} and {@link infoBoxIds.icon}.
+	 * Contains {@link infoBoxIds.title}, {@link infoBoxIds.icon}, and {@link infoBoxIds.detailsIcon}.
 	 *
 	 * Contained within {@link infoBoxIds.wrapper}.
 	 */
@@ -74,6 +74,13 @@ export const infoBoxIds = {
 	 * Contained within {@link infoBoxIds.expandButton}
 	 */
 	icon: 'scrobbler-infobox-icon',
+
+	/**
+	 * The see more details icon.
+	 *
+	 * Contained within {@link infoBoxIds.expandButton}
+	 */
+	detailsIcon: 'scrobbler-infobox-details-icon',
 } as const;
 
 /**

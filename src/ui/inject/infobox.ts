@@ -136,7 +136,7 @@ function resizeIframe(e: MessageEvent<unknown>) {
  * @param selector - The selector to apply styles for
  */
 function applyStyles(
-	element: HTMLElement,
+	element: HTMLElement | SVGSVGElement,
 	connector: BaseConnector,
 	selector: InfoBoxSelector,
 ) {
@@ -342,6 +342,7 @@ async function getInfoBoxElementSafe(
  */
 export async function updateInfoBox(props: {
 	mode: ControllerModeStr;
+	permanentMode: ControllerModeStr;
 	song: Song | null;
 	connector: BaseConnector;
 }) {
@@ -365,6 +366,7 @@ export async function updateInfoBox(props: {
 		// create expand button
 		const infoBoxExpandButton = document.createElement('button');
 		infoBoxExpandButton.id = infoBoxIds.expandButton;
+		infoBoxExpandButton.title = t('optionUseInfobox');
 		applyStyles(
 			infoBoxExpandButton,
 			props.connector,
@@ -383,8 +385,11 @@ export async function updateInfoBox(props: {
 		info.innerText = infoBoxText;
 		applyStyles(info, props.connector, `#${infoBoxIds.title}`);
 
+		const expandIcon = createMoreVertIcon(props.connector);
+
 		infoBoxExpandButton.appendChild(img);
 		infoBoxExpandButton.appendChild(info);
+		infoBoxExpandButton.appendChild(expandIcon);
 
 		// Clear old contents of infoBoxElement
 		while (infoBoxElement.lastChild) {
@@ -394,7 +399,10 @@ export async function updateInfoBox(props: {
 		infoBoxElement.appendChild(infoBoxExpandButton);
 
 		const buttons: infoBoxButtonProps[] = [];
-		if (props.mode === ControllerMode.Playing) {
+
+		// we want to ignore pause or loved state here and display or not display regardless.
+		// hence we use the direct private mode, and not the getMode() result.
+		if (props.permanentMode === ControllerMode.Playing) {
 			buttons.push(
 				editSongButton(props.connector),
 				skipSongButton(props.connector),
@@ -532,6 +540,26 @@ const editSongButton = (connector: BaseConnector): infoBoxButtonProps => ({
 	shouldKeepDialogOpen: true,
 });
 
+function createMoreVertIcon(connector: BaseConnector): SVGSVGElement {
+	const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+	svg.setAttribute('focusable', 'false');
+	svg.setAttribute('aria-hidden', 'true');
+	svg.setAttribute('viewBox', '8 0 24 24');
+	svg.setAttribute('height', '24');
+	svg.id = infoBoxIds.detailsIcon;
+	applyStyles(svg, connector, '#scrobbler-infobox-details-icon');
+
+	const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+	path.setAttribute(
+		'd',
+		'M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2',
+	);
+
+	svg.appendChild(path);
+
+	return svg;
+}
+
 /**
  * Default styling of scrobble info elements.
  */
@@ -551,6 +579,10 @@ export const DEFAULT_SCROBBLE_INFO_STYLE: InfoBoxCSS = {
 	},
 	'#scrobbler-infobox-icon': {
 		height: '1.2em',
+	},
+	'#scrobbler-infobox-details-icon': {
+		height: '1.2em',
+		width: '1.2em',
 	},
 	'#scrobbler-infobox-list': {
 		listStyleType: 'none',

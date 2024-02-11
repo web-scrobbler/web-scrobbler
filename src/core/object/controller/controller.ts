@@ -137,6 +137,7 @@ export default class Controller {
 	private async updateInfoBox() {
 		return updateInfoBox({
 			mode: this.getMode(),
+			permanentMode: this.mode,
 			song: this.currentSong,
 			connector: this.connector,
 		});
