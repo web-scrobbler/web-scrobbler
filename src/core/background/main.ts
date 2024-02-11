@@ -504,6 +504,21 @@ setupBackgroundListeners(
 			};
 		},
 	}),
+
+	/**
+	 * Listener called by a content script to figure out whether it is currently audible
+	 */
+	backgroundListener({
+		type: 'isTabAudible',
+		fn: async (_, sender) => {
+			const tabId = sender.tab?.id;
+			if (typeof tabId !== 'number') {
+				return Promise.resolve(true);
+			}
+
+			return (await browser.tabs.get(tabId)).audible ?? true;
+		},
+	}),
 );
 
 /**
