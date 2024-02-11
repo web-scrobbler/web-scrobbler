@@ -2392,7 +2392,7 @@ export default <ConnectorMeta[]>[
 		id: 'nts-shows',
 	},
 	{
-		label: 'earthf.',
+		label: 'earth.fm',
 		matches: ['*://earth.fm/*'],
 		js: 'earth.fm.js',
 		id: 'earthfm',
