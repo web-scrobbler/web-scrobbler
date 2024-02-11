@@ -4,12 +4,23 @@ import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
 import { ConnectorMeta } from '../connectors';
 import type { DisallowedReason } from '../object/disallowed-reason';
+import {
+	InfoBoxCSS,
+	isValidInfoBoxSelector,
+} from '@/ui/inject/infobox-selectors';
+import { DEFAULT_SCROBBLE_INFO_STYLE } from '@/ui/inject/infobox';
+import Controller from '../object/controller/controller';
 
 export default class BaseConnector {
 	/**
 	 * Meta of connector
 	 */
 	public meta: ConnectorMeta;
+
+	/**
+	 * Controller that owns the connector, set by controller after initialization, may be null until then.
+	 */
+	public controller: Controller | null;
 
 	/**
 	 * Selector of an element containing artist name.
@@ -133,17 +144,42 @@ export default class BaseConnector {
 	/**
 	 * This selector is used to determine where to inject the infobox
 	 */
-	public scrobbleInfoLocationSelector: string | null = null;
+	public scrobbleInfoLocationSelector: string | string[] | null = null;
 
 	/**
 	 * Styles to apply to the infobox
 	 * this is in camelCase so its fontSize, not font-size
 	 */
-	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
-		display: 'flex',
-		gap: '0.5em',
-		alignItems: 'center',
-	};
+	private _scrobbleInfoStyle: InfoBoxCSS = DEFAULT_SCROBBLE_INFO_STYLE;
+
+	public get scrobbleInfoStyle(): InfoBoxCSS {
+		return this._scrobbleInfoStyle;
+	}
+
+	/**
+	 * Set styling for scrobble infobox.
+	 *
+	 * Styles are in the form of an object of selectors and styles.
+	 *
+	 * See {@link DEFAULT_SCROBBLE_INFO_STYLE} for an example.
+	 *
+	 * This setter only overrides where there is conflict with what has already been set before,
+	 * similar to how regular CSS would work.
+	 *
+	 * As such, there is no need to respecify any styles in {@link DEFAULT_SCROBBLE_INFO_STYLE}, they will be automatically applied even if you add to it.
+	 */
+	public set scrobbleInfoStyle(override: InfoBoxCSS) {
+		for (const [selector, cssProperties] of Object.entries(override)) {
+			if (!isValidInfoBoxSelector(selector)) {
+				continue;
+			}
+
+			this._scrobbleInfoStyle[selector] = {
+				...this._scrobbleInfoStyle[selector],
+				...cssProperties,
+			};
+		}
+	}
 
 	/**
 	 * Function that gets a unique ID for channel/user blocklist.
@@ -695,6 +731,8 @@ export default class BaseConnector {
 
 	constructor(meta: ConnectorMeta) {
 		this.meta = meta;
+
+		this.controller = null;
 
 		this.getArtist = () => Util.getTextFromSelectors(this.artistSelector);
 

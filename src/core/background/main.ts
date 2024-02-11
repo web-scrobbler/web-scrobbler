@@ -504,6 +504,16 @@ setupBackgroundListeners(
 			};
 		},
 	}),
+
+	/**
+	 * Listener to trigger popup to open up to edit
+	 */
+	backgroundListener({
+		type: 'openEditMenu',
+		fn: () => {
+			browser.action.openPopup();
+		},
+	}),
 );
 
 /**

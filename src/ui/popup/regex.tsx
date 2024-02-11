@@ -51,9 +51,9 @@ import {
 	Navigator,
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
-import { isIos } from '../components/util';
 import BlockedTags from '@/core/storage/blocked-tags';
 import componentStyles from '@/ui/options/components/components.module.scss';
+import { isIos } from '../islatedUtil';
 
 const [searches, setSearches] = createStore<RegexFields>({
 	track: null,

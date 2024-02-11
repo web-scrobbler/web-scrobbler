@@ -308,10 +308,7 @@ export async function setConnectorOverrideOption(
 	key: keyof ConnectorsOverrideOptionValues,
 	value: boolean | undefined,
 ): Promise<void> {
-	const data = await connectorsOverrideOptions.get();
-	if (!data) {
-		throw new Error('No connectors override data found');
-	}
+	const data = (await connectorsOverrideOptions.get()) ?? {};
 	if (!data[connector]) {
 		data[connector] = {};
 	}

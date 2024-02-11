@@ -16,13 +16,6 @@ export function Squircle(props: { id: string }) {
 }
 
 /**
- * @returns true if the user is on an iOS device, false otherwise.
- */
-export function isIos() {
-	return CSS.supports('-webkit-touch-callout', 'none');
-}
-
-/**
  * Vivaldi crashes when clicking target _blank urls from a popup.
  * This allows us to open urls in a new tab from a popup without crashes.
  *

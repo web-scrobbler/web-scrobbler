@@ -1080,7 +1080,7 @@
         "description": "Hotkey label"
     },
     "infoBoxStateDisallowed": {
-        "message":  "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
+        "message": "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
         "description": "Infobox text when an option is disallowing scrobbling"
     },
     "infoBoxStateError": {
@@ -1090,5 +1090,9 @@
     "infoBoxStateUnknown": {
         "message": "The track is not recognized. Click web scrobbler extension icon to correct info.",
         "description": "Infobox track is not recognized"
+    },
+    "infoBoxDisable": {
+        "message": "Disable infobox on $1",
+        "description": "Infobox menu button label, $1 denotes website name"
     }
 }

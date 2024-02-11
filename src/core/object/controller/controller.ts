@@ -28,6 +28,7 @@ import { ScrobbleStatus } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import BaseConnector from '@/core/content/connector';
 import Blocklist from '@/core/storage/blocklist';
+import { updateInfoBox } from '@/ui/inject/infobox';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -133,97 +134,13 @@ export default class Controller {
 		return true;
 	}
 
-	/**
-	 * Function that handles updating the scrobble info box
-	 */
-	private async getInfoBoxElement(): Promise<HTMLDivElement | null> {
-		if (
-			!this.connector.scrobbleInfoLocationSelector ||
-			// infobox is disabled in options
-			!(await Options.getOption(
-				Options.USE_INFOBOX,
-				this.connector.meta.id,
-			))
-		) {
-			return null;
-		}
-
-		const parentEl = document.querySelector(
-			this.connector.scrobbleInfoLocationSelector,
-		);
-		if (!parentEl) {
-			return null;
-		}
-
-		// check if infoBoxEl was already created
-		let infoBoxElement = document.querySelector<HTMLDivElement>(
-			'#scrobbler-infobox-el',
-		);
-
-		// check if element is still in the correct place
-		if (infoBoxElement) {
-			if (infoBoxElement.parentElement !== parentEl) {
-				infoBoxElement.remove();
-			} else {
-				return infoBoxElement;
-			}
-		}
-
-		// if it was not in the correct place or didn't exist, create it
-		infoBoxElement = document.createElement('div');
-		infoBoxElement.setAttribute('id', 'scrobbler-infobox-el');
-
-		// style the infobox
-		for (const prop in this.connector.scrobbleInfoStyle) {
-			infoBoxElement.style[prop] =
-				this.connector.scrobbleInfoStyle[prop] ?? '';
-		}
-
-		parentEl.appendChild(infoBoxElement);
-		return infoBoxElement;
-	}
-
 	private async updateInfoBox() {
-		let oldInfoBoxText: string | false = false;
-		const infoBoxElement = await this.getInfoBoxElement();
-		if (!infoBoxElement) {
-			// clean up
-			const infoBoxElement = document.querySelector<HTMLDivElement>(
-				'#scrobbler-infobox-el',
-			);
-			if (infoBoxElement) {
-				infoBoxElement.remove();
-			}
-			return;
-		}
-		const textEl = infoBoxElement.querySelector('span');
-		if (textEl) {
-			oldInfoBoxText = textEl.innerText;
-		}
-
-		const mode = this.getMode();
-		const infoBoxText = Util.getInfoBoxText(mode, this.currentSong);
-
-		// Check if infobox needs to be updated
-		if (!oldInfoBoxText || infoBoxText !== oldInfoBoxText) {
-			const img = document.createElement('img');
-			img.setAttribute(
-				'src',
-				browser.runtime.getURL('./icons/icon_main_48.png'),
-			);
-			img.setAttribute('alt', 'Web Scrobbler state:');
-			img.setAttribute('style', 'height: 1.2em');
-
-			const info = document.createElement('span');
-			info.innerText = infoBoxText;
-
-			// Clear old contents of infoBoxElement
-			while (infoBoxElement.firstChild) {
-				infoBoxElement.removeChild(infoBoxElement.firstChild);
-			}
-			infoBoxElement.appendChild(img);
-			infoBoxElement.appendChild(info);
-		}
+		return updateInfoBox({
+			mode: this.getMode(),
+			permanentMode: this.mode,
+			song: this.currentSong,
+			connector: this.connector,
+		});
 	}
 
 	/**
@@ -232,6 +149,7 @@ export default class Controller {
 	 * @param isEnabled - Flag indicates initial stage
 	 */
 	constructor(connector: BaseConnector, isEnabled: boolean) {
+		connector.controller = this;
 		this.connector = connector;
 		this.blocklist = new Blocklist(this.connector.meta.id);
 		this.isEnabled = isEnabled;
@@ -320,12 +238,7 @@ export default class Controller {
 			contentListener({
 				type: 'forceScrobbleSong',
 				fn: () => {
-					this.forceScrobble = true;
-					if (this.shouldHaveScrobbled) {
-						void this.scrobbleSong();
-					} else {
-						void this.setSongNowPlaying();
-					}
+					this.forceScrobbleSong();
 				},
 			}),
 			contentListener({
@@ -492,7 +405,29 @@ export default class Controller {
 	}
 
 	/**
-	 * Make the controller to ignore current song.
+	 * Enable or disable a connector
+	 *
+	 * @param isEnabled - Whether to enable or disable connector.
+	 */
+	public setConnectorState(isEnabled: boolean) {
+		this.setEnabled(isEnabled);
+		Options.setConnectorEnabled(this.getConnector(), isEnabled);
+	}
+
+	/**
+	 * Make the controller scrobble current song.
+	 */
+	public forceScrobbleSong() {
+		this.forceScrobble = true;
+		if (this.shouldHaveScrobbled) {
+			void this.scrobbleSong();
+		} else {
+			void this.setSongNowPlaying();
+		}
+	}
+
+	/**
+	 * Make the controller ignore current song.
 	 */
 	skipCurrentSong(): void {
 		this.assertSongIsPlaying();
@@ -1197,16 +1132,6 @@ export default class Controller {
 	private setSongNotRecognized(): void {
 		this.setMode(ControllerMode.Unknown);
 		this.dispatchEvent(ControllerEvents.SongUnrecognized);
-	}
-
-	/**
-	 * Enable or disable a connector
-	 *
-	 * @param isEnabled - Whether to enable or disable connector.
-	 */
-	private setConnectorState(isEnabled: boolean) {
-		this.setEnabled(isEnabled);
-		Options.setConnectorEnabled(this.getConnector(), isEnabled);
 	}
 
 	/**

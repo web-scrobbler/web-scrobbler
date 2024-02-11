@@ -10,7 +10,8 @@ Connector.trackSelector =
 
 Connector.scrobbleInfoLocationSelector = '.page-live-tracks__title';
 Connector.scrobbleInfoStyle = {
-	...Connector.scrobbleInfoStyle,
-	fontSize: '0.7em',
-	marginTop: '0.7em',
+	'#scrobbler-infobox-expand-button': {
+		fontSize: '0.7em',
+		marginTop: '0.7em',
+	},
 };

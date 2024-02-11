@@ -24,12 +24,13 @@ import {
 import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
 import Regex, { RegexEditContextMenu } from './regex';
-import { PopupAnchor, Squircle, isIos } from '../components/util';
+import { PopupAnchor, Squircle } from '../components/util';
 import {
 	Navigator,
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
+import { isIos } from '../islatedUtil';
 
 /**
  * Component that allows the user to edit the currently playing track

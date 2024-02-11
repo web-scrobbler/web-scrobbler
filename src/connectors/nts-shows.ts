@@ -22,7 +22,8 @@ Connector.getArtist = () =>
 
 Connector.scrobbleInfoLocationSelector = '.soundcloud-player__content';
 Connector.scrobbleInfoStyle = {
-	...Connector.scrobbleInfoStyle,
-	fontSize: '0.5em',
-	marginLeft: '2em',
+	'#scrobbler-infobox-expand-button': {
+		fontSize: '0.5em',
+		marginLeft: '2em',
+	},
 };
