@@ -2397,4 +2397,11 @@ export default <ConnectorMeta[]>[
 		js: 'earth.fm.js',
 		id: 'earthfm',
 	},
+	{
+		label: 'nicecream.fm',
+		matches: ['*://nicecream.fm/*', '*://new.nicecream.fm/*'],
+		js: 'nicecream.fm.js',
+		id: 'nicecreamfm',
+		allFrames: true,
+	},
 ];
