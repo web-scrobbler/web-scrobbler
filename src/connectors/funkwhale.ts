@@ -35,13 +35,13 @@ function setupOldPlayer() {
 function setupNewPlayer() {
 	Connector.playerSelector = '.controls-row';
 
-	Connector.playButtonSelector = '.player-controls .play';
+	Connector.pauseButtonSelector = 'button[aria-label=Pause]';
 
-	Connector.trackSelector = '.content .track';
+	Connector.trackSelector = '.track-controls a.track';
 
-	Connector.artistSelector = '.meta > a:first';
+	Connector.artistSelector = '.meta :nth-child(1 of a)';
 
-	Connector.albumSelector = '.meta > a:last';
+	Connector.albumSelector = '.meta :nth-child(2 of a)';
 
 	Connector.currentTimeSelector = '.timer .start';
 
