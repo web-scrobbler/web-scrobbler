@@ -51,6 +51,12 @@ export type DisallowedReason =
 	| 'IsLoading'
 
 	/**
+	 * The track has been made private and shared by the owner.
+	 * Currently used for Soundcloud only.
+	 */
+	| 'IsPrivate'
+
+	/**
 	 * Any other reason
 	 */
 	| 'Other';
