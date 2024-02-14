@@ -1,32 +1,35 @@
 export {};
 
-const songOnNow = '.songLineOnNow';
+const songOnNow = '.songDetails';
 
 Connector.playerSelector = ['.playlistSongArea', '#playerDiv'];
 
 Connector.artistSelector = [
-	`${songOnNow} .songDetail .songArtist`,
-	'#now-playing-artist',
+	`${songOnNow} .songInfo .songArtist`,
 ];
 
 Connector.trackSelector = [
-	`${songOnNow} .songDetail .songTitle`,
-	'#now-playing-title',
+	`${songOnNow} .songInfo .songTitle`,
 ];
 
-Connector.albumSelector = `${songOnNow} .songDetail .songAlbum`;
+Connector.albumSelector = `${songOnNow} .songInfo .songAlbum`;
 
 Connector.trackArtSelector = [
-	`${songOnNow} img.songCover`,
-	'#now-playing-album-art',
+	`${songOnNow} img.songCover`
 ];
 
-Connector.durationSelector = `${songOnNow} .songDuration`;
+Connector.getDuration = () => {
+	// Get the computed style of the div
+	let computedStyle = window.getComputedStyle('.progressBar');
+	let durationInSeconds = computedStyle.getPropertyValue('transition-duration');
+	
+   return Util.stringToSeconds(durationInSeconds);
+};
 
-Connector.currentTimeSelector = `${songOnNow} .progressTime`;
+Connector.currentTimeSelector = `.songTime .currentSec`;
 
 Connector.isTrackArtDefault = (url) =>
 	Boolean(url?.match(/album-art(-default)?.png$/));
 
 Connector.isPlaying = () =>
-	Util.isElementVisible(['.songPlaying .pauseButton', '#transport-pause']);
+	Util.isElementVisible(['.songPlaying .pauseButton']);
