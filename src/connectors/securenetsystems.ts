@@ -19,11 +19,9 @@ Connector.trackArtSelector = [
 ];
 
 Connector.getDuration = () => {
-	// Get the computed style of the div
-	let computedStyle = window.getComputedStyle('.progressBar');
-	let durationInSeconds = computedStyle.getPropertyValue('transition-duration');
+	const durationInSeconds = Util.getCSSPropertyFromSelectors('.progressBar', 'transition-duration')
 	
-   return Util.stringToSeconds(durationInSeconds);
+	return Util.stringToSeconds(durationInSeconds);
 };
 
 Connector.currentTimeSelector = `.songTime .currentSec`;
