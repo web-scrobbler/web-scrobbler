@@ -43,23 +43,14 @@ export default abstract class RegexEditsModel extends CustomStorage<K> {
 	 * @param search - Search to save
 	 * @param replace - Replace to save
 	 */
-	async saveRegexEdit(
-		search: RegexFields,
-		replace: RegexFields,
-	): Promise<void> {
+	async saveRegexEdit(newEdit: RegexEdit): Promise<void> {
 		const storageData = await this.getRegexEditStorage();
 		if (storageData === null) {
-			await this.saveRegexEditToStorage([{ search, replace }]);
+			await this.saveRegexEditToStorage([newEdit]);
 			return;
 		}
 
-		const newStorageData = [
-			...storageData,
-			{
-				search,
-				replace,
-			},
-		];
+		const newStorageData = [...storageData, newEdit];
 
 		await this.saveRegexEditToStorage(newStorageData);
 	}

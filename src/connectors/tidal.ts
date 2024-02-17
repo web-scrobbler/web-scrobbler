@@ -6,8 +6,8 @@ Connector.playButtonSelector = `${Connector.playerSelector} button[data-test="pl
 
 Connector.pauseButtonSelector = `${Connector.playerSelector} button[data-test="pause"]`;
 
-Connector.isScrobblingAllowed = () =>
-	!!Util.queryElements(Connector.playButtonSelector);
+Connector.scrobblingDisallowedReason = () =>
+	Util.queryElements(Connector.playButtonSelector) ? null : 'ElementMissing';
 
 Connector.trackSelector = [
 	'#nowPlaying div.react-tabs__tab-panel--selected > div > div:nth-child(1) > div:nth-child(1) > wave-text:nth-child(2)',

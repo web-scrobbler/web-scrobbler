@@ -62,14 +62,18 @@ Connector.isPlaying = () => {
 	return buttonPlaying === 'Pause' || buttonPlaying === 'Stop';
 };
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist();
 	const track = Connector.getTrack();
-	return Boolean(
-		artist &&
-			!artist.includes('Audacy') &&
-			track &&
-			!track.startsWith('Advertisement') &&
-			artist !== track,
-	);
+
+	if (!artist || !track) {
+		return 'Other';
+	}
+	if (artist.includes('Audacy') || artist === track) {
+		return 'FilteredTag';
+	}
+	if (track.startsWith('Advertisement')) {
+		return 'IsAd';
+	}
+	return null;
 };

@@ -9,6 +9,11 @@ export interface ConnectorMeta {
 	 * true if connector uses blocklist. Connector must implement {@link Connector.getChannelId}
 	 */
 	usesBlocklist?: true;
+
+	/**
+	 * true if website has its own scrobbling system the user needs to be aware of.
+	 */
+	hasNativeScrobbler?: true;
 }
 
 export default <ConnectorMeta[]>[
@@ -125,6 +130,7 @@ export default <ConnectorMeta[]>[
 		matches: ['*://open.spotify.com/*'],
 		js: 'spotify.js',
 		id: 'spotify',
+		hasNativeScrobbler: true,
 	},
 	{
 		label: 'plug.dj',
@@ -885,7 +891,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'QQ Music',
-		matches: ['*://y.qq.com/portal/*'],
+		matches: ['*://y.qq.com/*'],
 		js: 'qq-music.js',
 		id: 'qq-music',
 	},
@@ -2215,6 +2221,18 @@ export default <ConnectorMeta[]>[
 		id: 'technobase.fm',
 	},
 	{
+		label: 'Telegram A',
+		matches: ['*://web.telegram.org/a/*'],
+		js: 'telegram-a.js',
+		id: 'telegram-a',
+	},
+	{
+		label: 'Telegram K',
+		matches: ['*://web.telegram.org/k/*'],
+		js: 'telegram-k.js',
+		id: 'telegram-k',
+	},
+	{
 		label: 'TuneGenieEmbed',
 		matches: ['*://b3.tunegenie.com/*'],
 		js: 'tunegenie-embed.js',
@@ -2341,5 +2359,42 @@ export default <ConnectorMeta[]>[
 		matches: ['*://jam.coop/*'],
 		js: 'jam.coop.js',
 		id: 'jam.coop',
+	},
+	{
+		label: 'Zing MP3',
+		matches: ['*://zingmp3.vn/*'],
+		js: 'zingmp3.js',
+		id: 'zingmp3',
+	},
+	{
+		label: 'NTS Live',
+		matches: ['*://*nts.live/live-tracklist/*'],
+		js: 'nts-live.js',
+		id: 'nts-live',
+	},
+	{
+		label: 'NTS Shows',
+		matches: [
+			'*://*nts.live/',
+			'*://*nts.live/latest*',
+			'*://*nts.live/shows*',
+			'*://*nts.live/explore*',
+			'*://*nts.live/infinite-mixtapes*',
+			'*://*nts.live/radio*',
+			'*://*nts.live/supporters*',
+			'*://*nts.live/my-nts*',
+			'*://*nts.live/events*',
+			'*://*nts.live/videos*',
+			'*://*nts.live/incoming*',
+			'*://*nts.live/about*',
+		],
+		js: 'nts-shows.js',
+		id: 'nts-shows',
+	},
+	{
+		label: 'earth.fm',
+		matches: ['*://earth.fm/*'],
+		js: 'earth.fm.js',
+		id: 'earthfm',
 	},
 ];

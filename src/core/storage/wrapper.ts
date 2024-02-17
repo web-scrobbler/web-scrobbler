@@ -6,13 +6,16 @@ import {
 	CORE,
 	CUSTOM_PATTERNS,
 	DISABLED_TABS,
+	BLOCKED_TAGS,
 	LOCAL_CACHE,
 	NOTIFICATIONS,
 	OPTIONS,
 	REGEX_EDITS,
+	SCROBBLE_CACHE,
 	STATE_MANAGEMENT,
 	StorageNamespace,
 	BLOCKLISTS,
+	NATIVE_SCROBBLER_NOTIFICATION,
 } from '@/core/storage/browser-storage';
 import {
 	ConnectorOptions,
@@ -26,6 +29,7 @@ import EventEmitter from '@/util/emitter';
 import connectors from '@/core/connectors';
 import { RegexEdit } from '@/util/regex';
 import { debugLog } from '../content/util';
+import { ServiceCallResult } from '../object/service-call-result';
 
 export interface CustomPatterns {
 	[connectorId: string]: string[];
@@ -80,11 +84,71 @@ export interface ManagerTab {
 	song: CloneableSong | null;
 }
 
+export type BlockedTagType = 'artist' | 'album' | 'track';
+
+export type BlockedTagsArtist = {
+	disabled?: true;
+	albums: Record<string, true>;
+	tracks: Record<string, true>;
+};
+
+export type BlockedTags = Record<string, BlockedTagsArtist>;
+
+export type BlockedTagsReference =
+	| {
+			type: 'artist';
+			artist: string;
+	  }
+	| {
+			type: 'album';
+			artist: string;
+			album: string;
+	  }
+	| {
+			type: 'track';
+			artist: string;
+			track: string;
+	  };
+
 export interface StateManagement {
 	activeTabs: ManagerTab[];
 	browserPreferredTheme: 'light' | 'dark';
 }
 
+export enum ScrobbleStatus {
+	SUCCESSFUL = 'success',
+	IGNORED = 'ignored',
+	ERROR = 'error',
+	DISALLOWED = 'disallowed',
+	INVALID = 'invalid',
+}
+
+export function getScrobbleStatus(
+	resultArr: ServiceCallResult[][],
+	index: number,
+): ScrobbleStatus {
+	// RESULT_IGNORE definitely requires action - prioritize it.
+	for (const res of resultArr) {
+		if (res[index] === ServiceCallResult.RESULT_IGNORE) {
+			return ScrobbleStatus.IGNORED;
+		}
+	}
+	for (const res of resultArr) {
+		if (res[index] !== ServiceCallResult.RESULT_OK) {
+			return ScrobbleStatus.ERROR;
+		}
+	}
+	return ScrobbleStatus.SUCCESSFUL;
+}
+
+export interface CacheScrobbleData {
+	song: CloneableSong;
+	status: ScrobbleStatus;
+}
+
+export interface CacheScrobble extends CacheScrobbleData {
+	id: number;
+}
 export type Blocklists = Record<string, Blocklist>;
 
 export type Blocklist = Record<string, string>;
@@ -101,6 +165,8 @@ export interface DataModels extends ScrobblerModels {
 	[CORE]: { appVersion: string };
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
+	[SCROBBLE_CACHE]: CacheScrobble[];
+	[BLOCKED_TAGS]: BlockedTags;
 	[BLOCKLISTS]: Blocklists;
 
 	/* state management */
@@ -109,6 +175,9 @@ export interface DataModels extends ScrobblerModels {
 		[key: number]: {
 			[key in (typeof connectors)[number]['id']]: true;
 		};
+	};
+	[NATIVE_SCROBBLER_NOTIFICATION]: {
+		[key in (typeof connectors)[number]['id']]: true;
 	};
 }
 

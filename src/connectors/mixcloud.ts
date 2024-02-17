@@ -70,7 +70,8 @@ Connector.isStateChangeAllowed = () => {
 	);
 };
 
-Connector.isScrobblingAllowed = () => Connector.isStateChangeAllowed();
+Connector.scrobblingDisallowedReason = () =>
+	Connector.isStateChangeAllowed() ? null : 'ElementMissing';
 
 Connector.applyFilter(filter);
 

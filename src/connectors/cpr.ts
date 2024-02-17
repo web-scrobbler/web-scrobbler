@@ -26,7 +26,8 @@ Connector.getAlbum = () => {
 
 Connector.pauseButtonSelector = `${Connector.playerSelector} [class^=playPauseButton__icon-][class*=playPauseButton__pause-]`;
 
-Connector.isScrobblingAllowed = () => Boolean(Connector.getArtist());
+Connector.scrobblingDisallowedReason = () =>
+	Connector.getArtist() ? null : 'Other';
 
 Connector.isStateChangeAllowed = () => Boolean(Connector.getTrack());
 

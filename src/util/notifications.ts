@@ -7,6 +7,7 @@ import { ConnectorMeta } from '@/core/connectors';
 import { Scrobbler } from '@/core/object/scrobble-service';
 import { debugLog } from '@/core/content/util';
 import * as BrowserStorage from '@/core/storage/browser-storage';
+import NativeScrobblerNotification from '@/core/storage/native-scrobbler-notification';
 
 /**
  * Notification service.
@@ -155,6 +156,46 @@ async function showNotification(
 	}
 
 	return notificationId;
+}
+
+/**
+ * Show notification warning about native scrobbler
+ * @param connector - Connector for which to show it
+ */
+export async function showNativeScrobblerWarning(
+	connector: ConnectorMeta,
+): Promise<void> {
+	const nativeScrobblerNotification = new NativeScrobblerNotification();
+	if (
+		!connector.hasNativeScrobbler ||
+		!(await nativeScrobblerNotification.shouldNotifyAboutNativeScrobbler(
+			connector.id,
+		))
+	) {
+		return;
+	}
+
+	const options = {
+		title: browser.i18n.getMessage(
+			'notificationNativeScrobbler',
+			connector.label,
+		),
+		message: browser.i18n.getMessage('notificationNativeScrobblerText'),
+	};
+
+	try {
+		await showNotification(options, () => {
+			browser.tabs.create({
+				url: browser.runtime.getURL(
+					'src/ui/options/index.html?p=connectors',
+				),
+			});
+		});
+		await nativeScrobblerNotification.saveHasNotified(connector.id);
+	} catch (err) {
+		debugLog('Unable to show native scrobbler notification: ', 'warn');
+		debugLog(err, 'warn');
+	}
 }
 
 /**
@@ -363,6 +404,39 @@ export async function showAuthNotification(): Promise<void> {
 		});
 	}
 	void updateAuthDisplayCount();
+}
+
+/**
+ * Show 'Loved'/'Unloved' notification when song is love/unlove toggled.
+ * @param song - Copy of song isntance
+ * @param isLoved - whether a song is loved or not
+ */
+export async function showLovedNotification(
+	song: BaseSong,
+	isLoved: boolean,
+): Promise<void> {
+	// do not show the notification when user has them disabled
+	if (!(await isAllowed(song.connector))) {
+		return;
+	}
+
+	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
+	const message = `${song.getTrack()}\n${song.getArtist()}`;
+
+	const title = isLoved
+		? browser.i18n.getMessage('pageActionLoved', message)
+		: browser.i18n.getMessage('pageActionUnloved', message);
+	const options = {
+		iconUrl,
+		title,
+		message,
+	};
+	try {
+		await showNotification(options, null);
+	} catch (err) {
+		debugLog('Unable to show loved notification: ', 'warn');
+		debugLog(err, 'warn');
+	}
 }
 
 /**

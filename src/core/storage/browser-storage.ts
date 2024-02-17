@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import StorageWrapper, { DataModels } from '@/core/storage/wrapper';
+import type CloneableSong from '../object/song';
 
 const LOCAL = 0;
 const SYNC = 1;
@@ -49,6 +50,24 @@ export const CUSTOM_PATTERNS = 'customPatterns';
 export const NOTIFICATIONS = 'Notifications';
 
 /**
+ * This storage contains the tags blocked for scrobbling by the user.
+ * This can be artists, albums, or tracks.
+ * The format of the storage data is as follows:
+ * \{
+ *     artist_name: \{
+ *         disabled: true, // true if artist blocked
+ *         albums: \{
+ *             album_name: true, // true if album blocked
+ *         \},
+ *         tracks: \{
+ *             track_name: true, // true if track blocked
+ *         \},
+ *     \}
+ * \}
+ */
+export const BLOCKED_TAGS = 'BlockedTags';
+
+/**
  * This storage contains the song data saved by an user.
  * The format of storage data is following:
  * \{
@@ -61,6 +80,12 @@ export const NOTIFICATIONS = 'Notifications';
  * \}
  */
 export const LOCAL_CACHE = 'LocalCache';
+
+/**
+ * This storage contains the list of websites with native scrobbling
+ * for which a notification has already been sent to the user before.
+ */
+export const NATIVE_SCROBBLER_NOTIFICATION = 'NativeScrobblerNotification';
 
 /**
  * This storage contains the blocklist of each connector.
@@ -113,6 +138,17 @@ export const DISABLED_TABS = 'DisabledTabs';
 export const REGEX_EDITS = 'RegexEdits';
 
 /**
+ * This storage contains the scrobble cache for the user to interact with.
+ * The format of the storage data is as follows:
+ * \{
+ *     song: {@link CloneableSong},
+ *     status: 'Status of the scrobble',
+ *     id: auto-increment unique ID.
+ * \}
+ */
+export const SCROBBLE_CACHE = 'ScrobbleCache';
+
+/**
  * This storage contains the data saved and used by the extension core.
  * The format of storage data is following:
  * \{
@@ -135,9 +171,12 @@ const storageTypeMap = {
 	Webhook: LOCAL,
 	Pleroma: LOCAL,
 
+	[NATIVE_SCROBBLER_NOTIFICATION]: LOCAL,
 	[BLOCKLISTS]: LOCAL,
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,
+	[SCROBBLE_CACHE]: LOCAL,
+	[BLOCKED_TAGS]: LOCAL,
 	[CORE]: LOCAL,
 	[STATE_MANAGEMENT]: LOCAL,
 	[DISABLED_TABS]: LOCAL,

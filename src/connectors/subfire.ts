@@ -29,5 +29,5 @@ Connector.getUniqueID = () => {
 	return (src && src.match(/id=([^&]*)/i)?.[1]) || null;
 };
 
-Connector.isScrobblingAllowed = () =>
-	Util.isElementVisible(Connector.playerSelector);
+Connector.scrobblingDisallowedReason = () =>
+	Util.isElementVisible(Connector.playerSelector) ? null : 'ElementMissing';

@@ -8,5 +8,7 @@ Connector.artistSelector = '#composer';
 
 Connector.playButtonSelector = '#live-play';
 
-Connector.isScrobblingAllowed = () =>
-	Util.getTextFromSelectors('.nowplaying-label') === 'Now Playing';
+Connector.scrobblingDisallowedReason = () =>
+	Util.getTextFromSelectors('.nowplaying-label') === 'Now Playing'
+		? null
+		: 'Other';

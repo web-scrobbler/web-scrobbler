@@ -1,24 +1,21 @@
 export {};
 
-const albumSelector = '.player__album-text > a';
-const trackSelector = '[class^=PlayerArtistInfo-module__heading]:last-child';
-const albumLabelSelector = '.player__album-text';
-const featArtistSelector = '[class^=PlayerArtistInfo-module__featuring]';
+Connector.playerSelector = '[class^=_Player_]';
 
-Connector.artistSelector =
-	'[class^=PlayerArtistInfo-module__heading]:first-child';
+Connector.artistSelector = '[class*=_PlayerMetaName_]';
 
-Connector.getAlbum = () => {
-	if (isAlbum()) {
-		return Util.getTextFromSelectors(albumSelector);
-	}
+Connector.albumSelector = '[class^=_PlayerWaveformAlbumData_] a';
 
-	return null;
-};
+Connector.playButtonSelector = '[aria-label="Play"]';
+
+Connector.currentTimeSelector =
+	'[class^=_PlayerInteractiveSect_] span:first-child';
+
+Connector.durationSelector = '[class^=_PlayerInteractiveSect_] span:last-child';
 
 Connector.getTrack = () => {
-	const track = Util.getTextFromSelectors(trackSelector);
-	const featArtist = Util.getTextFromSelectors(featArtistSelector);
+	const track = Util.getTextFromSelectors('[class*=_PlayerMetaSong_]');
+	const featArtist = Util.getTextFromSelectors('[class*=_PlayerMetaFeat_] b');
 
 	if (featArtist) {
 		return `${track} (${featArtist})`;
@@ -27,32 +24,13 @@ Connector.getTrack = () => {
 	return track;
 };
 
-Connector.playerSelector = '.player';
-
-Connector.pauseButtonSelector = '.play-button--playing';
-
-Connector.currentTimeSelector = '.player .waveform__elapsed';
-
-Connector.durationSelector = '.player .waveform__duration';
-
-/**
- * Check if an album is playing.
- * @returns Check result
- */
-function isAlbum() {
-	const label = Util.getTextFromSelectors(albumLabelSelector);
-	if (label) {
-		return label.includes('Album');
-	}
-
-	return false;
-}
-
 Connector.getTrackArt = () => {
-	const trackArt = Util.extractImageUrlFromSelectors('.avatar-container img');
+	const trackArt = Util.extractImageUrlFromSelectors(
+		'[class^=_PlayerMetaImage_] img',
+	);
 	if (trackArt && trackArt.includes('?')) {
 		const endIdx = trackArt.indexOf('?');
-		return trackArt.substr(0, endIdx);
+		return trackArt.substring(0, endIdx);
 	}
 
 	return trackArt;

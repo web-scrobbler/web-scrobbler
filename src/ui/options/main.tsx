@@ -18,6 +18,8 @@ import {
 	showSomeLoveItem,
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
+import { CacheEditModal } from './components/scrobble-cache';
+import { BlockedTagsModal } from './components/edit-options/blocked-tags';
 import { BlocklistModal } from './components/edit-options/blocked-channels';
 
 /**
@@ -50,10 +52,12 @@ function getDefaultSetting(): NavigatorNavigationButton {
 
 const defaultSetting = getDefaultSetting();
 
-const modalMap = {
+const modals = {
 	savedEdits: EditsModal,
 	regexEdits: RegexEditsModal,
 	blocklist: BlocklistModal,
+	cacheEdit: CacheEditModal,
+	blockedTags: BlockedTagsModal,
 	'': () => <div>Loading...</div>,
 };
 
@@ -119,7 +123,7 @@ function Options() {
 				onClose={() => setActiveModal('')}
 			>
 				<div class={styles.modalContent}>
-					<Dynamic component={modalMap[activeModal()]} />
+					<Dynamic component={modals[activeModal()]} />
 				</div>
 				<button
 					class={styles.modalClose}

@@ -331,13 +331,16 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	public abstract sendPaused(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
-	 * Send song to API to scrobble.
+	 * Send songs to API to scrobble.
 	 * Implementation must return ServiceCallResult constant.
 	 *
-	 * @param song - Song instance
+	 * @param song - Song instances
 	 */
 	// eslint-disable-next-line no-unused-vars
-	public abstract scrobble(song: BaseSong): Promise<ServiceCallResult>;
+	public abstract scrobble(
+		song: BaseSong[],
+		currentlyPlaying: boolean,
+	): Promise<ServiceCallResult[]>;
 
 	/**
 	 * Love or unlove given song.

@@ -26,7 +26,7 @@ export type ListenBrainzParams =
 			];
 	  }
 	| {
-			listen_type: 'single';
+			listen_type: 'single' | 'import';
 			payload: [
 				{
 					listened_at: number;
@@ -42,4 +42,11 @@ export type ListenBrainzParams =
 export type MetadataLookup = {
 	recording_mbid?: string;
 };
+
+export interface ListenBrainzHTMLReactProps {
+	current_user: {
+		name: string;
+		auth_token: string;
+	};
+}
 /* eslint-enable camelcase */

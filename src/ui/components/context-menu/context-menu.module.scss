@@ -1,3 +1,5 @@
+@use '../util';
+
 .contextMenu {
 	background-color: var(--last-fm-bg);
 	color: var(--text);
@@ -9,7 +11,7 @@
 		padding: 0.5em 0;
 		position: relative;
 
-		@supports (-webkit-touch-callout: none) {
+		@supports #{util.$mobile-supports} {
 			&.activeDialogButton {
 				background-color: var(--always-last-fm-hover);
 				color: var(--active-text);
@@ -60,7 +62,7 @@
 			margin: 0 auto;
 		}
 
-		@supports not (-webkit-touch-callout: none) {
+		@supports not (#{util.$mobile-supports}) {
 			&:hover {
 				background-color: var(--always-last-fm-hover);
 				color: var(--active-text);

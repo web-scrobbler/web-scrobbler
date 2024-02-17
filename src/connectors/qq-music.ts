@@ -1,21 +1,39 @@
 export {};
 
-Connector.playerSelector = '#opbanner';
+Connector.playerSelector = '.player__ft';
 
-Connector.artistSelector = '#singer_name a';
-
-Connector.trackSelector = '#song_name a';
-
-Connector.getUniqueID = () => {
-	const text = Util.getAttrFromSelectors('#song_name a', 'href');
-	return text?.split('/').at(-1)?.split('.html')[0];
+Connector.getTrackArt = () => {
+	const src = Util.getAttrFromSelectors('.song_info__pic', 'src');
+	const trackArt = src?.split('?')[0];
+	return trackArt;
 };
 
-Connector.albumSelector = '#album_name a';
+Connector.getTrack = () => {
+	const text = Util.getTextFromSelectors('.song_info__name a');
+	return text;
+};
 
-Connector.isPlaying = () =>
-	Util.hasElementClass('#btnplay', 'btn_big_play--pause');
+Connector.getArtist = () => {
+	const text = Util.getTextFromSelectors('.song_info__singer a');
+	return text;
+};
 
-Connector.timeInfoSelector = '#time_show';
+Connector.playButtonSelector = '.btn_big_play--pause';
 
-Connector.trackArtSelector = '#song_pic';
+Connector.getUniqueID = () => {
+	const text = Util.getAttrFromSelectors('.song_info__name a', 'href');
+	const id = text?.split('/').at(-1);
+	return id;
+};
+
+Connector.albumSelector = '.song_info__album a';
+
+Connector.isPlaying = () => {
+	const text = Util.getTextFromSelectors('.btn_big_play--pause');
+	if (!text) {
+		return false;
+	}
+	return true;
+};
+
+Connector.timeInfoSelector = '.player_music__time';

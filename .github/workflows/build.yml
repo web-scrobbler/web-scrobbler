@@ -25,16 +25,19 @@ jobs:
         run: |
           npm run build chrome
 
+      - name: Upload the extension as an artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-scrobbler-chrome
+          path: build/chrome
+
   build-firefox:
     name: Build the extension for Firefox
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
-
-      - name: Get Node.js version from .nvmrc
-        id: get-node-version
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -48,6 +51,13 @@ jobs:
       - name: Build the extension
         run: |
           npm run build firefox
+
+      - name: Upload the extension as an artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-scrobbler-firefox
+          path: build/firefox
 
   build-safari:
     name: Build the extension for Safari
@@ -68,3 +78,10 @@ jobs:
       - name: Build the extension
         run: |
           npm run build safari
+
+      - name: Upload the extension as an artifact
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-scrobbler-safari
+          path: build/safari

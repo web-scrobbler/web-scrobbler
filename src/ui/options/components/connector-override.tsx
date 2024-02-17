@@ -212,142 +212,159 @@ function ConnectorOverrideOptionDetails(props: {
 }) {
 	return (
 		<Show when={props.active()}>
-			<h3>{t('optionsGeneral')}</h3>
-			<Show when={browser.notifications}>
+			<div role="group" aria-label={props.connector.label}>
+				<h3>{t('optionsGeneral')}</h3>
+				<Show when={browser.notifications}>
+					<ConnectorTripleCheckbox
+						title={t('optionUseNotificationsTitle')}
+						label={t('optionUseNotifications')}
+						connector={props.connector}
+						option={Options.USE_NOTIFICATIONS}
+						overrideOptions={overrideOptions}
+						setOverrideOptions={setOverrideOptions}
+						connectorOverrideOptions={connectorOverrideOptions}
+					/>
+					<ConnectorTripleCheckbox
+						title={t('optionUnrecognizedNotificationsTitle')}
+						label={t('optionUnrecognizedNotifications')}
+						connector={props.connector}
+						option={Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS}
+						overrideOptions={overrideOptions}
+						setOverrideOptions={setOverrideOptions}
+						connectorOverrideOptions={connectorOverrideOptions}
+					/>
+				</Show>
 				<ConnectorTripleCheckbox
-					title={t('optionUseNotificationsTitle')}
-					label={t('optionUseNotifications')}
+					title={t('optionUseInfoboxTitle')}
+					label={t('optionUseInfobox')}
 					connector={props.connector}
-					option={Options.USE_NOTIFICATIONS}
+					option={Options.USE_INFOBOX}
 					overrideOptions={overrideOptions}
 					setOverrideOptions={setOverrideOptions}
 					connectorOverrideOptions={connectorOverrideOptions}
 				/>
 				<ConnectorTripleCheckbox
-					title={t('optionUnrecognizedNotificationsTitle')}
-					label={t('optionUnrecognizedNotifications')}
+					title={t('optionScrobblePodcastsTitle')}
+					label={t('optionScrobblePodcasts')}
 					connector={props.connector}
-					option={Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS}
+					option={Options.SCROBBLE_PODCASTS}
 					overrideOptions={overrideOptions}
 					setOverrideOptions={setOverrideOptions}
 					connectorOverrideOptions={connectorOverrideOptions}
 				/>
-			</Show>
-			<ConnectorTripleCheckbox
-				title={t('optionUseInfoboxTitle')}
-				label={t('optionUseInfobox')}
-				connector={props.connector}
-				option={Options.USE_INFOBOX}
-				overrideOptions={overrideOptions}
-				setOverrideOptions={setOverrideOptions}
-				connectorOverrideOptions={connectorOverrideOptions}
-			/>
-			<ConnectorTripleCheckbox
-				title={t('optionScrobblePodcastsTitle')}
-				label={t('optionScrobblePodcasts')}
-				connector={props.connector}
-				option={Options.SCROBBLE_PODCASTS}
-				overrideOptions={overrideOptions}
-				setOverrideOptions={setOverrideOptions}
-				connectorOverrideOptions={connectorOverrideOptions}
-			/>
-			<h3>{t('optionsScrobbleBehavior')}</h3>
-			<RadioButtons
-				buttons={[
-					{
-						label: t('optionForceRecognize'),
-						title: t('optionForceRecognizeTitle'),
-						value: Options.FORCE_RECOGNIZE,
-					},
-					{
-						label: t('optionScrobbleRecognizedTracks'),
-						title: t('optionScrobbleRecognizedTracksTitle'),
-						value: Options.SCROBBLE_RECOGNIZED_TRACKS,
-					},
-					{
-						label: t('optionScrobbleEditedTracksOnly'),
-						title: t('optionScrobbleEditedTracksOnlyTitle'),
-						value: Options.SCROBBLE_EDITED_TRACKS_ONLY,
-					},
-				]}
-				name={`${props.connector.id}-scrobbleBehavior`}
-				value={() => {
-					if (
-						overrideOptions()?.[props.connector.id]?.[
-							Options.FORCE_RECOGNIZE
-						]
-					) {
-						return Options.FORCE_RECOGNIZE;
-					}
-					if (
-						overrideOptions()?.[props.connector.id]?.[
-							Options.SCROBBLE_EDITED_TRACKS_ONLY
-						]
-					) {
-						return Options.SCROBBLE_EDITED_TRACKS_ONLY;
-					}
-					if (
-						overrideOptions()?.[props.connector.id]?.[
-							Options.SCROBBLE_RECOGNIZED_TRACKS
-						]
-					) {
-						return Options.SCROBBLE_RECOGNIZED_TRACKS;
-					}
-
-					return '';
-				}}
-				onChange={(e) => {
-					const value = e.currentTarget.value;
-					const connector = props.connector;
-					setOverrideOptions.mutate((o) => {
-						const newOptions = {
-							...(o ?? {}),
-						};
-						newOptions[connector.id] = {
-							...(newOptions[connector.id] ?? {}),
-							[Options.FORCE_RECOGNIZE]:
-								value === Options.FORCE_RECOGNIZE,
-							[Options.SCROBBLE_EDITED_TRACKS_ONLY]:
-								value === Options.SCROBBLE_EDITED_TRACKS_ONLY,
-							[Options.SCROBBLE_RECOGNIZED_TRACKS]:
-								value === Options.SCROBBLE_RECOGNIZED_TRACKS,
-						};
-
-						connectorOverrideOptions.set(newOptions);
-						return newOptions;
-					});
-				}}
-				reset={() => {
-					const connector = props.connector;
-					setOverrideOptions.mutate((o) => {
-						const newOptions = {
-							...(o ?? {}),
-						};
-						delete newOptions[connector.id][
-							Options.FORCE_RECOGNIZE
-						];
-						delete newOptions[connector.id][
-							Options.SCROBBLE_EDITED_TRACKS_ONLY
-						];
-						delete newOptions[connector.id][
-							Options.SCROBBLE_RECOGNIZED_TRACKS
-						];
-
-						connectorOverrideOptions.set(newOptions);
-						return newOptions;
-					});
-				}}
-			/>
-			<h3>{t('customPatterns')}</h3>
-			<p>{t('customPatternsHint')}</p>
-			<EditCustomPatterns connector={props.connector} />
-			<Show when={props.connector.usesBlocklist}>
-				<BlockedChannels
-					setActiveModal={props.setActiveModal}
-					modal={props.modal}
+				<ConnectorTripleCheckbox
+					title={t('optionAutoToggleLoveTitle')}
+					label={t('optionAutoToggleLove')}
 					connector={props.connector}
+					option={Options.AUTO_TOGGLE_LOVE}
+					overrideOptions={overrideOptions}
+					setOverrideOptions={setOverrideOptions}
+					connectorOverrideOptions={connectorOverrideOptions}
 				/>
-			</Show>
+
+				<h3 id={`${props.connector.id}-scrobble-behavior`}>
+					{t('optionsScrobbleBehavior')}
+				</h3>
+				<RadioButtons
+					labelledby={`${props.connector.id}-scrobble-behavior`}
+					buttons={[
+						{
+							label: t('optionForceRecognize'),
+							title: t('optionForceRecognizeTitle'),
+							value: Options.FORCE_RECOGNIZE,
+						},
+						{
+							label: t('optionScrobbleRecognizedTracks'),
+							title: t('optionScrobbleRecognizedTracksTitle'),
+							value: Options.SCROBBLE_RECOGNIZED_TRACKS,
+						},
+						{
+							label: t('optionScrobbleEditedTracksOnly'),
+							title: t('optionScrobbleEditedTracksOnlyTitle'),
+							value: Options.SCROBBLE_EDITED_TRACKS_ONLY,
+						},
+					]}
+					name={`${props.connector.id}-scrobbleBehavior`}
+					value={() => {
+						if (
+							overrideOptions()?.[props.connector.id]?.[
+								Options.FORCE_RECOGNIZE
+							]
+						) {
+							return Options.FORCE_RECOGNIZE;
+						}
+						if (
+							overrideOptions()?.[props.connector.id]?.[
+								Options.SCROBBLE_EDITED_TRACKS_ONLY
+							]
+						) {
+							return Options.SCROBBLE_EDITED_TRACKS_ONLY;
+						}
+						if (
+							overrideOptions()?.[props.connector.id]?.[
+								Options.SCROBBLE_RECOGNIZED_TRACKS
+							]
+						) {
+							return Options.SCROBBLE_RECOGNIZED_TRACKS;
+						}
+
+						return '';
+					}}
+					onChange={(e) => {
+						const value = e.currentTarget.value;
+						const connector = props.connector;
+						setOverrideOptions.mutate((o) => {
+							const newOptions = {
+								...(o ?? {}),
+							};
+							newOptions[connector.id] = {
+								...(newOptions[connector.id] ?? {}),
+								[Options.FORCE_RECOGNIZE]:
+									value === Options.FORCE_RECOGNIZE,
+								[Options.SCROBBLE_EDITED_TRACKS_ONLY]:
+									value ===
+									Options.SCROBBLE_EDITED_TRACKS_ONLY,
+								[Options.SCROBBLE_RECOGNIZED_TRACKS]:
+									value ===
+									Options.SCROBBLE_RECOGNIZED_TRACKS,
+							};
+
+							connectorOverrideOptions.set(newOptions);
+							return newOptions;
+						});
+					}}
+					reset={() => {
+						const connector = props.connector;
+						setOverrideOptions.mutate((o) => {
+							const newOptions = {
+								...(o ?? {}),
+							};
+							delete newOptions[connector.id][
+								Options.FORCE_RECOGNIZE
+							];
+							delete newOptions[connector.id][
+								Options.SCROBBLE_EDITED_TRACKS_ONLY
+							];
+							delete newOptions[connector.id][
+								Options.SCROBBLE_RECOGNIZED_TRACKS
+							];
+
+							connectorOverrideOptions.set(newOptions);
+							return newOptions;
+						});
+					}}
+				/>
+				<h3>{t('customPatterns')}</h3>
+				<p>{t('customPatternsHint')}</p>
+				<EditCustomPatterns connector={props.connector} />
+				<Show when={props.connector.usesBlocklist}>
+					<BlockedChannels
+						setActiveModal={props.setActiveModal}
+						modal={props.modal}
+						connector={props.connector}
+					/>
+				</Show>
+			</div>
 		</Show>
 	);
 }

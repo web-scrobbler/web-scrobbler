@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="MuiSvgIcon-root MuiSvgIcon-fontSizeLarge  css-c1sh5i"
+   focusable="false"
+   aria-hidden="true"
+   viewBox="0 0 24 24"
+   data-testid="HeartBrokenIcon"
+   aria-label="fontSize large"
+   version="1.1"
+   id="svg663"
+   sodipodi:docname="action_unloved.svg"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs667" />
+  <sodipodi:namedview
+     id="namedview665"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg663" />
+  <path
+     d="m 17.4,1.2 c -1.152,0 -2.28,0.3 -3.276,0.828 L 12,8.4 h 3.6 L 12,20.4 13.2,9.6 H 9.6 L 11.448,3.132 C 10.164,1.932 8.412,1.2 6.6,1.2 2.904,1.2 0,4.104 0,7.8 c 0,4.956 4.992,8.616 12,15 6.564,-5.928 12,-9.912 12,-15 0,-3.696 -2.904,-6.6 -6.6,-6.6"
+     id="path661"
+     style="stroke-width:1.2" />
+</svg>

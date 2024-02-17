@@ -14,6 +14,7 @@ import type { DebugLogType } from '@/util/util';
 import { t } from '@/util/i18n';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import Song from '../object/song';
+import { sendContentMessage } from '@/util/communication';
 
 const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
@@ -1071,4 +1072,78 @@ export function getInfoBoxText(
 export interface ChannelInfo {
 	id: string;
 	label: string;
+}
+
+type BackgroundResponse<T> =
+	| {
+			ok: true;
+			content: T;
+	  }
+	| {
+			ok: false;
+			content: null;
+	  };
+
+/**
+ *
+ * @param url - url of page to fetch
+ * @param type - type of document to fetch, json/text/html
+ * @param init - init object identical to regular fetch API
+ *
+ * @returns a simplified response object with response.
+ */
+export function fetchFromServiceWorker(
+	url: string,
+	type: 'text',
+	init?: RequestInit | undefined,
+): Promise<BackgroundResponse<string>>;
+export function fetchFromServiceWorker(
+	url: string,
+	type: 'json',
+	init?: RequestInit | undefined,
+): Promise<BackgroundResponse<unknown>>;
+export function fetchFromServiceWorker(
+	url: string,
+	type: 'html',
+	init?: RequestInit | undefined,
+): Promise<BackgroundResponse<Document>>;
+export async function fetchFromServiceWorker(
+	url: string,
+	type: 'text' | 'json' | 'html',
+	init?: RequestInit | undefined,
+) {
+	const res = await sendContentMessage({
+		type: 'fetch',
+		payload: {
+			url,
+			init,
+		},
+	});
+	if (!res.ok) {
+		return {
+			ok: false,
+			content: null,
+		};
+	}
+
+	switch (type) {
+		case 'text':
+			return {
+				ok: true,
+				content: res.content,
+			};
+		case 'json':
+			return {
+				ok: true,
+				content: JSON.parse(res.content) as unknown,
+			};
+		case 'html':
+			return {
+				ok: true,
+				content: new DOMParser().parseFromString(
+					res.content,
+					'text/html',
+				),
+			};
+	}
 }

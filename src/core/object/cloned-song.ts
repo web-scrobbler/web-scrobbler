@@ -7,6 +7,7 @@ import {
 	ParsedSongData,
 	ProcessedSongData,
 } from './song';
+import { ConnectorMeta } from '../connectors';
 
 /**
  * This class is used to create a song object from a cloned song.
@@ -17,8 +18,7 @@ export default class ClonedSong extends BaseSong {
 	public noRegex: ProcessedSongData;
 	public flags: Flags;
 	public metadata: Metadata;
-	public connectorLabel: string;
-	public connectorId: string;
+	public connector: ConnectorMeta;
 	public controllerTabId: number;
 
 	constructor(song: CloneableSong, controllerTabId: number) {
@@ -28,8 +28,7 @@ export default class ClonedSong extends BaseSong {
 		this.noRegex = song.noRegex;
 		this.flags = song.flags;
 		this.metadata = song.metadata;
-		this.connectorLabel = song.connectorLabel;
-		this.connectorId = song.connectorId;
+		this.connector = song.connector;
 		this.controllerTabId = controllerTabId;
 	}
 

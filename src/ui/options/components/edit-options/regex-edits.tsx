@@ -1,14 +1,18 @@
 import { t } from '@/util/i18n';
-import { For, Setter, createResource } from 'solid-js';
+import { For, Setter, Show, createMemo, createResource } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
-import { DeleteOutlined } from '@/ui/components/icons';
+import {
+	CaseSensitiveOutlined,
+	DeleteOutlined,
+	RegexOutlined,
+	WholeWordOutlined,
+} from '@/ui/components/icons';
 import { FieldType, RegexEdit, pascalCaseField } from '@/util/regex';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import { ModalType } from '../navigator';
 
 const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
-const [edits, { mutate }] = createResource(regexEdits.get.bind(regexEdits));
 
 /**
  * Component that allows the user to see, import, and export track metadata edits.
@@ -21,7 +25,11 @@ export default function RegexEdits(props: {
 		<>
 			<h2>{t('optionsRegexEdits')}</h2>
 			<p>{t('optionsRegexEditsDesc')}</p>
-			<div class={styles.buttonContainer}>
+			<div
+				class={styles.buttonContainer}
+				role="group"
+				aria-label={t('optionsRegexEdits')}
+			>
 				<ViewEdits
 					setActiveModal={props.setActiveModal}
 					modal={props.modal}
@@ -31,7 +39,7 @@ export default function RegexEdits(props: {
 					editWrapper={regexEdits}
 					filename="regex-edits.json"
 				/>
-				<ImportEdits editWrapper={regexEdits} mutate={mutate} />
+				<ImportEdits editWrapper={regexEdits} />
 			</div>
 		</>
 	);
@@ -42,6 +50,7 @@ export default function RegexEdits(props: {
  * To be displayed in a modal.
  */
 export function RegexEditsModal() {
+	const [edits, { mutate }] = createResource(regexEdits.get.bind(regexEdits));
 	return (
 		<>
 			<h1>
@@ -69,6 +78,10 @@ function EditInfo(props: {
 	edit: RegexEdit;
 	mutate: Setter<RegexEdit[] | null | undefined>;
 }) {
+	const label = createMemo(
+		() =>
+			`${props.edit.search.track} → ${props.edit.replace.track};${props.edit.search.artist} → ${props.edit.replace.artist};${props.edit.search.album} → ${props.edit.replace.album};${props.edit.search.albumArtist} → ${props.edit.replace.albumArtist}`,
+	);
 	return (
 		<li class={styles.deleteListing}>
 			<button
@@ -85,6 +98,7 @@ function EditInfo(props: {
 						return o;
 					});
 				}}
+				title={label()}
 			>
 				<DeleteOutlined />
 			</button>
@@ -99,8 +113,37 @@ function EditInfo(props: {
 				<Entry edit={props.edit} type={'artist'} />
 				<Entry edit={props.edit} type={'album'} />
 				<Entry edit={props.edit} type={'albumArtist'} />
+				<Flags edit={props.edit} />
 			</div>
 		</li>
+	);
+}
+
+/**
+ * Component that returns the grid entry for regex flags
+ */
+function Flags(props: { edit: RegexEdit }) {
+	return (
+		<div class={styles.regexDeleteFlags}>
+			<Show when={!props.edit.isRegexDisabled}>
+				<RegexOutlined
+					title={t('infoUseRegex')}
+					class={styles.regexEditEntry}
+				/>
+			</Show>
+			<Show when={!props.edit.isCaseInsensitive}>
+				<CaseSensitiveOutlined
+					title={t('infoMatchCase')}
+					class={styles.regexEditEntry}
+				/>
+			</Show>
+			<Show when={!props.edit.isGlobal}>
+				<WholeWordOutlined
+					title={t('infoMatchWholeTag')}
+					class={styles.regexEditEntry}
+				/>
+			</Show>
+		</div>
 	);
 }
 
@@ -111,21 +154,23 @@ function Entry(props: { edit: RegexEdit; type: FieldType }) {
 	return (
 		<>
 			<span
-				class={styles[`regexDelete${pascalCaseField(props.type)}Label`]}
+				class={`${
+					styles[`regexDelete${pascalCaseField(props.type)}Label`]
+				} ${styles.regexEditEntry}`}
 			>
 				{t(`info${pascalCaseField(props.type)}Label`)}
 			</span>
 			<span
-				class={
+				class={`${
 					styles[`regexDelete${pascalCaseField(props.type)}Search`]
-				}
+				} ${styles.regexEditEntry}`}
 			>
 				{props.edit.search[props.type]}
 			</span>
 			<span
-				class={
+				class={`${
 					styles[`regexDelete${pascalCaseField(props.type)}Replace`]
-				}
+				} ${styles.regexEditEntry}`}
 			>
 				{props.edit.replace[props.type]}
 			</span>

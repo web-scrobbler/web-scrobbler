@@ -3,6 +3,7 @@ import EditedTracks from './edited-tracks';
 import RegexEdits from './regex-edits';
 import { t } from '@/util/i18n';
 import { ModalType } from '../navigator';
+import BlockedTagsElement from './blocked-tags';
 
 export default function EditOptions(props: {
 	setActiveModal: Setter<ModalType>;
@@ -16,6 +17,10 @@ export default function EditOptions(props: {
 				modal={props.modal}
 			/>
 			<RegexEdits
+				setActiveModal={props.setActiveModal}
+				modal={props.modal}
+			/>
+			<BlockedTagsElement
 				setActiveModal={props.setActiveModal}
 				modal={props.modal}
 			/>

@@ -16,7 +16,7 @@ import {
 export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	public userToken!: string;
 	public userApiUrl!: string;
-	public isLocalOnly = false;
+	public isLocalOnly = true;
 
 	/** @override */
 	protected getStorageName(): 'Pleroma' {
@@ -115,10 +115,13 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	}
 
 	/** @override */
-	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
-		const songData = this.makeTrackMetadata(song);
-
-		return this.sendRequest(songData, this.userToken);
+	public async scrobble(songs: BaseSong[]): Promise<ServiceCallResult[]> {
+		const resultArray: Promise<ServiceCallResult>[] = [];
+		for (const song of songs.slice(0, 50)) {
+			const songData = this.makeTrackMetadata(song);
+			resultArray.push(this.sendRequest(songData, this.userToken));
+		}
+		return Promise.all(resultArray);
 	}
 
 	/** Private methods */

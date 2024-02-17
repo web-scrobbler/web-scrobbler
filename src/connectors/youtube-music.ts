@@ -114,7 +114,8 @@ Connector.getUniqueID = () => {
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
-Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
+Connector.scrobblingDisallowedReason = () =>
+	Util.isElementVisible(adSelector) ? 'IsAd' : null;
 
 function getArtists() {
 	// FIXME Use Array.from after jQuery support will be removed

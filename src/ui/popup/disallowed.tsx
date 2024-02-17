@@ -32,26 +32,12 @@ export default function Disallowed(props: { tab: Resource<ManagerTab> }) {
 						song()?.getTrack() ?? '???',
 					])}
 				</p>
-				<Show
-					when={song()?.metadata.label === 'YouTube'}
-					fallback={
-						<>
-							<p>{t('disallowedDesc2')}</p>
-							<ul>
-								<li>{t('disallowedDesc2Point1')}</li>
-								<li>{t('disallowedDesc2Point2')}</li>
-								<li>{t('disallowedDesc2Point3')}</li>
-							</ul>
-						</>
-					}
-				>
-					<p>{t('disallowedDescYoutube')}</p>
-					<ul>
-						<li>{t('disallowedDescYoutubePoint1')}</li>
-						<li>{t('disallowedDescYoutubePoint2')}</li>
-						<li>{t('disallowedDescYoutubePoint3')}</li>
-					</ul>
-				</Show>
+				<p>
+					{t(
+						`disallowedDesc${song()?.parsed
+							.scrobblingDisallowedReason}`,
+					)}
+				</p>
 				<p>{t('disallowedDesc3')}</p>
 				<button
 					class={`${optionComponentStyles.button} ${optionComponentStyles.centered}`}

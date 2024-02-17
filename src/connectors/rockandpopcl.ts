@@ -12,14 +12,14 @@ Connector.trackSelector = '.player-info-title .js-player-title';
 
 Connector.trackArtSelector = '.player-data .image-player';
 
-Connector.isScrobblingAllowed = () => {
-	return (
-		!Connector.getArtist()?.includes('24/7') &&
-		!Connector.getTrack()?.includes('24/7') &&
-		!Util.extractImageUrlFromSelectors(
-			Connector.trackArtSelector,
-		)?.includes('/fotos/original/')
-	);
+Connector.scrobblingDisallowedReason = () => {
+	return Connector.getArtist()?.includes('24/7') ||
+		Connector.getTrack()?.includes('24/7') ||
+		Util.extractImageUrlFromSelectors(Connector.trackArtSelector)?.includes(
+			'/fotos/original/',
+		)
+		? 'FilteredTag'
+		: null;
 };
 
 Connector.applyFilter(filter);

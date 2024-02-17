@@ -18,7 +18,9 @@ export default function ScrobbleBehavior(props: {
 }) {
 	return (
 		<>
-			<h2>{t('optionsScrobbleBehavior')}</h2>
+			<h2 id="header-scrobble-behavior">
+				{t('optionsScrobbleBehavior')}
+			</h2>
 			<RadioButtons
 				buttons={[
 					{
@@ -68,6 +70,7 @@ export default function ScrobbleBehavior(props: {
 						return newOptions;
 					});
 				}}
+				labelledby="header-scrobble-behavior"
 			/>
 		</>
 	);

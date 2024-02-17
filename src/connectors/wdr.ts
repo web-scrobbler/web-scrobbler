@@ -12,7 +12,7 @@ Connector.artistTrackSelector = '.wdrrCurrentShowTitleTitle';
 
 Connector.pauseButtonSelector = '#playCtrl.playing';
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	const artistTrack = Util.getTextFromSelectors(
 		Connector.artistTrackSelector,
 	);
@@ -33,7 +33,7 @@ Connector.isScrobblingAllowed = () => {
 		);
 
 	// Scrobble only if none of the disallowed strings are included
-	return !containsDisallowedString;
+	return containsDisallowedString ? 'FilteredTag' : null;
 };
 
 function cleanupArtist(artist: string) {

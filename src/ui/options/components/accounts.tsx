@@ -143,10 +143,11 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	};
 	window.addEventListener('focus', onFocusWrapper);
 	onCleanup(() => window.removeEventListener('focus', onFocusWrapper));
+	const scrobblerLabel = createMemo(() => rawScrobbler()?.getLabel());
 
 	return (
-		<>
-			<h2>{rawScrobbler()?.getLabel()}</h2>
+		<div role="group" aria-label={scrobblerLabel()}>
+			<h2>{scrobblerLabel()}</h2>
 			<Switch
 				fallback={
 					<Show when={!showLocalProps()}>
@@ -216,7 +217,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					<ArrayProperties scrobbler={rawScrobbler()} />
 				</Match>
 			</Switch>
-		</>
+		</div>
 	);
 }
 

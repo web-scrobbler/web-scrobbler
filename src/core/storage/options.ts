@@ -16,12 +16,16 @@ export const USE_UNRECOGNIZED_SONG_NOTIFICATIONS =
 	'useUnrecognizedSongNotifications';
 export const USE_INFOBOX = 'showInfobox';
 export const SCROBBLE_PODCASTS = 'scrobblePodcasts';
+export const AUTO_TOGGLE_LOVE = 'autoToggleLove';
 export const FORCE_RECOGNIZE = 'forceRecognize';
 export const SCROBBLE_RECOGNIZED_TRACKS = 'scrobbleRecognizedTracks';
 export const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
 export const SCROBBLE_PERCENT = 'scrobblePercent';
 export const DISABLED_CONNECTORS = 'disabledConnectors';
 export const DEBUG_LOGGING_ENABLED = 'debugLoggingEnabled';
+export const ALBUM_GUESSING_DISABLED = 'albumGuessingDisabled';
+export const ALBUM_GUESSING_UNEDITED_ONLY = 'albumGuessingUneditedOnly';
+export const ALBUM_GUESSING_ALL_TRACKS = 'albumGuessingAllTracks';
 
 export interface GlobalOptions {
 	/**
@@ -75,6 +79,26 @@ export interface GlobalOptions {
 	 * Allow debug messages to be logged to the browser console.
 	 */
 	[DEBUG_LOGGING_ENABLED]: boolean;
+
+	/**
+	 * Automatically toggle love on scrobbling service when doing so on website.
+	 */
+	[AUTO_TOGGLE_LOVE]: boolean;
+
+	/**
+	 * Disable guessing of albums
+	 */
+	[ALBUM_GUESSING_DISABLED]: boolean;
+
+	/**
+	 * Only guess albums of unedited tracks
+	 */
+	[ALBUM_GUESSING_UNEDITED_ONLY]: boolean;
+
+	/**
+	 * Guess albums for all albumless tracks including edited ones
+	 */
+	[ALBUM_GUESSING_ALL_TRACKS]: boolean;
 }
 
 /**
@@ -90,6 +114,10 @@ const DEFAULT_OPTIONS: GlobalOptions = {
 	[DEBUG_LOGGING_ENABLED]: false,
 	[SCROBBLE_PERCENT]: DEFAULT_SCROBBLE_PERCENT,
 	[USE_INFOBOX]: true,
+	[AUTO_TOGGLE_LOVE]: true,
+	[ALBUM_GUESSING_DISABLED]: false,
+	[ALBUM_GUESSING_UNEDITED_ONLY]: true,
+	[ALBUM_GUESSING_ALL_TRACKS]: false,
 	[DISABLED_CONNECTORS]: {},
 };
 
@@ -101,6 +129,7 @@ const OVERRIDE_CONTENT = {
 	[USE_NOTIFICATIONS]: true,
 	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
 	[USE_INFOBOX]: true,
+	[AUTO_TOGGLE_LOVE]: true,
 };
 
 export interface ConnectorOptions {
@@ -129,6 +158,7 @@ export interface ConnectorsOverrideOptionValues {
 	[USE_NOTIFICATIONS]?: boolean;
 	[USE_INFOBOX]?: boolean;
 	[SCROBBLE_PODCASTS]?: boolean;
+	[AUTO_TOGGLE_LOVE]?: boolean;
 	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]?: boolean;
 	[SCROBBLE_RECOGNIZED_TRACKS]?: boolean;
 	[SCROBBLE_EDITED_TRACKS_ONLY]?: boolean;

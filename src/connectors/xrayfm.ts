@@ -16,8 +16,8 @@ Connector.getArtistTrack = () => {
 	return null;
 };
 
-Connector.isScrobblingAllowed = () => {
-	return Boolean(
-		Connector.getArtistTrack() && Util.isElementVisible('#current-track'),
-	);
+Connector.scrobblingDisallowedReason = () => {
+	return Connector.getArtistTrack() && Util.isElementVisible('#current-track')
+		? 'ElementMissing'
+		: null;
 };

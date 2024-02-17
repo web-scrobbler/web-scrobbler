@@ -3,7 +3,6 @@ import { expect, describe, it, beforeAll } from 'vitest';
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
 
 import Song from '@/core/object/song';
-import { getConnectorById } from '@/util/util-connector';
 import { SavedEdit } from '@/core/storage/options';
 import savedEdits from '@/core/storage/saved-edits';
 import SavedEditsModel from '@/core/storage/saved-edits.model';
@@ -15,7 +14,13 @@ const editedInfo = {
 	albumArtist: null,
 };
 
-const connectorStub = getConnectorById('youtube')!;
+const connectorStub = {
+	label: 'YouTube',
+	matches: ['*://www.youtube.com/*', '*://m.youtube.com/*'],
+	js: 'youtube.js',
+	id: 'youtube',
+};
+
 /**
  * Run all tests.
  */

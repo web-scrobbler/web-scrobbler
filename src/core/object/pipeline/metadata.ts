@@ -58,12 +58,12 @@ export async function process(
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
 				(song.processed[field] as any) = songInfo[field];
 			}
+		}
 
-			if (!song.getAlbum() || song.flags.isAlbumFetched) {
-				song.processed.album = songInfo.album;
-				song.noRegex.album = songInfo.album;
-				song.flags.isAlbumFetched = true;
-			}
+		if (await shouldCopyAlbum(song)) {
+			song.processed.album = songInfo.album;
+			song.noRegex.album = songInfo.album;
+			song.flags.isAlbumFetched = true;
 		}
 
 		for (const field of METADATA_TO_COPY) {
@@ -84,6 +84,29 @@ export async function process(
 	song.flags.isValid =
 		(isSongValid || Boolean(forceRecognize)) &&
 		(song.flags.isCorrectedByUser || !scrobbleEditedTracksOnly);
+}
+
+/**
+ * Determine if album should be copied to current track
+ * This depends on the user's options
+ * @param song - Song to be copied to
+ *
+ * @returns true if pipeline should copy album to current track; false if not.
+ */
+async function shouldCopyAlbum(song: Song): Promise<boolean> {
+	if (song.getAlbum() && !song.flags.isAlbumFetched) {
+		return false;
+	}
+
+	if (await Options.getOption(Options.ALBUM_GUESSING_DISABLED)) {
+		return false;
+	}
+
+	if (await Options.getOption(Options.ALBUM_GUESSING_ALL_TRACKS)) {
+		return true;
+	}
+
+	return !song.flags.isCorrectedByUser;
 }
 
 /**

@@ -12,7 +12,9 @@ type WebhookRequest = {
 	time: number;
 	data: {
 		song: BaseSong;
+		songs?: BaseSong[];
 		isLoved?: boolean;
+		currentlyPlaying?: boolean;
 	};
 };
 
@@ -146,12 +148,21 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	}
 
 	/** @override */
-	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
-		return this.sendRequest({
+	public async scrobble(
+		songs: BaseSong[],
+		currentlyPlaying: boolean,
+	): Promise<ServiceCallResult[]> {
+		const res = await this.sendRequest({
 			eventName: 'scrobble',
 			time: Date.now(),
-			data: { song },
+			// send the first song as a separate argument to avoid breaking older implementations
+			data: {
+				song: songs[0],
+				songs,
+				currentlyPlaying,
+			},
 		});
+		return new Array<ServiceCallResult>(songs.length).fill(res);
 	}
 
 	/** @override */

@@ -1,8 +1,10 @@
-import { JSXElement, createMemo } from 'solid-js';
+import { JSXElement, Show, createMemo } from 'solid-js';
 import styles from './icons.module.scss';
+import popupStyles from '@/ui/popup/popup.module.scss';
+import componentStyles from '@/ui/options/components/components.module.scss';
 
 function createMaterialIcon(Path: () => JSXElement) {
-	const Component = (props: { class?: string }) => {
+	const Component = (props: { class?: string; title?: string }) => {
 		const className = createMemo(() =>
 			props.class
 				? `${styles.materialIcon} ${props.class}`
@@ -19,6 +21,9 @@ function createMaterialIcon(Path: () => JSXElement) {
 				{...props}
 				class={className()}
 			>
+				<Show when={props.title}>
+					<title>{props.title}</title>
+				</Show>
 				<Path />
 			</svg>
 		);
@@ -28,6 +33,81 @@ function createMaterialIcon(Path: () => JSXElement) {
 
 export const AddOutlined = createMaterialIcon(() => (
 	<path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+));
+
+export const Album = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" />
+	</>
+));
+
+export const AlbumOff = createMaterialIcon(() => (
+	<>
+		<defs id="defs138">
+			<mask
+				maskUnits="userSpaceOnUse"
+				id="mask-powermask-path-effect3728"
+			>
+				<path
+					id="mask-powermask-path-effect3728_box"
+					style={{ fill: '#ffffff', 'fill-opacity': '1' }}
+					d="M 1,1 H 23 V 23 H 1 Z"
+				/>
+				<g id="g3726">
+					<rect
+						class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+						style={{
+							'fill-opacity': '1',
+							stroke: 'none',
+						}}
+						id="rect3722"
+						width="27.407948"
+						height="1.5774385"
+						x="-12.412281"
+						y="-0.70559257"
+						ry="0"
+						transform="rotate(41.317859)"
+					/>
+					<rect
+						class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+						style={{
+							'fill-opacity': '1',
+							stroke: 'none',
+						}}
+						id="rect3724"
+						width="27.407948"
+						height="1.5774385"
+						x="18.354237"
+						y="-0.67120558"
+						ry="0"
+						transform="rotate(41.317859)"
+					/>
+				</g>
+			</mask>
+		</defs>
+		<path
+			d="M 12,2 C 6.48,2 2,6.48 2,12 2,17.52 6.48,22 12,22 17.52,22 22,17.52 22,12 22,6.48 17.52,2 12,2 Z m 0,14.5 C 9.51,16.5 7.5,14.49 7.5,12 7.5,9.51 9.51,7.5 12,7.5 c 2.49,0 4.5,2.01 4.5,4.5 0,2.49 -2.01,4.5 -4.5,4.5 z M 12,11 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
+			id="path132"
+			class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+			style={{ display: 'inline' }}
+			mask="url(#mask-powermask-path-effect3728)"
+		/>
+		<rect
+			class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+			style={{
+				'fill-opacity': '1',
+				stroke: 'none',
+			}}
+			id="rect413"
+			width="27.407948"
+			height="1.5774385"
+			x="3.194612"
+			y="0.87523758"
+			ry="0"
+			transform="rotate(41.317859)"
+		/>
+	</>
 ));
 
 export const AutorenewOutlined = createMaterialIcon(() => (
@@ -47,16 +127,16 @@ export const CancelScheduleSendOutlined = createMaterialIcon(() => (
 	</g>
 ));
 
+export const CaseSensitiveOutlined = createMaterialIcon(() => (
+	<path d="M20.06 18a3.99 3.99 0 0 1-.2-.89c-.67.7-1.48 1.05-2.41 1.05c-.83 0-1.52-.24-2.05-.71c-.53-.45-.8-1.06-.8-1.79c0-.88.33-1.56 1-2.05c.67-.49 1.61-.73 2.83-.73h1.4v-.64c0-.49-.15-.88-.45-1.17c-.3-.29-.75-.43-1.33-.43c-.52 0-.95.12-1.3.36c-.35.25-.52.54-.52.89h-1.46c0-.43.15-.84.45-1.24c.28-.4.71-.71 1.22-.94c.51-.21 1.06-.35 1.69-.35c.98 0 1.74.24 2.29.73s.84 1.16.86 2.02V16c0 .8.1 1.42.3 1.88V18zm-2.4-1.12c.45 0 .88-.11 1.29-.32c.4-.21.7-.49.88-.83v-1.57H18.7c-1.77 0-2.66.47-2.66 1.41c0 .43.15.73.46.96c.3.23.68.35 1.16.35m-12.2-3.17h4.07L7.5 8.29zM6.64 6h1.72l4.71 12h-1.93l-.97-2.57H4.82L3.86 18H1.93z" />
+));
+
 export const CheckOutlined = createMaterialIcon(() => (
 	<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
 ));
 
 export const CloseOutlined = createMaterialIcon(() => (
 	<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
-));
-
-export const CodeOutlined = createMaterialIcon(() => (
-	<path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
 ));
 
 export const ContactsOutlined = createMaterialIcon(() => (
@@ -67,12 +147,20 @@ export const DeleteOutlined = createMaterialIcon(() => (
 	<path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z" />
 ));
 
+export const DeleteForeverOutlined = createMaterialIcon(() => (
+	<path d="M14.12 10.47L12 12.59l-2.13-2.12-1.41 1.41L10.59 14l-2.12 2.12 1.41 1.41L12 15.41l2.12 2.12 1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9z" />
+));
+
 export const DownloadOutlined = createMaterialIcon(() => (
 	<path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z" />
 ));
 
 export const EditOutlined = createMaterialIcon(() => (
 	<path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
+));
+
+export const EditNoteOutlined = createMaterialIcon(() => (
+	<path d="M3 10h11v2H3zm0-2h11V6H3zm0 8h7v-2H3zm15.01-3.13.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41l-.71.71zm-.71.71-5.3 5.3V21h2.12l5.3-5.3z" />
 ));
 
 export const ErrorOutlined = createMaterialIcon(() => (
@@ -140,12 +228,42 @@ export const ManageAccountsOutlined = createMaterialIcon(() => (
 	</>
 ));
 
+export const MusicNote = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+	</>
+));
+
 export const MusicNoteOutlined = createMaterialIcon(() => (
 	<path d="M12 3l.01 10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4.01 4S14 19.21 14 17V7h4V3h-6zm-1.99 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
 ));
 
+export const MusicOff = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M4.27 3L3 4.27l9 9v.28c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4v-1.73L19.73 21 21 19.73 4.27 3zM14 7h4V3h-6v5.18l2 2z" />
+	</>
+));
+
 export const MusicOffOutlined = createMaterialIcon(() => (
 	<path d="M14 7h4V3h-6v4.61l2 2zm-2 3.44L4.41 2.86 3 4.27l9 9v.28c-.94-.54-2.1-.75-3.33-.32-1.34.48-2.37 1.67-2.61 3.07-.46 2.74 1.86 5.08 4.59 4.65 1.96-.31 3.35-2.11 3.35-4.1v-1.58L19.73 21l1.41-1.41L12 10.44zM10 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+));
+
+export const Person = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+	</>
+));
+
+export const PersonOff = createMaterialIcon(() => (
+	<>
+		<rect fill="none" height="24" width="24" />
+		<g>
+			<path d="M8.65,5.82C9.36,4.72,10.6,4,12,4c2.21,0,4,1.79,4,4c0,1.4-0.72,2.64-1.82,3.35L8.65,5.82z M20,17.17 c-0.02-1.1-0.63-2.11-1.61-2.62c-0.54-0.28-1.13-0.54-1.77-0.76L20,17.17z M21.19,21.19L2.81,2.81L1.39,4.22l8.89,8.89 c-1.81,0.23-3.39,0.79-4.67,1.45C4.61,15.07,4,16.1,4,17.22V20h13.17l2.61,2.61L21.19,21.19z" />
+		</g>
+	</>
 ));
 
 export const PersonOffOutlined = createMaterialIcon(() => (
@@ -164,6 +282,16 @@ export const PublishedWithChangesOutlined = createMaterialIcon(() => (
 		<rect fill="none" height="24" width="24" />
 		<path d="M18.6,19.5H21v2h-6v-6h2v2.73c1.83-1.47,3-3.71,3-6.23c0-4.07-3.06-7.44-7-7.93V2.05c5.05,0.5,9,4.76,9,9.95 C22,14.99,20.68,17.67,18.6,19.5z M4,12c0-2.52,1.17-4.77,3-6.23V8.5h2v-6H3v2h2.4C3.32,6.33,2,9.01,2,12c0,5.19,3.95,9.45,9,9.95 v-2.02C7.06,19.44,4,16.07,4,12z M16.24,8.11l-5.66,5.66l-2.83-2.83l-1.41,1.41l4.24,4.24l7.07-7.07L16.24,8.11z" />
 	</>
+));
+
+export const RegexOutlined = createMaterialIcon(() => (
+	<path d="M16 16.92c-.33.05-.66.08-1 .08c-.34 0-.67-.03-1-.08v-3.51l-2.5 2.48c-.5-.39-1-.89-1.39-1.39l2.48-2.5H9.08c-.05-.33-.08-.66-.08-1c0-.34.03-.67.08-1h3.51l-2.48-2.5c.19-.25.39-.5.65-.74c.24-.26.49-.46.74-.65L14 8.59V5.08c.33-.05.66-.08 1-.08c.34 0 .67.03 1 .08v3.51l2.5-2.48c.5.39 1 .89 1.39 1.39L17.41 10h3.51c.05.33.08.66.08 1c0 .34-.03.67-.08 1h-3.51l2.48 2.5c-.19.25-.39.5-.65.74c-.24.26-.49.46-.74.65L16 13.41zM5 19a2 2 0 0 1 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2" />
+));
+
+export const QueueMusicOutlined = createMaterialIcon(() => (
+	<g>
+		<path d="M22,6h-5v8.18C16.69,14.07,16.35,14,16,14c-1.66,0-3,1.34-3,3s1.34,3,3,3s3-1.34,3-3V8h3V6z M15,6H3v2h12V6z M15,10H3v2h12 V10z M11,14H3v2h8V14z" />
+	</g>
 ));
 
 export const RestartAltOutlined = createMaterialIcon(() => (
@@ -246,4 +374,8 @@ export const VolunteerActivismOutlined = createMaterialIcon(() => (
 			</g>
 		</g>
 	</g>
+));
+
+export const WholeWordOutlined = createMaterialIcon(() => (
+	<path d="M11.14 4L6.43 16h1.93l.96-2.57h5.35l.97 2.57h1.93L12.86 4M12 6.29l2.03 5.42H9.96M20 14v4H4v-3H2v5h20v-6Z" />
 ));

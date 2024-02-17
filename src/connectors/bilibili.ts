@@ -197,19 +197,20 @@ Connector.getChannelId = () =>
 
 Connector.channelLabelSelector = '.up-name';
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	const tags = videoInfo.tags;
 
 	if (onlyScrobbleContainsMusicTag) {
 		if (!tags.includes('音乐')) {
-			return false;
-		}
-	} else if (useScrobbleTagFilter) {
-		if (tags.some((tag) => isIncludeElems(tag, tagFilterKeyWords))) {
-			return false;
+			return 'FilteredTag';
 		}
 	}
-	return true;
+	if (useScrobbleTagFilter) {
+		if (tags.some((tag) => isIncludeElems(tag, tagFilterKeyWords))) {
+			return 'FilteredTag';
+		}
+	}
+	return null;
 };
 
 Connector.getArtistTrack = () => {

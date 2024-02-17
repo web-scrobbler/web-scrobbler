@@ -1,3 +1,5 @@
+@use '../components/util';
+
 body {
 	background-color: var(--background);
 	color: var(--text);
@@ -42,21 +44,21 @@ a {
 	}
 }
 
+.settingsContentWrapper {
+	flex: 1 1 auto;
+	overflow-y: auto;
+	padding: 0 1.5rem;
+	padding-bottom: 1.5rem;
+}
+
 @media only screen and (width <= 700px) {
 	.settings {
 		flex-direction: column-reverse;
 	}
 
 	.settingsContentWrapper {
-		padding: 0 1em;
+		padding: 0 1rem;
 	}
-}
-
-.settingsContentWrapper {
-	flex: 1 1 auto;
-	overflow-y: auto;
-	padding: 0 1.5em;
-	padding-bottom: 1.5em;
 }
 
 .settingsContent {
@@ -95,7 +97,7 @@ a {
 	position: relative;
 	width: 80vw;
 
-	@supports (-webkit-touch-callout: none) {
+	@supports #{util.$mobile-supports} {
 		border-radius: 0;
 		// stylelint-disable-next-line unit-no-unknown
 		height: 100dvh;
@@ -127,12 +129,13 @@ a {
 		right: 0;
 		top: 0;
 
-		@supports (-webkit-touch-callout: none) {
+		@supports #{util.$mobile-supports} {
 			padding: 0.75em 1em 0.5em;
 		}
 
 		&:hover {
 			background-color: var(--always-last-fm-hover);
+			color: var(--active-text);
 		}
 	}
 }

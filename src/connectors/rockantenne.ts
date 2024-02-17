@@ -10,6 +10,8 @@ Connector.isPlaying = () => {
 	return Util.hasElementClass('.c-player', 'is-playing');
 };
 
-Connector.isScrobblingAllowed = () => {
-	return !Connector.getArtist()?.includes('ROCK ANTENNE');
+Connector.scrobblingDisallowedReason = () => {
+	return Connector.getArtist()?.includes('ROCK ANTENNE')
+		? 'FilteredTag'
+		: null;
 };

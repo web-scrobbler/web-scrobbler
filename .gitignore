@@ -30,3 +30,7 @@ coverage/
 
 # Cache
 .eslintcache
+
+# Yarn
+yarn.lock
+

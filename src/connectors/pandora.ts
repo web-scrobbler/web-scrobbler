@@ -24,6 +24,8 @@ Connector.getTrackArt = () => {
 
 Connector.pauseButtonSelector = '[data-qa="pause_button"]';
 
-Connector.isScrobblingAllowed = () => {
-	return !document.querySelector('.Tuner__Audio__TrackDetail__title--ad');
+Connector.scrobblingDisallowedReason = () => {
+	return document.querySelector('.Tuner__Audio__TrackDetail__title--ad')
+		? 'IsAd'
+		: null;
 };

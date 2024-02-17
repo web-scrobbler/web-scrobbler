@@ -25,10 +25,17 @@ async function performMinification() {
 /**
  * Vite plugin that minifies images then move them to the right place
  */
-export default function minifyImages(): PluginOption {
+export default function minifyImages(options: {
+	isDev: boolean;
+}): PluginOption {
 	return {
-		name: 'compile-connectors',
+		name: 'minify-images',
 		buildEnd: async () => {
+			if (options.isDev) {
+				colorLog('Skipping image minification for dev build', 'info');
+				return;
+			}
+
 			await performMinification();
 			colorLog('Finished image minification', 'success');
 		},

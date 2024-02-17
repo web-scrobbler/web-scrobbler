@@ -47,12 +47,48 @@
         "message": "Scrobble podcast episodes",
         "description": "Option title"
     },
+    "optionAutoToggleLove": {
+        "message": "Love/unlove tracks through players",
+        "description": "Option label"
+    },
+    "optionAutoToggleLoveTitle": {
+        "message": "When you like or dislike a track on a website, the track will also be loved/unloved in your scrobbler",
+        "description": "Option label"
+    },
     "optionDebugLoggingEnabled": {
         "message": "Enable debug logging",
         "description": "Option label"
     },
     "optionDebugLoggingEnabledTitle": {
         "message": "Allow the extension to log debug messages to the browser console",
+        "description": "Option title"
+    },
+    "optionsAlbumGuessing": {
+        "message": "Album guessing",
+        "description": "'Album guessing' section"
+    },
+    "optionAlbumGuessingDisabled": {
+        "message": "Disable album guessing",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingDisabledTitle": {
+        "message": "Web Scrobbler will not guess the album title of any track",
+        "description": "Option title"
+    },
+    "optionAlbumGuessingUneditedOnly": {
+        "message": "Only guess album for unedited tracks (default)",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingUneditedOnlyTitle": {
+        "message": "Web Scrobbler will only guess the album title of unedited tracks. Tracks with only bulk edits applied will still have album guessed",
+        "description": "Option title"
+    },
+    "optionAlbumGuessingAllTracks": {
+        "message": "Guess album title for all tracks",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingAllTracksTitle": {
+        "message": "Web Scrobbler will guess the album title of all albumless tracks including edited ones",
         "description": "Option title"
     },
     "optionsScrobbleBehavior": {
@@ -243,6 +279,54 @@
         "message": "Options",
         "description": "'Options' section"
     },
+    "optionsScrobbleCache": {
+        "message": "Cache",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSelectAll": {
+        "message": "Select All",
+        "description": "Select All button label"
+    },
+    "optionsScrobbleCacheUnselectAll": {
+        "message": "Unselect All",
+        "description": "Unselect All button label"
+    },
+    "optionsScrobbleCacheSelectScrobbles": {
+        "message": "Select Scrobbles",
+        "description": "Select Scrobbles button label"
+    },
+    "optionsScrobbleCacheScrobbleSelected": {
+        "message": "Scrobble Selected",
+        "description": "Scrobble Selected button label"
+    },
+    "optionsScrobbleCacheEditAll": {
+        "message": "Edit and scrobble all unscrobbled instances of this song",
+        "description": "Label for checkbox to apply cache edit to all unscrobbled instances of the same track in cache."
+    },
+    "optionsScrobbleCacheLoading": {
+        "message": "Loading scrobble cache...",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSuccess": {
+        "message": "Successful Scrobbles",
+        "description": "'Scrobble Cache' successful scrobbles section header"
+    },
+    "optionsScrobbleCacheError": {
+        "message": "Errored Scrobbles",
+        "description": "'Scrobble Cache' errored scrobbles section header"
+    },
+    "optionsScrobbleCacheIgnored": {
+        "message": "Ignored Scrobbles",
+        "description": "'Scrobble Cache' ignored scrobbles section header"
+    },
+    "optionsScrobbleCacheDisallowed": {
+        "message": "Disallowed Scrobbles",
+        "description": "'Scrobble Cache' disallowed scrobbles section header"
+    },
+    "optionsScrobbleCacheUnrecognized": {
+        "message": "Unrecognized Scrobbles",
+        "description": "'Scrobble Cache' unrecognized scrobbles section header"
+    },
     "optionsEdits": {
         "message": "Edits",
         "description": "'Edits' section"
@@ -271,6 +355,18 @@
         "message": "$1 regex/bulk edits",
         "description": "'Regex/Bulk edits' header"
     },
+    "optionsBlockedTags": {
+        "message": "Blocked tags",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedTagsDesc": {
+        "message": "This extension stores blocked artist/album/track tags.",
+        "description": "Description of blocked tags"
+    },
+    "optionsBlockedTagsPopupTitle": {
+        "message": "$1 blocked tags",
+        "description": "'Blocked tags' header"
+    },
     "optionsBlockedSources": {
         "message": "Blocked sources",
         "description": "'Edited tracks' header"
@@ -294,6 +390,22 @@
     "optionsImportEdited": {
         "message": "Import",
         "description": "Button to import edited tracks"
+    },
+    "optionsDelete": {
+        "message": "Delete $1",
+        "desciption": "Option label"
+    },
+    "optionsEnabled": {
+        "message": "Enabled",
+        "description": "Option label"
+    },
+    "optionsDisabled": {
+        "message": "Disabled",
+        "description": "Option label"
+    },
+    "optionsIndeterminate": {
+        "message": "Same as global option",
+        "description": "Option label"
     },
     "optionsConnectors": {
         "message": "Connectors",
@@ -463,10 +575,6 @@
         "message": "Show some love",
         "description": "'Show some love' section"
     },
-    "showSomeLoveFundingCampaign": {
-        "message": "Over time a significant backlog of issues has been built up in the Web Scrobbler repository. From mid-August 2023 until mid-March 2024 one of our main developers will be available to work full-time on the project at a reduced rate. Roughly speaking, for every $$1500 we raise, we can pay for one month of full-time work, up to around $$9-10k. If you want to support this campaign and help us run through our backlog and make Web Scrobbler even better than it has ever been, you can use the button below. We remain committed to keeping Web Scrobbler and all of its features completely free forever. Please help spread the word.",
-        "description": "Temporary funding campaign"
-    },
     "showSomeLoveText1": {
         "message": "Unlike other extensions, this one does not contain any flashing banners or sneaky ads.",
         "description": ""
@@ -495,6 +603,10 @@
         "message": "From \"$1\" album",
         "description": "Tooltip text"
     },
+    "buttonScrobble": {
+        "message": "Scrobble",
+        "description": "Scrobble button label"
+    },
     "buttonOk": {
         "message": "OK",
         "description": "OK button label"
@@ -510,6 +622,10 @@
     "buttonClear": {
         "message": "Clear",
         "description": "Clear button label"
+    },
+    "buttonRemove": {
+        "message": "Remove",
+        "description": "Remove button label, for removing a single scrobble from the cache"
     },
     "noItemsInCache": {
         "message": "No items in cache.",
@@ -557,43 +673,51 @@
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
-        "description": "The description of 'disallowed' popup on all sites including youtube. $1 is the artist detected. $2 is the track detected"
+        "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
     },
-    "disallowedDescYoutube": {
-        "message": "On YouTube, the most common causes include:",
-        "description": "The description of 'disallowed' popup on youtube."
+    "disallowedDescIsAd": {
+        "message": "The reason is that Web Scrobbler has detected this as being an ad.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint1": {
-        "message": "Having \"Scrobble videos from \"Music/Entertainment\" category\" enabled and playing a video with a different category.",
-        "description": "Point 1 in example list on youtube"
+    "disallowedDescForbiddenYouTubeCategory": {
+      "message": "You have disabled scrobbling youtube video categories other than music and/or entertainment, and this video is marked by the uploader as a different category. You can choose to scrobble any video category by disabling both \"Scrobble videos from \"Music\" category\" and \"Scrobble videos from \"Entertainment\" category\" in Web Scrobbler settings.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint2": {
-        "message": "Having \"Scrobble only videos that are recognized by YouTube Music as music\" enabled and playing a song not recognized by YouTube Music as music.",
-        "description": "Point 2 in example list on youtube"
+    "disallowedDescForbiddenTag": {
+      "message": "You have disabled scrobbling this artist, album, and/or track. You can re-enable tags in settings, or by hitting \"Scrobble anyway\" and re-enabling the tags in regex editing.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint3": {
-        "message": "Ads (even ads being blocked may temporarily show this.)",
-        "description": "Point 3 in example list on youtube"
+    "disallowedDescForbiddenChannel": {
+      "message": "You have disabled scrobbling this channel. You can re-enable it in connector settings, or by right clicking the extension icon and clicking \"Enable scrobbling from <ID>\".",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2": {
-        "message": "This is because the website connector has deemed this not a song to scrobble. Some potential reasons include:",
-        "description": "The description of 'disallowed' popup on sites except youtube"
+    "disallowedDescNotOnYouTubeMusic": {
+      "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point1": {
-        "message": "Web Scrobbler might be interpreting this as an ad.",
-        "description": "Point 1 in example list on sites except youtube"
+    "disallowedDescIsPlayingElsewhere": {
+      "message": "The reason is that Web Scrobbler thinks this track is playing elsewhere and should not be scrobbled.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point2": {
-        "message": "Web Scrobbler might be identifying this song as being played on a different device.",
-        "description": "Point 2 in example list on sites except youtube"
+    "disallowedDescElementMissing": {
+      "message": "The reason is that some element Web Scrobbler relies on is not in the page. This probably means that either you are not playing music, or there is a bug in the connector.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point3": {
-        "message": "Web Scrobbler, for some other reason, believes this is not something that should be scrobbled.",
-        "description": "Point 3 in example list on sites except youtube"
+    "disallowedDescFilteredTag": {
+      "message": "Either the artist, album, or track has been filtered by the connector as something that should not be scrobbled. This is not due to any setting you have set in your settings.",
+      "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescIsLoading": {
+      "message": "Something Web Scrobbler relies on for finding the track details is loading. Please wait a few seconds. If this message persists, please report it, as something is wrong.",
+      "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescOther": {
+      "message": "For some unknown reason, Web Scrobbler has determined this should not scrobble. This is not related to any setting you have set. If you believe this is an error, please report it.",
+      "description": "The description of 'disallowed' popup."
     },
     "disallowedDesc3": {
-        "message": "Web Scrobbler should still scrobble music from elsewhere on this website.",
-        "description": "The description of 'disallowed' popup on all sites including youtube"
+      "message": "Web Scrobbler should still scrobble music from elsewhere on this website.",
+      "description": "The description of 'disallowed' popup on all sites including youtube"
     },
     "disallowedButton": {
         "message": "Scrobble anyway",
@@ -735,6 +859,30 @@
       "message": "Skipped",
       "description": "Title of unskip button, should be short for mobile button label"
     },
+    "infoBlockArtist": {
+      "message": "Never scrobble this artist",
+      "description": "Title of button to block scrobbling artist"
+    },
+    "infoUnblockArtist": {
+      "message": "Scrobble this artist",
+      "description": "Title of button to unblock scrobbling artist"
+    },
+    "infoBlockAlbum": {
+      "message": "Never scrobble this album",
+      "description": "Title of button to block scrobbling album"
+    },
+    "infoUnblockAlbum": {
+      "message": "Scrobble this album",
+      "description": "Title of button to unblock scrobbling album"
+    },
+    "infoBlockTrack": {
+      "message": "Never scrobble this track",
+      "description": "Title of button to block scrobbling track"
+    },
+    "infoUnblockTrack": {
+      "message": "Scrobble this track",
+      "description": "Title of button to unblock scrobbling track"
+    },
     "infoOpenAlbumArt": {
         "message": "Open album art in new tab",
         "description": "Title of album image"
@@ -763,6 +911,10 @@
         "message": "Replace",
         "description": "Label of regex edit replace input"
     },
+    "infoDeleteLabel": {
+        "message": "Delete",
+        "description": "Label of regex edit delete button"
+    },
     "infoPreviewLabel": {
         "message": "Preview",
         "description": "Label of regex edit preview output"
@@ -782,6 +934,18 @@
     "infoAlbumArtistLabel": {
         "message": "Album artist",
         "description": "Label of album artist input row"
+    },
+    "infoUseRegex": {
+        "message": "Use regex",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchCase": {
+        "message": "Match case",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchWholeTag": {
+        "message": "Match entire tag",
+        "description": "Title of checkbox to toggle bulk edit flag"
     },
     "infoViewArtistPage": {
         "message": "View artist page: $1",
@@ -810,6 +974,10 @@
     "pageActionPlaying": {
         "message": "Now playing $1",
         "description": "`playing` page action title, also used for infobox"
+    },
+    "pageActionPaused": {
+        "message": "Paused $1",
+        "description": "`paused` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "Scrobbled $1",
@@ -873,6 +1041,14 @@
     },
     "notificationConnectAccountsText": {
         "message": "Click the notification to connect your accounts.",
+        "description": "Notification text"
+    },
+    "notificationNativeScrobbler": {
+      "message": "$1 has a built-in scrobbler!",
+      "description": "Notification title, $1 denotes the name of the website."
+    },
+    "notificationNativeScrobblerText": {
+        "message": "Make sure to turn off either Web Scrobbler or the built-in scrobbler!",
         "description": "Notification text"
     },
     "notificationAuthError": {

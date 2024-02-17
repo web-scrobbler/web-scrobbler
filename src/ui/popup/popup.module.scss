@@ -1,9 +1,13 @@
+@use '../components/util';
+
 @mixin ios-text-input {
 	appearance: none;
 	background-color: var(--last-fm-bg);
+	border-radius: 0.25em;
 	box-sizing: border-box;
 	color: var(--text);
 	font-size: 1.2em;
+	padding: 0.25em 0.5em;
 }
 
 .alertPopup,
@@ -54,6 +58,10 @@ a {
 		display: flex;
 		gap: 0.5em;
 		width: 100%;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
 	}
 
 	.expandVector {
@@ -107,13 +115,9 @@ a {
 		}
 
 		.editField {
-			border: var(--interactable-border);
-		}
-
-		@supports (-webkit-touch-callout: none) {
-			.editField {
-				@include ios-text-input;
-			}
+			border: 1px solid var(--text);
+			border-radius: 3px;
+			padding: 0.15em 0.25em;
 		}
 	}
 
@@ -146,15 +150,20 @@ a {
 		margin-top: 0.5em;
 
 		.controlButton {
+			--icon-color: var(--text);
 			background-color: transparent;
 			border: var(--interactable-border);
-			color: var(--text);
+			color: var(--icon-color);
 			cursor: pointer;
 			padding: 0.25em 0.5em;
 
+			.applyFill {
+				fill: var(--icon-color);
+			}
+
 			&:hover,
 			&.active {
-				color: var(--last-fm);
+				--icon-color: var(--last-fm);
 			}
 
 			&:not(:hover) .hover {
@@ -169,7 +178,7 @@ a {
 				cursor: not-allowed;
 
 				&:not(.hiddenDisabled) {
-					color: var(--checkbox-inactive);
+					--icon-color: var(--checkbox-inactive);
 				}
 			}
 		}
@@ -195,33 +204,37 @@ a {
 .regexContainer {
 	align-items: center;
 	box-sizing: border-box;
-	display: grid;
-	gap: 0.5em 1em;
-	grid-template:
-		'. search replace preview' 2em
-		'track tracksearch trackreplace trackpreview' 2em
-		'artist artistsearch artistreplace artistpreview' 2em
-		'album albumsearch albumreplace albumpreview' 2em
-		'albumartist albumartistsearch albumartistreplace albumartistpreview' 2em
-		'footer footer footer footer' auto / auto 1fr 1fr 1fr;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
 	padding: 1em;
 	width: 800px;
 
-	.entryLabel {
-		justify-self: right;
+	--max-cell-width: 1fr;
+
+	.entryWrapper {
+		align-items: center;
+		display: grid;
+		gap: 1em;
+		grid-template: 2em / var(--max-cell-width) 1fr 1fr 1fr;
+		width: 100%;
 	}
 
-	.searchWrapper {
+	.entryLabel {
+		justify-self: right;
+		white-space: nowrap;
+	}
+
+	.regexFieldWrapper {
 		align-self: center;
 		position: relative;
 
-		.searchField {
-			border: var(--interactable-border);
+		.regexFieldInput {
 			box-sizing: border-box;
 			width: 100%;
 		}
 
-		.regexTest {
+		.regexFieldItem {
 			position: absolute;
 			right: 0.1em;
 			top: 50%;
@@ -242,98 +255,98 @@ a {
 	}
 
 	input {
-		border: var(--interactable-border);
+		border: 1px solid var(--text);
+		border-radius: 3px;
 		padding: 0.25em 0.5em;
 	}
 
 	.regexFooter {
 		display: flex;
 		flex-direction: column;
-		grid-area: footer;
+		width: 100%;
+
+		.regexFooterButtons {
+			display: flex;
+			width: 100%;
+		}
 	}
 
-	/**
-	 * assign grid areas
-	 */
+	.regexFlagsWrapper {
+		align-items: center;
+		display: flex;
+		margin: 0.5em 0;
 
-	.searchLabel {
-		grid-area: search;
+		span {
+			font-size: 1.1em;
+			margin-right: 0.5em;
+		}
 	}
 
-	.replaceLabel {
-		grid-area: replace;
+	.regexToggleWrapper {
+		align-items: center;
+		border: 2px solid var(--interactable-border-color);
+		cursor: pointer;
+		display: flex;
+		padding: 0.25em;
+		width: max-content;
+
+		&:has(.regexToggleInput:checked) {
+			background-color: var(--last-fm);
+			color: var(--active-text);
+		}
+
+		/**
+		 * Check to make sure we are on desktop.
+		 * If we aren't, we don't want any highlighting,
+		 * as this will be confusing to the user.
+		 */
+		@supports not (#{util.$mobile-supports}) {
+			&:hover,
+			&:has(.regexToggleInput:focus-visible) {
+				background-color: var(--last-fm);
+				color: var(--active-text);
+			}
+
+			&:hover:has(.regexToggleInput:checked),
+			&:has(.regexToggleInput:focus-visible:checked) {
+				background-color: var(--background);
+				border: 2px solid var(--last-fm);
+				color: var(--text);
+			}
+		}
+
+		.regexToggleInput {
+			-webkit-appearance: none;
+			appearance: none;
+			border: none;
+			margin: 0;
+			padding: 0;
+			width: 0;
+		}
 	}
 
-	.previewLabel {
-		grid-area: preview;
-	}
+	.button {
+		align-items: center;
+		background-color: var(--always-last-fm);
+		border: var(--interactable-border);
+		border-radius: 3px;
+		color: var(--always-light);
+		cursor: pointer;
+		display: flex;
+		font-size: 1em;
+		margin-right: -0.1em;
+		padding: 1px 7px 2px;
+		white-space: nowrap;
+		width: min-content;
 
-	.trackLabel {
-		grid-area: track;
-	}
-
-	.artistLabel {
-		grid-area: artist;
-	}
-
-	.albumLabel {
-		grid-area: album;
-	}
-
-	.albumArtistLabel {
-		grid-area: albumartist;
-	}
-
-	.trackSearch {
-		grid-area: tracksearch;
-	}
-
-	.artistSearch {
-		grid-area: artistsearch;
-	}
-
-	.albumSearch {
-		grid-area: albumsearch;
-	}
-
-	.albumArtistSearch {
-		grid-area: albumartistsearch;
-	}
-
-	.trackReplace {
-		grid-area: trackreplace;
-	}
-
-	.artistReplace {
-		grid-area: artistreplace;
-	}
-
-	.albumReplace {
-		grid-area: albumreplace;
-	}
-
-	.albumArtistReplace {
-		grid-area: albumartistreplace;
-	}
-
-	.trackPreview {
-		grid-area: trackpreview;
-	}
-
-	.artistPreview {
-		grid-area: artistpreview;
-	}
-
-	.albumPreview {
-		grid-area: albumpreview;
-	}
-
-	.albumArtistPreview {
-		grid-area: albumartistpreview;
+		&:hover {
+			background-color: var(--always-last-fm-hover);
+			color: var(--active-text);
+		}
 	}
 }
 
-@supports (-webkit-touch-callout: none) {
+@supports #{util.$mobile-supports} {
 	.root {
 		display: flex;
 		flex-direction: column-reverse;
@@ -343,7 +356,8 @@ a {
 	}
 
 	.nowPlayingPopup,
-	.alertPopup {
+	.alertPopup,
+	.widePopup {
 		align-items: center;
 		box-sizing: border-box;
 		flex: 1 1 auto;
@@ -390,6 +404,12 @@ a {
 
 		.songDetails {
 			align-items: center;
+
+			.editField {
+				border: var(--interactable-border);
+
+				@include ios-text-input;
+			}
 		}
 
 		.iosLoveButton {
@@ -414,7 +434,7 @@ a {
 		align-items: center;
 		display: flex;
 		flex-direction: column;
-		width: 100%;
+		width: 70%;
 
 		.iosSearchLabel,
 		.iosReplaceLabel,
@@ -423,6 +443,7 @@ a {
 		}
 
 		input {
+			border: var(--interactable-border);
 			width: 100%;
 
 			@include ios-text-input;
@@ -434,21 +455,36 @@ a {
 			border-radius: 1em;
 			display: flex;
 			flex-direction: column;
+			gap: 0;
 
 			.entryWrapperLegend {
 				padding: 0 1em;
 			}
 		}
 
-		.searchWrapper {
+		.regexFieldWrapper {
 			align-items: center;
 			display: flex;
 			flex-direction: column;
+			padding: 0.25em 0.5em;
 			width: 100%;
 
-			.regexTest {
+			.regexFieldItem {
 				bottom: -0.3em; // I have no idea why this works - and I honestly don't want to know either
 				top: auto;
+
+				&.button {
+					bottom: -0.6em;
+				}
+			}
+		}
+
+		.regexFlagsWrapper {
+			flex-direction: column;
+
+			.regexToggleWrapper {
+				gap: 0.25em;
+				width: 100%;
 			}
 		}
 	}

@@ -27,4 +27,5 @@ Connector.isTrackArtDefault = (trackArtUrl) => {
 	return false;
 };
 
-Connector.isScrobblingAllowed = () => Connector.getArtist() !== 'Kyivstar';
+Connector.scrobblingDisallowedReason = () =>
+	Connector.getArtist() === 'Kyivstar' ? 'FilteredTag' : null;

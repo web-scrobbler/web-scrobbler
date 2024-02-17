@@ -15,10 +15,10 @@ Connector.isPlaying = () => {
 
 Connector.trackArtSelector = '.player-bar img.player-cover';
 
-Connector.isScrobblingAllowed = () => {
-	return (
-		!Util.getTextFromSelectors('.player-bar .player-title')?.includes(
-			'Listener-supported',
-		) && !Connector.getArtist()?.startsWith('Commercial-Free')
-	);
+Connector.scrobblingDisallowedReason = () => {
+	return Util.getTextFromSelectors('.player-bar .player-title')?.includes(
+		'Listener-supported',
+	) || Connector.getArtist()?.startsWith('Commercial-Free')
+		? 'FilteredTag'
+		: null;
 };

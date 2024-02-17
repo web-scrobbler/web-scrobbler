@@ -22,4 +22,5 @@ Connector.trackArtSelector = '#bio .img-left-text img';
 Connector.isPlaying = () =>
 	Util.hasElementClass('#jp_container_1', 'jp-state-playing');
 
-Connector.isScrobblingAllowed = () => Boolean(Connector.getTrackInfo());
+Connector.scrobblingDisallowedReason = () =>
+	Connector.getTrackInfo() ? null : 'Other';
