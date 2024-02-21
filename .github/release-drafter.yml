@@ -1,12 +1,14 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
-  - title: '🚀 Added'
-    label: 'added'
+  - title: '🎁 New feature'
+    label: 'new-feature'
+  - title: '🚀 New Connectors'
+    label: 'new-connector'
+  - title: '🐛 Fixed connectors'
+    label: 'fixed-connector'
   - title: '⬆️ Updated'
     label: 'updated'
-  - title: '🐛 Fixed'
-    label: 'fixed'
   - title: '🔧 Maintenance'
     label: 'maintenance'
 exclude-labels:
