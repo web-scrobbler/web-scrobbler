@@ -3,7 +3,7 @@ tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🎁 New feature'
     label: 'new-feature'
-  - title: '🚀 New Connectors'
+  - title: '🚀 New connectors'
     label: 'new-connector'
   - title: '🐛 Fixed connectors'
     label: 'fixed-connector'
