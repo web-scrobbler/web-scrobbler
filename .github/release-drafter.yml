@@ -1,7 +1,7 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
-  - title: '🎁 New feature'
+  - title: '🎁 New features'
     label: 'new-feature'
   - title: '🚀 New connectors'
     label: 'new-connector'
