@@ -167,6 +167,7 @@ async function getTabDetails(tabId: number): Promise<ManagerTab> {
 		const curTab: ManagerTab = {
 			tabId,
 			mode: tabState.mode,
+			permanentMode: tabState.permanentMode,
 			song: tabState.song,
 		};
 		return curTab;
@@ -174,6 +175,7 @@ async function getTabDetails(tabId: number): Promise<ManagerTab> {
 		return {
 			tabId,
 			mode: ControllerMode.Unsupported,
+			permanentMode: ControllerMode.Unsupported,
 			song: null,
 		};
 	}

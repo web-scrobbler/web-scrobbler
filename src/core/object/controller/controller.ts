@@ -314,6 +314,7 @@ export default class Controller {
 				type: 'getConnectorDetails',
 				fn: () => ({
 					mode: this.getMode(),
+					permanentMode: this.mode,
 					song: this.currentSong?.getCloneableData() ?? null,
 				}),
 			}),
@@ -380,7 +381,10 @@ export default class Controller {
 		this.updateInfoBox();
 		sendContentMessage({
 			type: 'controllerModeChange',
-			payload: this.getMode(),
+			payload: {
+				mode: this.getMode(),
+				permanentMode: this.mode,
+			},
 		});
 	}
 
