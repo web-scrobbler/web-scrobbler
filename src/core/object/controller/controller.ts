@@ -630,6 +630,17 @@ export default class Controller {
 		}
 
 		/**
+		 * Only update love status for some specific modes
+		 */
+		const loveChangeableModes = [
+			ControllerMode.Playing,
+			ControllerMode.Scrobbled,
+		];
+		if (!loveChangeableModes.includes(this.mode)) {
+			return;
+		}
+
+		/**
 		 * If there has not been definitive state before,
 		 * just change state without sending anything to service.
 		 * We dont want the extension to randomly unlove songs
