@@ -167,7 +167,7 @@ function NowPlayingContextMenu(props: {
 		const items: Navigator = [
 			{
 				namei18n:
-					props.tab()?.mode === ControllerMode.Playing
+					props.tab()?.permanentMode === ControllerMode.Playing
 						? 'infoEditTitleShort'
 						: 'infoEditUnableTitleShort',
 				icon: EditOutlined,
@@ -177,7 +177,7 @@ function NowPlayingContextMenu(props: {
 		if (props.song()?.flags.isCorrectedByUser) {
 			items.push({
 				namei18n:
-					props.tab()?.mode === ControllerMode.Playing
+					props.tab()?.permanentMode === ControllerMode.Playing
 						? 'infoRevertTitleShort'
 						: 'infoRevertUnableTitleShort',
 				icon: RestartAltOutlined,
@@ -339,9 +339,9 @@ function TrackControls(props: {
 		<div class={styles.controlButtons}>
 			<button
 				class={styles.controlButton}
-				disabled={props.tab()?.mode !== ControllerMode.Playing}
+				disabled={props.tab()?.permanentMode !== ControllerMode.Playing}
 				title={
-					props.tab()?.mode === ControllerMode.Playing
+					props.tab()?.permanentMode === ControllerMode.Playing
 						? t('infoEditTitle')
 						: t('infoEditUnableTitle')
 				}
@@ -352,9 +352,11 @@ function TrackControls(props: {
 			<Show when={props.song()?.flags.isCorrectedByUser}>
 				<button
 					class={styles.controlButton}
-					disabled={props.tab()?.mode !== ControllerMode.Playing}
+					disabled={
+						props.tab()?.permanentMode !== ControllerMode.Playing
+					}
 					title={
-						props.tab()?.mode === ControllerMode.Playing
+						props.tab()?.permanentMode === ControllerMode.Playing
 							? t('infoRevertTitle')
 							: t('infoRevertUnableTitle')
 					}
@@ -365,15 +367,15 @@ function TrackControls(props: {
 			</Show>
 			<button
 				class={`${styles.controlButton}${
-					props.tab()?.mode !== ControllerMode.Scrobbled
+					props.tab()?.permanentMode !== ControllerMode.Scrobbled
 						? ` ${styles.hiddenDisabled}`
 						: ''
 				}${
-					props.tab()?.mode === ControllerMode.Skipped
+					props.tab()?.permanentMode === ControllerMode.Skipped
 						? ` ${styles.active}`
 						: ''
 				}`}
-				disabled={props.tab()?.mode !== ControllerMode.Playing}
+				disabled={props.tab()?.permanentMode !== ControllerMode.Playing}
 				onClick={() => actionSkipCurrentSong(props.tab)}
 				title={t(getSkipLabel(props.tab, false))}
 			>
@@ -435,7 +437,7 @@ function PopupLink(props: {
  */
 function getSkipLabel(tab: Resource<ManagerTab>, isShort: boolean): string {
 	let res = 'infoSkipUnableTitle';
-	switch (tab()?.mode) {
+	switch (tab()?.permanentMode) {
 		case ControllerMode.Playing:
 			res = 'infoSkipTitle';
 			break;

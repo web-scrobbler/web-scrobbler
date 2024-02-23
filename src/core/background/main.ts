@@ -252,6 +252,7 @@ async function updateTab(
 			fn({
 				tabId,
 				mode: ControllerMode.Unsupported,
+				permanentMode: ControllerMode.Unsupported,
 				song: null,
 			}),
 			...activeTabs,
@@ -277,10 +278,15 @@ async function updateTab(
  * @param tabId - ID of the tab to update mode of
  * @param mode - New controller mode
  */
-async function updateMode(tabId: number | undefined, mode: ControllerModeStr) {
+async function updateMode(
+	tabId: number | undefined,
+	mode: ControllerModeStr,
+	permanentMode: ControllerModeStr,
+) {
 	await updateTab(tabId, (oldTab) => ({
 		tabId: oldTab.tabId,
 		mode,
+		permanentMode,
 		song: oldTab.song,
 	}));
 }
@@ -298,6 +304,7 @@ async function updateState(
 	await updateTab(tabId, (oldTab) => ({
 		tabId: oldTab.tabId,
 		mode: oldTab.mode,
+		permanentMode: oldTab.permanentMode,
 		song,
 	}));
 }
@@ -309,8 +316,8 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'controllerModeChange',
-		fn: (mode, sender) => {
-			updateMode(sender.tab?.id, mode);
+		fn: ({ mode, permanentMode }, sender) => {
+			updateMode(sender.tab?.id, mode, permanentMode);
 			console.log(`changed mode to ${mode} in tab ${sender.tab?.id}`);
 		},
 	}),
