@@ -49,7 +49,7 @@
     "archiver": "6.0.1",
     "canvas": "2.11.2",
     "chokidar": "3.6.0",
-    "esbuild": "0.20.0",
+    "esbuild": "0.20.1",
     "eslint": "8.56.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-solid": "0.13.1",
