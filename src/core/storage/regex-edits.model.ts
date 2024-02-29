@@ -44,6 +44,17 @@ export default abstract class RegexEditsModel extends CustomStorage<K> {
 	 * @param replace - Replace to save
 	 */
 	async saveRegexEdit(newEdit: RegexEdit): Promise<void> {
+		/**
+		 * The edit here might be from a solidjs store, which is a proxy.
+		 * Firefox does not like this, so we ensure an explicit shallow copy to regular objects.
+		 * It looks odd, but removing this will break firefox support.
+		 */
+		newEdit.search = {
+			...newEdit.search,
+		};
+		newEdit.replace = {
+			...newEdit.replace,
+		};
 		const storageData = await this.getRegexEditStorage();
 		if (storageData === null) {
 			await this.saveRegexEditToStorage([newEdit]);
