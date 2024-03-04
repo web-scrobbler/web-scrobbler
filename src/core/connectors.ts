@@ -2397,4 +2397,10 @@ export default <ConnectorMeta[]>[
 		js: 'earth.fm.js',
 		id: 'earthfm',
 	},
+	{
+		label: 'apt-get\'s auditorium',
+		matches: ['*://tunes.apt-get.xyz/*'],
+		js: 'apt-get-tunes.js',
+		id: 'apt-get-tunes',
+	},
 ];
