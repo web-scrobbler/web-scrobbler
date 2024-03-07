@@ -1,4 +1,4 @@
-Connector.useMediaSessionsApi();
+Connector.useMediaSessionApi();
 
 Connector.playerSelector = '.radio-player-widget';
 
@@ -8,5 +8,4 @@ Connector.trackSelector = '.now-playing-title';
 
 Connector.trackArtSelector = '.now-playing-art .album-art .album-art';
 
-Connector.isPlaying = () => Util.getAttrFromSelectors('.radio-controls .btn', 'title') == 'Play';
-
+Connector.isPlaying = () => Util.getAttrFromSelectors('.radio-controls .btn', 'title') === 'Play';
