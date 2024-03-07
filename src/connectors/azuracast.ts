@@ -10,4 +10,7 @@ Connector.trackSelector = '.now-playing-title';
 Connector.trackArtSelector = '.now-playing-art .album-art .album-art';
 
 Connector.isPlaying = () =>
-	Util.getAttrFromSelectors('.radio-controls .btn', 'title') === 'Stop';
+	Util.getAttrFromSelectors(
+		'.radio-controls .radio-control-play-button',
+		'title',
+	) === 'Stop';
