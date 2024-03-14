@@ -81,6 +81,7 @@ export interface ScrobblerModels {
 export interface ManagerTab {
 	tabId: number;
 	mode: ControllerModeStr;
+	permanentMode: ControllerModeStr;
 	song: CloneableSong | null;
 }
 

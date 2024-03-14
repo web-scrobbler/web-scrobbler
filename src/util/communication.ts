@@ -21,7 +21,10 @@ interface PopupCommunications {
 
 interface ContentCommunications {
 	controllerModeChange: {
-		payload: ControllerModeStr;
+		payload: {
+			mode: ControllerModeStr;
+			permanentMode: ControllerModeStr;
+		};
 		response: void;
 	};
 	songUpdate: {
@@ -167,6 +170,7 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: {
 			mode: ControllerModeStr;
+			permanentMode: ControllerModeStr;
 			song: CloneableSong | null;
 		};
 	};

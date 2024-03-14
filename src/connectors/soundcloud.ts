@@ -89,6 +89,12 @@ Connector.getOriginUrl = () => {
 	return Connector.getUniqueID();
 };
 
+Connector.scrobblingDisallowedReason = () => {
+	if (document.querySelector('.sc-label-private')) {
+		return 'IsPrivate';
+	}
+};
+
 const filterArtistPremiereRules = [
 	{ source: /^\s*Premiere.*:\s*/i, target: '' },
 	{ source: /^\s*\*\*Premiere\*\*\s*/i, target: '' },
