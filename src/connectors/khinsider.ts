@@ -10,8 +10,7 @@ Connector.currentTimeSelector = '.audioplayerTimeCurrent';
 
 Connector.albumSelector = '#pageContent > h2:nth-child(2)';
 
-Connector.artistSelector =
-	'#pageContent > p:nth-child(3 of :not(.albuminfoAlternativeTitles))';
+Connector.artistSelector = '#pageContent > p[align="left"]';
 
 const filter = MetadataFilter.createFilter({
 	artist: cleanupArtist,
@@ -22,9 +21,9 @@ function cleanupArtist(text: string) {
 	const composers = /Composed by:? (.*)/gim.exec(text);
 	const developers = /Developed by:? (.+)/gim.exec(text);
 	if (composers) {
-		return composers[1];
+		return composers[1].trim();
 	} else if (developers) {
-		return developers[1];
+		return developers[1].trim();
 	}
 	return Connector.getAlbum() ?? '';
 }
