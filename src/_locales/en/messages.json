@@ -671,6 +671,10 @@
         "message": "This song is not being scrobbled",
         "description": "The header of 'disallowed' popup"
     },
+    "disallowedDescIsPrivate": {
+        "message": "The song is not being scrobbled, as it is marked private by the owner. ",
+        "desciption": "The description of 'disallowed' popup when a song that is marked as private is being played."
+    },
     "disallowedDesc1": {
         "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
         "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
