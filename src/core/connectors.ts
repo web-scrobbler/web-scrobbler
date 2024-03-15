@@ -2399,7 +2399,6 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'AzuraCast',
-		matches: ['*://www.azuracast.com/*'],
 		js: 'azuracast.js',
 		id: 'azuracast',
 	},
