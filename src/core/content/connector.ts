@@ -376,11 +376,19 @@ export default class BaseConnector {
 
 	/**
 	 * Button to love/like a song on listening service.
+	 *
+	 * Note: for safety, you should generally implement BOTH loveButtonSelector AND unloveButtonSelector.
+	 * Ensure there is a direct transition between one to the other with zero time where neither matches.
+	 * Web scrobbler not discovering either for a bit will cause it not to to love/unlove.
 	 */
 	public loveButtonSelector: string | string[] | null = null;
 
 	/**
 	 * Button to unlove/unlike a song on listening service.
+	 *
+	 * Note: for safety, you should generally implement BOTH loveButtonSelector AND unloveButtonSelector.
+	 * Ensure there is a direct transition between one to the other with zero time where neither matches.
+	 * Web scrobbler not discovering either for a bit will cause it not to to love/unlove.
 	 */
 	public unloveButtonSelector: string | string[] | null = null;
 
@@ -393,11 +401,21 @@ export default class BaseConnector {
 	 */
 	public isLoved: () => boolean | null | undefined = () => {
 		if (this.loveButtonSelector) {
-			return !Util.isElementVisible(this.loveButtonSelector);
+			if (Util.isElementVisible(this.loveButtonSelector)) {
+				return false;
+			}
+			if (!this.unloveButtonSelector) {
+				return true;
+			}
 		}
 
 		if (this.unloveButtonSelector) {
-			return Util.isElementVisible(this.unloveButtonSelector);
+			if (Util.isElementVisible(this.unloveButtonSelector)) {
+				return true;
+			}
+			if (!this.loveButtonSelector) {
+				return false;
+			}
 		}
 
 		return null;
