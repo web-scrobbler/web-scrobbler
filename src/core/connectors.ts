@@ -2397,4 +2397,9 @@ export default <ConnectorMeta[]>[
 		js: 'earth.fm.js',
 		id: 'earthfm',
 	},
+	{
+		label: 'AzuraCast',
+		js: 'azuracast.js',
+		id: 'azuracast',
+	},
 ];
