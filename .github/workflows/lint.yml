@@ -5,8 +5,8 @@ on:
   pull_request:
     types: [opened, synchronize]
 jobs:
-  lint:
-    name: Run linters
+  lint-eslint:
+    name: Run lint:eslint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
@@ -21,8 +21,71 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run linters
+      - name: Run lint:eslint
         run: |
-          npm run lint
+          npm run lint:eslint
+        env:
+          CI: true
+  lint-stylelint:
+    name: Run lint:stylelint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint:stylelint
+        run: |
+          npm run lint:stylelint
+        env:
+          CI: true
+  lint-prettier:
+    name: Run lint:prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint:prettier
+        run: |
+          npm run lint:prettier
+        env:
+          CI: true
+  lint-markdown:
+    name: Run lint:markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint:markdown
+        run: |
+          npm run lint:markdown
         env:
           CI: true

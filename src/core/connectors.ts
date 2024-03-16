@@ -1067,7 +1067,11 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'SiriusXM',
-		matches: ['*://www.siriusxm.com/*', '*://www.siriusxm.ca/*'],
+		matches: [
+			'*://www.siriusxm.com/*',
+			'*://www.siriusxm.ca/*',
+			'*://*.siriusxm.com/player/*',
+		],
 		js: 'siriusxm-player.js',
 		id: 'siriusxm-player',
 	},
@@ -1743,6 +1747,7 @@ export default <ConnectorMeta[]>[
 			'*://deepcut.fm/*',
 			'*://turntable.fm/*',
 			'*://deep-cut.fm/*',
+			'*://deepcuts.fm/*',
 		],
 		js: 'deep-cut.fm.js',
 		id: 'deepcut.fm',
@@ -2402,5 +2407,10 @@ export default <ConnectorMeta[]>[
 		matches: ['*://tunes.apt-get.xyz/*'],
 		js: 'apt-get-tunes.js',
 		id: 'apt-get-tunes',
+	},
+	{
+		label: 'AzuraCast',
+		js: 'azuracast.js',
+		id: 'azuracast',
 	},
 ];
