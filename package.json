@@ -14,7 +14,11 @@
     "build": "tsx build.ts",
     "checkts": "tsc --noEmit && tsc --noEmit --project tsconfig.connectors.json",
     "test": "vitest",
-    "lint": "eslint . --ext .ts,.tsx && stylelint \"**/*.scss\" && prettier . --check && remark .",
+    "lint": "npm run lint:eslint && npm run lint:stylelint && npm run lint:prettier && npm run lint:markdown",
+    "lint:eslint": "eslint . --ext .ts,.tsx",
+    "lint:stylelint": "stylelint \"**/*.scss\"",
+    "lint:prettier": "prettier . --check",
+    "lint:markdown": "remark .",
     "prettierfix": "prettier . --write",
     "fixstyle": "stylelint \"**/*.scss\" --fix",
     "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
