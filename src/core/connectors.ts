@@ -1743,6 +1743,7 @@ export default <ConnectorMeta[]>[
 			'*://deepcut.fm/*',
 			'*://turntable.fm/*',
 			'*://deep-cut.fm/*',
+			'*://deepcuts.fm/*',
 		],
 		js: 'deep-cut.fm.js',
 		id: 'deepcut.fm',
