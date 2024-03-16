@@ -1067,7 +1067,11 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'SiriusXM',
-		matches: ['*://www.siriusxm.com/*', '*://www.siriusxm.ca/*'],
+		matches: [
+			'*://www.siriusxm.com/*',
+			'*://www.siriusxm.ca/*',
+			'*://*.siriusxm.com/player/*',
+		],
 		js: 'siriusxm-player.js',
 		id: 'siriusxm-player',
 	},
