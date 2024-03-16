@@ -48,6 +48,8 @@ Connector.getOriginUrl = () => getTrackUrl();
 
 Connector.loveButtonSelector = `${playerBar} button[data-testid="add-button"][aria-checked="false"]`;
 
+Connector.unloveButtonSelector = `${playerBar} button[data-testid="add-button"][aria-checked="true"]`;
+
 function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
