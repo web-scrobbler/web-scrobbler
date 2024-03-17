@@ -2403,6 +2403,12 @@ export default <ConnectorMeta[]>[
 		id: 'earthfm',
 	},
 	{
+		label: "apt-get's auditorium",
+		matches: ['*://tunes.apt-get.xyz/*'],
+		js: 'apt-get-tunes.js',
+		id: 'apt-get-tunes',
+	},
+	{
 		label: 'AzuraCast',
 		js: 'azuracast.js',
 		id: 'azuracast',
