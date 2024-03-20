@@ -2413,4 +2413,10 @@ export default <ConnectorMeta[]>[
 		js: 'azuracast.js',
 		id: 'azuracast',
 	},
+	{
+		label: 'scrobblerad.io',
+		matches: ['*://scrobblerad.io/*'],
+		js: 'scrobbleradio.js',
+		id: 'scrobbleradio',
+	}
 ];
