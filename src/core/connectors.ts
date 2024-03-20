@@ -2418,5 +2418,5 @@ export default <ConnectorMeta[]>[
 		matches: ['*://scrobblerad.io/*'],
 		js: 'scrobbleradio.js',
 		id: 'scrobbleradio',
-	}
+	},
 ];
