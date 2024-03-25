@@ -69,7 +69,7 @@
     "remark-cli": "12.0.0",
     "remark-preset-lint-recommended": "6.1.3",
     "sass": "1.72.0",
-    "solid-js": "1.8.15",
+    "solid-js": "1.8.16",
     "tsx": "4.7.1",
     "typescript": "5.4.2",
     "vite-plugin-conditional-compiler": "0.3.1",
