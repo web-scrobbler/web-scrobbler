@@ -14,14 +14,14 @@ const filter = MetadataFilter.createFilter({
 		// and return the first element (the part of the string before the semicolon).
 
 		// Replace .feat with a semicolon
-		artist = artist.replace('.feat', ';');
+		const updatedArtist = artist.replace('.feat', ';');
 
 		// Example: "Artist1; Artist2" -> "Artist1"
-		if (artist.includes(';')) {
-			return artist.split(';')[0].trim();
+		if (updatedArtist.includes(';')) {
+			return updatedArtist.split(';')[0].trim();
 		}
 		// If there is no semicolon, return the original artist string.
-		return artist.trim();
+		return updatedArtist.trim();
 	},
 });
 
