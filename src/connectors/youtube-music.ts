@@ -59,6 +59,12 @@ Connector.isPlaying = () => {
 	return navigator.mediaSession.playbackState === 'playing';
 };
 
+Connector.loveButtonSelector =
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]';
+
+Connector.unloveButtonSelector =
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]';
+
 Connector.getUniqueID = () => {
 	const uniqueId = new URLSearchParams(window.location.search).get('v');
 
