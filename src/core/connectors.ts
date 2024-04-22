@@ -2419,4 +2419,10 @@ export default <ConnectorMeta[]>[
 		js: 'scrobbleradio.js',
 		id: 'scrobbleradio',
 	},
+	{
+		label: 'weareone.fm',
+		matches: ['*://weareone.fm/*'],
+		js: 'weareone.js',
+		id: 'weareone',
+	},
 ];
