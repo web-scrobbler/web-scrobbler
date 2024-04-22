@@ -9,7 +9,7 @@ Connector.getArtistTrack = () => {
 		'#tracklist-group-1 > div > div > div:nth-child(1)',
 	)?.innerHTML;
 
-	return Util.splitArtistTrack(trackArtist, ['<br/>']);
+	return Util.splitArtistTrack(trackArtist, ['<br>']);
 };
 
 Connector.isPlaying = function () {

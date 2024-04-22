@@ -47,6 +47,7 @@ export type Separator =
 	| '~'
 	| ' | '
 	| '<br/>'
+	| '<br>'
 	| ' by '
 	| ', '
 	| '·'
