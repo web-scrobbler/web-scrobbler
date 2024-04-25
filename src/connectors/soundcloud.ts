@@ -69,6 +69,12 @@ Connector.isPlaying = () =>
 		.querySelector('[class*=IconButton_Medium]')
 		?.getAttribute('data-testid') === 'miniplayer-pause';
 
+Connector.loveButtonSelector =
+	'.playControls .sc-button-like:not(.sc-button-selected)';
+
+Connector.unloveButtonSelector =
+	'.playControls .sc-button-like.sc-button-selected';
+
 Connector.getUniqueID = () => {
 	// eslint is simply wrong here this assertion is necessary.
 	// eslint-disable-next-line
