@@ -2425,4 +2425,10 @@ export default <ConnectorMeta[]>[
 		js: 'weareone.js',
 		id: 'weareone',
 	},
+	{
+		label: 'Bollerwagen',
+		matches: ['*://radiobollerwagen.de/*'],
+		js: 'bollerwagen.js',
+		id: 'bollerwagen',
+	},
 ];
