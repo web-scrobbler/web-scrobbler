@@ -2419,4 +2419,10 @@ export default <ConnectorMeta[]>[
 		js: 'scrobbleradio.js',
 		id: 'scrobbleradio',
 	},
+	{
+		label: 'Bollerwagen',
+		matches: ['*://radiobollerwagen.de/*'],
+		js: 'bollerwagen.js',
+		id: 'bollerwagen',
+	},
 ];
