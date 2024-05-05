@@ -2420,6 +2420,12 @@ export default <ConnectorMeta[]>[
 		id: 'scrobbleradio',
 	},
 	{
+		label: 'weareone.fm',
+		matches: ['*://weareone.fm/*'],
+		js: 'weareone.js',
+		id: 'weareone',
+	},
+	{
 		label: 'Bollerwagen',
 		matches: ['*://radiobollerwagen.de/*'],
 		js: 'bollerwagen.js',
