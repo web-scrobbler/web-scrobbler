@@ -11,13 +11,13 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.getCurrentTime = () => {
-	const videoEl = document.querySelector('.shaka-video')
-	return videoEl ? videoEl.currentTime : null
+	const videoEl = document.querySelector('.shaka-video');
+	return videoEl ? videoEl.currentTime : null;
 }
 
 Connector.getDuration = () => {
-	const videoEl = document.querySelector('.shaka-video')
-	return videoEl ? videoEl.duration : null
+	const videoEl = document.querySelector('.shaka-video');
+	return videoEl ? videoEl.duration : null;
 }
 
 Connector.getUniqueID = () => {
