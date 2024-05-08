@@ -2252,7 +2252,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'RTL+ Musik',
-		matches: ['*://plus.rtl.de/musik/*'],
+		matches: ['*://plus.rtl.de/*'],
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
