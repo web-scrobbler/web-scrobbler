@@ -11,11 +11,11 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.getCurrentTime = () => {
-	return Util.getAttrFromSelectors('.shaka-video', 'currentTime');
+	return document.querySelector('.shaka-video')?.currentTime;
 }
 
 Connector.getDuration = () => {
-	return Util.getAttrFromSelectors('.shaka-video', 'duration');
+	return document.querySelector('.shaka-video')?.duration;
 }
 
 Connector.getUniqueID = () => {
