@@ -10,9 +10,9 @@ Connector.getArtistTrack = () => {
 	return Util.processYtVideoTitle(text);
 };
 
-Connector.getCurrentTime = () => document.querySelector('.shaka-video')?.currentTime;
+Connector.getCurrentTime = () => document.querySelector('.shaka-video')?.currentTime || null;
 
-Connector.getDuration = () => document.querySelector('.shaka-video')?.duration;
+Connector.getDuration = () => document.querySelector('.shaka-video')?.duration || null;
 
 Connector.getUniqueID = () => {
 	const videoUrl = Util.getAttrFromSelectors('[aria-current=page]', 'href');
