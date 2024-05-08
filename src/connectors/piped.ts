@@ -11,10 +11,10 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.getCurrentTime = () =>
-	(document.querySelector('.shaka-video') as HTMLVideoElement).currentTime;
+	Util.getAttrFromSelectors(".shaka-video", "currentTime");
 
 Connector.getDuration = () =>
-	(document.querySelector('.shaka-video') as HTMLVideoElement).duration;
+	Util.getAttrFromSelectors(".shaka-video", "duration");
 
 Connector.getUniqueID = () => {
 	const videoUrl = Util.getAttrFromSelectors('[aria-current=page]', 'href');
