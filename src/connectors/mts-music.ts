@@ -13,7 +13,9 @@ const playButtonSelector = '[data-testid=player-play]';
 
 Connector.isPlaying = () => {
 	const playButton = document.querySelector(playButtonSelector);
-	if (playButton === null) { return false }
+	if (playButton === null) {
+		return false;
+	}
 
 	const imageCSS = window.getComputedStyle(playButton).backgroundImage;
 	return imageCSS.includes('pause');
