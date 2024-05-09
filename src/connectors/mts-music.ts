@@ -12,9 +12,9 @@ Connector.durationSelector = '[data-testid=player-full-time]';
 const playButtonSelector = '[data-testid=player-play]';
 
 Connector.isPlaying = () => {
-	let playButton = document.querySelector(playButtonSelector);
-	if (playButton === null) return false;
+	const playButton = document.querySelector(playButtonSelector);
+	if (playButton === null) { return false };
 
-	let imageCSS = window.getComputedStyle(playButton).backgroundImage;
+	const imageCSS = window.getComputedStyle(playButton).backgroundImage;
 	return imageCSS.includes('pause');
 };
