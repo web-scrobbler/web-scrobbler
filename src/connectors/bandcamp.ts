@@ -31,6 +31,12 @@ if (document.querySelector('main#p-tralbum-page') === null) {
 Connector.applyFilter(bandcampFilter);
 
 function setupMobileConnector() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+		}),
+	);
+
 	Connector.playerSelector = '#player';
 
 	Connector.isPlaying = () =>
@@ -191,10 +197,6 @@ function initPropertiesForFeedPlayer() {
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
 
 	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
-
-	function removeByPrefix(text: string) {
-		return text.replace('by ', '');
-	}
 }
 
 // Example: https://bandcamp.com/?show=47
@@ -368,4 +370,8 @@ function getData(selector: string, attr: string) {
 	}
 
 	return {};
+}
+
+function removeByPrefix(text: string) {
+	return text.replace('by ', '');
 }
