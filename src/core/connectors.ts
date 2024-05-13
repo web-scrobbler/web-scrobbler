@@ -2431,4 +2431,10 @@ export default <ConnectorMeta[]>[
 		js: 'bollerwagen.js',
 		id: 'bollerwagen',
 	},
+	{
+		label: 'МТС Музыка',
+		matches: ['*://music.mts.ru/*'],
+		js: 'mts-music.js',
+		id: 'mts-music',
+	},
 ];
