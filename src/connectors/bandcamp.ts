@@ -27,6 +27,9 @@ if (document.querySelector('main#p-tralbum-page') === null) {
 	setupMobileConnector();
 }
 
+// Apply the filter at the end to allow extend it in setup functions
+Connector.applyFilter(bandcampFilter);
+
 function setupMobileConnector() {
 	Connector.playerSelector = '#player';
 
@@ -77,9 +80,6 @@ function setupDesktopConnector() {
 
 		initPropertiesForHomePage();
 	}
-
-	// Apply the filter at the end to allow extend it in setup functions
-	Connector.applyFilter(bandcampFilter);
 }
 
 /**
