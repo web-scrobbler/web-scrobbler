@@ -1,29 +1,29 @@
-# Privacy policy
+# Gizlilik Politikası
 
-This privacy policy explains what data we collect and store; how we use and disclose this data.
+Bu gizlilik politikası hangi verileri topladığımızı ve sakladığımızı açıklamaktadır; bu verileri nasıl kullandığımız ve ulaştığımız.
 
-**Important note**: This document is applicable to Web Scrobbler v2.40.0 and newer.
+**Önemli not**: Bu belge Web Scrobbler v2.40.0 ve daha yeni sürümler için geçerlidir.
 
-## What data is collected?
+## Hangi veriler toplanıyor?
 
-The extension does not collect any of your personal data.
+Uzantı hiçbir kişisel verinizi toplamaz.
 
-## What data is stored by the extension?
+## Uzantı tarafından hangi veriler depolanıyor?
 
-Your settings and credentials are stored within your browser. The extension stores:
+Ayarlarınız ve kimlik bilgileriniz tarayıcınızda saklanır. Uzantı şunları depolar:
 
- - Your credentials of scrobble services
- - Your personal Web Scrobbler settings
- - Your edited tracks
- - Your custom URL patterns for connectors
- - System information of the extension
+ - Skroplama hizmetlerine ilişkin kimlik bilgileriniz
+ - Kişisel Web Scrobbler ayarlarınız
+ - Düzenlediğiniz parçalar
+ - Bağlayıcılar için özel URL kalıplarınız
+ - Uzantının sistem bilgileri
 
-Your credentials are used to communicate with scrobble services only.
+Kimlik bilgileriniz yalnızca skroplama hizmetleriyle iletişim kurmak için kullanılır.
 
-All data is used by the extension internally; we don't send this data to 3rd-party services.
+Tüm veriler uzantı tarafından dahili olarak kullanılır; bu verileri 3. taraf hizmetlere göndermiyoruz.
 
-## Why does the extension access to all websites?
+## Uzantı neden tüm internet sitelerine erişiyor?
 
-The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
+Uzantı, kullanıcı tanımlı URL'lere sahip olması gereken, kendi kendine barındırılan birkaç hizmeti (örneğin Funkwhale) destekler. Uzantı bu URL'leri bilemez, bu nedenle tüm web sitelerine erişim gereklidir.
 
-Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.
+Ayrıca, yalnızca kullanıcının rahatlığı için erişim ister. Yeni uzantı sürümlerinde eklenen yeni web sitelerine erişim onaylamaları kullanıcılardan istenmeyecektir.

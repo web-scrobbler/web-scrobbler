@@ -7,6 +7,10 @@
         "message": "常规",
         "description": "'General' section"
     },
+    "optionsPermissionsLabel": {
+        "message": "您尚未授予 Web Scrobbler 访问所有站点的权限，这意味着您每次都需要点击扩展图标以开始追踪。请点击此处授予权限。请注意，在 Safari 中，权限不会被自动授予，但在您访问支持的站点时，您能够点击“始终在每个网站上允许...”以授予权限。",
+        "description": "Label for permissions button"
+    },
     "optionUseNotifications": {
         "message": "提示当前曲目",
         "description": "Option label"
@@ -30,6 +34,10 @@
     "optionScrobblePodcastsTitle": {
         "message": "记录播客节目",
         "description": "Option title"
+    },
+    "optionDebugLoggingEnabled": {
+        "message": "启用调试日志",
+        "description": "Option label"
     },
     "optionForceRecognize": {
         "message": "强制曲目识别",
@@ -73,6 +81,22 @@
     },
     "optionYtEntertainmentOnlyTitle": {
         "message": "忽略不属于娱乐分类的视频",
+        "description": "Option title"
+    },
+    "optionYtGetTrackInfoFromYtMusic": {
+        "message": "使用 Youtube Music 获取曲目信息",
+        "description": "Option label"
+    },
+    "optionYtMusicRecognisedOnly": {
+        "message": "只追踪被 YouTube Music 识别为音乐的视频",
+        "description": "Option label"
+    },
+    "optionTheme": {
+        "message": "主题",
+        "description": "Option label"
+    },
+    "optionThemeTitle": {
+        "message": "选择拓展的颜色主题",
         "description": "Option title"
     },
     "optionsAccounts": {
@@ -287,14 +311,6 @@
         "message": "关于",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "当前版本的更新日志在<a id='latest-release' target='_blank' href='#'>这里</a>。访问<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>这个页面</a>以查看完整的更新日志。",
-        "description": "'About' section text"
-    },
-    "aboutExtensionDesc": {
-        "message": "Web Scrobbler 是为了通过浏览器在线听音乐并希望使用记录服务（如 Last.fm 、Libre.fm 和 ListenBrainz）保持播放历史记录更新的人而创建的一个浏览器扩展。 ",
-        "description": "'About' section text"
-    },
     "contributorsTitle": {
         "message": "贡献者",
         "description": "'Contributors' header"
@@ -387,6 +403,18 @@
         "message": "打开选项页面",
         "description": "Button label"
     },
+    "disallowedHeader": {
+        "message": "该曲目未被追踪",
+        "description": "The header of 'disallowed' popup"
+    },
+    "disallowedButton": {
+        "message": "仍然记录",
+        "description": "Button label"
+    },
+    "ignoredHeader": {
+        "message": "此次记录已被忽略。",
+        "description": "The header of 'ignored' popup"
+    },
     "unsupportedWebsiteHeader": {
         "message": "未支持追踪本网站的播放记录",
         "description": "The header of 'unsupported' popup"
@@ -471,6 +499,34 @@
         "message": "专辑艺人（可选）",
         "description": "Placeholder of album artist input"
     },
+    "infoSearchLabel": {
+        "message": "搜索",
+        "description": "Label of regex edit search input"
+    },
+    "infoReplaceLabel": {
+        "message": "替换",
+        "description": "Label of regex edit replace input"
+    },
+    "infoPreviewLabel": {
+        "message": "预览",
+        "description": "Label of regex edit preview output"
+    },
+    "infoArtistLabel": {
+        "message": "艺术家",
+        "description": "Label of artist input row"
+    },
+    "infoTrackLabel": {
+        "message": "曲目",
+        "description": "Label of track input row"
+    },
+    "infoAlbumLabel": {
+        "message": "专辑",
+        "description": "Label of album input row"
+    },
+    "infoAlbumArtistLabel": {
+        "message": "专辑艺术家",
+        "description": "Label of album artist input row"
+    },
     "infoViewArtistPage": {
         "message": "查看艺术家页面：$1",
         "description": "Placeholder of album input"
@@ -489,31 +545,31 @@
     },
     "pageActionBase": {
         "message": "已支持追踪本网站的播放记录",
-        "description": "`base` page action title"
+        "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
         "message": "查找 $1",
-        "description": "`loading` page action title"
+        "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
         "message": "正在播放 $1",
-        "description": "`playing` page action title"
+        "description": "`playing` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "已提交 $1",
-        "description": "`scrobbled` page action title"
+        "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
         "message": "已跳过 $1",
-        "description": "`skipped` page action title"
+        "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
         "message": "已忽略 $1",
-        "description": "`ignored` page action title"
+        "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
         "message": "已支持追踪本网站的播放记录，但你已将其禁用",
-        "description": "`disabled` page action title"
+        "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
         "message": "无法识别该曲目。点击提交正确信息。",
@@ -582,6 +638,18 @@
     "hotkeyUnloveSong": {
         "message": "取消标记喜欢正在播放的曲目",
         "description": "Hotkey label"
+    },
+    "infoBoxStateDisallowed": {
+        "message": "记录不被允许。点击 Web Scrobbler 扩展图标以获取更多信息。",
+        "description": "Infobox text when an option is disallowing scrobbling"
+    },
+    "infoBoxStateError": {
+        "message": "发生了服务错误。点击 Web Scrobbler 扩展图标以获取更多信息。",
+        "description": "Infobox text when an error occured"
+    },
+    "infoBoxStateUnknown": {
+        "message": "曲目未被识别。点击 Web Scrobbler 扩展图标以更正信息。",
+        "description": "Infobox track is not recognized"
     },
     "extDescription": {
         "message": "追踪全网音乐播放记录！",
