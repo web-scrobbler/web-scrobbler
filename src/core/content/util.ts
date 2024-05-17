@@ -962,8 +962,8 @@ export function parseYtVideoDescription(
 	} else {
 		[track, artist, ...featArtists] = trackInfo;
 
-		const areFeatArtistPresent = featArtists.some(
-			(artist) => track?.includes(artist),
+		const areFeatArtistPresent = featArtists.some((artist) =>
+			track?.includes(artist),
 		);
 		if (!areFeatArtistPresent) {
 			const featArtistsStr = featArtists.join(ARTIST_SEPARATOR);
