@@ -1,4 +1,4 @@
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 import fs from 'fs-extra';
 import {
 	chromeManifest,
@@ -7,7 +7,7 @@ import {
 } from 'manifest.config';
 import colorLog from './log';
 import { getBrowser, releaseTarget } from './util';
-import { Manifest } from 'webextension-polyfill';
+import type { Manifest } from 'webextension-polyfill';
 
 /**
  * Compile the manifest for the current build target and move it to the correct folder

@@ -1,6 +1,6 @@
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import { ManagerTab } from '@/core/storage/wrapper';
+import type { ManagerTab } from '@/core/storage/wrapper';
 import {
 	backgroundListener,
 	sendBackgroundMessage,
@@ -24,11 +24,12 @@ import {
 	addToBlocklist,
 	removeFromBlocklist,
 } from './util';
+import type {
+	ControllerModeStr} from '@/core/object/controller/controller';
 import {
-	ControllerModeStr,
 	isPrioritizedMode,
 } from '@/core/object/controller/controller';
-import { CloneableSong } from '@/core/object/song';
+import type { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,
 	showAuthNotification,

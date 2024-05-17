@@ -1,4 +1,4 @@
-import ClonedSong from '@/core/object/cloned-song';
+import type ClonedSong from '@/core/object/cloned-song';
 import styles from './popup.module.scss';
 import {
 	Album,
@@ -17,11 +17,12 @@ import {
 } from '@/ui/components/icons';
 
 import { t } from '@/util/i18n';
-import {
+import type {
 	JSXElement,
-	Match,
 	Resource,
-	Setter,
+	Setter} from 'solid-js';
+import {
+	Match,
 	Show,
 	Switch,
 	createEffect,
@@ -31,11 +32,12 @@ import {
 	onMount,
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import {
+import type {
 	EditedFields,
 	FieldType,
 	RegexFields,
-	RegexFlags,
+	RegexFlags} from '@/util/regex';
+import {
 	getProcessedFieldsNoRegex,
 	getSongFieldNoRegex,
 	pascalCaseField,
@@ -43,12 +45,13 @@ import {
 	replaceFields,
 	searchMatches,
 } from '@/util/regex';
-import { BlockedTagType, ManagerTab } from '@/core/storage/wrapper';
+import type { BlockedTagType, ManagerTab } from '@/core/storage/wrapper';
 import regexEdits from '@/core/storage/regex-edits';
 import { sendBackgroundMessage } from '@/util/communication';
 import ContextMenu from '../components/context-menu/context-menu';
+import type {
+	Navigator} from '../options/components/navigator';
 import {
-	Navigator,
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
 import { isIos } from '../components/util';

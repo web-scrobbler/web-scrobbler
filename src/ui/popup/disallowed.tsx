@@ -1,6 +1,7 @@
 import ClonedSong from '@/core/object/cloned-song';
-import { ManagerTab } from '@/core/storage/wrapper';
-import { Resource, Show, createMemo, createSignal } from 'solid-js';
+import type { ManagerTab } from '@/core/storage/wrapper';
+import type { Resource} from 'solid-js';
+import { Show, createMemo, createSignal } from 'solid-js';
 import styles from './popup.module.scss';
 import optionComponentStyles from '../options/components/components.module.scss';
 import { t } from '@/util/i18n';

@@ -4,11 +4,12 @@ import Unsupported from './unsupported';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
+import type {
+	Accessor} from 'solid-js';
 import {
 	createResource,
 	Show,
 	createMemo,
-	Accessor,
 	createEffect,
 } from 'solid-js';
 import { popupListener, setupPopupListeners } from '@/util/communication';
@@ -24,8 +25,9 @@ import styles from './popup.module.scss';
 import { t } from '@/util/i18n';
 import { PopupAnchor, isIos } from '../components/util';
 import ContextMenu from '../components/context-menu/context-menu';
+import type {
+	Navigator} from '../options/components/navigator';
 import {
-	Navigator,
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
 import Disallowed from './disallowed';

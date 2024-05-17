@@ -1,10 +1,11 @@
 import { t } from '@/util/i18n';
 import styles from './popup.module.scss';
-import {
+import type {
 	Accessor,
-	Match,
 	Resource,
-	Setter,
+	Setter} from 'solid-js';
+import {
+	Match,
 	Show,
 	Switch,
 	createMemo,
@@ -13,7 +14,7 @@ import {
 	onCleanup,
 	onMount,
 } from 'solid-js';
-import { ManagerTab } from '@/core/storage/wrapper';
+import type { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import ClonedSong from '@/core/object/cloned-song';
 import {
@@ -25,8 +26,9 @@ import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
 import Regex, { RegexEditContextMenu } from './regex';
 import { PopupAnchor, Squircle, isIos } from '../components/util';
+import type {
+	Navigator} from '../options/components/navigator';
 import {
-	Navigator,
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';

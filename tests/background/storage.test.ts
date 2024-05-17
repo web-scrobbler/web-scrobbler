@@ -4,7 +4,7 @@
 
 import '#/mocks/webextension-polyfill';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import StorageWrapper from '@/core/storage/wrapper';
+import type StorageWrapper from '@/core/storage/wrapper';
 import { describe, it, expect } from 'vitest';
 
 /**

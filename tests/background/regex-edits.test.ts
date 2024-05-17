@@ -2,12 +2,13 @@ import webextensionPolyfill from '#/mocks/webextension-polyfill';
 import fetchPolyfill from '#/mocks/fetch';
 import Pipeline from '@/core/object/pipeline/pipeline';
 import Song from '@/core/object/song';
-import { SavedEdit } from '@/core/storage/options';
+import type { SavedEdit } from '@/core/storage/options';
 import regexEdits from '@/core/storage/regex-edits';
 import savedEdits from '@/core/storage/saved-edits';
-import { State } from '@/core/types';
+import type { State } from '@/core/types';
+import type {
+	RegexEdit} from '@/util/regex';
 import {
-	RegexEdit,
 	getProcessedFields,
 	getProcessedFieldsNoRegex,
 } from '@/util/regex';

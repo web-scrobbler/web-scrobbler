@@ -1,15 +1,17 @@
-import {
+import type {
 	Navigator,
 	NavigatorButton,
 	NavigatorButtonGroup,
-	NavigatorNavigationButton,
+	NavigatorNavigationButton} from '@/ui/options/components/navigator';
+import {
 	itemIsSingular,
 	triggerNavigationButton,
 } from '@/ui/options/components/navigator';
-import {
+import type {
 	Accessor,
+	Setter} from 'solid-js';
+import {
 	For,
-	Setter,
 	Show,
 	createMemo,
 	createSignal,

@@ -1,13 +1,14 @@
 import { sendBackgroundMessage } from '@/util/communication';
-import {
-	BaseSong,
+import type {
 	CloneableSong,
 	Flags,
 	Metadata,
 	ParsedSongData,
-	ProcessedSongData,
+	ProcessedSongData} from './song';
+import {
+	BaseSong
 } from './song';
-import { ConnectorMeta } from '../connectors';
+import type { ConnectorMeta } from '../connectors';
 
 /**
  * This class is used to create a song object from a cloned song.

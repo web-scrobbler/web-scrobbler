@@ -13,7 +13,7 @@ import type { DebugLogType } from '@/util/util';
 
 import { t } from '@/util/i18n';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
-import Song from '../object/song';
+import type Song from '../object/song';
 import { sendContentMessage } from '@/util/communication';
 
 const BrowserStorage = (async () => {

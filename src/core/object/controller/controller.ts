@@ -1,8 +1,9 @@
-import { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
 import * as Options from '@/core/storage/options';
+import type {
+	DebugLogType} from '@/util/util';
 import {
 	areAllResults,
-	DebugLogType,
 	parseScrobblePercent,
 	getSecondsToScrobble,
 	isAnyResult,
@@ -14,7 +15,7 @@ import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as ControllerEvents from '@/core/object/controller/controller-event';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import SavedEdits from '@/core/storage/saved-edits';
-import { State } from '@/core/types';
+import type { State } from '@/core/types';
 import {
 	contentListener,
 	sendContentMessage,
@@ -26,7 +27,7 @@ import { debugLog } from '@/core/content/util';
 import scrobbleCache from '@/core/storage/scrobble-cache';
 import { ScrobbleStatus } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
-import BaseConnector from '@/core/content/connector';
+import type BaseConnector from '@/core/content/connector';
 import Blocklist from '@/core/storage/blocklist';
 
 /**

@@ -1,9 +1,10 @@
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import * as Options from '@/core/storage/options';
-import {
+import type {
 	Accessor,
+	Setter} from 'solid-js';
+import {
 	For,
-	Setter,
 	Show,
 	Suspense,
 	createEffect,
@@ -17,7 +18,8 @@ import {
 	DeleteOutlined,
 	AddOutlined,
 } from '@/ui/components/icons';
-import connectors, { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
+import connectors from '@/core/connectors';
 import {
 	Checkbox,
 	ConnectorTripleCheckbox,
@@ -27,7 +29,7 @@ import {
 import browser from 'webextension-polyfill';
 import { t } from '@/util/i18n';
 import BlockedChannels from './edit-options/blocked-channels';
-import { ModalType } from './navigator';
+import type { ModalType } from './navigator';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(

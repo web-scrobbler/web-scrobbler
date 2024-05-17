@@ -1,7 +1,8 @@
-import { REGEX_EDITS } from './browser-storage';
-import StorageWrapper, { DataModels } from './wrapper';
+import type { REGEX_EDITS } from './browser-storage';
+import type { DataModels } from './wrapper';
+import type StorageWrapper from './wrapper';
 import * as BrowserStorage from './browser-storage';
-import { RegexEdit } from '@/util/regex';
+import type { RegexEdit } from '@/util/regex';
 import RegexEditsModel from './regex-edits.model';
 
 type K = typeof REGEX_EDITS;

@@ -1,9 +1,9 @@
 import { showNativeScrobblerWarning } from '@/util/notifications';
-import ClonedSong from '../object/cloned-song';
+import type ClonedSong from '../object/cloned-song';
 import scrobbleService from '../object/scrobble-service';
 import { ServiceCallResult } from '../object/service-call-result';
-import { BaseSong } from '../object/song';
-import { ScrobblerSongInfo } from '../scrobbler/base-scrobbler';
+import type { BaseSong } from '../object/song';
+import type { ScrobblerSongInfo } from '../scrobbler/base-scrobbler';
 
 export async function sendNowPlaying(
 	song: BaseSong,
