@@ -1,5 +1,5 @@
 import { t } from '@/util/i18n';
-import type { Setter} from 'solid-js';
+import type { Setter } from 'solid-js';
 import { For, Show, createMemo, createResource } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
@@ -9,7 +9,7 @@ import {
 	RegexOutlined,
 	WholeWordOutlined,
 } from '@/ui/components/icons';
-import type { FieldType, RegexEdit} from '@/util/regex';
+import type { FieldType, RegexEdit } from '@/util/regex';
 import { pascalCaseField } from '@/util/regex';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import type { ModalType } from '../navigator';

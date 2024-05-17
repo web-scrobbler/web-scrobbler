@@ -1,7 +1,6 @@
 import type { ConnectorMeta } from '@/core/connectors';
 import * as Options from '@/core/storage/options';
-import type {
-	DebugLogType} from '@/util/util';
+import type { DebugLogType } from '@/util/util';
 import {
 	areAllResults,
 	parseScrobblePercent,

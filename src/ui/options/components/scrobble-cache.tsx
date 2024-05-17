@@ -1,9 +1,8 @@
 import scrobbleCache from '@/core/storage/scrobble-cache';
-import type { CacheScrobble} from '@/core/storage/wrapper';
+import type { CacheScrobble } from '@/core/storage/wrapper';
 import { ScrobbleStatus } from '@/core/storage/wrapper';
 import { t } from '@/util/i18n';
-import type {
-	Setter} from 'solid-js';
+import type { Setter } from 'solid-js';
 import {
 	For,
 	Show,

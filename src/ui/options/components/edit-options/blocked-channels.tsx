@@ -1,12 +1,6 @@
 import { t } from '@/util/i18n';
-import type {
-	Setter} from 'solid-js';
-import {
-	For,
-	createEffect,
-	createResource,
-	createSignal,
-} from 'solid-js';
+import type { Setter } from 'solid-js';
+import { For, createEffect, createResource, createSignal } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';

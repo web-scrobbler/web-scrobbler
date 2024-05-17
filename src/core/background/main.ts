@@ -24,11 +24,8 @@ import {
 	addToBlocklist,
 	removeFromBlocklist,
 } from './util';
-import type {
-	ControllerModeStr} from '@/core/object/controller/controller';
-import {
-	isPrioritizedMode,
-} from '@/core/object/controller/controller';
+import type { ControllerModeStr } from '@/core/object/controller/controller';
+import { isPrioritizedMode } from '@/core/object/controller/controller';
 import type { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,

@@ -10,7 +10,8 @@ import Permissions from './components/permissions';
 import { RegexEditsModal } from './components/edit-options/regex-edits';
 import type {
 	ModalType,
-	NavigatorNavigationButton} from './components/navigator';
+	NavigatorNavigationButton,
+} from './components/navigator';
 import {
 	aboutItem,
 	accountItem,

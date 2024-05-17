@@ -1,8 +1,6 @@
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import * as Options from '@/core/storage/options';
-import type {
-	Accessor,
-	Setter} from 'solid-js';
+import type { Accessor, Setter } from 'solid-js';
 import {
 	For,
 	Show,

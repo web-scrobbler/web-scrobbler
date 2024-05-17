@@ -1,6 +1,6 @@
 'use strict';
 
-import type { DebugLogType} from '@/util/util';
+import type { DebugLogType } from '@/util/util';
 import { debugLog } from '@/util/util';
 import type { BaseSong } from '@/core/object/song';
 import type { ServiceCallResult } from '@/core/object/service-call-result';
@@ -10,11 +10,8 @@ import type {
 	ScrobblerModels,
 } from '@/core/storage/wrapper';
 import type StorageWrapper from '@/core/storage/wrapper';
-import type {
-	StorageNamespace} from '../storage/browser-storage';
-import {
-	getScrobblerStorage,
-} from '../storage/browser-storage';
+import type { StorageNamespace } from '../storage/browser-storage';
+import { getScrobblerStorage } from '../storage/browser-storage';
 import type ClonedSong from '../object/cloned-song';
 import {
 	backgroundListener,

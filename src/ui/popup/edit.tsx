@@ -1,9 +1,6 @@
 import { t } from '@/util/i18n';
 import styles from './popup.module.scss';
-import type {
-	Accessor,
-	Resource,
-	Setter} from 'solid-js';
+import type { Accessor, Resource, Setter } from 'solid-js';
 import {
 	Match,
 	Show,
@@ -26,11 +23,8 @@ import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
 import Regex, { RegexEditContextMenu } from './regex';
 import { PopupAnchor, Squircle, isIos } from '../components/util';
-import type {
-	Navigator} from '../options/components/navigator';
-import {
-	getMobileNavigatorGroup,
-} from '../options/components/navigator';
+import type { Navigator } from '../options/components/navigator';
+import { getMobileNavigatorGroup } from '../options/components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
 
 /**

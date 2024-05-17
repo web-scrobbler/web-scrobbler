@@ -3,9 +3,7 @@
 import type ClonedSong from '@/core/object/cloned-song';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import type { BaseSong } from '@/core/object/song';
-import type {
-	AudioScrobblerParams,
-} from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
+import type { AudioScrobblerParams } from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
 import AudioScrobbler from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
 import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import type { LastFmTrackInfo } from '@/core/scrobbler/lastfm/lastfm.types';

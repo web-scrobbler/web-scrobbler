@@ -1,4 +1,4 @@
-import type { JSXElement} from 'solid-js';
+import type { JSXElement } from 'solid-js';
 import { Show, createMemo } from 'solid-js';
 import styles from './icons.module.scss';
 import popupStyles from '@/ui/popup/popup.module.scss';

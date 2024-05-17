@@ -1,4 +1,4 @@
-import type { Setter} from 'solid-js';
+import type { Setter } from 'solid-js';
 import { Show, createSignal } from 'solid-js';
 import browser from 'webextension-polyfill';
 import styles from './components.module.scss';

@@ -4,10 +4,9 @@ import type {
 	Flags,
 	Metadata,
 	ParsedSongData,
-	ProcessedSongData} from './song';
-import {
-	BaseSong
+	ProcessedSongData,
 } from './song';
+import { BaseSong } from './song';
 import type { ConnectorMeta } from '../connectors';
 
 /**

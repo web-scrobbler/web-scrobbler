@@ -1,5 +1,5 @@
 import { t } from '@/util/i18n';
-import type { Setter} from 'solid-js';
+import type { Setter } from 'solid-js';
 import { For, createMemo, createResource } from 'solid-js';
 import type * as Options from '@/core/storage/options';
 import styles from '../components.module.scss';

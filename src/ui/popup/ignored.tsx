@@ -1,5 +1,5 @@
 import type { ManagerTab } from '@/core/storage/wrapper';
-import type { Resource} from 'solid-js';
+import type { Resource } from 'solid-js';
 import { createMemo } from 'solid-js';
 import styles from './popup.module.scss';
 import { t } from '@/util/i18n';

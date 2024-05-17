@@ -1,7 +1,4 @@
-import type {
-	BlockedTags,
-	Blocklists,
-} from '@/core/storage/wrapper';
+import type { BlockedTags, Blocklists } from '@/core/storage/wrapper';
 import type StorageWrapper from '@/core/storage/wrapper';
 import type * as Options from '@/core/storage/options';
 import type * as BrowserStorage from '@/core/storage/browser-storage';
@@ -12,7 +9,7 @@ import {
 } from '@/ui/components/icons';
 import styles from '../components.module.scss';
 import { t } from '@/util/i18n';
-import type { Setter} from 'solid-js';
+import type { Setter } from 'solid-js';
 import { createSignal } from 'solid-js';
 import type { RegexEdit } from '@/util/regex';
 import type { ModalType } from '../navigator';

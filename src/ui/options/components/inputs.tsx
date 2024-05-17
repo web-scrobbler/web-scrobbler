@@ -1,4 +1,4 @@
-import type { Resource, ResourceActions} from 'solid-js';
+import type { Resource, ResourceActions } from 'solid-js';
 import { For, Show } from 'solid-js';
 import styles from './components.module.scss';
 import type * as Options from '@/core/storage/options';

@@ -1,4 +1,4 @@
-import type { JSXElement} from 'solid-js';
+import type { JSXElement } from 'solid-js';
 import { For, Show, createSignal, onMount } from 'solid-js';
 import { t } from '../../util/i18n';
 import browser from 'webextension-polyfill';

@@ -2,21 +2,14 @@ import type {
 	Navigator,
 	NavigatorButton,
 	NavigatorButtonGroup,
-	NavigatorNavigationButton} from '@/ui/options/components/navigator';
+	NavigatorNavigationButton,
+} from '@/ui/options/components/navigator';
 import {
 	itemIsSingular,
 	triggerNavigationButton,
 } from '@/ui/options/components/navigator';
-import type {
-	Accessor,
-	Setter} from 'solid-js';
-import {
-	For,
-	Show,
-	createMemo,
-	createSignal,
-	onMount,
-} from 'solid-js';
+import type { Accessor, Setter } from 'solid-js';
+import { For, Show, createMemo, createSignal, onMount } from 'solid-js';
 import styles from './context-menu.module.scss';
 import { t } from '@/util/i18n';
 

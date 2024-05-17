@@ -17,10 +17,7 @@ import {
 } from '@/ui/components/icons';
 
 import { t } from '@/util/i18n';
-import type {
-	JSXElement,
-	Resource,
-	Setter} from 'solid-js';
+import type { JSXElement, Resource, Setter } from 'solid-js';
 import {
 	Match,
 	Show,
@@ -36,7 +33,8 @@ import type {
 	EditedFields,
 	FieldType,
 	RegexFields,
-	RegexFlags} from '@/util/regex';
+	RegexFlags,
+} from '@/util/regex';
 import {
 	getProcessedFieldsNoRegex,
 	getSongFieldNoRegex,
@@ -49,11 +47,8 @@ import type { BlockedTagType, ManagerTab } from '@/core/storage/wrapper';
 import regexEdits from '@/core/storage/regex-edits';
 import { sendBackgroundMessage } from '@/util/communication';
 import ContextMenu from '../components/context-menu/context-menu';
-import type {
-	Navigator} from '../options/components/navigator';
-import {
-	getMobileNavigatorGroup,
-} from '../options/components/navigator';
+import type { Navigator } from '../options/components/navigator';
+import { getMobileNavigatorGroup } from '../options/components/navigator';
 import { isIos } from '../components/util';
 import BlockedTags from '@/core/storage/blocked-tags';
 import componentStyles from '@/ui/options/components/components.module.scss';

@@ -1,4 +1,4 @@
-import type { Resource, ResourceActions} from 'solid-js';
+import type { Resource, ResourceActions } from 'solid-js';
 import { For, Show, createResource } from 'solid-js';
 import * as Options from '@/core/storage/options';
 import * as BrowserStorage from '@/core/storage/browser-storage';
@@ -7,8 +7,7 @@ import { GlobalOptionEntry } from '../inputs';
 import styles from '../components.module.scss';
 import { t } from '@/util/i18n';
 import { debugLog, kebabCaseToPascalCase } from '@/util/util';
-import type {
-	ModifiedTheme} from '@/theme/themes';
+import type { ModifiedTheme } from '@/theme/themes';
 import {
 	getTheme,
 	modifiedThemeList,
