@@ -1,11 +1,12 @@
 'use strict';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
 import * as Util from '@/util/util';
 import { getExtensionVersion } from '@/util/util-browser';
-import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
-import {
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
+import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
+import type {
 	ListenBrainzHTMLReactProps,
 	ListenBrainzParams,
 	ListenBrainzTrackMeta,

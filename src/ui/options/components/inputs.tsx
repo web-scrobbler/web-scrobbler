@@ -1,16 +1,17 @@
-import { For, Resource, ResourceActions, Show } from 'solid-js';
+import type { Resource, ResourceActions } from 'solid-js';
+import { For, Show } from 'solid-js';
 import styles from './components.module.scss';
-import * as Options from '@/core/storage/options';
+import type * as Options from '@/core/storage/options';
 import { t } from '@/util/i18n';
-import StorageWrapper from '@/core/storage/wrapper';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import type StorageWrapper from '@/core/storage/wrapper';
+import type * as BrowserStorage from '@/core/storage/browser-storage';
 import {
 	CheckOutlined,
 	CloseOutlined,
 	RestartAltOutlined,
 	IndeterminateCheckBoxOutlined,
 } from '@/ui/components/icons';
-import { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
 import { clamp } from '@/util/util';
 
 /**

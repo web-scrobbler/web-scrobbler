@@ -1,13 +1,9 @@
-import { REGEX_EDITS } from './browser-storage';
+import type { REGEX_EDITS } from './browser-storage';
 import { CustomStorage } from './custom-storage';
-import { DataModels } from './wrapper';
-import {
-	RegexEdit,
-	RegexFields,
-	editSong,
-	shouldApplyEdit,
-} from '@/util/regex';
-import Song from '../object/song';
+import type { DataModels } from './wrapper';
+import type { RegexEdit } from '@/util/regex';
+import { RegexFields, editSong, shouldApplyEdit } from '@/util/regex';
+import type Song from '../object/song';
 
 type K = typeof REGEX_EDITS;
 type V = DataModels[K];

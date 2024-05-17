@@ -1,5 +1,5 @@
-import Song from '@/core/object/song';
-import { MusicBrainzSearch } from './coverartarchive.types';
+import type Song from '@/core/object/song';
+import type { MusicBrainzSearch } from './coverartarchive.types';
 import { debugLog } from '@/core/content/util';
 import { timeoutPromise } from '@/util/util';
 

@@ -1,9 +1,7 @@
-import StorageWrapper, {
-	BlockedTags,
-	Blocklists,
-} from '@/core/storage/wrapper';
-import * as Options from '@/core/storage/options';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import type { BlockedTags, Blocklists } from '@/core/storage/wrapper';
+import type StorageWrapper from '@/core/storage/wrapper';
+import type * as Options from '@/core/storage/options';
+import type * as BrowserStorage from '@/core/storage/browser-storage';
 import {
 	VisibilityOutlined,
 	UploadOutlined,
@@ -11,10 +9,11 @@ import {
 } from '@/ui/components/icons';
 import styles from '../components.module.scss';
 import { t } from '@/util/i18n';
-import { Setter, createSignal } from 'solid-js';
-import { RegexEdit } from '@/util/regex';
-import { ModalType } from '../navigator';
-import { ConnectorMeta } from '@/core/connectors';
+import type { Setter } from 'solid-js';
+import { createSignal } from 'solid-js';
+import type { RegexEdit } from '@/util/regex';
+import type { ModalType } from '../navigator';
+import type { ConnectorMeta } from '@/core/connectors';
 
 type EditWrapper = StorageWrapper<
 	| typeof BrowserStorage.REGEX_EDITS

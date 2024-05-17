@@ -1,11 +1,11 @@
 'use strict';
 
-import { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
 import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
-import { SessionData } from './base-scrobbler';
+import type { SessionData } from './base-scrobbler';
 import { timeoutPromise } from '@/util/util';
 import { ServiceCallResult } from '../object/service-call-result';
-import ClonedSong from '../object/cloned-song';
+import type ClonedSong from '../object/cloned-song';
 
 type WebhookRequest = {
 	eventName: string;

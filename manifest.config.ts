@@ -1,4 +1,4 @@
-import { Manifest } from 'webextension-polyfill';
+import type { Manifest } from 'webextension-polyfill';
 import pkg from './package.json';
 import { releaseTarget } from './scripts/util';
 

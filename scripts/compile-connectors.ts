@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 import fs from 'fs-extra';
 import colorLog from './log';
 import { getBrowser } from './util';
