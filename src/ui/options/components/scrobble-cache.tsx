@@ -339,12 +339,11 @@ function ScrobbleList(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
 }) {
-	const filteredScrobbles = createMemo(
-		() =>
-			scrobbles()
-				?.slice()
-				.reverse()
-				.filter((e) => e.status === props.type),
+	const filteredScrobbles = createMemo(() =>
+		scrobbles()
+			?.slice()
+			.reverse()
+			.filter((e) => e.status === props.type),
 	);
 
 	return (

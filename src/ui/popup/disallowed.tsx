@@ -34,8 +34,9 @@ export default function Disallowed(props: { tab: Resource<ManagerTab> }) {
 				</p>
 				<p>
 					{t(
-						`disallowedDesc${song()?.parsed
-							.scrobblingDisallowedReason}`,
+						`disallowedDesc${
+							song()?.parsed.scrobblingDisallowedReason
+						}`,
 					)}
 				</p>
 				<p>{t('disallowedDesc3')}</p>
