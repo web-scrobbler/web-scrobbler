@@ -13,12 +13,12 @@ Connector.getArtistTrack = () => {
 Connector.getCurrentTime = () => {
 	const videoEl = (document.querySelector('.shaka-video') as HTMLVideoElement);
 	return videoEl ? videoEl.currentTime : null;
-}
+};
 
 Connector.getDuration = () => {
 	const videoEl = (document.querySelector('.shaka-video') as HTMLVideoElement);
 	return videoEl ? videoEl.duration : null;
-}
+};
 
 Connector.getUniqueID = () => {
 	const videoUrl = Util.getAttrFromSelectors('[aria-current=page]', 'href');
