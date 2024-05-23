@@ -878,6 +878,12 @@ export default <ConnectorMeta[]>[
 		id: 'deltaradio.de',
 	},
 	{
+		label: 'Radio Bob',
+		matches: ['*://*.radiobob.de/*'],
+		js: 'radiobob.js',
+		id: 'radiobob',
+	},
+	{
 		label: 'ByteFM',
 		matches: ['*://www.byte.fm/*'],
 		js: 'byte.fm.js',
@@ -2252,7 +2258,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'RTL+ Musik',
-		matches: ['*://plus.rtl.de/*'],
+		matches: ['*://plus.rtl.de/musik/*'],
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
@@ -2418,23 +2424,5 @@ export default <ConnectorMeta[]>[
 		matches: ['*://scrobblerad.io/*'],
 		js: 'scrobbleradio.js',
 		id: 'scrobbleradio',
-	},
-	{
-		label: 'weareone.fm',
-		matches: ['*://weareone.fm/*'],
-		js: 'weareone.js',
-		id: 'weareone',
-	},
-	{
-		label: 'Bollerwagen',
-		matches: ['*://radiobollerwagen.de/*'],
-		js: 'bollerwagen.js',
-		id: 'bollerwagen',
-	},
-	{
-		label: 'МТС Музыка',
-		matches: ['*://music.mts.ru/*'],
-		js: 'mts-music.js',
-		id: 'mts-music',
 	},
 ];
