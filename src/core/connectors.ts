@@ -2258,7 +2258,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'RTL+ Musik',
-		matches: ['*://plus.rtl.de/musik/*'],
+		matches: ['*://plus.rtl.de/*'],
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
@@ -2424,5 +2424,23 @@ export default <ConnectorMeta[]>[
 		matches: ['*://scrobblerad.io/*'],
 		js: 'scrobbleradio.js',
 		id: 'scrobbleradio',
+	},
+	{
+		label: 'weareone.fm',
+		matches: ['*://weareone.fm/*'],
+		js: 'weareone.js',
+		id: 'weareone',
+	},
+	{
+		label: 'Bollerwagen',
+		matches: ['*://radiobollerwagen.de/*'],
+		js: 'bollerwagen.js',
+		id: 'bollerwagen',
+	},
+	{
+		label: 'МТС Музыка',
+		matches: ['*://music.mts.ru/*'],
+		js: 'mts-music.js',
+		id: 'mts-music',
 	},
 ];
