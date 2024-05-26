@@ -878,6 +878,12 @@ export default <ConnectorMeta[]>[
 		id: 'deltaradio.de',
 	},
 	{
+		label: 'Radio Bob',
+		matches: ['*://*.radiobob.de/*'],
+		js: 'radiobob.js',
+		id: 'radiobob',
+	},
+	{
 		label: 'ByteFM',
 		matches: ['*://www.byte.fm/*'],
 		js: 'byte.fm.js',
