@@ -2443,4 +2443,10 @@ export default <ConnectorMeta[]>[
 		js: 'mts-music.js',
 		id: 'mts-music',
 	},
+	{
+		label: 'ChirpRadio',
+		matches: ['*://chirpradio.org/*'],
+		js: 'chirpradio.js',
+		id: 'chirpradio',
+	},
 ];
