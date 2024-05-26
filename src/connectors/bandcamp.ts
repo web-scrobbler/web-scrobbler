@@ -21,12 +21,45 @@ let bandcampFilter = MetadataFilter.createFilter(
 	),
 );
 
-setupConnector();
+if (document.querySelector('main#p-tralbum-page') === null) {
+	setupDesktopConnector();
+} else {
+	setupMobileConnector();
+}
 
-/**
- * Entry point.
- */
-function setupConnector() {
+// Apply the filter at the end to allow extend it in setup functions
+Connector.applyFilter(bandcampFilter);
+
+function setupMobileConnector() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+		}),
+	);
+
+	Connector.playerSelector = '#player';
+
+	Connector.isPlaying = () =>
+		document.querySelector('.playbutton.playing') !== null;
+
+	Connector.artistSelector = '.tralbum-artist';
+
+	Connector.albumArtistSelector = '.tralbum-artist';
+
+	Connector.trackSelector = '.current-track > span:nth-child(2)';
+
+	Connector.albumSelector = '.tralbum-name';
+
+	Connector.durationSelector = '.duration-text';
+
+	Connector.currentTimeSelector = '.progress-text';
+
+	Connector.trackArtSelector = '#tralbum-art-carousel img';
+
+	Connector.getOriginUrl = () => document.location.href.split('?')[0];
+}
+
+function setupDesktopConnector() {
 	initEventListeners();
 	initGenericProperties();
 
@@ -53,9 +86,6 @@ function setupConnector() {
 
 		initPropertiesForHomePage();
 	}
-
-	// Apply the filter at the end to allow extend it in setup functions
-	Connector.applyFilter(bandcampFilter);
 }
 
 /**
@@ -167,10 +197,6 @@ function initPropertiesForFeedPlayer() {
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
 
 	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
-
-	function removeByPrefix(text: string) {
-		return text.replace('by ', '');
-	}
 }
 
 // Example: https://bandcamp.com/?show=47
@@ -344,4 +370,8 @@ function getData(selector: string, attr: string) {
 	}
 
 	return {};
+}
+
+function removeByPrefix(text: string) {
+	return text.replace('by ', '');
 }
