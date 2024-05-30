@@ -16,7 +16,7 @@ Connector.getCurrentTime = () => {
 };
 
 Connector.getDuration = () => {
-	const videoEl = (document.querySelector('.shaka-video') as HTMLVideoElement);
+	const videoEl = document.querySelector('.shaka-video') as HTMLVideoElement;
 	return videoEl ? videoEl.duration : null;
 };
 
