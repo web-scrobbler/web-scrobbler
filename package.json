@@ -62,7 +62,7 @@
     "glob": "10.4.1",
     "imagemin": "9.0.0",
     "imagemin-jpegtran": "7.0.0",
-    "imagemin-pngquant": "9.0.2",
+    "imagemin-pngquant": "10.0.0",
     "prettier": "3.2.5",
     "prettier-config-web-scrobbler": "0.1.0",
     "remark": "15.0.1",
