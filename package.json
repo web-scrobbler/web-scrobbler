@@ -42,7 +42,7 @@
     "@types/archiver": "6.0.2",
     "@types/blueimp-md5": "2.18.2",
     "@types/fs-extra": "11.0.3",
-    "@types/imagemin": "8.0.5",
+    "@types/imagemin": "9.0.0",
     "@types/imagemin-jpegtran": "5.0.4",
     "@types/node": "20.14.0",
     "@types/react": "18.3.3",
