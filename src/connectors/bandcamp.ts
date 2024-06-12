@@ -134,35 +134,20 @@ function initGenericProperties() {
 }
 
 function initPropertiesForDiscoverPlayer() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+			album: [removeFromPrefix],
+		}),
+	);
+
 	Connector.playerSelector = '.discover-player';
 
-	Connector.getArtist = () => {
-		const artistElem = Util.getTextFromSelectors(
-			'.player-info a:nth-child(3)',
-		);
+	Connector.artistSelector = '.player-info a:nth-child(3)';
 
-		if (artistElem === null) {
-			return null;
-		}
-
-		return artistElem.replace('by ', '');
-	};
-
-	Connector.getAlbum = () => {
-		const albumElem = Util.getTextFromSelectors(
-			'.player-info a:nth-child(2)',
-		);
-
-		if (albumElem === null) {
-			return null;
-		}
-
-		return albumElem.replace('from ', '');
-	};
+	Connector.albumSelector = '.player-info a:nth-child(2)';
 
 	Connector.trackSelector = '.player-info p';
-
-	Connector.albumSelector = '.tralbum-name';
 
 	Connector.durationSelector = '.playback-time.total';
 
@@ -430,4 +415,8 @@ function getData(selector: string, attr: string) {
 
 function removeByPrefix(text: string) {
 	return text.replace('by ', '');
+}
+
+function removeFromPrefix(text: string) {
+	return text.replace('from ', '');
 }
