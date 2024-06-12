@@ -81,6 +81,9 @@ function setupDesktopConnector() {
 		Util.debugLog('Init props for feed player');
 
 		initPropertiesForFeedPlayer();
+	} else if (isDiscoverPage()) {
+		Util.debugLog('Init props for discover player');
+		initPropertiesForDiscoverPlayer();
 	} else {
 		Util.debugLog('Init props for home page');
 
@@ -128,6 +131,54 @@ function initGenericProperties() {
 	};
 
 	Connector.getOriginUrl = () => document.location.href.split('?')[0];
+}
+
+function initPropertiesForDiscoverPlayer() {
+	Connector.playerSelector = '.discover-player';
+
+	Connector.getArtist = () => {
+		const artistElem = Util.getTextFromSelectors(
+			'.player-info a:nth-child(3)',
+		);
+
+		if (artistElem === null) {
+			return null;
+		}
+
+		return artistElem.replace('by ', '');
+	};
+
+	Connector.getAlbum = () => {
+		const albumElem = Util.getTextFromSelectors(
+			'.player-info a:nth-child(2)',
+		);
+
+		if (albumElem === null) {
+			return null;
+		}
+
+		return albumElem.replace('from ', '');
+	};
+
+	Connector.trackSelector = '.player-info p';
+
+	Connector.albumSelector = '.tralbum-name';
+
+	Connector.durationSelector = '.playback-time.total';
+
+	Connector.trackArtSelector = 'img.cover';
+
+	Connector.currentTimeSelector = '.playback-time.current';
+
+	Connector.isPlaying = () => {
+		const playButton = document.querySelector(
+			'.player-top button.play-pause-button',
+		);
+		return (
+			playButton !== null &&
+			playButton.querySelector('svg.pause-circle-outline-icon') !== null
+		);
+	};
 }
 
 // Example: https://northlane.bandcamp.com/album/mesmer
@@ -271,6 +322,11 @@ function isFeedPage() {
 
 function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
+}
+
+function isDiscoverPage() {
+	const url = new URL(document.location.href);
+	return url.pathname.startsWith('/discover');
 }
 
 function getTrackNodes() {
