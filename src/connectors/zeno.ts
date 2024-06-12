@@ -1,28 +1,37 @@
 export {};
 
 function isMainPlayer() {
-	return document.querySelector('.player-sticky') !== null;
+	return document.querySelector('#__next') !== null;
 }
 
 function isEmbedPlayer() {
-	return document.querySelector('#audioPlayer') !== null;
+	return document.querySelector('.dashboard') !== null;
 }
 
 // TODO add podcasts
 
 function setupMainPlayer() {
-	Connector.playerSelector = '.radio-main';
-	Connector.playButtonSelector =
-		'.radio-audio-control [\\[hidden\\]="radioPlayer.playing"]';
-	Connector.trackSelector = '.radio-main .radio-song';
-	Connector.artistSelector = '.radio-main .radio-artist';
+	Util.debugLog('main');
+	Connector.playerSelector = '.sticky.bottom-0.z-50';
+	Connector.isPlaying = () => {
+		// There seems to be some kind of race condition here because we should expect the <audio>.paused state to be inverted.
+		// But that's how it works now and the play/pause button toggles the states correctly.
+		return !!(
+			document.querySelector('#audioPlayer') &&
+			document.querySelector<HTMLAudioElement>('#audioPlayer')?.paused
+		);
+	};
+	Util.debugLog(`isPlaying=${Connector.isPlaying()}`);
+	Connector.artistTrackSelector = '#__next .block.text-sm.truncate';
 }
 
 function setupEmbedPlayer() {
+	Util.debugLog('embeded');
 	Connector.playerSelector = '.dashboard';
-	Connector.isPlaying = () => !document.querySelector('audio')?.paused;
-	Connector.trackSelector = '.dashboard-box__playing-song';
-	Connector.artistSelector = '.dashboard-box__playing-artist';
+	Connector.isPlaying = () =>
+		!document.querySelector<HTMLAudioElement>('#audioPlayer')?.paused;
+	Util.debugLog(`isPlaying=${Connector.isPlaying()}`);
+	Connector.artistTrackSelector = '.dashboard-box__playing-song';
 }
 
 if (isMainPlayer()) {
