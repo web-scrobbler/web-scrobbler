@@ -149,9 +149,9 @@ function initPropertiesForDiscoverPlayer() {
 
 	Connector.trackSelector = '.player-info p';
 
-	Connector.durationSelector = '.playback-time.total';
-
 	Connector.trackArtSelector = 'img.cover';
+
+	Connector.durationSelector = '.playback-time.total';
 
 	Connector.currentTimeSelector = '.playback-time.current';
 
