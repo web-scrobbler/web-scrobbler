@@ -84,4 +84,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: web-scrobbler-safari
-          path: build/safari
+          path: build/safari 
+
+    
