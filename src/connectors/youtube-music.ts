@@ -42,6 +42,9 @@ Connector.onScriptEvent = (event) => {
 	};
 };
 
+Connector.loveButtonSelector =
+	'#like-button-renderer #button-shape-like button[aria-pressed="false"]';
+
 Connector.playerSelector = 'ytmusic-player-bar';
 
 Connector.isTrackArtDefault = (url) => {
