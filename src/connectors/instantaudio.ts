@@ -13,13 +13,10 @@ Connector.pauseButtonSelector = '.btn-play #radio-button.stop';
 Connector.playButtonSelector = '.btn-play #radio-button.play';
 
 Connector.getTrack = () => {
-	const currentTrack = Util.getTextFromSelectors(Connector.trackSelector);
-	return currentTrack ? stripSectionSignNumberSuffix(currentTrack) : null;
+	// Fix specifically for this radio https://ecouterradioenligne.com/skyrock-la-nocturne/
+	// which returns incorrect track suffixes, such as `Track Name §12345` for `Track Name`
+	return Util.getTextFromSelectors(Connector.trackSelector)?.replace(
+		/ §\d+$/, // https://regex101.com/r/MIJclS/1
+		'',
+	);
 };
-
-// Fix specifically for https://ecouterradioenligne.com/skyrock-la-nocturne/
-// which returns incorrect track suffixes, such as `Track Name §12345` for `Track Name`
-function stripSectionSignNumberSuffix(trackName: string) {
-	// https://regex101.com/r/MIJclS/1
-	return trackName.replace(/ §\d+$/, '');
-}
