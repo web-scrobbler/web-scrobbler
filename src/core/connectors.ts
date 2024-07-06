@@ -1186,12 +1186,6 @@ export default <ConnectorMeta[]>[
 		id: 'warp-aphextwin',
 	},
 	{
-		label: 'Resident Advisor',
-		matches: ['*://www.residentadvisor.net/*'],
-		js: 'residentadvisor.js',
-		id: 'residentadvisor',
-	},
-	{
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: 'musickit.js',
