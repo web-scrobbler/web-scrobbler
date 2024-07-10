@@ -824,6 +824,8 @@ export default <ConnectorMeta[]>[
 		matches: [
 			'*://planetradio.co.uk/*/play/*',
 			'*://planetradio.co.uk/*/player/*',
+			'*://hellorayo.co.uk/*/play/*',
+			'*://hellorayo.co.uk/*/player/*',
 		],
 		js: 'planetradio.js',
 		id: 'planetradio',
