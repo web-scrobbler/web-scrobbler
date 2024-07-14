@@ -101,7 +101,7 @@ export function stringToSeconds(str: string | null | undefined): number {
 		.map((current) => parseInt(current, 10))
 		.reduce((total, current, i) => total + current * Math.pow(60, i));
 
-	return seconds && negativeExpression.test(str) ? -seconds : seconds ?? 0;
+	return seconds && negativeExpression.test(str) ? -seconds : (seconds ?? 0);
 }
 
 /**
