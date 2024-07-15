@@ -2449,4 +2449,10 @@ export default <ConnectorMeta[]>[
 		js: 'chirpradio.js',
 		id: 'chirpradio',
 	},
+	{
+		label: 'RadioFreeFedi',
+		matches: ['*://radiofreefedi.net/*'],
+		js: 'radiofreefedi.js',
+		id: 'radiofreefedi',
+	},
 ];
