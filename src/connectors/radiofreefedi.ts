@@ -38,6 +38,7 @@ Connector.scrobblingDisallowedReason = () => {
 		'station ID',
 		'RFF',
 		'radio free fedi',
+		'theTrafficReport',
 	];
 
 	return filteredTerms.some(
