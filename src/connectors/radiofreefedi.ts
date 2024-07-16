@@ -34,11 +34,15 @@ Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist()?.toLowerCase();
 	const track = Connector.getTrack()?.toLowerCase();
 	const filteredTerms = [
-		'radiofreefedi.net',
+		'radiofreefedi',
 		'station ID',
 		'RFF',
 		'radio free fedi',
 		'theTrafficReport',
+		'theNews',
+		'by @',
+		'fedi',
+		'and @',
 	];
 
 	return filteredTerms.some(
