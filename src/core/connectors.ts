@@ -2449,4 +2449,10 @@ export default <ConnectorMeta[]>[
 		js: 'chirpradio.js',
 		id: 'chirpradio',
 	},
+	{
+		label: 'MyTuner',
+		matches: ['*://mytuner-radio.com/*'],
+		js: 'mytuner.js',
+		id: 'mytuner',
+	},
 ];
