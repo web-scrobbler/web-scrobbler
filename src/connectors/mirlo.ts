@@ -7,8 +7,3 @@ Connector.albumSelector = '.css-dsxfcy a';
 Connector.trackArtSelector = '.css-8vylpa img';
 Connector.isPlaying = () =>
 	Util.getAttrFromSelectors('.css-147owcc button', 'aria-label') !== 'Play';
-
-function cleanupArtist(artist: string) {
-	// remove brackets
-	return artist.replace(/^([^\(]+)(\(.*)$/, '$1');
-}
