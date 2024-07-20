@@ -44,7 +44,7 @@
     "@types/fs-extra": "11.0.3",
     "@types/imagemin": "9.0.0",
     "@types/imagemin-jpegtran": "5.0.4",
-    "@types/node": "20.14.10",
+    "@types/node": "20.14.11",
     "@types/react": "18.3.3",
     "@types/webextension-polyfill": "0.10.7",
     "@typescript-eslint/eslint-plugin": "7.16.0",
