@@ -2449,4 +2449,10 @@ export default <ConnectorMeta[]>[
 		js: 'chirpradio.js',
 		id: 'chirpradio',
 	},
+	{
+		label: 'Simulator Radio',
+		matches: ['*://*.simulatorradio.com/*'],
+		js: 'simulatorradio.js',
+		id: 'simulatorradio',
+	},
 ];
