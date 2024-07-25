@@ -287,7 +287,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Online Radio Box',
-		matches: ['*://onlineradiobox.com/*'],
+		matches: ['*://p.onlineradiobox.com/*'],
 		js: 'onlineradiobox.js',
 		id: 'onlineradiobox',
 	},
