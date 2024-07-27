@@ -71,7 +71,7 @@
     "sass": "1.77.8",
     "solid-js": "1.8.18",
     "tsx": "4.16.2",
-    "typescript": "5.5.3",
+    "typescript": "5.5.4",
     "vite-plugin-conditional-compiler": "0.3.1",
     "vite-plugin-solid": "2.10.2",
     "vite-plugin-static-copy": "1.0.6",
