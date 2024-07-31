@@ -2449,4 +2449,10 @@ export default <ConnectorMeta[]>[
 		js: 'chirpradio.js',
 		id: 'chirpradio',
 	},
+	{
+		label: 'Mirlo',
+		matches: ['*://mirlo.space/*'],
+		js: 'mirlo.js',
+		id: 'mirlo',
+	},
 ];
