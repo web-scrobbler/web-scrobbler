@@ -2443,4 +2443,10 @@ export default <ConnectorMeta[]>[
 		js: 'chirpradio.js',
 		id: 'chirpradio',
 	},
+	{
+		label: 'Basspistol Radio',
+		matches: ['*://*.basspistol.com/*'],
+		js: 'basspistol.js',
+		id: 'basspistol',
+	},
 ];
