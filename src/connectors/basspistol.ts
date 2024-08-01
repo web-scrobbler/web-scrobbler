@@ -16,5 +16,5 @@ Connector.applyFilter(filter);
 
 function cleanupArtist(artist: string) {
 	// remove brackets
-	return artist.replace(/^([^\(]+)(\(.*)$/, '$1');
+	return artist.replace(/^([^(]+)(\(.*)$/, '$1');
 }
