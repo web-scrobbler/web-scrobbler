@@ -114,7 +114,7 @@ function Popup() {
 					popupContent[
 						tab.loading
 							? ControllerMode.Loading
-							: tab()?.mode ?? ControllerMode.Unsupported
+							: (tab()?.mode ?? ControllerMode.Unsupported)
 					]
 				}
 			/>
