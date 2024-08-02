@@ -2557,4 +2557,10 @@ export default <ConnectorMeta[]>[
 		js: 'radiofreefedi.js',
 		id: 'radiofreefedi',
 	},
+	{
+		label: 'MyTuner',
+		matches: ['*://mytuner-radio.com/*'],
+		js: 'mytuner.js',
+		id: 'mytuner',
+	},
 ];
