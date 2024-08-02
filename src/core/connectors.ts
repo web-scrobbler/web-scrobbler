@@ -820,10 +820,10 @@ export default <ConnectorMeta[]>[
 		id: 'listenlive',
 	},
 	{
-		label: 'Planet Radio',
+		label: 'Rayo',
 		matches: [
-			'*://planetradio.co.uk/*/play/*',
-			'*://planetradio.co.uk/*/player/*',
+			'*://hellorayo.co.uk/*/play/*',
+			'*://hellorayo.co.uk/*/player/*',
 		],
 		js: 'planetradio.js',
 		id: 'planetradio',
