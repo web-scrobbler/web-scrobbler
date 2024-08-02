@@ -2551,4 +2551,10 @@ export default <ConnectorMeta[]>[
 		js: 'basspistol.js',
 		id: 'basspistol',
 	},
+	{
+		label: 'RadioFreeFedi',
+		matches: ['*://radiofreefedi.net/*'],
+		js: 'radiofreefedi.js',
+		id: 'radiofreefedi',
+	},
 ];
