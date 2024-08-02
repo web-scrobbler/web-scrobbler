@@ -2550,6 +2550,5 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.basspistol.com/*'],
 		js: 'basspistol.js',
 		id: 'basspistol',
-
 	},
 ];
