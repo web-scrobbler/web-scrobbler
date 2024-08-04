@@ -10,10 +10,8 @@ Connector.artistSelector = '#player-artist-name';
 
 Connector.albumSelector = '#player-meta-info .player-venue';
 
-Connector.currentTimeSelector =
-	'#player-time-current';
+Connector.currentTimeSelector = '#player-time-current';
 
-Connector.remainingTimeSelector =
-	'#player-time-remaining';
+Connector.remainingTimeSelector = '#player-time-remaining';
 
 Connector.trackArtSelector = '#player-cover-image';
