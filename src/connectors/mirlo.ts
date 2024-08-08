@@ -1,9 +1,9 @@
 export {};
 
-Connector.playerSelector = '.css-1r9ld1e';
-Connector.trackSelector = '.css-172wbso';
-Connector.artistSelector = '.css-dviazu a';
-Connector.albumSelector = '.css-dsxfcy a';
-Connector.trackArtSelector = '.css-8vylpa img';
+Connector.playerSelector = '#player';
+Connector.trackSelector = '#player-track-title';
+Connector.artistSelector = '#player-artist-name';
+Connector.albumSelector = '#player-trackGroup-title';
+Connector.trackArtSelector = '#player img';
 Connector.isPlaying = () =>
-	Util.getAttrFromSelectors('.css-147owcc button', 'aria-label') !== 'Play';
+	Util.getAttrFromSelectors('#player .play-button', 'aria-label') !== 'Play';
