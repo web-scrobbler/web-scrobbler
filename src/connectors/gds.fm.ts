@@ -10,7 +10,7 @@ Connector.playButtonSelector = '.player-meta__icon--play';
 
 Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist()
-	if (artist != null && artist.match(/gds\.fm/)) {
+	if (artist && artist.match(/gds\.fm/)) {
 		return 'Announcement'
 	}
 
