@@ -1719,10 +1719,10 @@ export default <ConnectorMeta[]>[
 		id: 'coderadio',
 	},
 	{
-		label: 'Dash Radio',
-		matches: ['*://dashradio.com/*'],
-		js: 'dashradio.js',
-		id: 'dashradio',
+		label: 'LITT Live',
+		matches: ['*://littlive.com/*'],
+		js: 'littlive.js',
+		id: 'littlive',
 	},
 	{
 		label: 'Niconico',
