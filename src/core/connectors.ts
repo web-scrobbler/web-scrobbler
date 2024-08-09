@@ -1722,7 +1722,7 @@ export default <ConnectorMeta[]>[
 		label: 'LITT Live',
 		matches: ['*://littlive.com/*'],
 		js: 'littlive.js',
-		id: 'littlive',
+		id: 'dashradio',
 	},
 	{
 		label: 'Niconico',
