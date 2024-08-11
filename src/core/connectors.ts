@@ -820,10 +820,10 @@ export default <ConnectorMeta[]>[
 		id: 'listenlive',
 	},
 	{
-		label: 'Planet Radio',
+		label: 'Rayo',
 		matches: [
-			'*://planetradio.co.uk/*/play/*',
-			'*://planetradio.co.uk/*/player/*',
+			'*://hellorayo.co.uk/*/play/*',
+			'*://hellorayo.co.uk/*/player/*',
 		],
 		js: 'planetradio.js',
 		id: 'planetradio',
@@ -1184,12 +1184,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://aphextwin.warp.net/*'],
 		js: 'warp-aphextwin.js',
 		id: 'warp-aphextwin',
-	},
-	{
-		label: 'Resident Advisor',
-		matches: ['*://www.residentadvisor.net/*'],
-		js: 'residentadvisor.js',
-		id: 'residentadvisor',
 	},
 	{
 		label: 'Zachary Seguin Music',
@@ -1725,9 +1719,9 @@ export default <ConnectorMeta[]>[
 		id: 'coderadio',
 	},
 	{
-		label: 'Dash Radio',
-		matches: ['*://dashradio.com/*'],
-		js: 'dashradio.js',
+		label: 'LITT Live',
+		matches: ['*://littlive.com/*'],
+		js: 'littlive.js',
 		id: 'dashradio',
 	},
 	{
