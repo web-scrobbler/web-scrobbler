@@ -2563,4 +2563,10 @@ export default <ConnectorMeta[]>[
 		js: 'mytuner.js',
 		id: 'mytuner',
 	},
+	{
+		label: 'Mirlo',
+		matches: ['*://mirlo.space/*'],
+		js: 'mirlo.js',
+		id: 'mirlo',
+	},
 ];
