@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
 import fetchPolyfill from '#/mocks/fetch';
 import Pipeline from '@/core/object/pipeline/pipeline';

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import { expect, it, describe } from 'vitest';
 import type { ParsedSongData, ProcessedSongData } from '@/core/object/song';
 import Song from '@/core/object/song';
