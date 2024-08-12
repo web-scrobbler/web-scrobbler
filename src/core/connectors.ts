@@ -2569,4 +2569,10 @@ export default <ConnectorMeta[]>[
 		js: 'mirlo.js',
 		id: 'mirlo',
 	},
+	{
+		label: 'Simulator Radio',
+		matches: ['*://*.simulatorradio.com/*'],
+		js: 'simulatorradio.js',
+		id: 'simulatorradio',
+	},
 ];
