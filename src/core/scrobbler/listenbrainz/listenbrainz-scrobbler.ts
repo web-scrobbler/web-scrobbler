@@ -110,7 +110,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		if (!data) {
 			this.debugLog('no data', 'error');
 			await this.signOut();
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		if ('isAuthStarted' in data && data.isAuthStarted) {
@@ -130,10 +130,10 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				this.debugLog('Failed to get session', 'warn');
 
 				await this.signOut();
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			}
 		} else if (!('sessionID' in data) || !data.sessionID) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		return {
@@ -298,16 +298,16 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			result = (await response.json()) as T;
 		} catch (e) {
 			this.debugLog('Error while sending request', 'error');
-			throw ServiceCallResult.ERROR_OTHER;
+			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 
 		switch (response.status) {
 			case 400:
 				this.debugLog('Invalid JSON sent', 'error');
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			case 401:
 				this.debugLog('Invalid Authorization sent', 'error');
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		this.debugLog(JSON.stringify(result, null, 2));
@@ -344,7 +344,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			return session;
 		}
 
-		throw ServiceCallResult.ERROR_AUTH;
+		throw new Error(ServiceCallResult.ERROR_AUTH);
 	}
 
 	private async fetchSession(url: string) {
