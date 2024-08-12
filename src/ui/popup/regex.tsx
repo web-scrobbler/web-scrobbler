@@ -291,29 +291,31 @@ function BlockTagButtonIOS(props: {
 					)}
 					onClick={() => {
 						const tabId = props.tabId;
-						loadedBlockedTypes()[transformedType()]
-							? blockedTags
-									.removeFromBlocklist(
-										transformedType(),
-										props.clonedSong,
-									)
-									.then(() =>
-										sendBackgroundMessage(tabId ?? -1, {
-											type: 'reprocessSong',
-											payload: undefined,
-										}),
-									)
-							: blockedTags
-									.addToBlocklist(
-										transformedType(),
-										props.clonedSong,
-									)
-									.then(() =>
-										sendBackgroundMessage(tabId ?? -1, {
-											type: 'reprocessSong',
-											payload: undefined,
-										}),
-									);
+						if (loadedBlockedTypes()[transformedType()]) {
+							blockedTags
+								.removeFromBlocklist(
+									transformedType(),
+									props.clonedSong,
+								)
+								.then(() =>
+									sendBackgroundMessage(tabId ?? -1, {
+										type: 'reprocessSong',
+										payload: undefined,
+									}),
+								);
+						} else {
+							blockedTags
+								.addToBlocklist(
+									transformedType(),
+									props.clonedSong,
+								)
+								.then(() =>
+									sendBackgroundMessage(tabId ?? -1, {
+										type: 'reprocessSong',
+										payload: undefined,
+									}),
+								);
+						}
 					}}
 				>
 					<Show
@@ -604,23 +606,25 @@ function BlockTagButton(props: {
 			)}
 			onClick={() => {
 				const tabId = props.tabId;
-				props.isBlocked
-					? blockedTags
-							.removeFromBlocklist(props.type, props.clonedSong)
-							.then(() =>
-								sendBackgroundMessage(tabId ?? -1, {
-									type: 'reprocessSong',
-									payload: undefined,
-								}),
-							)
-					: blockedTags
-							.addToBlocklist(props.type, props.clonedSong)
-							.then(() =>
-								sendBackgroundMessage(tabId ?? -1, {
-									type: 'reprocessSong',
-									payload: undefined,
-								}),
-							);
+				if (props.isBlocked) {
+					blockedTags
+						.removeFromBlocklist(props.type, props.clonedSong)
+						.then(() =>
+							sendBackgroundMessage(tabId ?? -1, {
+								type: 'reprocessSong',
+								payload: undefined,
+							}),
+						);
+				} else {
+					blockedTags
+						.addToBlocklist(props.type, props.clonedSong)
+						.then(() =>
+							sendBackgroundMessage(tabId ?? -1, {
+								type: 'reprocessSong',
+								payload: undefined,
+							}),
+						);
+				}
 			}}
 		>
 			<Show when={props.isBlocked} fallback={<props.BlockIcon />}>
