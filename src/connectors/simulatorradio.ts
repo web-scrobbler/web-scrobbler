@@ -5,5 +5,3 @@ Connector.trackArtSelector = '.record-img';
 Connector.artistSelector = '.song>.Artist';
 Connector.trackSelector = '.song>.Title';
 Connector.playButtonSelector = '.playpause > .fa-play';
-
-Connector.onReady = Connector.onStateChanged;
