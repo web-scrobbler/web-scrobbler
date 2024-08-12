@@ -49,7 +49,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	/** @override */
 	getSession(): Promise<SessionData> {
 		if (!this.arrayProperties || this.arrayProperties.length === 0) {
-			return Promise.reject('');
+			return Promise.reject(new Error(''));
 		}
 		// Webhook connection doesn't have a session.
 		return Promise.resolve({ sessionID: 'webhook' });

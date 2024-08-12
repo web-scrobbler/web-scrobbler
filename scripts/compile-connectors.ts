@@ -19,7 +19,7 @@ function generateConnectors() {
 					colorLog(err, 'error');
 					colorLog(stdout, 'info');
 					colorLog(stderr, 'error');
-					reject();
+					reject(new Error());
 					return;
 				}
 				colorLog('Connector file compilation complete', 'success');
@@ -35,7 +35,7 @@ function generateConnectors() {
 					resolve();
 				} catch (err) {
 					colorLog(err, 'error');
-					reject();
+					reject(new Error());
 				}
 			},
 		);
