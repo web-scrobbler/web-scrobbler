@@ -2,18 +2,16 @@ export {};
 
 Connector.playerSelector = '#audio-player.audio-player';
 
-Connector.pauseButtonSelector = 'i.icon-pause';
+Connector.pauseButtonSelector = '#player-play-pause';
 
-Connector.trackSelector = 'main[class^="_about_"] div.fs-16';
+Connector.trackSelector = '#player-title';
 
-Connector.artistSelector = 'main[class^="_about_"] > div.fs-14.ellipsis';
+Connector.artistSelector = '#player-artist-name';
 
-Connector.albumSelector = 'main[class^="_about_"] > div[markuee]';
+Connector.albumSelector = '#player-meta-info .player-venue';
 
-Connector.currentTimeSelector =
-	'div[class^="_controls_"] + div > span.align-right';
+Connector.currentTimeSelector = '#player-time-current';
 
-Connector.remainingTimeSelector =
-	'div[class^="_controls_"] + div span:last-child';
+Connector.remainingTimeSelector = '#player-time-remaining';
 
-Connector.trackArtSelector = 'div[class^="_header_"] > img[class=^"_cover_"]';
+Connector.trackArtSelector = '#player-cover-image';
