@@ -196,9 +196,9 @@ export function timeoutPromise<T>(
 				clearTimeout(timeoutId);
 				resolve(res);
 			},
-			(err) => {
+			(err: Error) => {
 				clearTimeout(timeoutId);
-				reject(new Error(err));
+				reject(err);
 			},
 		);
 	});
