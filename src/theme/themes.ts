@@ -12,7 +12,7 @@ import browser from 'webextension-polyfill';
  */
 export async function initializeThemes() {
 	// eslint-disable-next-line
-	const theme = (await browser.storage.sync.get('theme')).theme;
+	const theme = (await browser.storage.sync.get('theme')).theme as string;
 	if (theme) {
 		// eslint-disable-next-line
 		document.body.classList.add(await processTheme(theme));
@@ -90,5 +90,8 @@ export const modifiedThemeList = themeList.map(
  */
 export async function getTheme(): Promise<ModifiedTheme> {
 	// eslint-disable-next-line
-	return (await browser.storage.sync.get('theme')).theme || 'theme-system';
+	return (
+		((await browser.storage.sync.get('theme')).theme as ModifiedTheme) ||
+		'theme-system'
+	);
 }
