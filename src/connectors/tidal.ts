@@ -10,7 +10,7 @@ Connector.scrobblingDisallowedReason = () =>
 	Util.queryElements(Connector.playButtonSelector) ? null : 'ElementMissing';
 
 Connector.trackSelector = [
-	'#nowPlaying div.react-tabs__tab-panel--selected > div > div:nth-child(1) > div:nth-child(1) > .wave-text-description-medium',
+	'#nowPlaying span[data-test="now-playing-track-title"]',
 	`${Connector.playerSelector} div[data-test="footer-track-title"]`,
 ];
 
@@ -33,7 +33,7 @@ Connector.getArtist = () => {
 };
 
 Connector.albumSelector = [
-	'#nowPlaying div.react-tabs a[href^="/album/"]',
+	'#nowPlaying div.react-tabs div[class^="currentMediaInfoContainer--"] div[class^="creditsCell--"] a[href^="/album/"]',
 	`${Connector.playerSelector} a[href^="/album/"]`,
 ];
 
