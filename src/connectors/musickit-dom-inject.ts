@@ -78,7 +78,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 				}
 				if (i++ > 100) {
 					clearInterval(interval);
-					reject('MusicKit instance not found');
+					reject(new Error('MusicKit instance not found'));
 				}
 			}, 100);
 		});

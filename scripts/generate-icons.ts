@@ -167,7 +167,7 @@ export default function generateIcons(): PluginOption {
 						resolve();
 					});
 				} catch (err) {
-					reject(err);
+					reject(err as Error);
 				}
 			});
 		},

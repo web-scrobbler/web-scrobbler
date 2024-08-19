@@ -49,7 +49,7 @@ export async function toggleLove(
 	if (
 		res.some((callResult) => callResult === ServiceCallResult.ERROR_OTHER)
 	) {
-		throw 'An error occurred while toggling love for track';
+		throw new Error('An error occurred while toggling love for track');
 	}
 	return res;
 }

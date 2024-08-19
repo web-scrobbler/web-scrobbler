@@ -62,7 +62,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 	/** @override */
 	public async getSession(): Promise<SessionData> {
 		if (!this.userToken) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 		return Promise.resolve({ sessionID: this.userToken });
 	}

@@ -366,7 +366,7 @@ export async function isConnectorEnabled(
 ): Promise<boolean> {
 	const data = await options.get();
 	if (!data) {
-		throw 'No options data found';
+		throw new Error('No options data found');
 	}
 	return !data[DISABLED_CONNECTORS][connector.id] === true;
 }
@@ -382,7 +382,7 @@ export async function setConnectorEnabled(
 ): Promise<void> {
 	const data = await options.get();
 	if (!data) {
-		throw 'No options data found';
+		throw new Error('No options data found');
 	}
 
 	if (state) {
@@ -401,7 +401,7 @@ export async function setConnectorEnabled(
 export async function setAllConnectorsEnabled(state: boolean): Promise<void> {
 	const data = await options.get();
 	if (!data) {
-		throw 'No options data found';
+		throw new Error('No options data found');
 	}
 
 	data[DISABLED_CONNECTORS] = {};

@@ -41,7 +41,7 @@ class FetchMocker {
 	constructor() {
 		(global.fetch as unknown) = vi.fn((input: string) => {
 			if (!(input in responses)) {
-				throw `${input} not mocked`;
+				throw new Error(`${input} not mocked`);
 			}
 			return Promise.resolve(
 				createFetchResponse(responses[input as keyof typeof responses]),
