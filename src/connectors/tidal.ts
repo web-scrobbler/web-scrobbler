@@ -10,7 +10,7 @@ Connector.scrobblingDisallowedReason = () =>
 	Util.queryElements(Connector.playButtonSelector) ? null : 'ElementMissing';
 
 Connector.trackSelector = [
-	'#nowPlaying span[data-test="now-playing-track-title"]'
+	'#nowPlaying span[data-test="now-playing-track-title"]',
 	`${Connector.playerSelector} div[data-test="footer-track-title"]`,
 ];
 
