@@ -65,7 +65,9 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			album = trackInfo.album.title;
 		}
 
-		const trackArt = `https://${trackInfo.cover.replace('%%', '400x400')}`;
+		const trackArt = trackInfo.cover
+			? `https://${trackInfo.cover.replace('%%', '400x400')}`
+			: undefined;
 
 		return {
 			track,
