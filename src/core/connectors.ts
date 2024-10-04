@@ -1701,6 +1701,7 @@ export default <ConnectorMeta[]>[
 		label: 'Synology',
 		matches: [
 			'*://*5000/*',
+			'*://*5001/*',
 			'*://*/?launchApp=SYNO.SDS.AudioStation.Application*',
 		],
 		js: 'synology.js',
