@@ -33,7 +33,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		player?: MusicKitInstance;
 		addEventListener: (_: unknown, __: () => void) => void;
 		removeEventListener: (_: unknown, __: () => void) => void;
-		nowPlayingItem: {
+		nowPlayingItem?: {
 			albumName: string;
 			title: string;
 			artistName: string;
@@ -104,13 +104,13 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		const instance = await getInstance();
 		const item = instance.nowPlayingItem;
 		return {
-			album: item.albumName,
-			track: item.title,
-			artist: item.artistName,
-			albumArtist: item.container?.attributes?.artistName,
-			trackArt: getArtwork(item.artworkURL),
+			album: item?.albumName,
+			track: item?.title,
+			artist: item?.artistName,
+			albumArtist: item?.container?.attributes?.artistName,
+			trackArt: getArtwork(item?.artworkURL ?? ''),
 			duration: instance.currentPlaybackDuration,
-			uniqueID: item.id,
+			uniqueID: item?.id,
 			currentTime: instance.currentPlaybackTime,
 		};
 	}
