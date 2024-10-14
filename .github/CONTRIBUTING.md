@@ -32,12 +32,34 @@ Please make sure your issue describes only one feature, request or bug.
 -   Read [our wiki][Wiki].
 -   Fork the Web Scrobbler [git repository][Repository].
 -   Create a pull request against the [**master**][RepositoryMaster] branch.
--   Ensure PR title explains **concisely** what the functionality is doing.
+-   Ensure PR title explains **concisely** what the functionality is doing, if merged this will be used in the release notes.
 -   Ensure the PR description **clearly** describes the problem and solution.
     Include the relevant issue number(s) if applicable.
 -   Ensure CI tests pass.
 
 It's also worth reading [how to write][CommitMessages] good commit messages.
+
+### PR title examples
+
+Since PR titles are used to communicate changes in the release notes we should strive for consistency.
+
+For example when adding support for a new connector the title should be:
+
+```
+Add support for Soundcloud
+```
+
+If your fixing a connector:
+
+```
+Fix Soundcloud connector
+```
+
+For fixes and general updates they should express the change concisely. Examples:
+
+-   Improve artist filters for Soundcloud connector
+-   Update dark mode colour scheme
+-   Fix race condition when scrobbling cached entries
 
 ### Submitting rules
 
