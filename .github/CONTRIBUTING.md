@@ -39,7 +39,7 @@ Please make sure your issue describes only one feature, request or bug.
 
 It's also worth reading [how to write][CommitMessages] good commit messages.
 
-### PR title examples
+### PR title guidelines
 
 Since PR titles are used to communicate changes in the release notes we should strive for consistency.
 
