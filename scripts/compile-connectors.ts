@@ -3,6 +3,7 @@ import type { PluginOption } from 'vite';
 import fs from 'fs-extra';
 import colorLog from './log';
 import { getBrowser } from './util';
+import type { FSWatcher } from 'chokidar';
 import chokidar from 'chokidar';
 
 /**
@@ -45,7 +46,7 @@ function generateConnectors() {
 /**
  * chokidar watcher used for HMR purposes
  */
-let watcher: chokidar.FSWatcher;
+let watcher: FSWatcher;
 
 /**
  * Vite plugin that compiles the connector .ts files, and moves them to the correct folder
