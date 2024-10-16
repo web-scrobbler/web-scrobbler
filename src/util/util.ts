@@ -277,7 +277,7 @@ export function createAlbumURL(
  */
 export function createTrackURL(
 	artist: string | null | undefined,
-	track?: string | null  ,
+	track?: string | null,
 ): string {
 	if (!track || !artist) {
 		return '';
