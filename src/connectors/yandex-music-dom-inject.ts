@@ -11,7 +11,7 @@
  */
 // cleanup previous script
 if ('cleanup' in window && typeof window.cleanup === 'function') {
-	window.cleanup();
+	(window as unknown as { cleanup: () => void }).cleanup();
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
