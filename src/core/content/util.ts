@@ -1096,22 +1096,22 @@ type BackgroundResponse<T> =
 export function fetchFromServiceWorker(
 	url: string,
 	type: 'text',
-	init?: RequestInit | undefined,
+	init?: RequestInit  ,
 ): Promise<BackgroundResponse<string>>;
 export function fetchFromServiceWorker(
 	url: string,
 	type: 'json',
-	init?: RequestInit | undefined,
+	init?: RequestInit  ,
 ): Promise<BackgroundResponse<unknown>>;
 export function fetchFromServiceWorker(
 	url: string,
 	type: 'html',
-	init?: RequestInit | undefined,
+	init?: RequestInit  ,
 ): Promise<BackgroundResponse<Document>>;
 export async function fetchFromServiceWorker(
 	url: string,
 	type: 'text' | 'json' | 'html',
-	init?: RequestInit | undefined,
+	init?: RequestInit  ,
 ) {
 	const res = await sendContentMessage({
 		type: 'fetch',
