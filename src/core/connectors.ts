@@ -2575,4 +2575,10 @@ export default <ConnectorMeta[]>[
 		js: 'simulatorradio.js',
 		id: 'simulatorradio',
 	},
+	{
+		label: 'Prigoana',
+		matches: ['*://*.prigoana.lol/*'],
+		js: 'prigoana.js',
+		id: 'prigoana',
+	},
 ];
