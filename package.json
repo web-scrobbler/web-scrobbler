@@ -61,7 +61,7 @@
     "fs-extra": "11.1.1",
     "glob": "11.0.0",
     "imagemin": "9.0.0",
-    "imagemin-jpegtran": "7.0.0",
+    "imagemin-jpegtran": "8.0.0",
     "imagemin-pngquant": "10.0.0",
     "prettier": "3.3.3",
     "prettier-config-web-scrobbler": "0.1.0",
