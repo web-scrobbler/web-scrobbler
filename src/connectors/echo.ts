@@ -23,11 +23,21 @@ type EchoTrackInfo = {
 const startObserving = (player: Element) => {
 	player.addEventListener('track-playing', (event) => {
 		const customEvent = event as CustomEvent<EchoTrackInfo>;
-		trackInfo = {
-			track: customEvent.detail.trackName,
-			artist: customEvent.detail.artistName,
-			album: customEvent.detail.albumName,
-		};
+
+		const providerId = customEvent.detail.providerId;
+		if (providerId === 'spotify') {
+			// Skip Spotify tracks since those are already handled by the Last.fm
+			// built-in scrobbling support. Remove previous to avoid keeping
+			// it playing forever.
+			trackInfo = undefined;
+		} else {
+			trackInfo = {
+				track: customEvent.detail.trackName,
+				artist: customEvent.detail.artistName,
+				album: customEvent.detail.albumName,
+			};
+		}
+
 		Connector.onStateChanged();
 	});
 
