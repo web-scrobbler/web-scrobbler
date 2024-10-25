@@ -2575,4 +2575,10 @@ export default <ConnectorMeta[]>[
 		js: 'simulatorradio.js',
 		id: 'simulatorradio',
 	},
+	{
+		label: 'Echo',
+		matches: ['*://echo.sleepyfran.me/*'],
+		js: 'echo.js',
+		id: 'echo',
+	},
 ];
