@@ -9,12 +9,12 @@ Connector.trackSelector =
 	'tr.songHistoryLine:nth-child(1) > td:nth-child(2) > div:nth-child(1)';
 
 Connector.isPlaying = () => {
-	return (
-		Util.getAttrFromSelectors(
-			'.controls-container > div > button:nth-child(1)',
-			'ng-click',
-		) === 'stop()'
-	);
+
+	// making sure selector is not null
+	let playerSelector = document.querySelector('.playbackController__info') ?? document.createElement('div');
+
+	// player is playing if it has channel name AND extra div for track info as children
+	return playerSelector.childElementCount === 2;
 };
 
 Connector.onReady = Connector.onStateChanged;
