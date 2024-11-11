@@ -1,12 +1,12 @@
 export {};
 
-Connector.playerSelector = '.container';
+Connector.playerSelector = '.frameContents';
 
 Connector.artistSelector =
-	'.list-body > div:nth-child(1) > div:nth-child(2) > p';
+	'tr.songHistoryLine:nth-child(1) > td:nth-child(2) > div:nth-child(2)';
 
 Connector.trackSelector =
-	'.list-body > div:nth-child(1) > div:nth-child(3) > p';
+	'tr.songHistoryLine:nth-child(1) > td:nth-child(2) > div:nth-child(1)';
 
 Connector.isPlaying = () => {
 	return (
