@@ -10,7 +10,7 @@ Connector.trackSelector =
 
 Connector.isPlaying = () => {
 	// making sure selector is not null
-	let playerSelector =
+	const playerSelector =
 		document.querySelector('.playbackController__info') ??
 		document.createElement('div');
 
