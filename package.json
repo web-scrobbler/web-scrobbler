@@ -75,7 +75,7 @@
     "vite-plugin-conditional-compiler": "0.3.1",
     "vite-plugin-solid": "2.10.2",
     "vite-plugin-static-copy": "2.1.0",
-    "vitest": "2.1.5"
+    "vitest": "2.1.6"
   },
   "engines": {
     "node": ">=18.0.0"
