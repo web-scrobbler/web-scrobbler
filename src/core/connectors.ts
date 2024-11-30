@@ -487,7 +487,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'SomaFM',
-		matches: ['*://somafm.com/player24/*'],
+		matches: ['*://somafm.com/player/*', '*://somafm.com/player24/*'],
 		js: 'somafm.js',
 		id: 'somafm',
 	},
