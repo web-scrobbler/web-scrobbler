@@ -2582,4 +2582,10 @@ export default <ConnectorMeta[]>[
 		js: 'echo.js',
 		id: 'echo',
 	},
+	{
+		label: 'Gizz Tapes',
+		matches: ['*://tapes.kglw.net/*'],
+		js: 'tapes-kglw.js',
+		id: 'tapes-kglw',
+	},
 ];
