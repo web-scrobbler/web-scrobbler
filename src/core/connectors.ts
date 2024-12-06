@@ -2582,4 +2582,10 @@ export default <ConnectorMeta[]>[
 		js: 'echo.js',
 		id: 'echo',
 	},
+	{
+		label: 'ROKK',
+		matches: ['*://web.rokk.app/*'],
+		js: 'rokk.js',
+		id: 'rokk',
+	},
 ];
