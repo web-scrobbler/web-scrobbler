@@ -15,11 +15,6 @@ Connector.albumSelector =
 Connector.currentTimeSelector =
 	'#site-header div#now-playing > span.now-playing-elapsed';
 
-Connector.durationSelector =
-	'#site-header div#now-playing > span.now-playing-duration hidden-sm';
-
-Connector.playButtonSelector = '#play-btn';
-
 Connector.isPlaying = () => {
 	return document
 		.querySelector('#play-btn')
