@@ -72,6 +72,15 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Install Os packages
+        run: |
+          brew install cairo
+          brew install pango
+
       - name: Install dependencies
         run: npm ci
 
