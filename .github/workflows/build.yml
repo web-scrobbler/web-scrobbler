@@ -61,7 +61,7 @@ jobs:
 
   build-safari:
     name: Build the extension for Safari
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
