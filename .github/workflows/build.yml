@@ -72,7 +72,6 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
-
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
 
