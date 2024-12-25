@@ -18,12 +18,8 @@ Connector.getTrackInfo = () => {
 	let podcastBoolean;
 
 	if (artistTrackElement && artistTrackElement.hasChildNodes()) {
-		artistText = Util.getTextFromSelectors(
-			'[class*=styles__Artist-]',
-		);
-		trackText = Util.getTextFromSelectors(
-			'[class*=styles__Track-]',
-		);
+		artistText = Util.getTextFromSelectors('[class*=styles__Artist-]');
+		trackText = Util.getTextFromSelectors('[class*=styles__Track-]');
 		podcastBoolean = false;
 	} else if (artistTrackElement && !artistTrackElement.hasChildNodes()) {
 		artistText = Util.getTextFromSelectors(
