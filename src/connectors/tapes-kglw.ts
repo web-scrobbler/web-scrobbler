@@ -7,13 +7,14 @@ Connector.getArtist = () => {
 };
 
 Connector.trackSelector =
-	'#site-header div#now-playing > span#now-playing-track-title';
+	'#now-playing > #now-playing-track-title';
 
 Connector.albumSelector =
-	'#site-header div#now-playing > span#now-playing-show-date';
+	'#now-playing > #now-playing-show-date';
 
-Connector.currentTimeSelector =
-	'#site-header div#now-playing > span.now-playing-elapsed';
+Connector.durationSelector = '#now-playing > .now-playing-duration';
+
+Connector.currentTimeSelector =	'#now-playing > .now-playing-elapsed';
 
 Connector.isPlaying = () => {
 	return document
