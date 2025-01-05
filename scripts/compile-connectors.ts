@@ -46,7 +46,7 @@ function generateConnectors() {
 /**
  * chokidar watcher used for HMR purposes
  */
-let watcher: FSWatcher;
+let watcher: FSWatcher | null = null;
 
 /**
  * Vite plugin that compiles the connector .ts files, and moves them to the correct folder
