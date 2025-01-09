@@ -2588,4 +2588,10 @@ export default <ConnectorMeta[]>[
 		js: 'tapes-kglw.js',
 		id: 'tapes-kglw',
 	},
+	{
+		label: 'cosine.club',
+		matches: ['*://cosine.club/*'],
+		js: 'cosine.club.js',
+		id: 'cosine.club',
+	},
 ];
