@@ -228,6 +228,7 @@ export default <ConnectorMeta[]>[
 			'*://music.yandex.by/*',
 			'*://music.yandex.kz/*',
 			'*://music.yandex.ua/*',
+			'*://music.yandex.com/*',
 		],
 		js: 'yandex-music.js',
 		id: 'yandex-music',
