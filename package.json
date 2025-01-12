@@ -59,7 +59,7 @@
     "eslint-plugin-solid": "0.14.5",
     "eslint-plugin-tsdoc": "0.2.17",
     "fs-extra": "11.1.1",
-    "glob": "11.0.0",
+    "glob": "11.0.1",
     "imagemin": "9.0.0",
     "imagemin-jpegtran": "8.0.0",
     "imagemin-pngquant": "10.0.0",
