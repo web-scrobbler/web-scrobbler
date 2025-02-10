@@ -2588,4 +2588,10 @@ export default <ConnectorMeta[]>[
 		js: 'tapes-kglw.js',
 		id: 'tapes-kglw',
 	},
+	{
+		label: 'Systrum Sistum Radio',
+		matches: ['*://systrum.net/*'],
+		js: 'systrum.js',
+		id: 'systrum'
+	},
 ];
