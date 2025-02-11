@@ -2592,6 +2592,6 @@ export default <ConnectorMeta[]>[
 		label: 'Systrum Sistum Radio',
 		matches: ['*://systrum.net/*'],
 		js: 'systrum.js',
-		id: 'systrum'
+		id: 'systrum',
 	},
 ];
