@@ -2590,6 +2590,12 @@ export default <ConnectorMeta[]>[
 		id: 'tapes-kglw',
 	},
 	{
+		label: 'Systrum Sistum Radio',
+		matches: ['*://systrum.net/*'],
+		js: 'systrum.js',
+		id: 'systrum',
+	},
+	{
 		label: 'cosine.club',
 		matches: ['*://cosine.club/*'],
 		js: 'cosine.club.js',
