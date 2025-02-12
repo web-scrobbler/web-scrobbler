@@ -15,19 +15,19 @@ const filter = MetadataFilter.createFilter({
 	track: [removeYear, removeCover, removeExclusive],
 });
 
-Connector.playerSelector = "*[class^='_playbackControls_']";
+Connector.playerSelector = "[class*='playbackControls']";
 
 Connector.artistTrackSelector =
-	"*[class^='_playbackControls_'] *[class*='_title_']";
+	"*[class*='playbackControls'] [class*='title']";
 
 Connector.trackArtSelector =
-	"*[class^='_playbackControls_'] *[class^='_trackImage_'] img[class^='_image-image']";
+	"[class*='playbackControls'] [class*='trackImage'] img[class*='image-image']";
 
 Connector.playButtonSelector =
-	"*[class^='_playbackControls_'] button[aria-label='Play']";
+	"[class*='playbackControls'] button[aria-label='Play'], [class*='playbackControls'] button[aria-label='Reproducir']";
 
 Connector.pauseButtonSelector =
-	"*[class^='_playbackControls_'] button[aria-label='Pause']";
+	"[class*='playbackControls'] button[aria-label='Pause'], [class*='playbackControls'] button[aria-label='Pausar']";
 
 Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist()?.toLowerCase();
