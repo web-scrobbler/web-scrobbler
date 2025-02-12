@@ -15,19 +15,27 @@ const filter = MetadataFilter.createFilter({
 	track: [removeYear, removeCover, removeExclusive],
 });
 
-Connector.playerSelector = "[class*='playbackControls']";
+const playerBar = "[class*='playbackControls']";
+
+Connector.playerSelector = playerBar;
 
 Connector.artistTrackSelector =
-	"*[class*='playbackControls'] [class*='title']";
+	`${playerBar} [class*='title']`;
 
 Connector.trackArtSelector =
-	"[class*='playbackControls'] [class*='trackImage'] img[class*='image-image']";
+	`${playerBar} [class*='trackImage'] img[class*='image-image']`;
 
 Connector.playButtonSelector =
-	"[class*='playbackControls'] button[aria-label='Play'], [class*='playbackControls'] button[aria-label='Reproducir']";
+	`${playerBar} button[aria-label='Play'], ${playerBar} button[aria-label='Reproducir']`;
 
 Connector.pauseButtonSelector =
-	"[class*='playbackControls'] button[aria-label='Pause'], [class*='playbackControls'] button[aria-label='Pausar']";
+	`${playerBar} button[aria-label='Pause'], ${playerBar} button[aria-label='Pausar']`;
+
+Connector.loveButtonSelector =
+	`${playerBar} button[aria-label='Thumb up'], ${playerBar} button[aria-label='Pulgar hacia arriba']`;
+
+Connector.unloveButtonSelector =
+	`${playerBar} button[aria-label='Thumb down'], ${playerBar} button[aria-label='Pulgar hacia abajo']`;
 
 Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist()?.toLowerCase();
