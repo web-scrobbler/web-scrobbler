@@ -49,7 +49,7 @@
     "@types/webextension-polyfill": "0.12.1",
     "@typescript-eslint/eslint-plugin": "8.24.0",
     "@web-scrobbler/eslint-config": "3.1.1",
-    "@web-scrobbler/stylelint-config": "1.0.1",
+    "@web-scrobbler/stylelint-config": "2.0.0",
     "archiver": "7.0.1",
     "canvas": "2.11.2",
     "chokidar": "4.0.3",
