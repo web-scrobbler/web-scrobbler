@@ -228,6 +228,7 @@ export default <ConnectorMeta[]>[
 			'*://music.yandex.by/*',
 			'*://music.yandex.kz/*',
 			'*://music.yandex.ua/*',
+			'*://music.yandex.com/*',
 		],
 		js: 'yandex-music.js',
 		id: 'yandex-music',
@@ -2587,5 +2588,17 @@ export default <ConnectorMeta[]>[
 		matches: ['*://tapes.kglw.net/*'],
 		js: 'tapes-kglw.js',
 		id: 'tapes-kglw',
+	},
+	{
+		label: 'Systrum Sistum Radio',
+		matches: ['*://systrum.net/*'],
+		js: 'systrum.js',
+		id: 'systrum',
+	},
+	{
+		label: 'cosine.club',
+		matches: ['*://cosine.club/*'],
+		js: 'cosine.club.js',
+		id: 'cosine.club',
 	},
 ];
