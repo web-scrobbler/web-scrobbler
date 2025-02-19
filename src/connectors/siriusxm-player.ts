@@ -19,23 +19,17 @@ const playerBar = "[class*='playbackControls']";
 
 Connector.playerSelector = playerBar;
 
-Connector.artistTrackSelector =
-	`${playerBar} [class*='title']`;
+Connector.artistTrackSelector = `${playerBar} [class*='title']`;
 
-Connector.trackArtSelector =
-	`${playerBar} [class*='trackImage'] img[class*='image-image']`;
+Connector.trackArtSelector = `${playerBar} [class*='trackImage'] img[class*='image-image']`;
 
-Connector.playButtonSelector =
-	`${playerBar} button[aria-label='Play'], ${playerBar} button[aria-label='Reproducir']`;
+Connector.playButtonSelector = `${playerBar} button[aria-label='Play'], ${playerBar} button[aria-label='Reproducir']`;
 
-Connector.pauseButtonSelector =
-	`${playerBar} button[aria-label='Pause'], ${playerBar} button[aria-label='Pausar']`;
+Connector.pauseButtonSelector = `${playerBar} button[aria-label='Pause'], ${playerBar} button[aria-label='Pausar']`;
 
-Connector.loveButtonSelector =
-	`${playerBar} button[aria-label='Thumb up'], ${playerBar} button[aria-label='Pulgar hacia arriba']`;
+Connector.loveButtonSelector = `${playerBar} button[aria-label='Thumb up'], ${playerBar} button[aria-label='Pulgar hacia arriba']`;
 
-Connector.unloveButtonSelector =
-	`${playerBar} button[aria-label='Thumb down'], ${playerBar} button[aria-label='Pulgar hacia abajo']`;
+Connector.unloveButtonSelector = `${playerBar} button[aria-label='Thumb down'], ${playerBar} button[aria-label='Pulgar hacia abajo']`;
 
 Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist()?.toLowerCase();
