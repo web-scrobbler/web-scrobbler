@@ -2427,6 +2427,12 @@ export default <ConnectorMeta[]>[
 		id: 'chirpradio',
 	},
 	{
+		label: 'OnlyHit',
+		matches: ['*://onlyhit.us/*'],
+		js: 'onlyhit.js',
+		id: 'onlyhit',
+	},
+	{
 		label: 'InstantAudio',
 		matches: [
 			'*://instant.audio/*',
