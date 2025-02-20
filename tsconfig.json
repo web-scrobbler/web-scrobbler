@@ -20,8 +20,10 @@
   "include": [
     "src/**/*",
     "tests/**/*",
+    "images/**/*",
     "scripts/**/*",
     "vite.configs.ts",
     "*.config.ts",
-    "build.ts"  ]
+    "build.ts"
+  ]
 }
