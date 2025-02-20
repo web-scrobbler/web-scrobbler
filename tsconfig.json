@@ -24,8 +24,5 @@
     "vite.configs.ts",
     "*.config.ts",
     "build.ts"
-  ],
-  "exclude": [
-    "images/**/*",
   ]
 }
