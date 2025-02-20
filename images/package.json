@@ -1,0 +1,29 @@
+{
+  "name": "web-scrobbler-images",
+  "version": "1.0.0",
+  "description": "script for generating images for web scrobbler",
+  "main": "generate-icons.ts",
+  "type": "module",
+  "scripts": {
+    "generate": "tsx generate.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-scrobbler/web-scrobbler.git#master"
+  },
+  "author": "yayuyokitano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/web-scrobbler/web-scrobbler/issues"
+  },
+  "homepage": "https://github.com/web-scrobbler/web-scrobbler/tree/master#readme",
+  "devDependencies": {
+    "canvas": "2.11.2"
+  },
+  "dependencies": {
+    "imagemin": "9.0.0",
+    "imagemin-jpegtran": "8.0.0",
+    "imagemin-pngquant": "10.0.0",
+    "tsx": "4.19.2"
+  }
+}
