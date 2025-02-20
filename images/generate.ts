@@ -1,16 +1,15 @@
 import fs from 'fs/promises';
 import { createCanvas, loadImage } from 'canvas';
 import { resolve } from 'path';
-import { getBrowser, releaseTarget, releaseTargets } from './util';
-import colorLog from './log';
-import type { PluginOption } from 'vite';
+import colorLog from '../scripts/log';
+import { minifyImages } from './minify-images';
 
 /**
  * Get the name of the main icon based on the release target.
  * @returns The name of the main icon.
  */
-function mainIconName(): string {
-	if (releaseTarget === releaseTargets.safari) {
+function mainIconName(browser: string): string {
+	if (browser === 'safari') {
 		return 'safari';
 	}
 	return 'universal';
@@ -19,17 +18,17 @@ function mainIconName(): string {
 /**
  * Input folder containing the original svg icons in the source.
  */
-const input = resolve('src', 'icons');
+const input = resolve('icons');
 
 /**
  * Output folder where the rendered images should be output during the building.
  */
-const output = resolve('build', getBrowser(), 'icons');
+let output = resolve('build', 'browser', 'icons');
 
 /**
  * xcode shared app folder
  */
-const xcodeApp = resolve('.xcode', 'Web Scrobbler', 'Shared (App)');
+const xcodeApp = resolve('../', '.xcode', 'Web Scrobbler', 'Shared (App)');
 
 /**
  * xcode assets folder
@@ -152,27 +151,6 @@ const adjacencies = [
  * Safari tints icons - we only use a single color for these.
  */
 const safariIconColor = '#707070';
-
-/**
- * Vite plugin that takes the icon svgs in the icons folder, and turns them into appropriate PNGs in the build folder
- */
-export default function generateIcons(): PluginOption {
-	return {
-		name: 'generate-icons',
-		buildStart() {
-			return new Promise((resolve, reject) => {
-				try {
-					main().then(() => {
-						colorLog('Finished writing icons!', 'success');
-						resolve();
-					});
-				} catch (err) {
-					reject(err as Error);
-				}
-			});
-		},
-	};
-}
 
 /**
  * Creates a png from a svg without making any edits to it.
@@ -345,12 +323,13 @@ function getOutputPath(path: string, size: number, type: string) {
  * @param path - filename of svg.
  */
 async function writeMonochromeIcon(
+	browser: string,
 	path: keyof typeof monochromeColors,
 ): Promise<void> {
-	if (releaseTarget === releaseTargets.safari) {
+	if (browser === 'safari') {
 		for (const res of actionIconResolutions) {
 			await fs.writeFile(
-				getOutputPath(path, res, releaseTargets.safari),
+				getOutputPath(path, res, 'safari'),
 				await createMonochromeIcon(path, res, safariIconColor),
 			);
 		}
@@ -382,9 +361,9 @@ async function writeMonochromeIcon(
 /**
  * Writes all the appropriate PNGs for the main extension icon for the target browser.
  */
-async function writeMainIcon(): Promise<void> {
-	const path = `${mainIconName()}.svg`;
-	const marginFactor = releaseTarget !== releaseTargets.safari ? 10 / 128 : 0;
+async function writeMainIcon(browser: string): Promise<void> {
+	const path = `${mainIconName(browser)}.svg`;
+	const marginFactor = browser !== 'safari' ? 10 / 128 : 0;
 	for (const res of mainIconResolutions) {
 		const margin = res >= 128 ? res * marginFactor : 0;
 		await fs.writeFile(
@@ -394,8 +373,8 @@ async function writeMainIcon(): Promise<void> {
 	}
 }
 
-async function writexcodeIcons(): Promise<void> {
-	const mainPath = `${mainIconName()}.svg`;
+async function writexcodeIcons(browser: string): Promise<void> {
+	const mainPath = `${mainIconName(browser)}.svg`;
 	/**
 	 * Write main icon
 	 */
@@ -446,29 +425,32 @@ async function writexcodeIcons(): Promise<void> {
 }
 
 /**
- * Handles calling all the functions of the script correctly.
+ * Generates icon image files from svgs
  */
-async function main(): Promise<void> {
-	await fs.mkdir(output, { recursive: true });
+async function generateIcons(): Promise<void> {
+	for (const browser of ['chrome', 'safari', 'firefox']) {
+		output = resolve('build', browser, 'icons');
+		await fs.mkdir(output, { recursive: true });
 
-	// write monochrome icons
-	for (const path of await fs.readdir(resolve(input, 'monochrome'))) {
-		// avoid extra files (looking at you, .DS_Store)
-		if (!path.endsWith('.svg')) {
-			continue;
+		// write monochrome icons
+		for (const path of await fs.readdir(resolve(input, 'monochrome'))) {
+			// avoid extra files (looking at you, .DS_Store)
+			if (!path.endsWith('.svg')) {
+				continue;
+			}
+
+			if (!assertMonochromePathValid(path)) {
+				colorLog(`File ${path} is not a valid monochrome icon.`);
+				throw new Error(`File ${path} is not a valid monochrome icon.`);
+			}
+			await writeMonochromeIcon(browser, path);
 		}
 
-		if (!assertMonochromePathValid(path)) {
-			colorLog(`File ${path} is not a valid monochrome icon.`);
-			throw new Error(`File ${path} is not a valid monochrome icon.`);
+		await writeMainIcon(browser);
+
+		if (browser === 'safari') {
+			await writexcodeIcons(browser);
 		}
-		await writeMonochromeIcon(path);
-	}
-
-	await writeMainIcon();
-
-	if (releaseTarget === releaseTargets.safari) {
-		await writexcodeIcons();
 	}
 }
 
@@ -483,3 +465,9 @@ function assertMonochromePathValid(
 ): path is keyof typeof monochromeColors {
 	return path in monochromeColors;
 }
+
+generateIcons().then(async () => {
+	colorLog('Finished writing icons!', 'success');
+	await minifyImages();
+	colorLog('Finished minifying images!', 'success');
+});
