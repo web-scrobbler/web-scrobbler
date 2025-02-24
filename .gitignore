@@ -34,3 +34,4 @@ coverage/
 # Yarn
 yarn.lock
 
+images/node_modules
