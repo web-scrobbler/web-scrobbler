@@ -33,7 +33,7 @@ Connector.getArtist = () => {
 };
 
 Connector.albumSelector = [
-	'#nowPlaying div.react-tabs div[class^="currentMediaInfoContainer--"] div[class^="creditsCell--"] a[href^="/album/"]',
+	'#nowPlaying div.react-tabs div[class^="_currentMediaInfoContainer"] div[class^="_creditsCell"] a[href^="/album/"]',
 	`${Connector.playerSelector} a[href^="/album/"]`,
 ];
 
