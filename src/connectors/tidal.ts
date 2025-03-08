@@ -38,7 +38,10 @@ Connector.albumSelector = [
 ];
 
 Connector.getAlbumArtist = () => {
-	const albumUrlSegments = Util.getAttrFromSelectors(Connector.albumSelector, 'href')?.split('/');
+	const albumUrlSegments = Util.getAttrFromSelectors(
+		Connector.albumSelector,
+		'href',
+	)?.split('/');
 	const pageUrlSegments = Util.getAttrFromSelectors(
 		'head meta[name="apple-itunes-app"]',
 		'content',
