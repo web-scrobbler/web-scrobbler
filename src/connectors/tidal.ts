@@ -38,17 +38,15 @@ Connector.albumSelector = [
 ];
 
 Connector.getAlbumArtist = () => {
-	const albumUrl = Util.getAttrFromSelectors(Connector.albumSelector, 'href');
-	const canonicalUrl = Util.getAttrFromSelectors(
+	const albumUrlSegments = Util.getAttrFromSelectors(Connector.albumSelector, 'href')?.split('/');
+	const pageUrlSegments = Util.getAttrFromSelectors(
 		'head meta[name="apple-itunes-app"]',
 		'content',
-	);
+	)?.split('/');
 	if (
-		albumUrl &&
-		canonicalUrl &&
-		'album' === albumUrl.split('/').at(-2) &&
-		'album' === canonicalUrl.split('/').at(-2) &&
-		albumUrl.split('/').at(-1) === canonicalUrl.split('/').at(-1)
+		'album' === albumUrlSegments?.at(-2) &&
+		'album' === pageUrlSegments?.at(-2) &&
+		albumUrlSegments?.at(-1) === pageUrlSegments?.at(-1)
 	) {
 		const albumArtistNode = document.querySelectorAll(
 			'main div[class^="_detailContainer"] .artist-link a',
