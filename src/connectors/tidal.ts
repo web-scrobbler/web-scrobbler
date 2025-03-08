@@ -40,12 +40,12 @@ Connector.albumSelector = [
 Connector.getAlbumArtist = () => {
 	const albumUrl = Util.getAttrFromSelectors(Connector.albumSelector, 'href');
 	const canonicalUrl = Util.getAttrFromSelectors(
-		'head link[rel="canonical"]',
-		'href',
+		'head meta[name="apple-itunes-app"]',
+		'content',
 	);
-	if (albumUrl && canonicalUrl && canonicalUrl.endsWith(albumUrl)) {
+	if (albumUrl && canonicalUrl && 'album' === albumUrl.split('/').at(-2) && 'album' === canonicalUrl.split('/').at(-2) && albumUrl.split('/').at(-1) === canonicalUrl.split('/').at(-1)) {
 		const albumArtistNode = document.querySelectorAll(
-			'#main .header-details .artist-link a',
+			'main div[class^="_detailContainer"] .artist-link a',
 		);
 		return Util.joinArtists(Array.from(albumArtistNode));
 	}
