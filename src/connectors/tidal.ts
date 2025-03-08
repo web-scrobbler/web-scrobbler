@@ -43,7 +43,13 @@ Connector.getAlbumArtist = () => {
 		'head meta[name="apple-itunes-app"]',
 		'content',
 	);
-	if (albumUrl && canonicalUrl && 'album' === albumUrl.split('/').at(-2) && 'album' === canonicalUrl.split('/').at(-2) && albumUrl.split('/').at(-1) === canonicalUrl.split('/').at(-1)) {
+	if (
+		albumUrl &&
+		canonicalUrl &&
+		'album' === albumUrl.split('/').at(-2) &&
+		'album' === canonicalUrl.split('/').at(-2) &&
+		albumUrl.split('/').at(-1) === canonicalUrl.split('/').at(-1)
+	) {
 		const albumArtistNode = document.querySelectorAll(
 			'main div[class^="_detailContainer"] .artist-link a',
 		);
