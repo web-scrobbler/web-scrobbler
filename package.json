@@ -35,7 +35,7 @@
     "@web-scrobbler/metadata-filter": "3.2.0",
     "blueimp-md5": "2.19.0",
     "stylelint": "16.16.0",
-    "vite": "6.1.0",
+    "vite": "6.2.2",
     "webextension-polyfill": "0.12.0"
   },
   "devDependencies": {
@@ -53,14 +53,14 @@
     "archiver": "7.0.1",
     "canvas": "2.11.2",
     "chokidar": "4.0.3",
-    "esbuild": "0.25.0",
+    "esbuild": "0.25.1",
     "eslint": "8.57.0",
     "eslint-plugin-react": "7.37.4",
     "eslint-plugin-solid": "0.14.5",
     "eslint-plugin-tsdoc": "0.2.17",
     "fs-extra": "11.1.1",
     "glob": "11.0.1",
-    "imagemin": "9.0.0",
+    "imagemin": "9.0.1",
     "imagemin-jpegtran": "8.0.0",
     "imagemin-pngquant": "10.0.0",
     "prettier": "3.5.2",
@@ -74,7 +74,7 @@
     "typescript": "5.8.2",
     "vite-plugin-conditional-compiler": "0.3.1",
     "vite-plugin-solid": "2.11.6",
-    "vite-plugin-static-copy": "2.2.0",
+    "vite-plugin-static-copy": "2.3.0",
     "vitest": "3.0.5"
   },
   "engines": {
