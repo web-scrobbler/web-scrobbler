@@ -34,7 +34,7 @@
   "dependencies": {
     "@web-scrobbler/metadata-filter": "3.2.0",
     "blueimp-md5": "2.19.0",
-    "stylelint": "16.15.0",
+    "stylelint": "16.16.0",
     "vite": "6.1.0",
     "webextension-polyfill": "0.12.0"
   },
