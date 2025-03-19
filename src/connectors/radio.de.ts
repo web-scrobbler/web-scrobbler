@@ -6,9 +6,7 @@ Connector.getArtistTrack = () => {
 	const text = Util.getTextFromSelectors('[data-testid=status-display]');
 
 	if (text) {
-		const artist = text.split(' - ')[0];
-		const track = text.split(' - ')[1];
-		return { artist, track };
+		return Util.splitArtistTrack(text);
 	}
 	return null;
 };
