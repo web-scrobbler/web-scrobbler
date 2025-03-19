@@ -12,4 +12,5 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.isPlaying = () =>
-	Util.getAttrFromSelectors('[data-testid=global-player-pause]', 'title') !== 'Wiedergabe';
+	Util.getAttrFromSelectors('[data-testid=global-player-pause]', 'title') !==
+	'Wiedergabe';
