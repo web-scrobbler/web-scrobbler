@@ -20,76 +20,54 @@ export {};
  * Uploaded songs have different artist and track selectors
  */
 
-const trackArtSelector = '.ytmusic-player-bar.image';
-
-const artistSelectors = [
-	// Base selector, combining both new and old
-	'.ytmusic-player-bar.byline [href*="channel/"]:not([href*="channel/MPREb_"]):not([href*="browse/MPREb_"])',
-
-	// Old selector for self-uploaded music
-	'.ytmusic-player-bar.byline [href*="feed/music_library_privately_owned_artist_detaila_"]',
-
-	// New selector for self-uploaded music
-	'.ytmusic-player-bar.byline [href*="browse/FEmusic_library_privately_owned_artist_detaila_"]',
-];
-const albumSelectors = [
-	// Old base selector, leaving in case removing it would break something
-	'.ytmusic-player-bar [href*="channel/MPREb_"]',
-
-	// New base selector
-	'.ytmusic-player-bar [href*="browse/MPREb_"]',
-
-	// Old selector for self-uploaded music, also leaving for now
-	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
-
-	// New selector for self-uploaded music
-	'.ytmusic-player-bar [href*="browse/FEmusic_library_privately_owned_release_detailb_"]',
-];
-
-const trackSelector = '.ytmusic-player-bar.title';
 const adSelector = '.ytmusic-player-bar.advertisement';
 
-const playButtonSelector =
-	'.ytmusic-player-bar.play-pause-button #icon > svg > g > path';
-const playingPaths = [
-	'M9,19H7V5H9ZM17,5H15V19h2Z', // New design being rolled out
-	'M6 19h4V5H6v14zm8-14v14h4V5h-4z',
-];
+const mediaInfo = {
+	playbackState: 'none',
+	metadata: {
+		title: '',
+		artist: '',
+		artwork: [{ src: '' }],
+		album: '',
+	},
+};
+
+Connector.onScriptEvent = (event) => {
+	mediaInfo.playbackState = event.data.playbackState as string;
+	mediaInfo.metadata = event.data.metadata as {
+		title: string;
+		artist: string;
+		artwork: { src: string; size: string; type: string }[];
+		album: string;
+	};
+};
 
 Connector.playerSelector = 'ytmusic-player-bar';
-
-Connector.getTrackArt = () => {
-	const trackArtUrl = Util.extractImageUrlFromSelectors(trackArtSelector);
-	if (trackArtUrl) {
-		return trackArtUrl.substring(0, trackArtUrl.lastIndexOf('='));
-	}
-	return null;
-};
 
 Connector.isTrackArtDefault = (url) => {
 	// Self-uploaded tracks could not have cover arts
 	return Boolean(url?.includes('cover_track_default'));
 };
 
-Connector.albumSelector = albumSelectors;
+Connector.getAlbum = () => mediaInfo.metadata?.album;
 
-function hasVideoAlbum() {
-	return !!Connector.getAlbum();
-}
+Connector.getTrackArt = () => {
+	const artworks = mediaInfo.metadata?.artwork;
+	return artworks?.[artworks.length - 1].src;
+};
 
 Connector.getArtistTrack = () => {
 	let artist;
 	let track;
+	const metadata = mediaInfo.metadata;
 
-	if (hasVideoAlbum()) {
-		artist = getArtists();
-		track = Util.getTextFromSelectors(trackSelector);
+	if (metadata?.album) {
+		artist = metadata.artist;
+		track = metadata.title;
 	} else {
-		({ artist, track } = Util.processYtVideoTitle(
-			Util.getTextFromSelectors(trackSelector),
-		));
+		({ artist, track } = Util.processYtVideoTitle(metadata?.title));
 		if (!artist) {
-			artist = getArtists();
+			artist = metadata?.artist;
 		}
 	}
 	return { artist, track };
@@ -97,11 +75,13 @@ Connector.getArtistTrack = () => {
 
 Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
-Connector.isPlaying = () => {
-	return playingPaths.includes(
-		Util.getAttrFromSelectors(playButtonSelector, 'd') ?? '',
-	);
-};
+Connector.isPlaying = () => mediaInfo.playbackState === 'playing';
+
+Connector.loveButtonSelector =
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]';
+
+Connector.unloveButtonSelector =
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]';
 
 Connector.getUniqueID = () => {
 	const uniqueId = new URLSearchParams(window.location.search).get('v');
@@ -117,14 +97,8 @@ Connector.getUniqueID = () => {
 Connector.scrobblingDisallowedReason = () =>
 	Util.isElementVisible(adSelector) ? 'IsAd' : null;
 
-function getArtists() {
-	// FIXME Use Array.from after jQuery support will be removed
-	const artistElements = Util.queryElements(artistSelectors);
-	return artistElements && Util.joinArtists([...artistElements]);
-}
-
 function filterYoutubeIfNonAlbum(text: string) {
-	return hasVideoAlbum() ? text : MetadataFilter.youtube(text);
+	return Connector.getAlbum() ? text : MetadataFilter.youtube(text);
 }
 
 const youtubeMusicFilter = MetadataFilter.createFilter({
@@ -137,3 +111,5 @@ const youtubeMusicFilter = MetadataFilter.createFilter({
 });
 
 Connector.applyFilter(youtubeMusicFilter);
+
+Connector.injectScript('connectors/youtube-music-dom-inject.js');

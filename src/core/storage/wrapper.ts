@@ -1,6 +1,6 @@
 import { hideObjectValue } from '@/util/util';
-import browser from 'webextension-polyfill';
-import {
+import type browser from 'webextension-polyfill';
+import type {
 	CONNECTORS_OPTIONS,
 	CONNECTORS_OVERRIDE_OPTIONS,
 	CORE,
@@ -17,17 +17,17 @@ import {
 	BLOCKLISTS,
 	NATIVE_SCROBBLER_NOTIFICATION,
 } from '@/core/storage/browser-storage';
-import {
+import type {
 	ConnectorOptions,
 	ConnectorsOverrideOptions,
 	GlobalOptions,
 	SavedEdit,
 } from '@/core/storage/options';
-import { ControllerModeStr } from '@/core/object/controller/controller';
-import { CloneableSong } from '@/core/object/song';
+import type { ControllerModeStr } from '@/core/object/controller/controller';
+import type { CloneableSong } from '@/core/object/song';
 import EventEmitter from '@/util/emitter';
-import connectors from '@/core/connectors';
-import { RegexEdit } from '@/util/regex';
+import type connectors from '@/core/connectors';
+import type { RegexEdit } from '@/util/regex';
 import { debugLog } from '../content/util';
 import { ServiceCallResult } from '../object/service-call-result';
 
@@ -196,8 +196,8 @@ const LOCKING_TIMEOUT = 3000;
 export default class StorageWrapper<K extends keyof DataModels> {
 	// V extends DataModels[K], T extends Record<K, V>
 	private storage:
-		| browser.Storage.SyncStorageAreaSync
-		| browser.Storage.LocalStorageArea;
+		| browser.Storage.StorageAreaSync
+		| browser.Storage.StorageArea;
 	private namespace: StorageNamespace;
 	private requests: number[] = [];
 	private autoIncrement = 0;
@@ -215,9 +215,7 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	 * @param namespace - Storage namespace
 	 */
 	constructor(
-		storage:
-			| browser.Storage.SyncStorageAreaSync
-			| browser.Storage.LocalStorageArea,
+		storage: browser.Storage.StorageAreaSync | browser.Storage.StorageArea,
 		namespace: StorageNamespace,
 	) {
 		this.storage = storage;

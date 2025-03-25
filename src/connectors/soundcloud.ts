@@ -69,6 +69,12 @@ Connector.isPlaying = () =>
 		.querySelector('[class*=IconButton_Medium]')
 		?.getAttribute('data-testid') === 'miniplayer-pause';
 
+Connector.loveButtonSelector =
+	'.playControls .sc-button-like:not(.sc-button-selected)';
+
+Connector.unloveButtonSelector =
+	'.playControls .sc-button-like.sc-button-selected';
+
 Connector.getUniqueID = () => {
 	// eslint is simply wrong here this assertion is necessary.
 	// eslint-disable-next-line
@@ -90,7 +96,35 @@ Connector.getOriginUrl = () => {
 };
 
 Connector.scrobblingDisallowedReason = () => {
-	if (document.querySelector('.sc-label-private')) {
+	// Tracks on profile pages
+	const soundPlaying = document.querySelector(
+		'div:not(.playlist).sound.playing',
+	);
+	if (soundPlaying && soundPlaying.querySelector('.sc-label-private')) {
+		return 'IsPrivate';
+	}
+	// Tracks in playlists and albums on profile pages
+	const activeCompactTrack = document.querySelector(
+		'.compactTrackListItem.active',
+	);
+	if (
+		activeCompactTrack &&
+		!activeCompactTrack.querySelector('.compactTrackListItem__plays')
+	) {
+		return 'IsPrivate';
+	}
+	// Private tracks in playlists
+	if (/\/sets\//.test(new URL(document.URL).pathname)) {
+		// Check for individual private tracks in playlists
+		const activeTrack = document.querySelector('.active');
+		if (activeTrack && activeTrack.querySelector('.sc-label-private')) {
+			return 'IsPrivate';
+		}
+		// Individual track pages
+	} else if (
+		document.querySelector('.fullListenHero') &&
+		document.querySelector('.sc-label-private')
+	) {
 		return 'IsPrivate';
 	}
 };

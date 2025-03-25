@@ -1,5 +1,6 @@
 import { SCROBBLE_CACHE } from './browser-storage';
-import StorageWrapper, { CacheScrobble, DataModels } from './wrapper';
+import type { CacheScrobble, DataModels } from './wrapper';
+import type StorageWrapper from './wrapper';
 import * as BrowserStorage from './browser-storage';
 import ScrobbleCacheModel from './scrobble-cache.model';
 

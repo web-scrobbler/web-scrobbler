@@ -1,4 +1,4 @@
-import { Resource, ResourceActions } from 'solid-js';
+import type { Resource, ResourceActions } from 'solid-js';
 import { RadioButtons } from '../inputs';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import * as Options from '@/core/storage/options';

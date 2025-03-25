@@ -1,11 +1,11 @@
 'use strict';
 
-import { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
 import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
-import { SessionData } from './base-scrobbler';
+import type { SessionData } from './base-scrobbler';
 import { timeoutPromise } from '@/util/util';
 import { ServiceCallResult } from '../object/service-call-result';
-import ClonedSong from '../object/cloned-song';
+import type ClonedSong from '../object/cloned-song';
 
 type WebhookRequest = {
 	eventName: string;
@@ -49,7 +49,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	/** @override */
 	getSession(): Promise<SessionData> {
 		if (!this.arrayProperties || this.arrayProperties.length === 0) {
-			return Promise.reject('');
+			return Promise.reject(new Error(''));
 		}
 		// Webhook connection doesn't have a session.
 		return Promise.resolve({ sessionID: 'webhook' });

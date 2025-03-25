@@ -4,13 +4,8 @@ import Unsupported from './unsupported';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
-import {
-	createResource,
-	Show,
-	createMemo,
-	Accessor,
-	createEffect,
-} from 'solid-js';
+import type { Accessor } from 'solid-js';
+import { createResource, Show, createMemo, createEffect } from 'solid-js';
 import { popupListener, setupPopupListeners } from '@/util/communication';
 import Base from './base';
 import { getCurrentTab } from '@/core/background/util';
@@ -24,10 +19,8 @@ import styles from './popup.module.scss';
 import { t } from '@/util/i18n';
 import { PopupAnchor, isIos } from '../components/util';
 import ContextMenu from '../components/context-menu/context-menu';
-import {
-	Navigator,
-	getMobileNavigatorGroup,
-} from '../options/components/navigator';
+import type { Navigator } from '../options/components/navigator';
+import { getMobileNavigatorGroup } from '../options/components/navigator';
 import Disallowed from './disallowed';
 import Ignored from './ignored';
 
@@ -121,7 +114,7 @@ function Popup() {
 					popupContent[
 						tab.loading
 							? ControllerMode.Loading
-							: tab()?.mode ?? ControllerMode.Unsupported
+							: (tab()?.mode ?? ControllerMode.Unsupported)
 					]
 				}
 			/>

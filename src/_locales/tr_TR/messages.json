@@ -8,131 +8,159 @@
         "description": "'General' section"
     },
     "optionsPermissionsLabel": {
-        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
+        "message": "Web Scrobbler'a tüm sitelere erişim izni vermediniz; bu, her seferinde skroplamaya başlamak için uzantı simgesini tıklamanız gerektiği anlamına gelir. İzni vermek için burayı tıklayın. Safari'de iznin otomatik olarak verilmeyeceğini, ancak desteklenen bir siteyi bir sonraki ziyaretinizde izni vermek için \"Her Web Sitesinde Her Zaman İzin Ver...\" seçeneğini tıklayabileceğinizi unutmayın.",
         "description": "Label for permissions button"
     },
     "optionUseNotifications": {
-        "message": "Use now playing notifications",
+        "message": "Şu anda oynatılıyor bildirimlerini kullan",
         "description": "Option label"
     },
     "optionUseNotificationsTitle": {
-        "message": "Show now playing notifications for all supported websites",
+        "message": "Desteklenen tüm internet siteleri için şu anda oynatılıyor bildirimlerini göster",
         "description": "Option title"
     },
     "optionUnrecognizedNotifications": {
-        "message": "Notify if track is not recognized",
+        "message": "Parça tanınmazsa bildir",
         "description": "Option label"
     },
     "optionUnrecognizedNotificationsTitle": {
-        "message": "Show notification if track is not recognized by the extension",
+        "message": "Parça uzantı tarafından tanınmazsa bildirim göster",
+        "description": "Option title"
+    },
+    "optionUseInfobox": {
+        "message": "Bilgi kutusunu göster",
+        "description": "Option label"
+    },
+    "optionUseInfoboxTitle": {
+        "message": "Desteklenen internet siteleri için sayfada web scrobbler bilgi kutusunu göster",
         "description": "Option title"
     },
     "optionScrobblePodcasts": {
-        "message": "Scrobble podcasts",
+        "message": "Skroplanan podcast'ler",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
+        "message": "Skroplanan podcast bölümleri",
+        "description": "Option title"
+    },
+    "optionDebugLoggingEnabled": {
+        "message": "Hata ayıklama günlüğünü etkinleştir",
+        "description": "Option label"
+    },
+    "optionDebugLoggingEnabledTitle": {
+        "message": "Uzantının hata ayıklama mesajlarını tarayıcı konsoluna kaydetmesine izin ver",
         "description": "Option title"
     },
     "optionsScrobbleBehavior": {
-        "message": "Scrobble behavior",
+        "message": "Skroplama davranışı",
         "description": "'Scrobble behavior' section"
     },
     "optionForceRecognize": {
-        "message": "İz tanımayı zorla",
+        "message": "Parça tanımayı zorla",
         "description": "Option label"
     },
     "optionForceRecognizeTitle": {
-        "message": "Force recognition of unknown tracks",
+        "message": "Bilinmeyen parçaların tanınmasını zorla",
         "description": "Option title"
     },
     "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble recognized or edited tracks (default)",
+        "message": "Tanınan veya düzenlenen parçaları skroplayın (varsayılan)",
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
-        "message": "Only scrobble tracks if they are recognized or edited",
+        "message": "Parçaları yalnızca tanındıkları veya düzenlendikleri takdirde skroplayın",
         "description": "Option title"
     },
     "optionScrobbleEditedTracksOnly": {
-        "message": "Scrobble edited tracks only",
+        "message": "Yalnızca daha önceden skroplanmış parçalar",
         "description": "Option label"
     },
     "optionScrobbleEditedTracksOnlyTitle": {
-        "message": "Only scrobble tracks if they are edited",
+        "message": "Parçaları yalnızca düzenlenmişse scrobble yapın",
         "description": "Option title"
     },
+    "optionsAdvanced": {
+        "message": "Gelişmiş",
+        "description": "'Advanced' section"
+    },
     "optionsHidden": {
-        "message": "Hidden",
+        "message": "Gizlenmiş",
         "description": "'Hidden' section"
     },
     "optionScrobblePercent": {
-        "message": "Scrobble",
+        "message": "Skropla",
         "description": "Option title"
     },
     "optionScrobblePercentSuffix": {
-        "message": "of song duration",
+        "message": "şarkı süresi",
         "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
+        "message": "Her iki seçeneği de kapatırsanız, uzantı tüm kategorilerdeki YouTube videolarını skroplayacaktır.",
         "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
-        "message": "Note that a track will be scrobbled anyway, if it has been played for 4 minutes, regardless of the option value.",
+        "message": "Seçenek değeri ne olursa olsun, 4 dakika boyunca çalınmışsa parçanın yine de skroplanacağını unutmayın.",
         "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
-        "message": "Scrobble videos from \"Music\" category",
+        "message": "\"Müzik\" kategorisindeki videoları skroplayın",
         "description": "Option title"
     },
     "optionYtMusicOnlyTitle": {
-        "message": "Ignore videos that are not in Music category",
+        "message": "Müzik kategorisinde olmayan videoları dikkate almayın",
         "description": "Option label"
     },
     "optionYtEntertainmentOnly": {
-        "message": "Scrobble videos from \"Entertainment\" category",
+        "message": "\"Eğlence\" kategorisindeki videoları skropla",
         "description": "Option label"
     },
     "optionYtEntertainmentOnlyTitle": {
-        "message": "Ignore videos that are not in Entertainment category",
+        "message": "Eğlence kategorisinde olmayan videoları dikkate almayın",
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Use Youtube Music to get track info",
+        "message": "Parça bilgilerini almak için Youtube Müzik'i kullanın",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
+        "message": "Devre dışı bırakıldığında varsayılan olarak açıklama ve video başlığı kullanılıyorsa parça bilgilerini almak için Youtube Müzik'i kullanın",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "Scrobble only videos that are recognized by YouTube Music as music",
+        "message": "Yalnızca YouTube Müzik tarafından müzik olarak tanınan videoları skroplayın",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignore videos that are not recognised by YouTube Music as music",
+        "message": "YouTube Müzik tarafından müzik olarak tanınmayan videoları dikkate almayın",
         "description": "Option title"
     },
     "optionTheme": {
-        "message": "Theme",
+        "message": "Tema",
         "description": "Option label"
     },
     "optionThemeTitle": {
-        "message": "Choose the theme of the extension",
+        "message": "Uzantının temasını seçin",
         "description": "Option title"
     },
     "optionThemeLight": {
-        "message": "Light",
+        "message": "Aydınlık",
         "description": "Option label"
     },
     "optionThemeDark": {
-        "message": "Dark",
+        "message": "Karanlık",
+        "description": "Option label"
+    },
+    "optionThemeHighContrastDark": {
+        "message": "Yüksek Zıtlık Koyu",
+        "description": "Option label"
+    },
+    "optionThemeHighContrastLight": {
+        "message": "Yüksek Zıtlık Aydınlık",
         "description": "Option label"
     },
     "optionThemeSystem": {
-        "message": "System",
+        "message": "Sistem",
         "description": "Option label"
     },
     "optionsAccounts": {
@@ -140,11 +168,11 @@
         "description": "'Accounts' section"
     },
     "accountsSignedInAs": {
-        "message": "You are signed in as $1.",
+        "message": "$1 olarak oturum açtınız.",
         "description": "'Signed in' label"
     },
     "accountsNotSignedIn": {
-        "message": "You are not signed in.",
+        "message": "Oturum açmadınız.",
         "description": "'Signed in' label"
     },
     "accountsProfile": {
@@ -159,61 +187,97 @@
         "message": "Giriş",
         "description": "Button label"
     },
+    "accountsUseLocalInstance": {
+        "message": "Yerel örneği kullan",
+        "description": "Button label"
+    },
     "accountsScrobblerProps": {
-        "message": "Properties",
+        "message": "Özellikler",
         "description": "Button label"
     },
     "accountsScrobblerPropsTitle": {
-        "message": "$1 properties",
+        "message": "$1 özellikleri",
         "description": "Button label"
     },
     "accountsUserApiUrl": {
-        "message": "API URL",
+        "message": "API adresi",
         "description": "Input label"
     },
     "accountsUserApiUrlPlaceholder": {
-        "message": "Custom API URL",
+        "message": "Özel API adresi",
+        "description": "Input label"
+    },
+    "instanceDomain": {
+        "message": "Örnek alan adı",
+        "description": "Input label"
+    },
+    "instanceDomainPlaceholder": {
+        "message": "sadece alan adı: example.com",
         "description": "Input label"
     },
     "accountsUserToken": {
-        "message": "Token",
+        "message": "Jeton",
         "description": "Input label"
     },
     "accountsUserTokenPlaceholder": {
-        "message": "Custom token",
+        "message": "Özel jeton",
         "description": "Input label"
+    },
+    "accountsApplicationName": {
+        "message": "Uygulama Adı",
+        "description": "Input label"
+    },
+    "accountsApplicationNamePlaceholder": {
+        "message": "Özel web kancası etiketi",
+        "description": "Input label"
+    },
+    "accountsAddWebhook": {
+        "message": "Web Kancası Ekle",
+        "description": "Button label"
     },
     "optionsOptions": {
         "message": "Seçenekler",
         "description": "'Options' section"
     },
     "optionsEdits": {
-        "message": "Edits",
+        "message": "Düzenlemeler",
         "description": "'Edits' section"
     },
     "optionsEditedTracks": {
-        "message": "Parçayı düzenle",
+        "message": "Düzenlenen parçalar",
         "description": "'Edited tracks' header"
     },
     "optionsEditedTracksDesc": {
-        "message": "Bu uzantı, düzenlenmiş parçaları depolar.",
+        "message": "Bu uzantı, düzenlenen parçaları saklar.",
         "description": "Description of edited tracks"
     },
     "optionsEditedTracksPopupTitle": {
-        "message": "$1 edited tracks",
+        "message": "$1 düzenlenmiş parça",
         "description": "'Edited tracks' header"
     },
     "optionsRegexEdits": {
-        "message": "Regex/Bulk edits",
+        "message": "Düzenli ifade/Toplu düzenlemeler",
         "description": "'Regex/Bulk edits' header"
     },
     "optionsRegexEditsDesc": {
-        "message": "This extension stores regex/bulk edits.",
+        "message": "Bu uzantı düzenli ifade/toplu düzenlemeleri saklar.",
         "description": "Description of regex/bulk edits"
     },
     "optionsRegexEditsPopupTitle": {
-        "message": "$1 regex/bulk edits",
+        "message": "$1 düzenli ifade/toplu düzenleme",
         "description": "'Regex/Bulk edits' header"
+    },
+    "optionsBlockedSources": {
+        "message": "Engellenen kaynaklar",
+        "description": "'Edited tracks' header"
+    },
+    "optionsBlockedSourcesDesc": {
+        "message": "Bu internet sitesindeki kanallar gibi belirli kaynaklardan gelen skroplamayı engelleyebilirsiniz.",
+        "description": "Description of blocked sources"
+    },
+    "optionsBlockedSourcesPopupTitle": {
+        "message": "$1 engellenen kaynak",
+        "description": "'Blocked sources' header"
     },
     "optionsViewEdited": {
         "message": "Gör",
@@ -228,7 +292,7 @@
         "description": "Button to import edited tracks"
     },
     "optionsConnectors": {
-        "message": "Connectors",
+        "message": "Bağlayıcılar",
         "description": "'Connectors' section"
     },
     "optionsEnableDisableHint": {
@@ -240,7 +304,7 @@
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
-        "message": "Desteklenen web siteleri",
+        "message": "Desteklenen internet siteleri",
         "description": "'Supported websites' header"
     },
     "optionsToggle": {
@@ -248,11 +312,11 @@
         "description": "Label of toggle button"
     },
     "optionsLoadingConnectorOptions": {
-        "message": "Loading connector options...",
+        "message": "Bağlayıcı seçenekleri yükleniyor...",
         "description": "Loading connector options message"
     },
     "learnMoreLabel": {
-        "message": "Daha fazlasını gör",
+        "message": "Daha fazla bilgi edin",
         "description": "Learn more label"
     },
     "contactTitle": {
@@ -288,7 +352,7 @@
         "description": "Answer #1"
     },
     "faqQuestion2": {
-        "message": "How do I temporarily disable scrobbling?",
+        "message": "Skroplamayı geçici olarak nasıl devre dışı bırakırım?",
         "description": "Question #2"
     },
     "faqAnswer2a": {
@@ -304,7 +368,7 @@
         "description": "Question #3"
     },
     "faqAnswer3a": {
-        "message": "When a track cannot be recognized, a gray icon with question mark appears in the extension bar. You can click on this icon and input correct data in the opened popup window.",
+        "message": "Bir parça tanınamadığında, uzantı çubuğunda soru işaretli gri bir simge görünür. Bu simgeye tıklayabilir ve açılan açılır pencereye doğru verileri girebilirsiniz.",
         "description": "Answer #3"
     },
     "faqAnswer3b": {
@@ -312,47 +376,47 @@
         "description": "Answer #3"
     },
     "faqQuestion4": {
-        "message": "Some music on Bandcamp cannot be scrobbled. Is it possible to fix this?",
+        "message": "Bandcamp'taki bazı müzikler skroplanamaz. Bunu düzeltmek mümkün mü?",
         "description": "Question #4"
     },
     "faqAnswer4a": {
-        "message": "Looks like the music is hosted on a custom domain and the extension cannot detect whether it’s Bandcamp or not.",
+        "message": "Müziğin özel bir alanda barındırıldığı anlaşılıyor ve uzantı, bunun Bandcamp olup olmadığını tespit edemiyor.",
         "description": "Answer #4"
     },
     "faqAnswer4b": {
-        "message": "As a workaround, configure the extension to work with custom domains as follows:",
+        "message": "Geçici bir çözüm olarak, uzantıyı özel alan adlarıyla çalışacak şekilde aşağıdaki gibi yapılandırın:",
         "description": "Answer #4"
     },
     "faqAnswer4b1": {
-        "message": "Open the extension setting page and expand the “Options” section.",
+        "message": "Uzantı ayarı sayfasını açın ve “Seçenekler” bölümünü genişletin.",
         "description": "Answer #4"
     },
     "faqAnswer4b2": {
-        "message": "Find the Bandcamp connector in the list of supported services.",
+        "message": "Desteklenen hizmetler listesinde Bandcamp bağlayıcısını bulun.",
         "description": "Answer #4"
     },
     "faqAnswer4b3": {
-        "message": "Click on the gear icon near the connector label.",
+        "message": "Bağlayıcı etiketinin yanındaki dişli simgesine tıklayın.",
         "description": "Answer #4"
     },
     "faqAnswer4b4": {
-        "message": "Add URL pattern that matches the Bandcamp custom domain URL and apply the changes.",
+        "message": "Bandcamp özel alan URL'siyle eşleşen URL modelini ekleyin ve değişiklikleri uygulayın.",
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "You can learn more about the custom URL patterns <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>here</a>.",
+        "message": "Özel URL kalıpları hakkında daha fazla bilgiyi <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>burada</a> bulabilirsiniz.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
-        "message": "Will you add support for scrobbling at ____ ?",
+        "message": "____ adresine skroplama desteği ekleyecek misiniz?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Open a <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repository</a> and sending us a pull request.",
+        "message": "İsteğinizle birlikte GitHub'da <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">yeni issue</a> açın, size internet sitesi için destek ekleyip ekleyemeyeceğimizi söyleyeceğiz. Ayrıca <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub deposu</a>nu çatallayarak ve bize bir çekme isteği göndererek web sitesi için destek ekleyebilirsiniz.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
-        "message": "Will you add ____ functionality?",
+        "message": "____ işlevselliği ekleyecek misiniz?",
         "description": "Question #6"
     },
     "faqAnswer6": {
@@ -372,51 +436,47 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "Mevcut sürümün değişiklik günlüğüne <a id='latest-release' target='_blank' href='$1'>burada</a> ulaşılabilir. Değişiklik günlüğünün tamamı için lütfen <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>bu sayfayı</a> ziyaret edin.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler, tarayıcıları aracılığıyla çevrimiçi müzik dinleyen ve Last.fm, Libre.fm ve ListenBrainz gibi scrobbling hizmetlerini kullanarak güncellenmiş bir oynatma geçmişi tutmak isteyen kişiler için oluşturulmuş bir tarayıcı uzantısıdır.",
+        "message": "Web Scrobbler, tarayıcıları aracılığıyla çevrimiçi müzik dinleyen ve Last.fm, Libre.fm, ListenBrainz ve Pleroma gibi skroplama hizmetlerini kullanarak güncel bir oynatma geçmişi tutmak isteyen kullanıcılar için oluşturulmuş bir tarayıcı uzantısıdır.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
-        "message": "Contributors",
+        "message": "Katkıda Bulunanlar",
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "You can find the list of contributors <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
+        "message": "Katkıda bulunanların listesini <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">doğrudan GitHub</a>'da bulabilirsiniz.",
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "message": "Katkıda bulunmak ister misiniz? <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">İnternet sitemiz</a>'de projeye katkıda bulunabileceğiniz tüm yolları görün.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
-        "message": "Show some love",
+        "message": "Biraz sevgi göster",
         "description": "'Show some love' section"
     },
-    "showSomeLoveFundingCampaign": {
-        "message": "Over time a significant backlog of issues has been built up in the Web Scrobbler repository. From mid-August 2023 until mid-March 2024 one of our main developers will be available to work full-time on the project at a reduced rate. Roughly speaking, for every $$1500 we raise, we can pay for one month of full-time work, up to around $$9-10k. If you want to support this campaign and help us run through our backlog and make Web Scrobbler even better than it has ever been, you can use the button below. We remain committed to keeping Web Scrobbler and all of its features completely free forever. Please help spread the word.",
-        "description": "Temporary funding campaign"
-    },
     "showSomeLoveText1": {
-        "message": "Unlike other extensions, this one does not contain any flashing banners or sneaky ads.",
+        "message": "Diğer uzantıların aksine, bu uzantı herhangi bir yanıp sönen banner veya reklam içermiyor.",
         "description": ""
     },
     "showSomeLoveText2": {
-        "message": "The extension is free, and will always be free. But if you want to support development of the extension, you can use the button below.",
+        "message": "Uzantı ücretsizdir ve her zaman ücretsiz olacaktır. Ancak uzantının geliştirilmesine destek olmak istiyorsanız aşağıdaki butonu kullanabilirsiniz.",
         "description": ""
     },
     "donationButtonLabel": {
-        "message": "Support us on OpenCollective",
+        "message": "Bizi OpenCollective'de destekleyin",
         "description": "The donation button label"
     },
     "customPatterns": {
-        "message": "URL patterns",
+        "message": "URL kalıpları",
         "description": "'URL patterns' section"
     },
     "customPatternsHint": {
-        "message": "Add URL patterns that the connector should match below.",
+        "message": "Bağlayıcının eşleşmesi gereken URL kalıplarını aşağıya ekleyin.",
         "description": "Popup hint"
     },
     "customPatternsAdd": {
@@ -424,7 +484,7 @@
         "description": "Add button"
     },
     "albumTooltip": {
-        "message": "From \"$1\" album",
+        "message": "\"$1\" albümünden",
         "description": "Tooltip text"
     },
     "buttonOk": {
@@ -444,7 +504,7 @@
         "description": "Clear button label"
     },
     "noItemsInCache": {
-        "message": "No items in cache.",
+        "message": "Önbellekte öğe yok.",
         "description": "Popup hint"
     },
     "getStartedHeader": {
@@ -471,36 +531,60 @@
         "message": "Müziği skroplarken bir şeyler ters gitti gibi görünüyor. Lütfen seçenekler sayfasını açın ve hizmetlerle yeniden kimlik doğrulaması yapmayı deneyin. Yeniden doğrulama yardımcı olmazsa ve hala bu mesajı görüyorsanız, lütfen <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">yeni bir sayı oluşturun</a> GitHub proje sayfasında.",
         "description": "The description of service error"
     },
-    "serviceErrorAdblock": {
-        "message": "Note that some adblockers may interfere with the extension. If you have any adblocker installed, try to disable it and see if it helps. If you are using uBlock Origin, you can add an exception for last.fm by adding <code>@@||ws.audioscrobbler.com</code> under \"My filters\" tab. Other adblockers may have similar functionality.",
-        "description": "The description of service error"
-    },
     "disabledSiteHeader": {
-        "message": "This website is turned off",
+        "message": "Bu web sitesi kapalı",
         "description": "The header of 'disabled' popup"
     },
     "disabledSiteDesc": {
-        "message": "The extension won't scrobble music from this website until you turn it on in the extension options.",
+        "message": "Uzantı, siz uzantı seçeneklerinden açana kadar bu internet sitesindeki müziği skroplamaz.",
         "description": "The description of 'disabled' popup"
     },
     "disabledSiteButton": {
         "message": "Seçenekler sayfasını aç",
         "description": "Button label"
     },
+    "disallowedHeader": {
+        "message": "Bu şarkı skroplanmıyor",
+        "description": "The header of 'disallowed' popup"
+    },
+    "disallowedDesc1": {
+        "message": "Web Scrobbler \"$2\" ile \"$1\" şarkısını algıladı, ancak onları skroplamayacak.",
+        "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
+    },
+    "disallowedDesc3": {
+        "message": "Web Scrobbler yine de bu internet sitesinin başka bir yerindeki müziği skroplayacaktır.",
+        "description": "The description of 'disallowed' popup on all sites including youtube"
+    },
+    "disallowedButton": {
+        "message": "Yine de skropla",
+        "description": "Button label"
+    },
+    "ignoredHeader": {
+        "message": "Bu skroplama göz ardı edildi",
+        "description": "The header of 'ignored' popup"
+    },
+    "ignoredDesc": {
+        "message": "Web Scrobbler \"$2\"yi \"$1\"e kadar skroplamaya çalıştı ancak etiketler Last.FM tarafından göz ardı edildi.",
+        "description": "The description of 'ignored' popup. $1 is artist name, and $2 is track name"
+    },
+    "ignoredDescReadMore": {
+        "message": "Daha fazlasını buradan okuyun ve şarkının izin verilenler listesine eklenmesini isteyin",
+        "description": "The description of 'ignored' popup, links to support.last.fm thread"
+    },
     "unsupportedWebsiteHeader": {
         "message": "Bu web sitesi desteklenmiyor",
         "description": "The header of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Web Scrobbler does not support scrobbling from this website.",
+        "message": "Web Scrobbler bu internet sitesinden skroplamayı desteklemez.",
         "description": "The description of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc2": {
-        "message": "Some Google websites supported by the extension (e.g. Google Play Music, YouTube) can be blocked due to an ExtensionSettings policy.",
+        "message": "Uzantı tarafından desteklenen bazı Google internet siteleri (ör. Google Play Müzik, YouTube), ExtensionSettings politikası nedeniyle engellenebilir.",
         "description": "The description of 'unsupported' popup"
     },
     "unsupportedWebsiteUpdateNote": {
-        "message": "If the extension recently updated sites may show as unsupported until you refresh the page.",
+        "message": "Uzantı yakın zamanda güncellendiyse, siz sayfayı yenileyene kadar siteler desteklenmiyor olarak görünebilir.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {
@@ -516,43 +600,43 @@
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "You cannot edit this track",
+        "message": "Bu parçayı düzenleyemezsiniz",
         "description": "Title of edit button"
     },
     "infoEditTitleShort": {
-        "message": "Edit",
+        "message": "Düzenle",
         "description": "Title of edit button, should be short for mobile button label"
     },
     "infoEditUnableTitleShort": {
-        "message": "Can't Edit",
+        "message": "Düzenlenemiyor",
         "description": "Title of edit button, should be short for mobile button label"
     },
     "infoSwapTitle": {
-        "message": "Swap title and artist",
+        "message": "Başlığı ve sanatçıyı değiştir",
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "You cannot swap empty track info",
+        "message": "Boş parça bilgilerini değiştiremezsiniz",
         "description": "Title of swap button"
     },
     "infoSwapTitleShort": {
-        "message": "Swap title/artist",
+        "message": "Başlığı/sanatçıyı değiştir",
         "description": "Title of swap button, should be short for mobile button label"
     },
     "infoSwapUnableTitleShort": {
-        "message": "Can't swap info",
+        "message": "Bilgi değiştirilemiyor",
         "description": "Title of swap button, should be short for mobile button label"
     },
     "infoRegexTitle": {
-        "message": "Regex/Bulk edit mode",
+        "message": "Düzenli ifade/Toplu düzenleme modu",
         "description": "Title of regex/bulk edit button"
     },
     "infoRegexTitleShort": {
-        "message": "Regex/Bulk edit",
+        "message": "Düzenli ifade/Toplu düzenleme",
         "description": "Title of regex/bulk edit button, should be short for mobile button label"
     },
     "infoEditedWarning": {
-        "message": "This track has been edited. Regex edits are not applied to edited tracks, and the preview you see here may be inaccurate.",
+        "message": "Bu parça düzenlendi. Düzenli ifade düzenlemeleri, düzenlenen parçalara uygulanmaz ve burada gördüğünüz ön izleme hatalı olabilir.",
         "description": "Warning message to user if bulk editing on a previously edited track"
     },
     "infoSubmitTitle": {
@@ -560,15 +644,15 @@
         "description": "Title of submit button"
     },
     "infoSubmitUnableTitle": {
-        "message": "You cannot submit empty track info",
+        "message": "Boş parça bilgisi gönderemezsiniz",
         "description": "Title of submit button"
     },
     "infoSubmitTitleShort": {
-        "message": "Submit",
+        "message": "Gönder",
         "description": "Title of submit button, should be short for mobile button label"
     },
     "infoSubmitUnableTitleShort": {
-        "message": "Can't submit",
+        "message": "Gönderilemiyor",
         "description": "Title of submit button, should be short for mobile button label"
     },
     "infoRevertTitle": {
@@ -576,39 +660,39 @@
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "You cannot revert this track",
+        "message": "Bu parçayı geri alamazsınız",
         "description": "Title of revert button"
     },
     "infoRevertTitleShort": {
-        "message": "Revert",
+        "message": "Geri al",
         "description": "Title of revert button, should be short for mobile button label"
     },
     "infoRevertUnableTitleShort": {
-        "message": "Can't Revert",
+        "message": "Geri alınamıyor",
         "description": "Title of revert button, should be short for mobile button label"
     },
     "infoSkipTitle": {
-        "message": "Geçerli parçayı scrobble yapma",
+        "message": "Geçerli parçayı skroplama",
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "You cannot skip this track",
+        "message": "Bu parçayı atlayamazsınız",
         "description": "Title of skip button"
     },
     "infoSkippedTitle": {
-        "message": "You skipped this track",
+        "message": "Bu parçayı atladınız",
         "description": "Title of unskip button"
     },
     "infoSkipTitleShort": {
-        "message": "Skip",
+        "message": "Atla",
         "description": "Title of skip button, should be short for mobile button label"
     },
     "infoSkipUnableTitleShort": {
-        "message": "Can't Skip",
+        "message": "Atlanamıyor",
         "description": "Title of skip button, should be short for mobile button label"
     },
     "infoSkippedTitleShort": {
-        "message": "Skipped",
+        "message": "Atlandı",
         "description": "Title of unskip button, should be short for mobile button label"
     },
     "infoOpenAlbumArt": {
@@ -616,7 +700,7 @@
         "description": "Title of album image"
     },
     "infoArtistPlaceholder": {
-        "message": "Artis",
+        "message": "Sanatçı",
         "description": "Placeholder of artist input"
     },
     "infoTrackPlaceholder": {
@@ -624,7 +708,7 @@
         "description": "Placeholder of track input"
     },
     "infoAlbumPlaceholder": {
-        "message": "Albüm (opsiyonel)",
+        "message": "Albüm (isteğe bağlı)",
         "description": "Placeholder of album input"
     },
     "infoAlbumArtistPlaceholder": {
@@ -632,79 +716,79 @@
         "description": "Placeholder of album artist input"
     },
     "infoSearchLabel": {
-        "message": "Search",
+        "message": "Ara",
         "description": "Label of regex edit search input"
     },
     "infoReplaceLabel": {
-        "message": "Replace",
+        "message": "Değiştir",
         "description": "Label of regex edit replace input"
     },
     "infoPreviewLabel": {
-        "message": "Preview",
+        "message": "Ön izle",
         "description": "Label of regex edit preview output"
     },
     "infoArtistLabel": {
-        "message": "Artist",
+        "message": "Sanatçı",
         "description": "Label of artist input row"
     },
     "infoTrackLabel": {
-        "message": "Track",
+        "message": "Parça",
         "description": "Label of track input row"
     },
     "infoAlbumLabel": {
-        "message": "Album",
+        "message": "Albüm",
         "description": "Label of album input row"
     },
     "infoAlbumArtistLabel": {
-        "message": "Album artist",
+        "message": "Albüm sanatçısı",
         "description": "Label of album artist input row"
     },
     "infoViewArtistPage": {
-        "message": "View artist page: $1",
+        "message": "Sanatçı sayfasını görüntüle: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "View album page: $1",
+        "message": "Albüm sayfasını görüntüle: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "View track page: $1",
+        "message": "Parça sayfasını görüntüle: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
-        "message": "Your scrobbles: $1",
+        "message": "Skroplamalarınız: $1",
         "description": "Label for user play count"
     },
     "pageActionBase": {
-        "message": "This site is supported for scrobbling",
-        "description": "`base` page action title"
+        "message": "Bu site skroplama için destekleniyor",
+        "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
-        "message": "Looking up $1",
-        "description": "`loading` page action title"
+        "message": "$1 aranıyor",
+        "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
-        "message": "Now playing $1",
-        "description": "`playing` page action title"
+        "message": "Şimdi $1 çalıyor",
+        "description": "`playing` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
-        "message": "Scrobbled $1",
-        "description": "`scrobbled` page action title"
+        "message": "$1 skroplandı",
+        "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
         "message": "$1 atlandı",
-        "description": "`skipped` page action title"
+        "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
         "message": "$1 yok sayıldı",
-        "description": "`ignored` page action title"
+        "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
-        "message": "This site is supported for scrobbling, but you disabled it",
-        "description": "`disabled` page action title"
+        "message": "Bu site skroplama için destekleniyor, ancak siz onu devre dışı bıraktınız",
+        "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
-        "message": "The track is not recognized. Click to submit correct info.",
+        "message": "Parça tanınmıyor. Doğru bilgileri göndermek için tıklayın.",
         "description": "`unknown` page action title"
     },
     "pageActionError": {
@@ -712,7 +796,7 @@
         "description": "`loading` page action title"
     },
     "pageActionUnsupported": {
-        "message": "Web Scrobbler does not support this website.",
+        "message": "Web Scrobbler bu internet sitesini desteklemiyor.",
         "description": "`unsupported` page action title"
     },
     "pageActionLoved": {
@@ -724,15 +808,23 @@
         "description": "`unsupported` page action title"
     },
     "menuDisableConnector": {
-        "message": "Disable $1 connector",
+        "message": "$1 bağlayıcıyı devre dışı bırak",
         "description": "Context menu item"
     },
     "menuEnableConnector": {
-        "message": "Enable $1 connector",
+        "message": "$1 bağlayıcıyı etkinleştir",
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-        "message": "Disable $1 connector until tab is closed",
+        "message": "Sekme kapatılıncaya kadar $1 bağlayıcısını devre dışı bırakın",
+        "description": "Context menu item"
+    },
+    "menuDisableChannel": {
+        "message": "$1'dan itibaren skroplamayı devre dışı bırak",
+        "description": "Context menu item"
+    },
+    "menuEnableChannel": {
+        "message": "$1'dan itibaren skroplamayı etkinleştir",
         "description": "Context menu item"
     },
     "notificationConnectAccounts": {
@@ -740,27 +832,27 @@
         "description": "Notification title"
     },
     "notificationConnectAccountsText": {
-        "message": "Click the notification to connect your accounts.",
+        "message": "Hesaplarınızı bağlamak için bildirime tıklayın.",
         "description": "Notification text"
     },
     "notificationAuthError": {
-        "message": "Authentication error",
+        "message": "Doğrulama hatası",
         "description": "Notification title"
     },
     "notificationUnableSignIn": {
-        "message": "Unable to sign in to $1. Please try later.",
+        "message": "$1 hesabında oturum açılamıyor. Lütfen daha sonra tekrar deneyin.",
         "description": "Notification text"
     },
     "notificationNotRecognized": {
-        "message": "The track is not recognized",
+        "message": "Parça tanınmıyor",
         "description": "Notification title"
     },
     "notificationNotRecognizedText": {
-        "message": "Click on the icon in the extensions bar to correct and submit track info.",
+        "message": "Parça bilgilerini düzeltmek ve göndermek için uzantı çubuğundaki simgeye tıklayın.",
         "description": "Notification text"
     },
     "hotkeyToggleConnector": {
-        "message": "Toggle scrobbling for current website",
+        "message": "Geçerli web sitesi için skroplamayı aç/kapat",
         "description": "Hotkey label"
     },
     "hotkeyLoveSong": {
@@ -771,8 +863,20 @@
         "message": "Şarkı şimdi çalıyor",
         "description": "Hotkey label"
     },
+    "infoBoxStateDisallowed": {
+        "message": "Skroplamaya izin verilmez. Daha fazla bilgi için web scrobbler uzantısı simgesine tıklayın.",
+        "description": "Infobox text when an option is disallowing scrobbling"
+    },
+    "infoBoxStateError": {
+        "message": "Bir hizmet hatası oluştu. Daha fazla bilgi için web scrobbler uzantısı simgesine tıklayın.",
+        "description": "Infobox text when an error occured"
+    },
+    "infoBoxStateUnknown": {
+        "message": "Parça tanınmıyor. Bilgileri düzeltmek için web scrobbler uzantısı simgesine tıklayın.",
+        "description": "Infobox track is not recognized"
+    },
     "extDescription": {
-        "message": "Scrobble music all around the web!",
+        "message": "İnternetin her yerinde müzik skropla!",
         "description": "Description of the extension"
     }
 }

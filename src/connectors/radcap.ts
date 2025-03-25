@@ -17,7 +17,17 @@ function setupDesktopPlayer() {
 
 	Connector.artistTrackSelector = '.stream.stream-signal > tbody > tr > td';
 
-	Connector.playButtonSelector = '#oframeplayer-d > pjsdiv:nth-child(7)';
+	const playButtonSelector =
+		'#oframeplayer-d > pjsdiv:nth-child(7) > pjsdiv:nth-child(2) > pjsdiv:nth-child(1)';
+
+	Connector.isPlaying = () => {
+		return (
+			Util.getCSSPropertyFromSelectors(
+				playButtonSelector,
+				'visibility',
+			) === 'hidden'
+		);
+	};
 }
 
 function setupMobilePlayer() {
@@ -26,10 +36,10 @@ function setupMobilePlayer() {
 	Connector.artistTrackSelector = 'table.stream > tbody > tr > td';
 
 	const upperPlayerPlayButton =
-		'#oframeaudioplayer2 > pjsdiv:nth-child(8) > pjsdiv:nth-child(2)';
+		'#oframeaudioplayer2 > pjsdiv:nth-child(8) > pjsdiv:nth-child(2) > pjsdiv:nth-child(1)';
 
 	const lowerPlayerPlayButton =
-		'#oframeaudioplayer0 > pjsdiv:nth-child(8) > pjsdiv:nth-child(2)';
+		'#oframeaudioplayer0 > pjsdiv:nth-child(8) > pjsdiv:nth-child(2) > pjsdiv:nth-child(1)';
 
 	Connector.isPlaying = () => {
 		return (

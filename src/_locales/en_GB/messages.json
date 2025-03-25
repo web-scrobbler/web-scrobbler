@@ -372,7 +372,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -776,7 +776,7 @@
         "description": "Description of the extension"
     },
     "infoBoxStateDisallowed": {
-        "message":  "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
+        "message": "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
         "description": "Infobox text when an option is disallowing scrobbling"
     },
     "infoBoxStateError": {

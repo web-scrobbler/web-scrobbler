@@ -6,7 +6,7 @@ Connector.artistSelector = '[class*=_CreativesLabel__container_]';
 
 Connector.trackSelector = [
 	'[class*=_ScrollingLabel__label_]',
-	'[class*=_TrackInfo__mobileContainer_] > [aria-label^=track]',
+	'[class*=_TrackInfo__container_] > [aria-label^=track]',
 ];
 
 Connector.currentTimeSelector = '[class*=_PlayerBar__elapsedTime_]';
@@ -14,7 +14,5 @@ Connector.currentTimeSelector = '[class*=_PlayerBar__elapsedTime_]';
 Connector.durationSelector = '[class*=_PlayerBar__waveform_] + span';
 
 Connector.isPlaying = () =>
-	Util.getAttrFromSelectors(
-		'[class*=_PlaybackControls__playPauseButton_]',
-		'title',
-	) === 'Pause';
+	Util.getAttrFromSelectors('button[aria-label="Pause"]', 'aria-label') ===
+	'Pause';

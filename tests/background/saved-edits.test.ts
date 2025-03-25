@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import { expect, describe, it, beforeAll } from 'vitest';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
 
 import Song from '@/core/object/song';
-import { SavedEdit } from '@/core/storage/options';
+import type { SavedEdit } from '@/core/storage/options';
 import savedEdits from '@/core/storage/saved-edits';
-import SavedEditsModel from '@/core/storage/saved-edits.model';
+import type SavedEditsModel from '@/core/storage/saved-edits.model';
 
 const editedInfo = {
 	artist: 'ArtistEdited',

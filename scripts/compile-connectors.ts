@@ -1,8 +1,9 @@
 import { exec } from 'child_process';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 import fs from 'fs-extra';
 import colorLog from './log';
 import { getBrowser } from './util';
+import type { FSWatcher } from 'chokidar';
 import chokidar from 'chokidar';
 
 /**
@@ -19,7 +20,7 @@ function generateConnectors() {
 					colorLog(err, 'error');
 					colorLog(stdout, 'info');
 					colorLog(stderr, 'error');
-					reject();
+					reject(new Error());
 					return;
 				}
 				colorLog('Connector file compilation complete', 'success');
@@ -35,7 +36,7 @@ function generateConnectors() {
 					resolve();
 				} catch (err) {
 					colorLog(err, 'error');
-					reject();
+					reject(new Error());
 				}
 			},
 		);
@@ -45,7 +46,7 @@ function generateConnectors() {
 /**
  * chokidar watcher used for HMR purposes
  */
-let watcher: chokidar.FSWatcher;
+const watcher: FSWatcher | null = null;
 
 /**
  * Vite plugin that compiles the connector .ts files, and moves them to the correct folder

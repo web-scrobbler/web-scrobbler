@@ -16,8 +16,8 @@ Connector.trackArtSelector = '.jg-song .jg-player__album-art__image';
 
 Connector.isTrackArtDefault = () => {
 	const defaultImages = ['Mix1', 'Mix2', 'Dreams', 'Gems', 'Smooth'];
-	return defaultImages.some(
-		(image) => Connector.getTrackArt()?.includes(`${image}.jpg`),
+	return defaultImages.some((image) =>
+		Connector.getTrackArt()?.includes(`${image}.jpg`),
 	);
 };
 

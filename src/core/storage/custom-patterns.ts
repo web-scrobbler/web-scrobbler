@@ -2,7 +2,7 @@
  * The module manages URL patterns can be defined by users.
  */
 import { getStorage, CUSTOM_PATTERNS } from '@/core/storage/browser-storage';
-import { CustomPatterns } from './wrapper';
+import type { CustomPatterns } from './wrapper';
 
 const storage = getStorage(CUSTOM_PATTERNS);
 

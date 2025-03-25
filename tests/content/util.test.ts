@@ -1,4 +1,4 @@
-import { TestData } from '#/types/types';
+import type { TestData } from '#/types/types';
 import { expect, it, describe } from 'vitest';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';

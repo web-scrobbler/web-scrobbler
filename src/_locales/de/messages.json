@@ -27,6 +27,14 @@
         "message": "Benachrichtigung anzeigen wenn Titel nicht von der Erweiterung erkannt wird",
         "description": "Option title"
     },
+    "optionUseInfobox": {
+        "message": "Infobox anzeigen",
+        "description": "Option label"
+    },
+    "optionUseInfoboxTitle": {
+        "message": "Zeige eine Web-Scrobbler-Infobox auf der Seite unterstützter Websites",
+        "description": "Option title"
+    },
     "optionScrobblePodcasts": {
         "message": "Podcasts scrobbeln",
         "description": "Option label"
@@ -34,6 +42,10 @@
     "optionScrobblePodcastsTitle": {
         "message": "Podcast-Episoden scrobbeln",
         "description": "Option title"
+    },
+    "optionDebugLoggingEnabled": {
+        "message": "Debug-Protokollierung aktivieren",
+        "description": "Option label"
     },
     "optionsScrobbleBehavior": {
         "message": "Scrobble-Verhalten",
@@ -48,7 +60,7 @@
         "description": "Option title"
     },
     "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble erkannt oder bearbeiteter Titel (Standard)",
+        "message": "Scrobble erkannte oder bearbeitete Titel (Standard)",
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
@@ -62,6 +74,10 @@
     "optionScrobbleEditedTracksOnlyTitle": {
         "message": "Scrobble Titel nur, falls sie bearbeitet wurden",
         "description": "Option title"
+    },
+    "optionsAdvanced": {
+        "message": "Erweitert",
+        "description": "'Advanced' section"
     },
     "optionsHidden": {
         "message": "Versteckt",
@@ -80,7 +96,7 @@
         "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
-        "message": "Nimm zur Kenntnis, dass ein Titel unabhängig von dieser Einstellung trotzdem gescrobblet wird, falls er länger als 4 Minuten gespielt wurde.",
+        "message": "Beachte, dass ein Titel unabhängig von dieser Einstellung trotzdem gescrobblet wird, falls er länger als 4 Minuten gespielt wurde.",
         "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
@@ -371,14 +387,6 @@
         "message": "Über",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Das Änderungsprotokoll der aktuellen Version ist <a id='latest-release' target='_blank' href='#'>hier</a> verfügbar. Besuche für das vollständige Änderungsprotokoll <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>diese Seite</a>.",
-        "description": "'About' section text"
-    },
-    "aboutExtensionDesc": {
-        "message": "Web Scrobbler ist eine Browser-Erweiterung für Leute, die Musik über ihren Browser zuhören und gerne ein aktualisiertes Playback-Verlauf durch Scrobbling-Dienstleistungen wie Last.fm, Libre.fm und ListenBrainz haben wollen.",
-        "description": "'About' section text"
-    },
     "contributorsTitle": {
         "message": "Mitwirkende",
         "description": "'Contributors' header"
@@ -394,10 +402,6 @@
     "showSomeLoveTitle": {
         "message": "Zeig deine Unterstützung",
         "description": "'Show some love' section"
-    },
-    "showSomeLoveFundingCampaign": {
-        "message": "Mit der Zeit wurde ein großer Bestand an Aufgaben im Web-Scrobbler-Repository aufgebaut. Von Mitte August 2023 bis Mitte März 2024 steht einer unserer Hauptentwickler zur Verfügung, um mit geringeren Bezügen Vollzeit an diesem Projekt zu arbeiten. Für alle $$1500, die wir aufbringen, können wir ungefähr einen Monat Vollzeitarbeit finanzieren bis zu einem Gesamtbetrag von etwa $$9-10k. Wenn du diese Kampagne unterstützen möchtest und uns hilfst, unseren Bearbeitungsrückstand abzuarbeiten und so Web Scrobbler noch besser zu machen, benutze den Button unten. Wir verpflichten uns weiterhin, Web Scrobbler mit all seinen Features für immer kostenlos zu halten. Bitte hilf uns, diese Botschaft zu verbreiten.",
-        "description": "Temporary funding campaign"
     },
     "showSomeLoveText1": {
         "message": "Anders als andere Erweiterungen enthält diese keine blinkenden Banner oder hinterhältige Werbung.",
@@ -673,31 +677,31 @@
     },
     "pageActionBase": {
         "message": "Diese Seite wird für Scrobbling unterstützt",
-        "description": "`base` page action title"
+        "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
         "message": "Suche $1",
-        "description": "`loading` page action title"
+        "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
         "message": "Es läuft $1",
-        "description": "`playing` page action title"
+        "description": "`playing` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "$1 wurde gescrobbled",
-        "description": "`scrobbled` page action title"
+        "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
         "message": "$1 übersprungen",
-        "description": "`skipped` page action title"
+        "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
         "message": "$1 ignoriert",
-        "description": "`ignored` page action title"
+        "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
         "message": "Diese Seite wird für Scrobbling unterstützt, aber du hast sie deaktiviert",
-        "description": "`disabled` page action title"
+        "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
         "message": "Der Titel wurde nicht erkannt. Klick um korrekte Informationen einzutragen.",

@@ -1,10 +1,11 @@
 'use strict';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
 import { timeoutPromise } from '@/util/util';
-import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
-import {
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
+import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
+import type {
 	PleromaTrackMetadata,
 	PleromaUser,
 } from '@/core/scrobbler/pleroma/pleroma.types';
@@ -64,7 +65,7 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	/** @override */
 	public async getSession(): Promise<SessionData> {
 		if (!this.userToken) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		const requestInfo = {
@@ -81,7 +82,7 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 		try {
 			response = await timeoutPromise(timeout, promise);
 			if (response.status !== 200) {
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			}
 
 			const json = (await response.json()) as PleromaUser | null;
@@ -89,7 +90,7 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 			return { sessionID: this.userToken, sessionName: fqn };
 		} catch (e) {
 			this.debugLog('Error while sending request', 'error');
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 	}
 

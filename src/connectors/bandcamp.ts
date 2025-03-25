@@ -21,12 +21,45 @@ let bandcampFilter = MetadataFilter.createFilter(
 	),
 );
 
-setupConnector();
+if (document.querySelector('main#p-tralbum-page') === null) {
+	setupDesktopConnector();
+} else {
+	setupMobileConnector();
+}
 
-/**
- * Entry point.
- */
-function setupConnector() {
+// Apply the filter at the end to allow extend it in setup functions
+Connector.applyFilter(bandcampFilter);
+
+function setupMobileConnector() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+		}),
+	);
+
+	Connector.playerSelector = '#player';
+
+	Connector.isPlaying = () =>
+		document.querySelector('.playbutton.playing') !== null;
+
+	Connector.artistSelector = '.tralbum-artist';
+
+	Connector.albumArtistSelector = '.tralbum-artist';
+
+	Connector.trackSelector = '.current-track > span:nth-child(2)';
+
+	Connector.albumSelector = '.tralbum-name';
+
+	Connector.durationSelector = '.duration-text';
+
+	Connector.currentTimeSelector = '.progress-text';
+
+	Connector.trackArtSelector = '#tralbum-art-carousel img';
+
+	Connector.getOriginUrl = () => document.location.href.split('?')[0];
+}
+
+function setupDesktopConnector() {
 	initEventListeners();
 	initGenericProperties();
 
@@ -48,14 +81,14 @@ function setupConnector() {
 		Util.debugLog('Init props for feed player');
 
 		initPropertiesForFeedPlayer();
+	} else if (isDiscoverPage()) {
+		Util.debugLog('Init props for discover player');
+		initPropertiesForDiscoverPlayer();
 	} else {
 		Util.debugLog('Init props for home page');
 
 		initPropertiesForHomePage();
 	}
-
-	// Apply the filter at the end to allow extend it in setup functions
-	Connector.applyFilter(bandcampFilter);
 }
 
 /**
@@ -98,6 +131,39 @@ function initGenericProperties() {
 	};
 
 	Connector.getOriginUrl = () => document.location.href.split('?')[0];
+}
+
+function initPropertiesForDiscoverPlayer() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+			album: [removeFromPrefix],
+		}),
+	);
+
+	Connector.playerSelector = '.discover-player';
+
+	Connector.artistSelector = '.player-info a:nth-child(3)';
+
+	Connector.albumSelector = '.player-info a:nth-child(2)';
+
+	Connector.trackSelector = '.player-info p';
+
+	Connector.trackArtSelector = 'img.cover';
+
+	Connector.durationSelector = '.playback-time.total';
+
+	Connector.currentTimeSelector = '.playback-time.current';
+
+	Connector.isPlaying = () => {
+		const playButton = document.querySelector(
+			'.player-top button.play-pause-button',
+		);
+		return (
+			playButton !== null &&
+			playButton.querySelector('svg.pause-circle-outline-icon') !== null
+		);
+	};
 }
 
 // Example: https://northlane.bandcamp.com/album/mesmer
@@ -167,10 +233,6 @@ function initPropertiesForFeedPlayer() {
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
 
 	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
-
-	function removeByPrefix(text: string) {
-		return text.replace('by ', '');
-	}
 }
 
 // Example: https://bandcamp.com/?show=47
@@ -245,6 +307,11 @@ function isFeedPage() {
 
 function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
+}
+
+function isDiscoverPage() {
+	const url = new URL(document.location.href);
+	return url.pathname.startsWith('/discover');
 }
 
 function getTrackNodes() {
@@ -344,4 +411,12 @@ function getData(selector: string, attr: string) {
 	}
 
 	return {};
+}
+
+function removeByPrefix(text: string) {
+	return text.replace('by ', '');
+}
+
+function removeFromPrefix(text: string) {
+	return text.replace('from ', '');
 }

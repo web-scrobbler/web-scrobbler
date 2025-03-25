@@ -4,7 +4,7 @@
 
 import { expect, describe, it } from 'vitest';
 import * as Util from '@/util/util';
-import { TestData } from '#/types/types';
+import type { TestData } from '#/types/types';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
 

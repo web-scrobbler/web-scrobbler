@@ -36,7 +36,7 @@
         "description": "Option title"
     },
     "optionScrobblePodcasts": {
-        "message": "Skroboti tinklalaidės",
+        "message": "Skrobuoti tinklalaidės",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
@@ -340,7 +340,7 @@
         "description": "Answer #3"
     },
     "faqQuestion4": {
-        "message": "Kai kurios muzikos Bandcamp negalima nuskroboti. Ar įmanoma tai ištaisyti?",
+        "message": "Kai kurios muzikos Bandcamp negalima nuskrobuoti. Ar įmanoma tai ištaisyti?",
         "description": "Question #4"
     },
     "faqAnswer4a": {
@@ -376,7 +376,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Atidaryk <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">naują problemą</a> GitHub svetainėje su savo prašymu ir mes jums pasakysime, ar galime pridėti svetainės palaikymą, ar ne. Be to, gali pridėti svetainės palaikymą šakodamas (-a) <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repozitoriją</a> ir siųsdamas (-a) mums traukimo prašymą.",
+        "message": "Atidaryk <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">naują problemą</a> GitHub svetainėje su savo prašymu ir mes jums pasakysime, ar galime pridėti svetainės palaikymą, ar ne. Be to, gali pridėti svetainės palaikymą šakodamas (-a) <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub saugyklą</a> ir siųsdamas (-a) mums traukimo prašymą.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -403,10 +403,6 @@
         "message": "Dabartinės versijos pakeitimų sąrašą galima rasti <a id='latest-release' target='_blank' href='$1'>čia</a>. Visą pakeitimų sąrašą rasi <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>šiame puslapyje</a>.",
         "description": "'About' section text"
     },
-    "aboutExtensionDesc": {
-        "message": "Web Scrobbler yra naršyklės plėtinys, sukurtas žmonėms, kurie klausosi muzikos internete per naršyklę ir norėtų išsaugoti atnaujintą grojimo istoriją, naudodamiesi skrobliavimo paslaugomis, tokiomis kaip Last.fm, Libre.fm ir ListenBrainz.",
-        "description": "'About' section text"
-    },
     "contributorsTitle": {
         "message": "Bendradarbiai",
         "description": "'Contributors' header"
@@ -422,10 +418,6 @@
     "showSomeLoveTitle": {
         "message": "Parodyk šiek tiek meilės",
         "description": "'Show some love' section"
-    },
-    "showSomeLoveFundingCampaign": {
-        "message": "Laikui einant, Web Scrobbler repozitorijoje susikaupė nemažai neišspręstų problemų. Nuo 2023 m. rugpjūčio vidurio iki 2024 m. kovo vidurio vienas iš mūsų pagrindinių programuotojų galės dirbti projekte visą darbo dieną už sumažintą kainą. Grubiai tariant, už kiekvieną surinktą 1500 dolerių sumą galėsime sumokėti už vieną mėnesį darbo visą darbo dieną, t. y. maždaug 9-10 tūkst. dolerių. Jei nori palaikyti šią akciją ir padėti mums įveikti mūsų atsilikimą bei padaryti Web Scrobbler dar geresnį nei kada nors anksčiau, gali pasinaudoti toliau nurodytu mygtuku. Esame pasiryžę išlaikyti Web Scrobbler ir visas jos funkcijas visiškai nemokamas amžinai. Prašome padėti skleisti šią žinią.",
-        "description": "Temporary funding campaign"
     },
     "showSomeLoveText1": {
         "message": "Skirtingai nei kituose plėtiniuose, šiame nėra jokių mirksinčių reklaminių skydelių ar klastingų reklamų.",
@@ -496,15 +488,15 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Atrodo, lyg kažkas nepavyko, kol buvo skrobuolintas muzika. Atidaryk pasirinkčių puslapį ir pabandyk iš naujo autentifikuoti su paslaugomis. Jei pakartotinis autentiškumo nepadeda ir vis dar matai šį pranešimą, sukurk <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">naują problemą</a> GitHub projekto puslapyje.",
+        "message": "Atrodo, lyg kažkas nepavyko, kol buvo skrobuolintas muzika. Atidaryk pasirinkčių puslapį ir pabandyk iš naujo nustatyti tapatybę su paslaugomis. Jei pakartotinis tapatybės nustatymas nepadeda ir vis dar matai šį pranešimą, sukurk <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">naują problemą</a> GitHub projekto puslapyje.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
-        "message": "Ši svetainė yra išjungta",
+        "message": "Ši svetainė išjungta",
         "description": "The header of 'disabled' popup"
     },
     "disabledSiteDesc": {
-        "message": "Šis plėtinys neskrobos muzikos iš šios svetainės, kol jo neįjungsi plėtinio parinktyse.",
+        "message": "Šis plėtinys neskrobuos muzikos iš šios svetainės, kol jo neįjungsi plėtinio parinktyse.",
         "description": "The description of 'disabled' popup"
     },
     "disabledSiteButton": {
@@ -516,47 +508,15 @@
         "description": "The header of 'disallowed' popup"
     },
     "disallowedDesc1": {
-        "message": "Web Scrobbler aptiko dainą „$2“ atliekanti „$1“, bet jo neskrobbuojos.",
-        "description": "The description of 'disallowed' popup on all sites including youtube. $1 is the artist detected. $2 is the track detected"
-    },
-    "disallowedDescYoutube": {
-        "message": "YouTube dažniausiai pasitaikančios priežastys yra:",
-        "description": "The description of 'disallowed' popup on youtube."
-    },
-    "disallowedDescYoutubePoint1": {
-        "message": "Turint „Skrobuoti vaizdo įrašus iš kategorijos „Muzika/ pramogos““ įjungtą ir grojant vaizdo įrašą su kita kategorija.",
-        "description": "Point 1 in example list on youtube"
-    },
-    "disallowedDescYoutubePoint2": {
-        "message": "Turint „Skrobuoti tik tuos vaizdo įrašus, kuriuos YouTube Music atpažįsta kaip muziką“ įjungtą ir grojant dainą, kurios YouTube Music neatpažįsta kaip muzikos.",
-        "description": "Point 2 in example list on youtube"
-    },
-    "disallowedDescYoutubePoint3": {
-        "message": "Reklamai (net ir užblokuoti reklamos gali laikinai rodyti šį.)",
-        "description": "Point 3 in example list on youtube"
-    },
-    "disallowedDesc2": {
-        "message": "Taip yra todėl, kad svetainės jungtis nusprendė, jog tai nėra daina, kurią skrobuoti. Kai kurios galimos priežastys yra:",
-        "description": "The description of 'disallowed' popup on sites except youtube"
-    },
-    "disallowedDesc2Point1": {
-        "message": "Web Scrobbler gali interpretuoti šį kaip reklamą.",
-        "description": "Point 1 in example list on sites except youtube"
-    },
-    "disallowedDesc2Point2": {
-        "message": "Web Scrobbler galbūt šią dainą identifikuoja kaip grojantį kitame įrenginyje.",
-        "description": "Point 2 in example list on sites except youtube"
-    },
-    "disallowedDesc2Point3": {
-        "message": "Web Scrobbler, dėl kažkokių kitų priežasčių, galvoja, kad tai nėra tai, ką reikėtų tikrinti.",
-        "description": "Point 3 in example list on sites except youtube"
+        "message": "Web Scrobbler aptiko dainą „$2“ atliekanti „$1“, bet jo nenuskrobuos.",
+        "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
     },
     "disallowedDesc3": {
         "message": "Web Scrobbler vis tiek turėtų nuskrobuoti muziką iš kažkur šioje svetainėje.",
         "description": "The description of 'disallowed' popup on all sites including youtube"
     },
     "disallowedButton": {
-        "message": "Skrobuoti bet kokiu atveju",
+        "message": "Skrobuoti vis tiek",
         "description": "Button label"
     },
     "ignoredHeader": {
@@ -564,7 +524,7 @@
         "description": "The header of 'ignored' popup"
     },
     "ignoredDesc": {
-        "message": "Web Scrobbler bandė nuskroboti „$2“ pagal „$1“, tačiau žymas Last.FM ignoravo.",
+        "message": "Web Scrobbler bandė nuskrobuoti „$2“ pagal „$1“, tačiau žymes Last.FM ignoravo.",
         "description": "The description of 'ignored' popup. $1 is artist name, and $2 is track name"
     },
     "ignoredDescReadMore": {

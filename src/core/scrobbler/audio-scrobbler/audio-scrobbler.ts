@@ -2,10 +2,11 @@ import MD5 from 'blueimp-md5';
 
 import { hideStringInText, timeoutPromise } from '@/util/util';
 import { createQueryString } from '@/util/util-browser';
-import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
+import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import { BaseSong } from '@/core/object/song';
-import {
+import type { BaseSong } from '@/core/object/song';
+import type {
 	AudioScrobblerSessionResponse,
 	AudioScrobblerTrackScrobbleResponse,
 } from '@/core/scrobbler/audio-scrobbler/audio-scrobbler.types';
@@ -100,11 +101,11 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 		const data = await this.storage.get();
 		if (!data) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 		if (!('token' in data)) {
 			if (!('sessionID' in data)) {
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			}
 			return {
 				sessionID: data.sessionID ?? 'undefined',
@@ -136,7 +137,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 				this.debugLog('Failed to trade token for session', 'warn');
 
 				await this.signOut();
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			}
 		}
 
@@ -320,7 +321,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 			response = await timeoutPromise(timeout, promise);
 			responseData = (await response.json()) as T;
 		} catch (e) {
-			throw ServiceCallResult.ERROR_OTHER;
+			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 
 		const responseStr = JSON.stringify(responseData, null, 2);
@@ -328,7 +329,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 		if (!response.ok) {
 			this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
-			throw ServiceCallResult.ERROR_OTHER;
+			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 
 		this.debugLog(`${params.method} response:\n${debugMsg}`);
@@ -354,7 +355,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 		const result = this.processResponse(response);
 
 		if (result !== ServiceCallResult.RESULT_OK) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		const sessionName = response.session.name;

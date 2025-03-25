@@ -1,4 +1,5 @@
-import Song, { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
+import type Song from '@/core/object/song';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 
 /**

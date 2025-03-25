@@ -1,11 +1,11 @@
-import {
+import type {
 	ConnectorOptions,
 	ConnectorsOverrideOptions,
 	ConnectorsOverrideOptionValues,
 	GlobalOptions,
 	SavedEdit,
 } from '@/core/storage/options';
-import {
+import type {
 	ListenBrainzModel,
 	WebhookModel,
 	Properties,
@@ -14,7 +14,7 @@ import {
 	BlockedTags,
 	Blocklists,
 } from '@/core/storage/wrapper';
-import { RegexEdit } from './regex';
+import type { RegexEdit } from './regex';
 
 /**
  * Module that contains some useful helper functions for background scripts.
@@ -196,7 +196,7 @@ export function timeoutPromise<T>(
 				clearTimeout(timeoutId);
 				resolve(res);
 			},
-			(err) => {
+			(err: Error) => {
 				clearTimeout(timeoutId);
 				reject(err);
 			},
@@ -277,7 +277,7 @@ export function createAlbumURL(
  */
 export function createTrackURL(
 	artist: string | null | undefined,
-	track?: string | null | undefined,
+	track?: string | null,
 ): string {
 	if (!track || !artist) {
 		return '';

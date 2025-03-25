@@ -1,10 +1,10 @@
-import { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
 
 import browser from 'webextension-polyfill';
 import { getPlatformName, isFullscreenMode } from '@/util/util-browser';
 import * as Options from '@/core/storage/options';
-import { ConnectorMeta } from '@/core/connectors';
-import { Scrobbler } from '@/core/object/scrobble-service';
+import type { ConnectorMeta } from '@/core/connectors';
+import type { Scrobbler } from '@/core/object/scrobble-service';
 import { debugLog } from '@/core/content/util';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import NativeScrobblerNotification from '@/core/storage/native-scrobbler-notification';

@@ -12,7 +12,7 @@
 
 // cleanup previous script
 if ('cleanup' in window && typeof window.cleanup === 'function') {
-	window.cleanup();
+	(window as unknown as { cleanup: () => void }).cleanup();
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
@@ -111,8 +111,9 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 				id: frameID,
 				channel: 'widget',
 			});
-			videoFrame.contentWindow &&
+			if (videoFrame.contentWindow) {
 				videoFrame.contentWindow.postMessage(message, '*');
+			}
 
 			message = JSON.stringify({
 				event: 'command',
@@ -121,8 +122,9 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 				id: frameID,
 				channel: 'widget',
 			});
-			videoFrame.contentWindow &&
+			if (videoFrame.contentWindow) {
 				videoFrame.contentWindow.postMessage(message, '*');
+			}
 		}
 
 		videoFrame.addEventListener('load', onLoad);

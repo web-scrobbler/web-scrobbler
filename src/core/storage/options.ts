@@ -1,4 +1,5 @@
-import connectors, { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
+import connectors from '@/core/connectors';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { debugLog } from '../content/util';
 import { DEFAULT_SCROBBLE_PERCENT } from '@/util/util';
@@ -365,7 +366,7 @@ export async function isConnectorEnabled(
 ): Promise<boolean> {
 	const data = await options.get();
 	if (!data) {
-		throw 'No options data found';
+		throw new Error('No options data found');
 	}
 	return !data[DISABLED_CONNECTORS][connector.id] === true;
 }
@@ -381,7 +382,7 @@ export async function setConnectorEnabled(
 ): Promise<void> {
 	const data = await options.get();
 	if (!data) {
-		throw 'No options data found';
+		throw new Error('No options data found');
 	}
 
 	if (state) {
@@ -400,7 +401,7 @@ export async function setConnectorEnabled(
 export async function setAllConnectorsEnabled(state: boolean): Promise<void> {
 	const data = await options.get();
 	if (!data) {
-		throw 'No options data found';
+		throw new Error('No options data found');
 	}
 
 	data[DISABLED_CONNECTORS] = {};

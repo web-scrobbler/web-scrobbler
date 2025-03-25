@@ -1,4 +1,5 @@
-import connectors, { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
+import connectors from '@/core/connectors';
 import { test } from '@/util/url-match';
 
 import { getAllPatterns } from '@/core/storage/custom-patterns';

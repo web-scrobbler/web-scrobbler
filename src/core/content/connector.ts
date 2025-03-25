@@ -1,8 +1,8 @@
 import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import browser from 'webextension-polyfill';
-import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
+import type { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
-import { ConnectorMeta } from '../connectors';
+import type { ConnectorMeta } from '../connectors';
 import type { DisallowedReason } from '../object/disallowed-reason';
 import { sendContentMessage } from '@/util/communication';
 
@@ -371,16 +371,24 @@ export default class BaseConnector {
 	 * @returns Check result
 	 */
 	public isTrackArtDefault: (
-		trackArtUrl?: string | null | undefined,
+		trackArtUrl?: string | null,
 	) => boolean | null | undefined = () => false;
 
 	/**
 	 * Button to love/like a song on listening service.
+	 *
+	 * Note: for safety, you should generally implement BOTH loveButtonSelector AND unloveButtonSelector.
+	 * Ensure there is a direct transition between one to the other with zero time where neither matches.
+	 * Web scrobbler not discovering either for a bit will cause it not to to love/unlove.
 	 */
 	public loveButtonSelector: string | string[] | null = null;
 
 	/**
 	 * Button to unlove/unlike a song on listening service.
+	 *
+	 * Note: for safety, you should generally implement BOTH loveButtonSelector AND unloveButtonSelector.
+	 * Ensure there is a direct transition between one to the other with zero time where neither matches.
+	 * Web scrobbler not discovering either for a bit will cause it not to to love/unlove.
 	 */
 	public unloveButtonSelector: string | string[] | null = null;
 
@@ -393,11 +401,21 @@ export default class BaseConnector {
 	 */
 	public isLoved: () => boolean | null | undefined = () => {
 		if (this.loveButtonSelector) {
-			return !Util.isElementVisible(this.loveButtonSelector);
+			if (Util.isElementVisible(this.loveButtonSelector)) {
+				return false;
+			}
+			if (!this.unloveButtonSelector) {
+				return true;
+			}
 		}
 
 		if (this.unloveButtonSelector) {
-			return Util.isElementVisible(this.unloveButtonSelector);
+			if (Util.isElementVisible(this.unloveButtonSelector)) {
+				return true;
+			}
+			if (!this.loveButtonSelector) {
+				return false;
+			}
 		}
 
 		return null;
