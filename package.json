@@ -94,7 +94,11 @@
     ]
   },
   "stylelint": {
-    "extends": "@web-scrobbler/stylelint-config"
+    "extends": "@web-scrobbler/stylelint-config",
+    "rules":  {
+      "at-rule-prelude-no-invalid": null,
+      "declaration-property-value-no-unknown": null
+    }
   },
   "license": "MIT"
 }
