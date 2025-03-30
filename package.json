@@ -34,7 +34,7 @@
   "dependencies": {
     "@web-scrobbler/metadata-filter": "3.2.0",
     "blueimp-md5": "2.19.0",
-    "stylelint": "15.11.0",
+    "stylelint": "16.16.0",
     "vite": "6.2.2",
     "webextension-polyfill": "0.12.0"
   },
@@ -49,7 +49,7 @@
     "@types/webextension-polyfill": "0.12.1",
     "@typescript-eslint/eslint-plugin": "8.26.0",
     "@web-scrobbler/eslint-config": "3.1.1",
-    "@web-scrobbler/stylelint-config": "1.0.1",
+    "@web-scrobbler/stylelint-config": "2.0.0",
     "archiver": "7.0.1",
     "canvas": "2.11.2",
     "chokidar": "4.0.3",
@@ -94,7 +94,11 @@
     ]
   },
   "stylelint": {
-    "extends": "@web-scrobbler/stylelint-config"
+    "extends": "@web-scrobbler/stylelint-config",
+    "rules":  {
+      "at-rule-prelude-no-invalid": null,
+      "declaration-property-value-no-unknown": null
+    }
   },
   "license": "MIT"
 }
