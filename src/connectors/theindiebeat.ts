@@ -9,7 +9,7 @@ Connector.trackSelector = '#title';
 Connector.albumSelector = '#album';
 
 const filter = MetadataFilter.createFilter({
-    track: cleanupDuration,
+    duration: cleanupDuration,
     currentTime: cleanupCurrentTime
 });
 
