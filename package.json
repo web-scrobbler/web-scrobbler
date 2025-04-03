@@ -21,7 +21,8 @@
     "lint:markdown": "remark .",
     "prettierfix": "prettier . --write",
     "fixstyle": "stylelint \"**/*.scss\" --fix",
-    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
+    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts",
+    "generate:images": "cd images && npm ci && npm run generate"
   },
   "repository": {
     "type": "git",

@@ -85,6 +85,12 @@ The detailed build instruction is available [here][BuildInstructions].
 Check the [wiki page][WikiDev] to understand development of connectors. Please
 also read our [contribution guidelines][Contributing].
 
+### Updating images
+
+We moved the image generation out of the main build to simplify things and make it easier to Mozilla to verify the releases.
+
+If you need to regenerate the images you can run `npm run generate:images` from the root of the repo.
+
 ### Translations
 
 We use Transifex to maintain translations. If you want to translate
