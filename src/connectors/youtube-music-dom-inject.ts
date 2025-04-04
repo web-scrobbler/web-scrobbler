@@ -32,13 +32,23 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			'*',
 		);
 	};
-	const interval = setInterval(() => {
-		sendData();
-	}, 1000);
+	const playPauseButton = document.getElementById('play-pause-button');
+	const SongInfo = document.querySelector('.content-info-wrapper');
+
+	const observer = new MutationObserver(sendData);
+
+	observer.observe(playPauseButton as Node, {
+		attributes: true,
+	});
+
+	observer.observe(SongInfo as Node, {
+		characterData: true,
+		subtree: true,
+	});
 
 	return () => {
 		// remove the subscribers added by this extension from the array.
 		// we dont have a confirmed reference to it so we have to check all of them.
-		clearInterval(interval);
+		observer.disconnect();
 	};
 })();
