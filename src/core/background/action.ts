@@ -8,7 +8,7 @@ import {
 import { sendPopupMessage } from '@/util/communication';
 import type { ManagerTab } from '@/core/storage/wrapper';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
-import { getConnectorByUrl } from '@/util/util-connector';
+import { getConnectorFromBackgroundScript } from '@/util/util-connector';
 import { t } from '@/util/i18n';
 import ClonedSong from '@/core/object/cloned-song';
 
@@ -54,8 +54,7 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 		return;
 	}
 
-	const tabData = await browser.tabs.get(tab.tabId);
-	const connector = await getConnectorByUrl(tabData.url ?? '');
+	const connector = await getConnectorFromBackgroundScript(tab.tabId);
 	if (tab.mode === ControllerMode.Disabled) {
 		browser.contextMenus?.update(contextMenus.ENABLE_CONNECTOR, {
 			visible: true,
