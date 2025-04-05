@@ -2588,4 +2588,10 @@ export default <ConnectorMeta[]>[
 		js: 'cosine.club.js',
 		id: 'cosine.club',
 	},
+	{
+		label: 'Musique Approximative',
+		matches: ['*://www.musiqueapproximative.net/*'],
+		js: 'musiqueapproximative.js',
+		id: 'musiqueapproximative',
+	},
 ];
