@@ -2590,7 +2590,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Musique Approximative',
-		matches: ['*://www.musiqueapproximative.net/*'],
+		matches: ['*://*.musiqueapproximative.net/*'],
 		js: 'musiqueapproximative.js',
 		id: 'musiqueapproximative',
 	},
