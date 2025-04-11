@@ -43,7 +43,6 @@ function getTimeSeconds(part: TimePart): number {
 	if (part === TimePart.Current) {
 		return Util.stringToSeconds(currentTimeStr ?? '');
 	} else {
-		// Directly convert the duration string to seconds.
 		return Util.stringToSeconds(durationStr ?? '');
 	}
 }
