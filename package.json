@@ -45,7 +45,7 @@
     "@types/imagemin": "9.0.1",
     "@types/imagemin-jpegtran": "5.0.4",
     "@types/node": "22.14.1",
-    "@types/react": "19.1.1",
+    "@types/react": "19.1.2",
     "@types/webextension-polyfill": "0.12.1",
     "@typescript-eslint/eslint-plugin": "8.29.1",
     "@web-scrobbler/eslint-config": "3.1.1",
