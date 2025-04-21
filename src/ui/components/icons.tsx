@@ -19,6 +19,8 @@ function createMaterialIcon(Path: () => JSXElement) {
 					['focusable']: 'false',
 				}}
 				viewBox="0 0 24 24"
+				width="24"
+				height="24"
 				{...props}
 				class={className()}
 			>
