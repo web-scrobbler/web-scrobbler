@@ -17,7 +17,7 @@ function isOldPlayer() {
 	);
 }
 
-function setupOldConnector() {
+function setupNewConnector() {
 	// Player
 	Connector.playerSelector = 'section[class*=PlayerBar_root__]';
 
@@ -63,7 +63,7 @@ function setupOldConnector() {
 	};
 }
 
-function setupNewConnector() {
+function setupOldConnector() {
 	let trackInfo = {};
 	let isPlaying = false;
 
