@@ -2594,4 +2594,10 @@ export default <ConnectorMeta[]>[
 		js: 'musiqueapproximative.js',
 		id: 'musiqueapproximative',
 	},
+	{
+		label: 'Suno AI',
+		matches: ['*://suno.com/*'],
+		js: 'suno.js',
+		id: 'suno',
+	},
 ];
