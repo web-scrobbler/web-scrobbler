@@ -2588,4 +2588,10 @@ export default <ConnectorMeta[]>[
 		js: 'cosine.club.js',
 		id: 'cosine.club',
 	},
+	{
+		label: 'Suno AI',
+		matches: ['*://suno.com/*'],
+		js: 'suno.js',
+		id: 'suno',
+	},
 ];
