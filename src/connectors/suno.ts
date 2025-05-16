@@ -42,7 +42,7 @@ function getTimeSeconds(part: TimePart): number {
 		.map((str) => str.trim());
 	if (part === TimePart.Current) {
 		return Util.stringToSeconds(currentTimeStr ?? '');
-	} else {
-		return Util.stringToSeconds(durationStr ?? '');
 	}
+
+	return Util.stringToSeconds(durationStr ?? '');
 }
