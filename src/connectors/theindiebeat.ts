@@ -9,22 +9,21 @@ Connector.trackSelector = '#title';
 Connector.albumSelector = '#album';
 
 const filter = MetadataFilter.createFilter({
-    duration: cleanupDuration,
-    currentTime: cleanupCurrentTime
+	duration: cleanupDuration,
+	currentTime: cleanupCurrentTime,
 });
 
 Connector.durationSelector = '#playtime';
 Connector.applyFilter(filter);
 
 function cleanupDuration(text: string) {
-    return text.split(' / ')?.[1];
+	return text.split(' / ')?.[1];
 }
 
 Connector.currentTimeSelector = '#playtime';
 
-
 function cleanupCurrentTime(text: string) {
-    return text.split(' / ')?.[0];
+	return text.split(' / ')?.[0];
 }
 
 Connector.trackArtSelector = '#art';
