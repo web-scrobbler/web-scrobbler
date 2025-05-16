@@ -2589,6 +2589,12 @@ export default <ConnectorMeta[]>[
 		id: 'cosine.club',
 	},
 	{
+		label: 'The Indie Beat Radio',
+		matches: ['*://theindiebeat.fm/*'],
+		js: 'theindiebeat.js',
+		id: 'theindiebeat',
+	},
+	{
 		label: 'Musique Approximative',
 		matches: ['*://*.musiqueapproximative.net/*'],
 		js: 'musiqueapproximative.js',
