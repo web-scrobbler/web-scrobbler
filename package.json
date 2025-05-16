@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "3.13.0",
+  "version": "3.14.0",
   "author": "David Šabata <posta@davidsabata.cz>",
   "contributors": [
     "@mountainash (https://mountainash.id.au/)"
@@ -95,7 +95,7 @@
   },
   "stylelint": {
     "extends": "@web-scrobbler/stylelint-config",
-    "rules":  {
+    "rules": {
       "at-rule-prelude-no-invalid": null,
       "declaration-property-value-no-unknown": null
     }
