@@ -18,10 +18,8 @@ function isOldPlayer() {
 }
 
 function setupNewConnector() {
-	Connector.playerSelector = [
-		'section[class*=PlayerBarDesktop_root__]',
-		'section[class*=PlayerBarMobile_root__]',
-	];
+	// Player
+	Connector.playerSelector = 'section[class*=PlayerBar_root__]';
 
 	Connector.pauseButtonSelector = [
 		'button[aria-label=Pause]',
@@ -30,14 +28,39 @@ function setupNewConnector() {
 		'button[aria-label=Үзіліс]',
 	];
 
-	Connector.trackSelector = 'section span[class*=Meta_title__]';
+	// Track info
+	Connector.trackSelector = `${Connector.playerSelector} span[class*=Meta_title__]`;
 
-	Connector.artistSelector = 'section span[class*=Meta_artistCaption__]';
+	Connector.artistSelector = `${Connector.playerSelector} span[class*=Meta_artistCaption__]`;
 
 	Connector.trackArtSelector = [
 		'section img[class*=PlayerBarDesktop_cover__]',
 		'section img[class*=PlayerBarMobile_cover__]',
 	];
+
+	// Duration
+	Connector.currentTimeSelector =
+		'section span[class*=Timecode_root_start__]';
+	Connector.durationSelector = 'section span[class*=Timecode_root_end__]';
+
+	// Likes
+	Connector.loveButtonSelector = [
+		'div[class*=PlayerBarDesktop_infoButtons__] button',
+		'div[class*=PlayerBarMobile_infoButtons__] button',
+	];
+
+	Connector.isLoved = () => {
+		const loved = Util.getAttrFromSelectors(
+			Connector.loveButtonSelector,
+			'aria-pressed',
+		);
+
+		if (loved === null) {
+			return null;
+		}
+
+		return loved === 'true';
+	};
 }
 
 function setupOldConnector() {
