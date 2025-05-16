@@ -2589,6 +2589,12 @@ export default <ConnectorMeta[]>[
 		id: 'cosine.club',
 	},
 	{
+		label: 'Musique Approximative',
+		matches: ['*://*.musiqueapproximative.net/*'],
+		js: 'musiqueapproximative.js',
+		id: 'musiqueapproximative',
+	},
+	{
 		label: 'Suno AI',
 		matches: ['*://suno.com/*'],
 		js: 'suno.js',
