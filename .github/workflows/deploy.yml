@@ -85,11 +85,11 @@ jobs:
         run: echo "PACKAGE_VERSION=$(jq .version package.json -r)" >> $GITHUB_ENV
 
       - name: Publish the extension for Edge
-        uses: inverse/edge-addon@v2.0.0
+        uses: inverse/edge-addon@v2.0.1
         with:
           product_id: ${{ secrets.EDGE_PRODUCT_ID }}
           client_id: ${{ secrets.EDGE_CLIENT_ID }}
-          api_key: ${{ secrets.EDGE_CLIENT_SECRET }}
+          api_key: ${{ secrets.EDGE_API_KEY }}
           zip: web-scrobbler-chrome.zip # Compatible with Chrome
           notes: 'Version ${{ env.PACKAGE_VERSION }} upload'
           debug: true
