@@ -2594,4 +2594,16 @@ export default <ConnectorMeta[]>[
 		js: 'theindiebeat.js',
 		id: 'theindiebeat',
 	},
+	{
+		label: 'Musique Approximative',
+		matches: ['*://*.musiqueapproximative.net/*'],
+		js: 'musiqueapproximative.js',
+		id: 'musiqueapproximative',
+	},
+	{
+		label: 'Suno AI',
+		matches: ['*://suno.com/*'],
+		js: 'suno.js',
+		id: 'suno',
+	},
 ];
