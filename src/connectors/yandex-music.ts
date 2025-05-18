@@ -13,7 +13,7 @@ function setupConnector() {
 function isOldPlayer() {
 	return (
 		(window as unknown as { externalAPI: unknown }).externalAPI !==
-		undefined
+		undefined || document.querySelector('.head-kids__new-design')
 	);
 }
 
