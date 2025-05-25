@@ -1,11 +1,15 @@
 export {};
 
 Connector.playerSelector = 'div.fixed.bottom-0.z-6';
+Connector.getTrack = () => navigator.mediaSession?.metadata?.title;
+Connector.getArtist = () => navigator.mediaSession?.metadata?.artist;
+Connector.getAlbum = () => navigator.mediaSession?.metadata?.album;
 
-Connector.trackSelector = '.playbar-title';
-Connector.artistSelector = 'span.mr-4';
-Connector.albumSelector = '.playbar-subtitle';
-Connector.trackArtSelector = 'div.h-full.w-full.overflow-hidden img';
+Connector.getTrackArt = () => {
+	return document.querySelector(
+		'img.absolute.inset-0.z-0.h-full.w-full.object-cover',
+	)?.src;
+};
 
 Connector.isPlaying = () => {
 	const pathD = document
@@ -13,5 +17,5 @@ Connector.isPlaying = () => {
 			'div.absolute.inset-0.z-1.flex.items-center.justify-center svg path',
 		)
 		?.getAttribute('d');
-	return pathD?.startsWith('M1.30371') ?? false;
+	return pathD?.startsWith('M1.30371');
 };
