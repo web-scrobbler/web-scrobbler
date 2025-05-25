@@ -2606,4 +2606,10 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		label: '[untitled]',
+		matches: ['*://untitled.stream/*'],
+		js: 'untitled.js',
+		id: '[untitled]',
+	},
 ];
