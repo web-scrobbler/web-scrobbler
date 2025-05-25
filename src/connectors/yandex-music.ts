@@ -1,3 +1,5 @@
+export {};
+
 setupConnector();
 function setupConnector() {
   if (isOldPlayer()) {
