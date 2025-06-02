@@ -96,6 +96,12 @@ export default <ConnectorMeta[]>[
 		id: 'amazon-alexa',
 	},
 	{
+		label: 'Radio Vas3k Club',
+		matches: ['https://radio.vas3k.club/*'],
+		js: 'vas3kradio.js',
+		id: 'vas3kradio',
+	},
+	{
 		label: 'VK',
 		matches: ['*://vk.com/*'],
 		js: 'vk.js',
