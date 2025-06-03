@@ -2606,4 +2606,10 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		label: 'Kosmik Dstroyer',
+		matches: ['*://kosmik-dstroyer.top/*'],
+		js: 'kosmik-dstroyer.js',
+		id: 'kosmik-dstroyer',
+	},
 ];
