@@ -2606,4 +2606,10 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		label: 'Yumi Co. Radio',
+		matches: ['*://yumicoradio.net/*'],
+		js: 'yumicoradio.js',
+		id: 'yumicoradio',
+	},
 ];
