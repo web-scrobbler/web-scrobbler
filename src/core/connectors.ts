@@ -2606,4 +2606,10 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		label: 'Radyo Voyage',
+		matches: ['*://radyovoyage.com/*'],
+		js: 'radyovoyage.js',
+		id: 'radyovoyage'
+	}
 ];
