@@ -2611,5 +2611,11 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radyovoyage.com/*'],
 		js: 'radyovoyage.js',
 		id: 'radyovoyage'
+	},
+	{
+		label: 'Radyo Eksen',
+		matches: ['*://radioeksen.com/*'],
+		js: 'radioeksen.js',
+		id: 'radioeksen'
 	}
 ];
