@@ -42,7 +42,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	});
 
 	observer.observe(SongInfo as Node, {
-		characterData: true,
+		attributes: true,
 		subtree: true,
 	});
 
