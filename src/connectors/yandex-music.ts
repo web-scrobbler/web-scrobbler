@@ -1,14 +1,9 @@
 export {};
-
 setupConnector();
-
 function setupConnector() {
-  const body = document.querySelector("body");
-  const isNewDesign =
-    body?.classList.contains("ym-font-music") &&
-    (body.classList.contains("ym-dark-theme") ||
-      body.classList.contains("ym-light-theme"));
-
+  const body = document.querySelector('body');
+  const isNewDesign = body?.classList.contains('ym-font-music') && (body.classList.contains('ym-dark-theme') || body.classList.contains('ym-light-theme'));
+  
   if (isNewDesign) {
     setupNewConnector();
   } else {
@@ -17,30 +12,32 @@ function setupConnector() {
 }
 
 function setupOldConnector() {
-  const observer = new MutationObserver(() => {
-    const el = document.querySelector(".track.track_type_player");
-    if (el) {
-      // catched, initializing connector
-      observer.disconnect();
-      Connector.playerSelector = ".track.track_type_player";
-    }
-  });
 
+  const observer = new MutationObserver(() => {
+      const el = document.querySelector('.track.track_type_player');
+      if (el) {
+          // catched, initializing connector
+          observer.disconnect();
+          Connector.playerSelector = '.track.track_type_player';
+      }
+  });
+  
+  
   const btn = document.querySelector(".player-controls__btn_play");
-  if (btn) {
-    const observer = new MutationObserver(() => {
-      Connector.onStateChanged();
-    });
-    observer.observe(btn, { attributes: true, attributeFilter: ["class"] });
-  } else {
-  }
+    if (btn) {
+      const observer = new MutationObserver(() => {
+        Connector.onStateChanged();
+      });
+      observer.observe(btn, { attributes: true, attributeFilter: ["class"] });
+    } else {
+    }
 
   // watch on changes in DOM to Connector.onStateChanged()
   const trackObserver = new MutationObserver(() => {
     Connector.onStateChanged();
   });
 
-  const trackNode = document.querySelector(".player-controls__track-container");
+  const trackNode = document.querySelector('.player-controls__track-container');
   if (trackNode) {
     trackObserver.observe(trackNode, { childList: true, subtree: true });
   }
@@ -49,21 +46,19 @@ function setupOldConnector() {
   Connector.trackSelector = ".track__title";
   Connector.artistSelector = ".d-artists.d-artists__expanded";
   Connector.getTrackArt = () => {
-    const container = document.querySelector(
-      ".player-controls__track-container",
-    );
+    const container = document.querySelector('.player-controls__track-container');
     if (!container) {
       return null;
     }
 
-    const images = container.querySelectorAll("img");
+    const images = container.querySelectorAll('img');
 
     for (const img of images) {
-      const src = img.getAttribute("src");
-      if (src && src.includes("50x50")) {
+      const src = img.getAttribute('src');
+      if (src && src.includes('50x50')) {
         const absoluteUrl = new URL(src, window.location.origin).toString();
 
-        const highResUrl = absoluteUrl.replace("50x50", "800x800");
+        const highResUrl = absoluteUrl.replace('50x50', '800x800');
         return highResUrl;
       }
     }
@@ -72,9 +67,7 @@ function setupOldConnector() {
   };
 
   Connector.getAlbum = () => {
-    const albumLink = document.querySelector(
-      'a[title^="\u0418\u0437 \u0430\u043B\u044C\u0431\u043E\u043C\u0430"]',
-    );
+    const albumLink = document.querySelector('a[title^="\u0418\u0437 \u0430\u043B\u044C\u0431\u043E\u043C\u0430"]');
     if (!albumLink) return null;
     const match = albumLink.title.match(/^Из альбома «(.+)»$/);
     return match ? match[1] : null;
@@ -87,7 +80,7 @@ function setupOldConnector() {
     const el = document.querySelector(".progress__bar.progress__text");
     return el ? parseFloat(el.getAttribute("data-duration") || "0") : null;
   };
-
+  
   Connector.isPlaying = () => {
     const btn = document.querySelector(".player-controls__btn_play");
     if (!btn) {
@@ -98,26 +91,18 @@ function setupOldConnector() {
 }
 
 // NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR!
-// NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR!
-// NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR!
-// NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR!
-// NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR!
-// NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR! NEW CONNECTOR!
+
 function setupNewConnector() {
-  Connector.playerSelector = 'section[class*="PlayerBarDesktop_root"]';
+  Connector.playerSelector = 'section[class*="PlayerBarDesktopWithBackgroundProgressBar_root"]';
 
   Connector.getTrack = () => {
-    const playerContainer = document.querySelector(
-      'section[class*="PlayerBarDesktop_root"]',
-    );
+    const playerContainer = document.querySelector('section[class*="PlayerBarDesktopWithBackgroundProgressBar_root"]');
     if (!playerContainer) return null;
 
-    const titleContainer = playerContainer.querySelector(
-      'div[class*="Meta_titleContainer"]',
-    );
+    const titleContainer = playerContainer.querySelector('div[class*="Meta_titleContainer"]');
     if (!titleContainer) return null;
 
-    const link = titleContainer.querySelector("a");
+    const link = titleContainer.querySelector('a');
     if (!link) return null;
 
     const titleSpan = link.querySelector('span[class*="Meta_title__"]');
@@ -126,10 +111,8 @@ function setupNewConnector() {
     let trackName = titleSpan.textContent.trim();
 
     const versionSpan = link.nextElementSibling;
-    if (versionSpan && versionSpan.className.includes("Meta_version__")) {
-      const versionText = versionSpan.textContent
-        .replace(/\u00a0/g, " ")
-        .trim();
+    if (versionSpan && versionSpan.className.includes('Meta_version__')) {
+      const versionText = versionSpan.textContent.replace(/\u00a0/g, ' ').trim();
       if (versionText) {
         trackName += ` (${versionText})`;
       }
@@ -139,47 +122,40 @@ function setupNewConnector() {
   };
 
   Connector.getArtist = () => {
-    const playerContainer = document.querySelector(
-      'section[class*="PlayerBarDesktop_root"]',
-    );
+    const playerContainer = document.querySelector('section[class*="PlayerBarDesktopWithBackgroundProgressBar_root"]');
     if (!playerContainer) return null;
 
-    const artistContainer = playerContainer.querySelector(
-      'div[class*="SeparatedArtists_root"]',
-    );
+    const artistContainer = playerContainer.querySelector('div[class*="SeparatedArtists_root"]');
     if (!artistContainer) return null;
 
-    const links = artistContainer.querySelectorAll("a");
+    const links = artistContainer.querySelectorAll('a');
     const artists = [];
 
-    links.forEach((a) => {
+    links.forEach(a => {
       const span = a.querySelector('span[class*="Meta_artistCaption"]');
       if (span && span.textContent.trim()) {
         artists.push(span.textContent.trim());
       }
     });
 
-    return artists.length ? artists.join(", ") : null;
+    return artists.length ? artists.join(', ') : null;
   };
 
   Connector.getTrackArt = () => {
-    const img = document.querySelector(
-      'img[class*="PlayerBarDesktop_cover__"]',
-    );
+    const img = document.querySelector('img[class*="PlayerBarDesktop_cover__"]');
     if (!img) return null;
 
-    const src = img.getAttribute("src");
+    const src = img.getAttribute('src');
     if (!src) return null;
 
-    const highResUrl = src.replace(/\d+x\d+/, "600x600");
+    const highResUrl = src.replace(/\d+x\d+/, '600x600');
 
     return highResUrl;
   };
 
+
   Connector.getAlbum = () => {
-    const albumLink = document.querySelector(
-      'a[title^="\u0418\u0437 \u0430\u043B\u044C\u0431\u043E\u043C\u0430"]',
-    );
+    const albumLink = document.querySelector('a[title^="\u0418\u0437 \u0430\u043B\u044C\u0431\u043E\u043C\u0430"]');
     if (!albumLink) return null;
     const match = albumLink.title.match(/^Из альбома «(.+)»$/);
     return match ? match[1] : null;
@@ -189,8 +165,8 @@ function setupNewConnector() {
     const el = document.querySelector('[class*="Timecode_root_start"]');
     if (!el) return null;
 
-    const timeText = el.textContent.trim();
-    const parts = timeText.split(":");
+    const timeText = el.textContent.trim(); // например "02:37"
+    const parts = timeText.split(':');
 
     if (parts.length !== 2) return null;
 
@@ -206,8 +182,8 @@ function setupNewConnector() {
     const el = document.querySelector('[class*="Timecode_root_end"]');
     if (!el) return null;
 
-    const timeText = el.textContent.trim();
-    const parts = timeText.split(":");
+    const timeText = el.textContent.trim(); // например "02:37"
+    const parts = timeText.split(':');
 
     if (parts.length !== 2) return null;
 
@@ -219,17 +195,14 @@ function setupNewConnector() {
     return minutes * 60 + seconds;
   };
 
+
   Connector.isPlaying = () => {
-    const buttons = [...document.querySelectorAll("button")];
+    const buttons = [...document.querySelectorAll('button')];
     for (const btn of buttons) {
-      if (
-        [...btn.classList].some((c) =>
-          c.includes("BaseSonataControlsDesktop_sonataButton"),
-        )
-      ) {
-        const label = btn.getAttribute("aria-label");
-        if (label === "Пауза") return true;
-        if (label === "Воспроизведение") return false;
+      if ([...btn.classList].some(c => c.includes('BaseSonataControlsDesktop_sonataButton'))) {
+        const label = btn.getAttribute('aria-label');
+        if (label === 'Пауза') return true;
+        if (label === 'Воспроизведение') return false;
       }
     }
     return false;
@@ -242,6 +215,7 @@ function setupNewConnector() {
     const observer = new MutationObserver(() => Connector.onStateChanged());
     observer.observe(playerNode, { childList: true, subtree: true });
   } else {
+    console.warn('[Yandex Connector] Плеер не найден — используем fallback через setInterval');
     setInterval(() => {
       Connector.onStateChanged();
     }, 1000);
