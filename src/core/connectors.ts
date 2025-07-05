@@ -1744,6 +1744,11 @@ export default <ConnectorMeta[]>[
 		id: 'navidrome',
 	},
 	{
+		label: 'LMS',
+		js: 'lms.js',
+		id: 'lms',
+	},
+	{
 		label: 'deep-cut.fm',
 		matches: [
 			'*://deepcut.fm/*',
