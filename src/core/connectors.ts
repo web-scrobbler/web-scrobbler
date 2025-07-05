@@ -2606,4 +2606,13 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		"id": "radioswissclassic",
+		"label": "Radio Swiss Classic",
+		"description": "Radio Swiss Classic is a non-commercial Swiss radio station that plays classical music 24/7.",
+		"js": "connectors/radioswissclassic.js",
+		"matches": ["*://www.radioswissclassic.ch/*"],
+		"version": "1.0",
+		"allFrames": true
+	},
 ];
