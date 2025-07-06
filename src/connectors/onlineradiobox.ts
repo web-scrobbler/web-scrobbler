@@ -1,8 +1,22 @@
-export {};
+/**
+ * Connector for Online Radio Box player.
+ * @author Gemini Code Assist
+ */
 
-// Need to select also .station to cover popup where #top_player_track is outside of .player.
-Connector.playerSelector = ['.player', 'body > .station'];
+'use strict';
 
-Connector.artistTrackSelector = '#top_player_track';
+Connector.playerSelector = '.player-wrap';
 
-Connector.playButtonSelector = '.player .b-play';
+Connector.artistTrackSelector = '#np_title';
+
+Connector.getArtist = () => {
+	const artist = Util.getArtist();
+	if (artist === 'Radio Swiss Classic') {
+		return null;
+	}
+	return artist;
+};
+
+Connector.trackArtSelector = '#np_cover';
+
+Connector.isPlaying = () => Util.isElementVisible('#b_play .fa-pause');
