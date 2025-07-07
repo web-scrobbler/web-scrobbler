@@ -18,18 +18,22 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
 	const sendData = () => {
-		window.postMessage(
-			{
-				sender: 'web-scrobbler',
-				playbackState: navigator.mediaSession.playbackState,
-				metadata: {
-					title: navigator.mediaSession.metadata?.title,
-					artist: navigator.mediaSession.metadata?.artist,
-					artwork: navigator.mediaSession.metadata?.artwork,
-					album: navigator.mediaSession.metadata?.album,
-				},
-			},
-			'*',
+		setTimeout(
+			() =>
+				window.postMessage(
+					{
+						sender: 'web-scrobbler',
+						playbackState: navigator.mediaSession.playbackState,
+						metadata: {
+							title: navigator.mediaSession.metadata?.title,
+							artist: navigator.mediaSession.metadata?.artist,
+							artwork: navigator.mediaSession.metadata?.artwork,
+							album: navigator.mediaSession.metadata?.album,
+						},
+					},
+					'*',
+				),
+			10,
 		);
 	};
 	const playPauseButton = document.getElementById('play-pause-button');
