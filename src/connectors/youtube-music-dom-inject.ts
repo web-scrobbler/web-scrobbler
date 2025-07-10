@@ -18,6 +18,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
 	const sendData = () => {
+		// added delay due to hitting race conditions, unclear where they occur
 		setTimeout(
 			() =>
 				window.postMessage(
