@@ -2606,4 +2606,10 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		label: 'DAB Music Player',
+		matches: ['*://dab.yeet.su/*', '*://dabmusic.xyz/*'],
+		js: 'dabmusic.js',
+		id: 'dabmusic',
+	},
 ];
