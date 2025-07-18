@@ -1,5 +1,3 @@
-export {};
-
 /*
  * This connector covers archived tracks only. A `radiorethink` connector
  * is used to get track info from WFMU main streams.
