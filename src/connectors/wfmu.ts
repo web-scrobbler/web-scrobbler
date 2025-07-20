@@ -1,25 +1,14 @@
-export {};
-
 /*
  * This connector covers archived tracks only. A `radiorethink` connector
  * is used to get track info from WFMU main streams.
  */
 
-const filter = MetadataFilter.createFilter({
-	track: cleanupTrack,
-});
+export {};
 
-Connector.playerSelector = '.archiveplayer';
+Connector.playerSelector = '.player-section';
 
-Connector.artistSelector = '#np-artist';
+Connector.artistSelector = '.playing > .segment-artist';
 
-Connector.trackSelector = '#np-song';
+Connector.trackSelector = '.playing > .segment-title';
 
-Connector.playButtonSelector = '.mejs-play';
-
-Connector.applyFilter(filter);
-
-function cleanupTrack(track: string) {
-	// Extract a track title from a `"Track" by Artist` string.
-	return track.replace(/(")(.*)(")( by )(.*)/g, '$2');
-}
+Connector.playButtonSelector = '#play-buttton';
