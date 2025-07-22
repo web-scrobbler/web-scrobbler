@@ -940,6 +940,12 @@ export default <ConnectorMeta[]>[
 		id: 'npr',
 	},
 	{
+		label: 'Nonacademic',
+		matches: ['*://nonacademic.net/*'],
+		js: 'nonacademic.js',
+		id: 'nonacademic',
+	},
+	{
 		label: 'Streamsquid',
 		matches: ['*://streamsquid.com/*'],
 		js: 'streamsquid.js',
