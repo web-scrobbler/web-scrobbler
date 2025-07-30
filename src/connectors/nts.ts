@@ -17,7 +17,7 @@ Connector.getArtist = () => {
 		);
 	} else {
 		currentArtist = document.querySelector(
-			'.episode-player-tracklist__track--is-playing .episode-player-tracklist__detail:has(svg.visualiser) div .episode-player-tracklist__artist',
+			'.episode-player-tracklist__track--is-playing div .episode-player-tracklist__artist',
 		);
 	}
 
@@ -36,7 +36,7 @@ Connector.getTrack = () => {
 		);
 	} else {
 		currentTrack = document.querySelector(
-			'.episode-player-tracklist__track--is-playing .episode-player-tracklist__detail:has(svg.visualiser) div .episode-player-tracklist__title',
+			'.episode-player-tracklist__track--is-playing div .episode-player-tracklist__title',
 		);
 	}
 
