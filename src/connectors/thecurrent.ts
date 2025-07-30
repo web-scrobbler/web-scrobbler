@@ -5,10 +5,11 @@ const filter = MetadataFilter.createFilter({
 	artist: cleanupArtist,
 });
 
-Connector.playerSelector = 'aside.player';
-Connector.trackSelector = 'aside.player .player_subhead';
-Connector.artistSelector = 'aside.player .player_subhead';
-Connector.isPlaying = () => Util.hasElementClass('aside.player', 'is-playing');
+Connector.playerSelector = 'aside#player';
+Connector.trackSelector = 'aside#player .player-title';
+Connector.artistSelector = 'aside#player .player-title';
+Connector.isPlaying = () =>
+	Util.hasElementClass('.player-btn-play-pause-outer', 'is-playing');
 Connector.onReady = Connector.onStateChanged;
 
 Connector.applyFilter(filter);
