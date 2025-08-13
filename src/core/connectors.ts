@@ -2606,4 +2606,10 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		label: 'GBS-FM',
+		matches: ['*://gbs.fm/*'],
+		js: 'gbs.fm.js',
+		id: 'gbs',
+	},
 ];
