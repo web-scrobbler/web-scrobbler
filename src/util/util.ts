@@ -250,7 +250,7 @@ export function createArtistURL(artist: string | null | undefined): string {
 	if (!artist) {
 		return '';
 	}
-	return `https://www.last.fm/music/${encodeURIComponent(artist)}`;
+	return `https://www.last.fm/music/${encodeLastFMURIComponent(artist)}`;
 }
 
 /**
@@ -266,7 +266,7 @@ export function createAlbumURL(
 	if (!album || !artist) {
 		return '';
 	}
-	return `${createArtistURL(artist)}/${encodeURIComponent(album)}`;
+	return `${createArtistURL(artist)}/${encodeLastFMURIComponent(album)}`;
 }
 
 /**
@@ -282,7 +282,7 @@ export function createTrackURL(
 	if (!track || !artist) {
 		return '';
 	}
-	return `${createArtistURL(artist)}/_/${encodeURIComponent(track)}`;
+	return `${createArtistURL(artist)}/_/${encodeLastFMURIComponent(track)}`;
 }
 
 /**
@@ -300,11 +300,22 @@ export function createTrackLibraryURL(
 	if (!track || !artist || !username) {
 		return '';
 	}
-	return `https://www.last.fm/user/${encodeURIComponent(
+	return `https://www.last.fm/user/${encodeLastFMURIComponent(
 		username,
-	)}/library/music/${encodeURIComponent(artist)}/_/${encodeURIComponent(
+	)}/library/music/${encodeLastFMURIComponent(artist)}/_/${encodeLastFMURIComponent(
 		track,
 	)}`;
+}
+
+/**
+ * Encodes a text string as a valid component of a Uniform Resource Identifier (URI),
+ * while replacing the plus (+) symbol from `%2B` to `%252B` so it works correctly
+ * in last.fm.
+ * @param uriComponent - A value representing an unencoded URI component
+ * @returns Encoded URI component
+ */
+export function encodeLastFMURIComponent(uriComponent: string): string {
+	return encodeURIComponent(uriComponent.replace(/\+/g, '%2B'));
 }
 
 /**
