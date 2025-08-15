@@ -1068,7 +1068,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'WFMU',
-		matches: ['*://wfmu.org/*'],
+		matches: ['*://wfmu.org/*', '*://freeform.wfmu.org/*'],
 		js: 'wfmu.js',
 		id: 'wfmu',
 	},
