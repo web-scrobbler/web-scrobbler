@@ -412,7 +412,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Nori prisidėti? Peržiūrėk visus būdus, kaip gali prisidėti prie projekto, <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">mūsų svetainėje</a>.",
+        "message": "Nori prisidėti? Peržiūrėk visus būdus, kaip gali prisidėti prie projekto, <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">mūsų svetainėje</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
