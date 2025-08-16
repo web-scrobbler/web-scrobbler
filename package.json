@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/web-scrobbler/web-scrobbler/issues"
   },
-  "homepage": "https://web-scrobbler.com/",
+  "homepage": "https://webscrobbler.com/",
   "dependencies": {
     "@web-scrobbler/metadata-filter": "3.2.0",
     "blueimp-md5": "2.19.0",
