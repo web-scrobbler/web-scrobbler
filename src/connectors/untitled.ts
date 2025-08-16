@@ -7,9 +7,11 @@ Connector.getArtist = () => navigator.mediaSession?.metadata?.artist;
 Connector.getAlbum = () => navigator.mediaSession?.metadata?.album;
 
 Connector.getTrackArt = () => {
-	return document.querySelector(
+	const trackArtElement = document.querySelector<HTMLImageElement>(
 		'img.absolute.inset-0.z-0.h-full.w-full.object-cover',
-	)?.src;
+	);
+
+	return trackArtElement?.src || null;
 };
 
 Connector.isPlaying = () => {
