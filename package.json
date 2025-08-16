@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "3.14.0",
+  "version": "3.14.2",
   "author": "David Šabata <posta@davidsabata.cz>",
   "contributors": [
     "@mountainash (https://mountainash.id.au/)"
@@ -30,12 +30,12 @@
   "bugs": {
     "url": "https://github.com/web-scrobbler/web-scrobbler/issues"
   },
-  "homepage": "https://web-scrobbler.com/",
+  "homepage": "https://webscrobbler.com/",
   "dependencies": {
     "@web-scrobbler/metadata-filter": "3.2.0",
     "blueimp-md5": "2.19.0",
-    "stylelint": "16.19.1",
-    "vite": "6.3.5",
+    "stylelint": "16.23.1",
+    "vite": "7.1.1",
     "webextension-polyfill": "0.12.0"
   },
   "devDependencies": {
@@ -44,38 +44,38 @@
     "@types/fs-extra": "11.0.3",
     "@types/imagemin": "9.0.1",
     "@types/imagemin-jpegtran": "5.0.4",
-    "@types/node": "22.15.29",
-    "@types/react": "19.1.6",
+    "@types/node": "22.15.30",
+    "@types/react": "19.1.8",
     "@types/webextension-polyfill": "0.12.1",
-    "@typescript-eslint/eslint-plugin": "8.33.0",
+    "@typescript-eslint/eslint-plugin": "8.39.0",
     "@web-scrobbler/eslint-config": "3.1.1",
     "@web-scrobbler/stylelint-config": "2.0.0",
     "archiver": "7.0.1",
-    "canvas": "2.11.2",
+    "canvas": "3.1.2",
     "chokidar": "4.0.3",
-    "esbuild": "0.25.5",
+    "esbuild": "0.25.8",
     "eslint": "8.57.0",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-solid": "0.14.5",
     "eslint-plugin-tsdoc": "0.2.17",
     "fs-extra": "11.1.1",
-    "glob": "11.0.2",
+    "glob": "11.0.3",
     "imagemin": "9.0.1",
     "imagemin-jpegtran": "8.0.0",
     "imagemin-pngquant": "10.0.0",
-    "prettier": "3.5.3",
+    "prettier": "3.6.2",
     "prettier-config-web-scrobbler": "0.1.0",
     "remark": "15.0.1",
     "remark-cli": "12.0.1",
     "remark-preset-lint-recommended": "7.0.1",
-    "sass": "1.89.1",
+    "sass": "1.89.2",
     "solid-js": "1.9.7",
-    "tsx": "4.19.4",
-    "typescript": "5.8.3",
+    "tsx": "4.20.3",
+    "typescript": "5.9.2",
     "vite-plugin-conditional-compiler": "0.3.1",
-    "vite-plugin-solid": "2.11.6",
-    "vite-plugin-static-copy": "3.0.0",
-    "vitest": "3.1.3"
+    "vite-plugin-solid": "2.11.8",
+    "vite-plugin-static-copy": "3.1.1",
+    "vitest": "3.2.4"
   },
   "engines": {
     "node": ">=18.0.0"

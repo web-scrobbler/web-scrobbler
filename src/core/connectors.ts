@@ -2612,4 +2612,10 @@ export default <ConnectorMeta[]>[
 		js: 'kosmik-dstroyer.js',
 		id: 'kosmik-dstroyer',
 	},
+	{
+		label: 'LaTeX 4000',
+		matches: ['*://nonacademic.net/*'],
+		js: 'nonacademic.js',
+		id: 'nonacademic',
+	},
 ];
