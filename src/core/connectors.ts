@@ -2612,4 +2612,16 @@ export default <ConnectorMeta[]>[
 		js: 'yumicoradio.js',
 		id: 'yumicoradio',
 	},
+	{
+		label: 'Kosmik Dstroyer',
+		matches: ['*://kosmik-dstroyer.top/*'],
+		js: 'kosmik-dstroyer.js',
+		id: 'kosmik-dstroyer',
+	},
+	{
+		label: 'LaTeX 4000',
+		matches: ['*://nonacademic.net/*'],
+		js: 'nonacademic.js',
+		id: 'nonacademic',
+	},
 ];

@@ -452,7 +452,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Katkıda bulunmak ister misiniz? <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">İnternet sitemiz</a>'de projeye katkıda bulunabileceğiniz tüm yolları görün.",
+        "message": "Katkıda bulunmak ister misiniz? <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">İnternet sitemiz</a>'de projeye katkıda bulunabileceğiniz tüm yolları görün.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
