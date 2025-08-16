@@ -8,8 +8,7 @@ Connector.playerSelector = '.app';
 
 Connector.artistTrackSelector = '[data-test="playingEpisodeDesc"]';
 
-Connector.pauseButtonSelector =
-	'[data-test="playPauseMiniplayer"][aria-label="Pause"]';
+Connector.pauseButtonSelector = '.MiniPlayer button[aria-label="Pause"]';
 
 Connector.applyFilter(filter);
 
