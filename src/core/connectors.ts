@@ -2618,6 +2618,12 @@ export default <ConnectorMeta[]>[
 		id: 'suno',
 	},
 	{
+		label: '[untitled]',
+		matches: ['*://untitled.stream/*'],
+		js: 'untitled.js',
+		id: '[untitled]',
+	},
+	{
 		label: 'DAB Music Player',
 		matches: ['*://dab.yeet.su/*', '*://dabmusic.xyz/*'],
 		js: 'dabmusic.js',
