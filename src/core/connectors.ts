@@ -2606,4 +2606,10 @@ export default <ConnectorMeta[]>[
 		js: 'suno.js',
 		id: 'suno',
 	},
+	{
+		label: 'LaTeX 4000',
+		matches: ['*://nonacademic.net/*'],
+		js: 'nonacademic.js',
+		id: 'nonacademic',
+	},
 ];
