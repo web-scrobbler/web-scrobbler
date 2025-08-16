@@ -2612,6 +2612,12 @@ export default <ConnectorMeta[]>[
 		id: 'suno',
 	},
 	{
+		label: 'GBS-FM',
+		matches: ['*://gbs.fm/*'],
+		js: 'gbs.fm.js',
+		id: 'gbs',
+	},
+	{
 		label: 'Yumi Co. Radio',
 		matches: ['*://yumicoradio.net/*'],
 		js: 'yumicoradio.js',
