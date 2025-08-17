@@ -1,5 +1,7 @@
 'use strict';
 
+export {};
+
 Connector.playerSelector = '#footerPlayer';
 
 Connector.playButtonSelector = `${Connector.playerSelector} button[data-test="play"]`;

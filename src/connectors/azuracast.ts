@@ -1,3 +1,5 @@
+export {};
+
 Connector.useMediaSessionApi();
 
 Connector.playerSelector = '.radio-player-widget';
