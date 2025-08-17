@@ -263,9 +263,13 @@
         "message": "Поставьте или снимите галочку, чтобы включить или выключить коннекторы.",
         "description": "Enable/disable hint"
     },
-    "optionsCustomPatternsHint": {
-        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов.",
+        "optionsCustomPatternsHint": {
+        "message": "Expand a connector to configure custom URL patterns and other settings.",
         "description": "Description of how to configure custom URL patterns"
+    },
+    "optionsConnectorsWelcome": {
+        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">create an issue</a> or contribute to the project.",
+        "description": "Encouraging message about adding more connectors"
     },
     "optionsSupportedWebsites": {
         "message": "Поддерживаемые сайты",

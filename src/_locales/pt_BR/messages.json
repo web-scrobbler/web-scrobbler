@@ -155,9 +155,13 @@
         "message": "Clique nas caixas para ativar/desativar conectores.",
         "description": "Enable/disable hint"
     },
-    "optionsCustomPatternsHint": {
-        "message": "Clique no ícone de engrenagem para configurar padrões personalizados de URL para conectores.",
+        "optionsCustomPatternsHint": {
+        "message": "Expand a connector to configure custom URL patterns and other settings.",
         "description": "Description of how to configure custom URL patterns"
+    },
+    "optionsConnectorsWelcome": {
+        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">create an issue</a> or contribute to the project.",
+        "description": "Encouraging message about adding more connectors"
     },
     "optionsSupportedWebsites": {
         "message": "Sites compatíveis",

@@ -61,8 +61,9 @@ export default function ConnectorOverrideOptions(props: {
 			<div class={styles.stickyHeader}>
 				<h1>{t('optionsSupportedWebsites')}</h1>
 				<p>{t('optionsEnableDisableHint')}</p>
+				<p>{t('optionsCustomPatternsHint')}</p>
 				{/* eslint-disable-next-line */}
-				<p innerHTML={t('optionsCustomPatternsHint')} />
+				<p innerHTML={t('optionsConnectorsWelcome')} />
 
 				<div class={styles.filterWrapper}>
 					<input
