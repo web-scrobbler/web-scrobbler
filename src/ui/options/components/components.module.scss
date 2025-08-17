@@ -63,6 +63,7 @@
 
 		.tripleCheckbox {
 			-webkit-appearance: none;
+			appearance: none;
 			background-color: #fff;
 			height: 0;
 			margin: 0;
@@ -413,7 +414,171 @@ summary {
 	}
 }
 
-.connectorOptionsList,
+.stickyHeader {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	padding: 1rem;
+	background-color: var(--background);
+	border: var(--interactable-border);
+	border-radius: 0.5rem;
+	margin-bottom: 1rem;
+
+	h1 {
+		margin: 0 0 1rem 0;
+	}
+
+	p {
+		margin: 0 0 0.5rem 0;
+
+		&:last-of-type {
+			margin-bottom: 1rem;
+		}
+	}
+}
+
+.filterWrapper {
+	width: 100%;
+
+	.filterInput {
+		width: 100%;
+		max-width: 400px;
+		font-size: 1rem;
+		background: inherit;
+		border: none;
+		color: var(--text);
+
+		&::placeholder {
+			color: var(--muted-text);
+		}
+
+		&:focus {
+			outline: none;
+		}
+	}
+}
+
+.connectorOptionsList {
+	$animation-duration: 0.2s;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 1rem;
+	width: 100%;
+
+	// Responsive queries
+	@media (max-width: 768px) {
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: 0.75rem;
+	}
+
+	@media (max-width: 500px) {
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+	}
+
+	// General toggle
+	& > li:first-child {
+		grid-column: 1 / -1;
+		align-items: center;
+		display: flex;
+		gap: 0.5em;
+		height: fit-content;
+		background-color: var(--last-fm-bg-weak);
+		border: var(--interactable-border);
+		border-radius: 0.5rem;
+		padding: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	// Rest of the connectors
+	& > li:not(:first-child) {
+		height: fit-content;
+		background-color: var(--last-fm-bg-weak);
+		border: var(--interactable-border);
+		border-radius: 0.5rem;
+		padding: 1rem;
+		opacity: 1;
+		position: relative;
+		overflow: hidden;
+
+		&.disabled {
+			opacity: 0.6;
+			border-style: dashed;
+
+			.connectorName {
+				text-decoration: line-through;
+			}
+		}
+
+		summary {
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			justify-content: space-between;
+			margin-bottom: 0;
+
+			.connectorHeader {
+				font-weight: bold;
+				font-size: 1.1rem;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			.connectorActions {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				flex-shrink: 0;
+			}
+		}
+
+		.expandVector {
+			transition: transform $animation-duration ease-in-out;
+			color: var(--text);
+			flex-shrink: 0;
+		}
+
+		details {
+			width: 100%;
+
+			&[open] {
+				.expandVector {
+					transform: rotate(-180deg);
+				}
+
+				& > div {
+					padding: 1rem 0 0 0;
+					border-top: 1px solid var(--last-fm-bg);
+					margin-top: 0.5rem;
+
+					.radioButtons {
+						display: flex;
+						flex-direction: column;
+						gap: 0.5rem;
+						width: 100%;
+					}
+
+					.tripleCheckboxOption span {
+						flex-direction: column;
+						align-items: start;
+
+						border-radius: 0.5rem;
+						margin: 0.5rem 0;
+						padding: 0.5rem;
+						background: var(--background);
+					}
+
+					.buttonContainer {
+						flex-direction: column;
+					}
+				}
+			}
+		}
+	}
+}
+
 .scrobbleCacheList {
 	$animation-duration: 0.2s;
 

@@ -54,12 +54,29 @@ export default function ConnectorOverrideOptions(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
 }) {
+	const [filterText, setFilterText] = createSignal('');
+
 	return (
 		<>
-			<h1>{t('optionsSupportedWebsites')}</h1>
-			<p>{t('optionsEnableDisableHint')}</p>
-			{/* eslint-disable-next-line */}
-			<p innerHTML={t('optionsCustomPatternsHint')} />
+			<div class={styles.stickyHeader}>
+				<h1>{t('optionsSupportedWebsites')}</h1>
+				<p>{t('optionsEnableDisableHint')}</p>
+				{/* eslint-disable-next-line */}
+				<p innerHTML={t('optionsCustomPatternsHint')} />
+
+				<div class={styles.filterWrapper}>
+					<input
+						type="text"
+						placeholder="Type to filter..."
+						class={styles.filterInput}
+						value={filterText()}
+						onInput={(e) =>
+							setFilterText(e.currentTarget.value.toLowerCase())
+						}
+					/>
+				</div>
+			</div>
+
 			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
 					<SettingsOutlined />
@@ -106,6 +123,7 @@ export default function ConnectorOverrideOptions(props: {
 				<ConnectorOptions
 					setActiveModal={props.setActiveModal}
 					modal={props.modal}
+					filterText={filterText}
 				/>
 			</ul>
 		</>
@@ -118,10 +136,15 @@ export default function ConnectorOverrideOptions(props: {
 function ConnectorOptions(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
+	filterText: Accessor<string>;
 }) {
 	return (
 		<Suspense fallback={<p>{t('optionsLoadingConnectorOptions')}</p>}>
-			<For each={connectors}>
+			<For
+				each={connectors.filter((connector) =>
+					connector.label.toLowerCase().includes(props.filterText()),
+				)}
+			>
 				{(connector) => (
 					<ConnectorOption
 						setActiveModal={props.setActiveModal}
@@ -144,51 +167,53 @@ function ConnectorOption(props: {
 }) {
 	const [ref, setRef] = createSignal<HTMLDetailsElement>();
 	const [active, setActive] = createSignal(false);
+	const isDisabled = () =>
+		options()?.disabledConnectors?.[props.connector.id] ?? false;
+
 	createEffect(() => {
 		ref()?.addEventListener('toggle', () => {
 			setActive((a) => !a);
 		});
 	});
 	return (
-		<li>
+		<li class={isDisabled() ? styles.disabled : ''}>
 			<details ref={setRef}>
 				<summary>
-					<ExpandMoreOutlined class={styles.expandVector} />
-					<SummaryCheckbox
-						title={props.connector.label}
-						label={props.connector.label}
-						id={props.connector.id}
-						isChecked={() =>
-							!(
-								options()?.disabledConnectors?.[
-									props.connector.id
-								] ?? false
-							)
-						}
-						onInput={(e) => {
-							const connector = props.connector;
-							setOptions.mutate((o) => {
-								if (!o) {
-									return o;
-								}
-								const newOptions = {
-									...o,
-								};
-								if (!e.currentTarget.checked) {
-									newOptions.disabledConnectors = {
-										...newOptions.disabledConnectors,
-										[connector.id]: true,
+					<div class={styles.connectorHeader}>
+						{props.connector.label}
+					</div>
+					<div class={styles.connectorActions}>
+						<SummaryCheckbox
+							title={props.connector.label}
+							label=""
+							id={props.connector.id}
+							isChecked={() => !isDisabled()}
+							onInput={(e) => {
+								const connector = props.connector;
+								setOptions.mutate((o) => {
+									if (!o) {
+										return o;
+									}
+									const newOptions = {
+										...o,
 									};
-								} else {
-									delete newOptions.disabledConnectors[
-										connector.id
-									];
-								}
-								globalOptions.set(newOptions);
-								return newOptions;
-							});
-						}}
-					/>
+									if (!e.currentTarget.checked) {
+										newOptions.disabledConnectors = {
+											...newOptions.disabledConnectors,
+											[connector.id]: true,
+										};
+									} else {
+										delete newOptions.disabledConnectors[
+											connector.id
+										];
+									}
+									globalOptions.set(newOptions);
+									return newOptions;
+								});
+							}}
+						/>
+						<ExpandMoreOutlined class={styles.expandVector} />
+					</div>
 				</summary>
 				<ConnectorOverrideOptionDetails
 					setActiveModal={props.setActiveModal}
