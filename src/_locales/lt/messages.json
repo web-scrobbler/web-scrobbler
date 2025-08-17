@@ -268,7 +268,7 @@
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsConnectorsWelcome": {
-        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">create an issue</a> or contribute to the project.",
+        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href=\"https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development\" target=\"_blank\">contribute to the project</a>.",
         "description": "Encouraging message about adding more connectors"
     },
     "optionsSupportedWebsites": {
