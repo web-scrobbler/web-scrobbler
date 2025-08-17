@@ -6,8 +6,6 @@ import type CloneableSong from '../object/song';
 const LOCAL = 0;
 const SYNC = 1;
 
-export type StorageNamespace = keyof typeof storageTypeMap;
-
 /**
  * This storage contains the connector options values.
  * @see DEFAULT_CONNECTOR_OPTIONS_MAP object in `config` module.
@@ -182,6 +180,8 @@ const storageTypeMap = {
 	[STATE_MANAGEMENT]: LOCAL,
 	[DISABLED_TABS]: LOCAL,
 };
+
+export type StorageNamespace = keyof typeof storageTypeMap;
 
 /**
  * Return storage by given namespace according storage type map.
