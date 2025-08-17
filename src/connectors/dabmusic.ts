@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = 'div.fixed.bottom-0.left-0.right-0';
 
@@ -23,7 +23,7 @@ Connector.trackArtSelector = 'div.fixed.bottom-0.left-0.right-0 img[alt][src]';
 
 Connector.playButtonSelector = 'button[aria-label="Play"]';
 
-const dabmusicFilter = MetadataFilter.createFilter({
+const filter = MetadataFilter.createFilter({
 	track: cleanupText,
 	artist: cleanupText,
 	album: cleanupText,
