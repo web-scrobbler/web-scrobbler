@@ -2,4 +2,9 @@ export {};
 
 Connector.artistSelector = 'h1';
 Connector.trackSelector = '#info';
-Connector.playerSelector = '#player';
+
+Util.bindListeners(
+	['audio'],
+	['playing', 'pause', 'timeupdate'],
+	Connector.onStateChanged,
+);
