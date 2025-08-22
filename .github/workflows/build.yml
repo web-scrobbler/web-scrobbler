@@ -4,10 +4,30 @@ on:
     branches: [master]
   pull_request:
     types: [opened, synchronize]
+  # 添加手动触发选项
+  workflow_dispatch:
+    inputs:
+      build-browser:
+        description: '选择要构建的浏览器 (留空则构建所有)'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - chrome
+          - firefox
+          - safari
+
 jobs:
   build-chrome:
     name: Build the extension for Chrome
     runs-on: ubuntu-latest
+    # 添加条件，当手动触发时检查输入参数
+    if: |
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request' ||
+      github.event_name == 'workflow_dispatch' && 
+      (github.event.inputs.build-browser == 'all' || github.event.inputs.build-browser == 'chrome')
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v5
@@ -26,7 +46,7 @@ jobs:
           npm run build chrome
 
       - name: Upload the extension as an artifact
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: web-scrobbler-chrome
@@ -35,6 +55,11 @@ jobs:
   build-firefox:
     name: Build the extension for Firefox
     runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request' ||
+      github.event_name == 'workflow_dispatch' && 
+      (github.event.inputs.build-browser == 'all' || github.event.inputs.build-browser == 'firefox')
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v5
@@ -53,7 +78,7 @@ jobs:
           npm run build firefox
 
       - name: Upload the extension as an artifact
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: web-scrobbler-firefox
@@ -62,6 +87,11 @@ jobs:
   build-safari:
     name: Build the extension for Safari
     runs-on: macos-13
+    if: |
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request' ||
+      github.event_name == 'workflow_dispatch' && 
+      (github.event.inputs.build-browser == 'all' || github.event.inputs.build-browser == 'safari')
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v5
@@ -87,7 +117,7 @@ jobs:
           npm run build safari
 
       - name: Upload the extension as an artifact
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: web-scrobbler-safari
