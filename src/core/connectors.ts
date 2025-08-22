@@ -2653,4 +2653,10 @@ export default <ConnectorMeta[]>[
 		js: 'nonacademic.js',
 		id: 'nonacademic',
 	},
+	{
+		label: 'gravity.fm',
+		matches: ['*://gravity.fm/*'],
+		js: 'gravity.fm.js',
+		id: 'gravity',
+	},
 ];
