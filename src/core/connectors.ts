@@ -163,6 +163,12 @@ export default <ConnectorMeta[]>[
 		id: '8tracks',
 	},
 	{
+		label: 'SoGreatandPowerful',
+		matches: ['*://sogreatandpowerful.com/*'],
+		js: 'sogreatandpowerful.js',
+		id: 'sogreatandpowerful',
+	},
+	{
 		label: 'Radio Cidade',
 		matches: [
 			'*://radiocidade.fm/player/*',
