@@ -318,7 +318,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Tidal',
-		matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
+		matches: ['*://tidal.com/*'],
 		js: 'tidal.js',
 		id: 'tidal',
 	},
