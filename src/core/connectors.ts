@@ -523,17 +523,6 @@ export default <ConnectorMeta[]>[
 		id: 'novoeradio',
 	},
 	{
-		label: 'Яндекс.Радио',
-		matches: [
-			'*://radio.yandex.ru/*',
-			'*://radio.yandex.by/*',
-			'*://radio.yandex.kz/*',
-			'*://radio.yandex.ua/*',
-		],
-		js: 'yandex-music.js',
-		id: 'yandex-radio',
-	},
-	{
 		label: 'Radio Paradise',
 		matches: ['*://radioparadise.com/*'],
 		js: 'radioparadise.js',
