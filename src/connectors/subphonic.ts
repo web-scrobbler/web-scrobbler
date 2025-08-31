@@ -1,5 +1,7 @@
 'use strict';
 
+export {};
+
 Connector.playerSelector = '#playdeck';
 
 Connector.getArtist = () => {

@@ -31,6 +31,14 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	interface Window {
 		ap: {
 			_currentAudio?: string[];
+			_currentPlaylist?: {
+				_ref: {
+					// Get album title
+					getTitle: () => string;
+					// Get type of album: "playlist" or "album"
+					getType: () => string;
+				};
+			};
 			_impl: { _currentAudioEl?: { currentTime: string } };
 			isPlaying: () => boolean;
 			subscribers: {
@@ -41,7 +49,9 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	}
 
 	function sendUpdateEvent(type: string) {
-		const audioObject = (window as unknown as Window).ap._currentAudio;
+		const ctx = (window as unknown as Window).ap;
+		const audioObject = ctx._currentAudio;
+
 		if (!audioObject) {
 			return;
 		}
@@ -66,6 +76,15 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			track = `${track} (${additionalInfo})`;
 		}
 
+		const album = (() => {
+			const type = ctx._currentPlaylist?._ref.getType();
+
+			// Only trust official album titles (user playlists might have arbitrary names)
+			return type === 'album'
+				? ctx._currentPlaylist?._ref.getTitle()
+				: null;
+		})();
+
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
@@ -74,6 +93,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 					currentTime,
 					trackArt,
 					track,
+					album,
 					duration: audioObject[INFO_DURATION],
 					uniqueID: `${audioObject[INFO_OWNER_ID]}_${audioObject[INFO_ID]}`,
 					artist: audioObject[INFO_ARTIST],

@@ -14,7 +14,7 @@ async function main() {
 	updateTheme();
 	try {
 		if (
-			window.location.href.startsWith('https://web-scrobbler.com/webhook')
+			window.location.href.startsWith('https://webscrobbler.com/webhook')
 		) {
 			webhookListenForApproval();
 			return;

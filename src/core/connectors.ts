@@ -96,6 +96,12 @@ export default <ConnectorMeta[]>[
 		id: 'amazon-alexa',
 	},
 	{
+		label: 'Radio Vas3k Club',
+		matches: ['https://radio.vas3k.club/*'],
+		js: 'vas3kradio.js',
+		id: 'vas3kradio',
+	},
+	{
 		label: 'VK',
 		matches: ['*://vk.com/*'],
 		js: 'vk.js',
@@ -155,6 +161,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://8tracks.com/*'],
 		js: '8tracks.js',
 		id: '8tracks',
+	},
+	{
+		label: 'SoGreatandPowerful',
+		matches: ['*://sogreatandpowerful.com/*'],
+		js: 'sogreatandpowerful.js',
+		id: 'sogreatandpowerful',
 	},
 	{
 		label: 'Radio Cidade',
@@ -228,6 +240,7 @@ export default <ConnectorMeta[]>[
 			'*://music.yandex.by/*',
 			'*://music.yandex.kz/*',
 			'*://music.yandex.ua/*',
+			'*://music.yandex.com/*',
 		],
 		js: 'yandex-music.js',
 		id: 'yandex-music',
@@ -1067,7 +1080,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'WFMU',
-		matches: ['*://wfmu.org/*'],
+		matches: ['*://wfmu.org/*', '*://freeform.wfmu.org/*'],
 		js: 'wfmu.js',
 		id: 'wfmu',
 	},
@@ -1743,6 +1756,11 @@ export default <ConnectorMeta[]>[
 		id: 'navidrome',
 	},
 	{
+		label: 'LMS',
+		js: 'lms.js',
+		id: 'lms',
+	},
+	{
 		label: 'deep-cut.fm',
 		matches: [
 			'*://deepcut.fm/*',
@@ -2195,7 +2213,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'TrackerHub',
-		matches: ['*://trackerhub.vercel.app/*'],
+		matches: ['*://trackerhub.vercel.app/*', '*://trackerhub.cx/*'],
 		js: 'trackerhub.js',
 		id: 'trackerhub',
 	},
@@ -2426,6 +2444,12 @@ export default <ConnectorMeta[]>[
 		id: 'chirpradio',
 	},
 	{
+		label: 'OnlyHit',
+		matches: ['*://onlyhit.us/*'],
+		js: 'onlyhit.js',
+		id: 'onlyhit',
+	},
+	{
 		label: 'InstantAudio',
 		matches: [
 			'*://instant.audio/*',
@@ -2568,5 +2592,77 @@ export default <ConnectorMeta[]>[
 		matches: ['*://tapes.kglw.net/*'],
 		js: 'tapes-kglw.js',
 		id: 'tapes-kglw',
+	},
+	{
+		label: 'Systrum Sistum Radio',
+		matches: ['*://systrum.net/*'],
+		js: 'systrum.js',
+		id: 'systrum',
+	},
+	{
+		label: 'cosine.club',
+		matches: ['*://cosine.club/*'],
+		js: 'cosine.club.js',
+		id: 'cosine.club',
+	},
+	{
+		label: 'The Indie Beat Radio',
+		matches: ['*://theindiebeat.fm/*'],
+		js: 'theindiebeat.js',
+		id: 'theindiebeat',
+	},
+	{
+		label: 'Musique Approximative',
+		matches: ['*://*.musiqueapproximative.net/*'],
+		js: 'musiqueapproximative.js',
+		id: 'musiqueapproximative',
+	},
+	{
+		label: 'Suno AI',
+		matches: ['*://suno.com/*'],
+		js: 'suno.js',
+		id: 'suno',
+	},
+	{
+		label: '[untitled]',
+		matches: ['*://untitled.stream/*'],
+		js: 'untitled.js',
+		id: '[untitled]',
+	},
+	{
+		label: 'DAB Music Player',
+		matches: ['*://dab.yeet.su/*', '*://dabmusic.xyz/*'],
+		js: 'dabmusic.js',
+		id: 'dabmusic',
+	},
+	{
+		label: 'GBS-FM',
+		matches: ['*://gbs.fm/*'],
+		js: 'gbs.fm.js',
+		id: 'gbs',
+	},
+	{
+		label: 'Yumi Co. Radio',
+		matches: ['*://yumicoradio.net/*'],
+		js: 'yumicoradio.js',
+		id: 'yumicoradio',
+	},
+	{
+		label: 'Kosmik Dstroyer',
+		matches: ['*://kosmik-dstroyer.top/*'],
+		js: 'kosmik-dstroyer.js',
+		id: 'kosmik-dstroyer',
+	},
+	{
+		label: 'LaTeX 4000',
+		matches: ['*://nonacademic.net/*'],
+		js: 'nonacademic.js',
+		id: 'nonacademic',
+	},
+	{
+		label: 'gravity.fm',
+		matches: ['*://gravity.fm/*'],
+		js: 'gravity.fm.js',
+		id: 'gravity',
 	},
 ];
