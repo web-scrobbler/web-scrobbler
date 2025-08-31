@@ -1,22 +1,54 @@
 export {};
 
-// Selects previous node to .Toastify
-Connector.playerSelector = 'div:has(+ .Toastify)';
-Connector.artistSelector =
-	'[data-testid=player-song-info] [data-testid=player-song-author]';
-Connector.trackSelector = '[data-testid=player-song-info] [itemprop=name]';
-Connector.trackArtSelector = '[data-testid=player-song-icon] img';
-Connector.currentTimeSelector = '[data-testid=player-current-time]';
-Connector.durationSelector = '[data-testid=player-full-time]';
+Connector.playerSelector = [
+	'div:has(+ .Toastify)', // Desktop player
+	'#mini-player', // Mini player
+];
 
-const playButtonSelector = '[data-testid=player-play]';
+Connector.artistSelector = [
+	'[data-testid=player-song-author]', // Desktop
+	'#mini-player div:not(:has(+p)) > p', // Mini
+];
+
+// The default implementation puts children nodes' content on new lines
+Connector.getArtist = () => {
+	const node =
+		document.querySelector(Connector.artistSelector![0]) ||
+		document.querySelector(Connector.artistSelector![1]);
+
+	return node?.textContent;
+};
+
+Connector.trackSelector = [
+	'[data-testid=player-song-info] > div:first-child p', // Desktop
+	'#mini-player div:has(+p) > p', // Mini
+];
+
+Connector.trackArtSelector = [
+	'[data-testid=player-song-icon] img', // Desktop
+	'#mini-player img', // Mini
+];
+
+Connector.currentTimeSelector = [
+	'[data-testid=player-current-time]', // Desktop
+];
+
+Connector.durationSelector = [
+	'[data-testid=player-full-time]', // Desktop
+];
 
 Connector.isPlaying = () => {
-	const playButton = document.querySelector(playButtonSelector);
-	if (playButton === null) {
-		return false;
+	const playButton = document.querySelector('[data-testid=player-play]');
+	let paths;
+
+	if (playButton) {
+		paths = playButton.querySelectorAll('svg path');
+	} else {
+		paths = document.querySelectorAll(
+			'#mini-player button:not(#tooltipTrack) svg path',
+		);
 	}
 
-	const imageCSS = window.getComputedStyle(playButton).backgroundImage;
-	return imageCSS.includes('pause');
+	// pause svg consists of 2 paths
+	return paths.length === 2;
 };

@@ -96,6 +96,12 @@ export default <ConnectorMeta[]>[
 		id: 'amazon-alexa',
 	},
 	{
+		label: 'Radio Vas3k Club',
+		matches: ['https://radio.vas3k.club/*'],
+		js: 'vas3kradio.js',
+		id: 'vas3kradio',
+	},
+	{
 		label: 'VK',
 		matches: ['*://vk.com/*'],
 		js: 'vk.js',
@@ -155,6 +161,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://8tracks.com/*'],
 		js: '8tracks.js',
 		id: '8tracks',
+	},
+	{
+		label: 'SoGreatandPowerful',
+		matches: ['*://sogreatandpowerful.com/*'],
+		js: 'sogreatandpowerful.js',
+		id: 'sogreatandpowerful',
 	},
 	{
 		label: 'Radio Cidade',
@@ -312,7 +324,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Tidal',
-		matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
+		matches: ['*://tidal.com/*'],
 		js: 'tidal.js',
 		id: 'tidal',
 	},
@@ -509,17 +521,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.novoeradio.by/*'],
 		js: 'novoeradio.js',
 		id: 'novoeradio',
-	},
-	{
-		label: 'Яндекс.Радио',
-		matches: [
-			'*://radio.yandex.ru/*',
-			'*://radio.yandex.by/*',
-			'*://radio.yandex.kz/*',
-			'*://radio.yandex.ua/*',
-		],
-		js: 'yandex-music.js',
-		id: 'yandex-radio',
 	},
 	{
 		label: 'Radio Paradise',
@@ -1068,7 +1069,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'WFMU',
-		matches: ['*://wfmu.org/*'],
+		matches: ['*://wfmu.org/*', '*://freeform.wfmu.org/*'],
 		js: 'wfmu.js',
 		id: 'wfmu',
 	},
@@ -1742,6 +1743,11 @@ export default <ConnectorMeta[]>[
 		label: 'Navidrome',
 		js: 'navidrome.js',
 		id: 'navidrome',
+	},
+	{
+		label: 'LMS',
+		js: 'lms.js',
+		id: 'lms',
 	},
 	{
 		label: 'deep-cut.fm',
@@ -2607,6 +2613,48 @@ export default <ConnectorMeta[]>[
 		id: 'suno',
 	},
 	{
+		label: '[untitled]',
+		matches: ['*://untitled.stream/*'],
+		js: 'untitled.js',
+		id: '[untitled]',
+	},
+	{
+		label: 'DAB Music Player',
+		matches: ['*://dab.yeet.su/*', '*://dabmusic.xyz/*'],
+		js: 'dabmusic.js',
+		id: 'dabmusic',
+	},
+	{
+		label: 'GBS-FM',
+		matches: ['*://gbs.fm/*'],
+		js: 'gbs.fm.js',
+		id: 'gbs',
+	},
+	{
+		label: 'Yumi Co. Radio',
+		matches: ['*://yumicoradio.net/*'],
+		js: 'yumicoradio.js',
+		id: 'yumicoradio',
+	},
+	{
+		label: 'Kosmik Dstroyer',
+		matches: ['*://kosmik-dstroyer.top/*'],
+		js: 'kosmik-dstroyer.js',
+		id: 'kosmik-dstroyer',
+	},
+	{
+		label: 'LaTeX 4000',
+		matches: ['*://nonacademic.net/*'],
+		js: 'nonacademic.js',
+		id: 'nonacademic',
+	},
+	{
+		label: 'gravity.fm',
+		matches: ['*://gravity.fm/*'],
+		js: 'gravity.fm.js',
+		id: 'gravity',
+	},
+	{
 		label: 'Radyo Voyage',
 		matches: ['*://radyovoyage.com/*'],
 		js: 'radyovoyage.js',
@@ -2617,5 +2665,5 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radioeksen.com/*'],
 		js: 'radioeksen.js',
 		id: 'radioeksen'
-	}
+	},
 ];

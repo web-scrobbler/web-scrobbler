@@ -7,7 +7,8 @@ enum TimePart {
 	Duration = 'duration',
 }
 
-Connector.playerSelector = 'div:has(audio)';
+Connector.playerSelector =
+	'div:has(a[aria-label^="Playbar: Title"]):has(button[aria-label^="Playbar: Play button"])';
 
 Connector.artistSelector = 'a[aria-label^="Playbar: Artist"]';
 
