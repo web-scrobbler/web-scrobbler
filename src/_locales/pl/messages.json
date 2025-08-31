@@ -216,8 +216,12 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Wybierz ikonę zębatki, aby skonfigurować niestandardowe domeny dla wspieranych usług.",
+        "message": "Expand a connector to configure custom URL patterns and other settings.",
         "description": "Description of how to configure custom URL patterns"
+    },
+    "optionsConnectorsWelcome": {
+        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href=\"https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development\" target=\"_blank\">contribute to the project</a>.",
+        "description": "Encouraging message about adding more connectors"
     },
     "optionsSupportedWebsites": {
         "message": "Wspierane strony",
