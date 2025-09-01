@@ -98,6 +98,10 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 			id: '{799c0914-748b-41df-a25c-22d008f9e83f}',
 		},
 	},
+
+	content_security_policy: {
+		extension_pages: "script-src 'self';",
+	},
 };
 
 /**

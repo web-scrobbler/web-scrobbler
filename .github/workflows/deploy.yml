@@ -1,9 +1,8 @@
 name: Deploy
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types: [published]
 
 jobs:
   deploy-chrome:
@@ -11,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -24,6 +23,12 @@ jobs:
 
       - name: Create zipball
         run: npm run dist chrome
+
+      - name: Attach extension to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} web-scrobbler-chrome.zip
 
       - name: Publish the extension for Chrome
         uses: trmcnvn/chrome-addon@v2
@@ -39,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -52,6 +57,12 @@ jobs:
 
       - name: Create zipball
         run: npm run dist firefox
+
+      - name: Attach extension to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} web-scrobbler-firefox.zip
 
       - name: Publish the extension for Firefox
         uses: yayuyokitano/firefox-addon@v0.0.6-alpha
@@ -67,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
