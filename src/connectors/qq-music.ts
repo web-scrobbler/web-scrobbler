@@ -5,7 +5,7 @@ Connector.playerSelector = '.player__ft';
 Connector.getTrackArt = () => {
 	const src = Util.getAttrFromSelectors('.song_info__pic', 'src');
 	const trackArt = src?.split('?')[0];
-	return trackArt;
+	return 'https:' + trackArt;
 };
 
 Connector.getTrack = () => {
