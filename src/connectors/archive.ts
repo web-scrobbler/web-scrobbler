@@ -16,25 +16,9 @@ export {};
  * Single track
  */
 
-const artistSelectors = [
-	'.key-val-big a span',
-	'.item-details-metadata > dl > dd a',
-];
-const trackSelectors = [
-	// https://archive.org/details/AH003_corwin_trails_-_corwin_trails
-	'.jwrowV2.playing .ttl',
-
-	// https://archive.org/details/lp_everybody-knows-this-is-nowhere_neil-young-crazy-horse-robin-lane
-	'.audio-track-list .selected .track-title',
-];
-const albumSelector = '.thats-left > h1 [itemprop=name]';
-const tracksSelector = '.jwrowV2 .ttl';
-
 const numericTrackRegex = /^\d+\w+/;
 
 const filter = MetadataFilter.createFilter({ track: removeNumericPrefixes });
-
-Connector.applyFilter(filter);
 
 function removeNumericPrefixes(track: string) {
 	if (hasAllTracksNumericPrefix()) {
@@ -43,6 +27,44 @@ function removeNumericPrefixes(track: string) {
 
 	return track;
 }
+
+function hasAllTracksNumericPrefix() {
+	const tracks = getTracksElementShadowDom();
+	if (tracks === null) {
+		return false;
+	}
+
+	const trackTitles = tracks.querySelectorAll('.track .track-title');
+
+	if (trackTitles.length === 0) {
+		return false;
+	}
+	let hasAllTracksNumericPrefix = true;
+	for (const trackTitle of trackTitles) {
+		if (!numericTrackRegex.test(trackTitle?.textContent?.trim() ?? '')) {
+			hasAllTracksNumericPrefix = false;
+			break;
+		}
+	}
+
+	return hasAllTracksNumericPrefix;
+}
+
+function getTracksElementShadowDom() {
+	const tracksElement = document.querySelector('play-av');
+
+	if (tracksElement === null) {
+		return null;
+	}
+
+	return tracksElement.shadowRoot;
+}
+
+Connector.applyFilter(filter);
+
+Connector.artistSelector = '.item-details-metadata > dl > dd a';
+
+Connector.albumSelector = '.item-title';
 
 Connector.currentTimeSelector = '.jw-text-elapsed';
 
@@ -58,56 +80,28 @@ Connector.isPlaying = () => {
 	return !videoElement.paused;
 };
 
-Connector.playerSelector = '#theatre-ia';
+Connector.getTrack = () => {
+	const tracksElement = document.querySelector('play-av');
 
-Connector.trackArtSelector = [
-	// https://archive.org/details/AH013_sarin_sunday_-_the_lonely_hike
-	'#theatre-ia center > img',
-
-	// https://archive.org/details/lp_everybody-knows-this-is-nowhere_neil-young-crazy-horse-robin-lane
-	'.album-cover img',
-];
-
-Connector.getTrackInfo = () => {
-	const artist = getArtists(artistSelectors);
-	let album = Util.getTextFromSelectors(albumSelector);
-	let track = Util.getTextFromSelectors(trackSelectors);
-
-	if (track) {
-		// Second item could be an artist name or track duration
-		const [firstItem, secondItem] = track
-			.split('-')
-			.map((item) => item.trim());
-
-		if (artist?.includes(secondItem)) {
-			track = firstItem;
-		}
-	} else {
-		track = album;
-		album = null;
+	if (tracksElement === null) {
+		return null;
 	}
 
-	return { artist, track, album };
+	const trackElements = tracksElement.shadowRoot
+		? tracksElement.shadowRoot.querySelector('.track.selected .track-title')
+		: null;
+
+	return trackElements ? trackElements.textContent.trim() : null;
 };
 
-function hasAllTracksNumericPrefix() {
-	const tracks = document.querySelectorAll(tracksSelector);
-	if (tracks.length === 0) {
-		return false;
+Connector.getTrackArt = () => {
+	const theaterElement = document.querySelector('ia-music-theater');
+
+	if (theaterElement === null) {
+		return null;
 	}
 
-	let hasAllTracksNumericPrefix = true;
-	for (const track of tracks) {
-		if (!numericTrackRegex.test(track?.textContent?.trim() ?? '')) {
-			hasAllTracksNumericPrefix = false;
-			break;
-		}
-	}
+	return theaterElement.querySelector('img')?.getAttribute('src');
+};
 
-	return hasAllTracksNumericPrefix;
-}
-
-function getArtists(selectors: string[]) {
-	const artistElements = Util.queryElements(selectors);
-	return artistElements && Util.joinArtists([...artistElements]);
-}
+Connector.playerSelector = '#theatre-ia';
