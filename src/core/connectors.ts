@@ -324,7 +324,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Tidal',
-		matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
+		matches: ['*://tidal.com/*'],
 		js: 'tidal.js',
 		id: 'tidal',
 	},
@@ -521,17 +521,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.novoeradio.by/*'],
 		js: 'novoeradio.js',
 		id: 'novoeradio',
-	},
-	{
-		label: 'Яндекс.Радио',
-		matches: [
-			'*://radio.yandex.ru/*',
-			'*://radio.yandex.by/*',
-			'*://radio.yandex.kz/*',
-			'*://radio.yandex.ua/*',
-		],
-		js: 'yandex-music.js',
-		id: 'yandex-radio',
 	},
 	{
 		label: 'Radio Paradise',
