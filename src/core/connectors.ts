@@ -103,7 +103,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'VK',
-		matches: ['*://vk.ru/*'],
+		matches: ['*://vk.ru/*', '*://vk.com/*'],
 		js: 'vk.js',
 		id: 'vk',
 	},
