@@ -51,7 +51,7 @@
     "@web-scrobbler/eslint-config": "3.1.1",
     "@web-scrobbler/stylelint-config": "2.0.0",
     "archiver": "7.0.1",
-    "canvas": "3.1.2",
+    "canvas": "3.2.0",
     "chokidar": "4.0.3",
     "esbuild": "0.25.9",
     "eslint": "8.57.0",
