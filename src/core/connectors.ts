@@ -2654,4 +2654,10 @@ export default <ConnectorMeta[]>[
 		js: 'gravity.fm.js',
 		id: 'gravity',
 	},
+	{
+		label: 'Archaic Horizon',
+		matches: ['*://www.archaichorizon.com/*'],
+		js: 'archaichorizon.js',
+		id: 'archaichorizon',
+	},
 ];
