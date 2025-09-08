@@ -2656,7 +2656,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Archaic Horizon',
-		matches: ['*://www.archaichorizon.com/*'],
+		matches: ['*://archaichorizon.com/*', '*://www.archaichorizon.com/*'],
 		js: 'archaichorizon.js',
 		id: 'archaichorizon',
 	},
