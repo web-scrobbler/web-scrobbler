@@ -1,5 +1,5 @@
 /**
- * This script runs in non-isolated environment (vk.com itself)
+ * This script runs in non-isolated environment (vk.ru itself)
  * for accessing `window.ap` which sends player events.
  *
  * Script is run as an IIFE to ensure variables are scoped, as in the event
