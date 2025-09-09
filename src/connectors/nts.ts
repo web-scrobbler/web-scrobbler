@@ -62,14 +62,15 @@ Connector.isPlaying = () => {
 Connector.scrobbleInfoLocationSelector = 'header.header';
 Connector.scrobbleInfoStyle = {
 	...Connector.scrobbleInfoStyle,
-	fontSize: '0.7em',
-	marginTop: '0.7em',
+	fontSize: '0.8rem',
+	marginTop: '0.25rem',
 	width: '100%',
 	maxWidth: '260px',
 	fontFamily: 'Univers-Condensed,Arial,sans-serif',
 	overflow: 'hidden',
 	textAlign: 'right',
-	display: '-webkit-box',
+	display: 'inline-block',
 	'-webkit-box-orient': 'vertical',
 	'-webkit-line-clamp': '2',
+	'text-wrap': 'balance',
 };
