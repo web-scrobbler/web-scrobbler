@@ -70,7 +70,7 @@ Connector.scrobbleInfoStyle = {
 	overflow: 'hidden',
 	textAlign: 'right',
 	display: 'inline-block',
-	'-webkit-box-orient': 'vertical',
+	'box-orient': 'vertical',
 	'-webkit-line-clamp': '2',
 	'text-wrap': 'balance',
 };
