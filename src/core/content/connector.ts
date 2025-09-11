@@ -141,7 +141,8 @@ export default class BaseConnector {
 	 * this is in camelCase so its fontSize, not font-size
 	 */
 	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> &
-		Partial< // TODO remove after upstream update: fixes for NTS
+		Partial<
+			// TODO remove after upstream update: fixes for NTS
 			Record<'box-orient' | '-webkit-line-clamp' | 'text-wrap', string>
 		> = {
 		display: 'flex',
