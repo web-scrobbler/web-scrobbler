@@ -140,7 +140,11 @@ export default class BaseConnector {
 	 * Styles to apply to the infobox
 	 * this is in camelCase so its fontSize, not font-size
 	 */
-	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
+	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> &
+		Partial<
+			// TODO remove after upstream update: fixes for NTS
+			Record<'box-orient' | '-webkit-line-clamp' | 'text-wrap', string>
+		> = {
 		display: 'flex',
 		gap: '0.5em',
 		alignItems: 'center',
