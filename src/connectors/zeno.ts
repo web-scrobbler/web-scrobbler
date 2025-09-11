@@ -1,3 +1,4 @@
+// TODO add podcasts
 export {};
 
 function isMainPlayer() {
@@ -9,22 +10,20 @@ function isEmbedPlayer() {
 }
 
 function setupMainPlayer() {
-	Util.debugLog('main');
 	Connector.playerSelector = '#__nuxt';
 	Connector.isPlaying = () =>
 		!document.querySelector<HTMLVideoElement>('#media-player')?.paused;
-	Util.debugLog(`isPlaying=${Connector.isPlaying()}`);
 	Connector.artistTrackSelector =
 		'.fixed.w-full.bottom-0 .font-medium.truncate.hyphens-auto';
+	Util.debugLog(`Setup main player; isPlaying=${Connector.isPlaying()}`);
 }
 
 function setupEmbedPlayer() {
-	Util.debugLog('embeded');
 	Connector.playerSelector = '.dashboard';
 	Connector.isPlaying = () =>
 		!document.querySelector<HTMLAudioElement>('#audioPlayer')?.paused;
-	Util.debugLog(`isPlaying=${Connector.isPlaying()}`);
 	Connector.artistTrackSelector = '.dashboard-box__playing-song';
+	Util.debugLog(`Setup embedded player; isPlaying=${Connector.isPlaying()}`);
 }
 
 if (isMainPlayer()) {
@@ -32,5 +31,3 @@ if (isMainPlayer()) {
 } else if (isEmbedPlayer()) {
 	setupEmbedPlayer();
 }
-
-// TODO add podcasts
