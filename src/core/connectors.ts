@@ -2660,4 +2660,10 @@ export default <ConnectorMeta[]>[
 		js: 'archaichorizon.js',
 		id: 'archaichorizon',
 	},
+	{
+		label: 'CREAMER NATION',
+		matches: ['*://creamernation.men/*'],
+		js: 'creamer-nation.js',
+		id: 'archaichorizon',
+	},
 ];
