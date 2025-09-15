@@ -1,4 +1,4 @@
-import { getConnectorByUrl } from '../../util/util-connector';
+import { getConnectorFromContentScript } from '../../util/util-connector';
 import BaseConnector from '@/core/content/connector';
 import * as Util from '@/core/content/util';
 import * as MetadataFilter from '@web-scrobbler/metadata-filter';
@@ -8,6 +8,7 @@ import { sendContentMessage } from '@/util/communication';
 import savedEdits from '../storage/saved-edits';
 import regexEdits from '../storage/regex-edits';
 import { webhookListenForApproval } from './webhook';
+import type { ConnectorMeta } from '../connectors';
 
 main();
 async function main() {
@@ -19,7 +20,7 @@ async function main() {
 			webhookListenForApproval();
 			return;
 		}
-		await fetchConnector();
+		await bindConnector();
 		start();
 	} catch (err) {
 		if (err instanceof Error && err.message === 'dontlog') {
@@ -30,15 +31,21 @@ async function main() {
 }
 
 /**
- * Check for a connector that fits the current URL, and bind it if it exists.
+ * Find connector that fits current page and bind it.
  * Also, set up window variables for use in connector scripts.
  */
-async function fetchConnector(): Promise<void> {
-	const connector = await getConnectorByUrl(window.location.href);
-	if (!connector) {
-		throw new Error('dontlog');
+async function bindConnector(): Promise<void> {
+	const connector = await getConnectorFromContentScript();
+	if (connector) {
+		return tryInjectConnector(connector);
 	}
+}
 
+/**
+ * try to bind a specific connector to page.
+ * @param connector - connector to bind.
+ */
+async function tryInjectConnector(connector: ConnectorMeta): Promise<void> {
 	// Don't run the connector in frames if it's not allowed to run in frames
 	if (window !== top && !connector.allFrames) {
 		throw new Error('dontlog');
