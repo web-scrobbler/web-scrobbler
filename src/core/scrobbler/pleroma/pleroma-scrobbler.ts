@@ -15,8 +15,8 @@ import type {
  */
 
 export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
-	public userToken!: string;
-	public userApiUrl!: string;
+	declare public userToken: string;
+	declare public userApiUrl: string;
 	public isLocalOnly = true;
 
 	/** @override */
