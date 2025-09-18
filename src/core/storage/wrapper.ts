@@ -196,7 +196,7 @@ const LOCKING_TIMEOUT = 3000;
 export default class StorageWrapper<K extends keyof DataModels> {
 	// V extends DataModels[K], T extends Record<K, V>
 	private storage:
-		| browser.Storage.StorageAreaSync
+		| browser.Storage.StorageAreaWithUsage
 		| browser.Storage.StorageArea;
 	private namespace: StorageNamespace;
 	private requests: number[] = [];
@@ -215,7 +215,9 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	 * @param namespace - Storage namespace
 	 */
 	constructor(
-		storage: browser.Storage.StorageAreaSync | browser.Storage.StorageArea,
+		storage:
+			| browser.Storage.StorageAreaWithUsage
+			| browser.Storage.StorageArea,
 		namespace: StorageNamespace,
 	) {
 		this.storage = storage;

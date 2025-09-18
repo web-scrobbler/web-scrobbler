@@ -231,29 +231,32 @@ interface BackgroundMessage<K extends keyof BackgroundCommunications> {
 }
 
 export function setupContentListeners(...listeners: ContentListener[]) {
-	browser.runtime.onMessage.addListener((message, sender) => {
-		let done = false;
-		for (const l of listeners) {
-			// eslint-disable-next-line
-			const response = l((listener) => {
-				if (
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					(message as BackgroundMessage<any>).type !== listener.type
-				) {
-					return;
+	browser.runtime.onMessage.addListener(
+		(message: unknown, sender: browser.Runtime.MessageSender) => {
+			let done = false;
+			for (const l of listeners) {
+				// eslint-disable-next-line
+				const response = l((listener) => {
+					if (
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						(message as BackgroundMessage<any>).type !==
+						listener.type
+					) {
+						return;
+					}
+					done = true;
+					return listener.fn(
+						// eslint-disable-next-line
+						(message as BackgroundMessage<any>).payload,
+						sender,
+					);
+				});
+				if (done) {
+					return Promise.resolve(response);
 				}
-				done = true;
-				return listener.fn(
-					// eslint-disable-next-line
-					(message as BackgroundMessage<any>).payload,
-					sender,
-				);
-			});
-			if (done) {
-				return Promise.resolve(response);
 			}
-		}
-	});
+		},
+	);
 }
 
 export async function sendBackgroundMessage<
@@ -303,8 +306,7 @@ interface ContentMessage<K extends keyof ContentCommunications> {
 
 export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 	browser.runtime.onMessage.addListener(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(message, sender) => {
+		(message: unknown, sender: browser.Runtime.MessageSender) => {
 			let done = false;
 			for (const l of listeners) {
 				// eslint-disable-next-line
@@ -374,8 +376,7 @@ interface PopupMessage<K extends keyof PopupCommunications> {
 
 export function setupPopupListeners(...listeners: PopupListener[]) {
 	browser.runtime.onMessage.addListener(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
-		(message, sender) => {
+		(message: unknown, sender: browser.Runtime.MessageSender) => {
 			let done = false;
 			for (const l of listeners) {
 				// eslint-disable-next-line
