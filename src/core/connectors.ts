@@ -2660,4 +2660,10 @@ export default <ConnectorMeta[]>[
 		js: 'archaichorizon.js',
 		id: 'archaichorizon',
 	},
+	{
+		label: 'Aonsoku',
+		matches: ['*://aonsoku.vercel.app/*', '*://127.0.0.1:8080/*'],
+		js: 'aonsoku.js',
+		id: 'aonsoku',
+	},
 ];
