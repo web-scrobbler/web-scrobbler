@@ -2662,7 +2662,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Aonsoku',
-		matches: ['*://aonsoku.vercel.app/*', '*://127.0.0.1:8080/*'],
+		matches: ['*://aonsoku.vercel.app/*'],
 		js: 'aonsoku.js',
 		id: 'aonsoku',
 	},
