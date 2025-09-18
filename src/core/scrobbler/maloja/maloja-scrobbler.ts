@@ -12,8 +12,8 @@ import type { MalojaTrackMetadata } from '@/core/scrobbler/maloja/maloja.types';
  */
 
 export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
-	public userToken!: string;
-	public userApiUrl!: string;
+	declare public userToken: string;
+	declare public userApiUrl: string;
 	public isLocalOnly = true;
 
 	/** @override */
