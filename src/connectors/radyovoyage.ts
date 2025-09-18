@@ -1,5 +1,5 @@
-export  {}
+export {};
 
-Connector.playerSelector = "body > div.cstRadyoWrapper.container-fluid > div";
+Connector.playerSelector = 'body > div.cstRadyoWrapper.container-fluid > div';
 
-Connector.artistTrackSelector = "#NowPlaying > a > span";
+Connector.artistTrackSelector = '#NowPlaying > a > span';

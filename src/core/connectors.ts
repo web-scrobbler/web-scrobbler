@@ -2658,12 +2658,12 @@ export default <ConnectorMeta[]>[
 		label: 'Radyo Voyage',
 		matches: ['*://radyovoyage.com/*'],
 		js: 'radyovoyage.js',
-		id: 'radyovoyage'
+		id: 'radyovoyage',
 	},
 	{
 		label: 'Radyo Eksen',
 		matches: ['*://radioeksen.com/*'],
 		js: 'radioeksen.js',
-		id: 'radioeksen'
+		id: 'radioeksen',
 	},
 ];
