@@ -48,7 +48,7 @@
     "@types/react": "19.1.13",
     "@types/webextension-polyfill": "0.12.1",
     "@typescript-eslint/eslint-plugin": "8.39.0",
-    "@web-scrobbler/eslint-config": "3.1.1",
+    "@web-scrobbler/eslint-config": "3.1.2",
     "@web-scrobbler/stylelint-config": "2.0.0",
     "archiver": "7.0.1",
     "canvas": "3.2.0",
