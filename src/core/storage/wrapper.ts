@@ -215,7 +215,9 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	 * @param namespace - Storage namespace
 	 */
 	constructor(
-		storage: browser.Storage.StorageAreaWithUsage | browser.Storage.StorageArea,
+		storage:
+			| browser.Storage.StorageAreaWithUsage
+			| browser.Storage.StorageArea,
 		namespace: StorageNamespace,
 	) {
 		this.storage = storage;
