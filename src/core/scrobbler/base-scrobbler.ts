@@ -128,7 +128,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 
 		// @ts-ignore typescript is being weird and inconsistent about this line.
 		if (!('properties' in data) || data.properties === undefined) {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- Need to set properties even if undefined here
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Need to set properties even if undefined here
 			(data as any).properties = {};
 		}
 
@@ -307,7 +307,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 *
 	 * @param song - Song instance
 	 */
-	// eslint-disable-next-line no-unused-vars
+
 	public abstract sendNowPlaying(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
@@ -316,7 +316,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 *
 	 * @param song - Song instance
 	 */
-	// eslint-disable-next-line no-unused-vars
+
 	public abstract sendResumedPlaying(
 		song: BaseSong,
 	): Promise<ServiceCallResult>;
@@ -327,7 +327,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 *
 	 * @param song - Song instance
 	 */
-	// eslint-disable-next-line no-unused-vars
+
 	public abstract sendPaused(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
@@ -336,7 +336,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 *
 	 * @param song - Song instances
 	 */
-	// eslint-disable-next-line no-unused-vars
+
 	public abstract scrobble(
 		song: BaseSong[],
 		currentlyPlaying: boolean,
@@ -349,7 +349,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - Song instance
 	 * @param isLoved - Flag means song should be loved or not
 	 */
-	// eslint-disable-next-line no-unused-vars
+
 	public abstract toggleLove(
 		song: ClonedSong,
 		isLoved: boolean,
@@ -361,7 +361,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 *
 	 * @param song - Song instance
 	 */
-	// eslint-disable-next-line no-unused-vars
+
 	public abstract getSongInfo(
 		song: BaseSong,
 	): Promise<ScrobblerSongInfo | Record<string, never>>;

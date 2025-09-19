@@ -63,10 +63,10 @@ function runTests() {
 
 	for (const type in storages) {
 		// @ts-expect-error
-		// eslint-disable-next-line
+
 		const storage = storages[type];
 		// @ts-expect-error
-		// eslint-disable-next-line
+
 		testStorage(type, storage);
 	}
 

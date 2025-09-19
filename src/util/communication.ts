@@ -265,7 +265,6 @@ export async function sendBackgroundMessage<
 	tabId: number,
 	message: BackgroundMessage<K>,
 ): Promise<BackgroundCommunications[K]['response']> {
-	// eslint-disable-next-line
 	return browser.tabs.sendMessage(tabId, message);
 }
 
@@ -335,7 +334,6 @@ export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 export async function sendContentMessage<K extends keyof ContentCommunications>(
 	message: ContentMessage<K>,
 ): Promise<ContentCommunications[K]['response']> {
-	// eslint-disable-next-line
 	return browser.runtime.sendMessage(message);
 }
 
@@ -403,6 +401,5 @@ export function setupPopupListeners(...listeners: PopupListener[]) {
 export async function sendPopupMessage<K extends keyof PopupCommunications>(
 	message: PopupMessage<K>,
 ): Promise<PopupCommunications[K]['response']> {
-	// eslint-disable-next-line
 	return browser.runtime.sendMessage(message);
 }

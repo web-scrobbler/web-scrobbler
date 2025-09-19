@@ -30,9 +30,7 @@ class StorageAreaStub {
 const messages = {
 	getSongInfo: (payload: { song: CloneableSong }) => {
 		if (
-			// eslint-disable-next-line
 			payload.song.processed.artist === 'フミンニッキ' &&
-			// eslint-disable-next-line
 			payload.song.processed.track === 'Re:start'
 		) {
 			return Promise.resolve([
@@ -58,7 +56,6 @@ const browser = {
 			type: string;
 			payload: Record<string, unknown>;
 			// @ts-ignore - we know that this is sound
-			// eslint-disable-next-line
 		}) => messages[payload.type]?.(payload.payload) ?? Promise.resolve([]),
 	},
 };

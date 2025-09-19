@@ -117,10 +117,10 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			try {
 				const session = await this.requestSession();
 
-				/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- we need to set session even if not exists */
+				/* eslint-disable @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
 				(data as any).sessionID = session.sessionID;
 				(data as any).sessionName = session.sessionName;
-				/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
+				/* eslint-enable @typescript-eslint/no-explicit-any */
 				delete data.isAuthStarted;
 
 				await this.storage.set(data);

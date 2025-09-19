@@ -446,9 +446,8 @@ function getTrackInfoFromYoutubeMusic():
 			// TODO: type videoInfo
 			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
 				done: true,
-				// eslint-disable-next-line
+
 				recognisedByYtMusic:
-					// eslint-disable-next-line
 					videoInfo.videoDetails?.musicVideoType?.startsWith(
 						'MUSIC_VIDEO_',
 					) || false,
@@ -458,16 +457,14 @@ function getTrackInfoFromYoutubeMusic():
 			// not something youtube music actually knows, so it usually gives
 			// wrong results, so we only return if it is that musicVideoType
 			if (
-				// eslint-disable-next-line
 				videoInfo.videoDetails?.musicVideoType ===
 				'MUSIC_VIDEO_TYPE_OMV'
 			) {
 				getTrackInfoFromYoutubeMusicCache[
 					videoId ?? ''
 				].currentTrackInfo = {
-					// eslint-disable-next-line
 					artist: videoInfo.videoDetails.author,
-					// eslint-disable-next-line
+
 					track: videoInfo.videoDetails.title,
 				};
 			}

@@ -45,7 +45,6 @@ async function requestSongInfo() {
 		try {
 			songInfo = await fetchSongInfo(albumInfoUrl);
 		} catch (err) {
-			// eslint-disable-next-line
 			Util.debugLog(`Error: ${err}`, 'error');
 
 			resetSongInfo();
