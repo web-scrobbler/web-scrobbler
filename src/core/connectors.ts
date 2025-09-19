@@ -2666,4 +2666,10 @@ export default <ConnectorMeta[]>[
 		js: 'aonsoku.js',
 		id: 'aonsoku',
 	},
+	{
+		label: 'Feishin',
+		matches: ['*://feishin.vercel.app/*'],
+		js: 'feishin.js',
+		id: 'feishin',
+	},
 ];
