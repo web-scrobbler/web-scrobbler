@@ -15,7 +15,7 @@
     "checkts": "tsc --noEmit && tsc --noEmit --project tsconfig.connectors.json",
     "test": "vitest",
     "lint": "npm run lint:eslint && npm run lint:stylelint && npm run lint:prettier && npm run lint:markdown",
-    "lint:eslint": "eslint . --ext .ts,.tsx",
+    "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint \"**/*.scss\"",
     "lint:prettier": "prettier . --check",
     "lint:markdown": "remark .",
