@@ -55,7 +55,7 @@ const browser = {
 		sendMessage: (payload: {
 			type: string;
 			payload: Record<string, unknown>;
-			// @ts-ignore - we know that this is sound
+			// @ts-expect-error - we know that this is sound
 		}) => messages[payload.type]?.(payload.payload) ?? Promise.resolve([]),
 	},
 };
