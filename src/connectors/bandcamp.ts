@@ -266,7 +266,6 @@ function initPropertiesForHomePage() {
 
 	Connector.getUniqueID = () => {
 		if (document.querySelector('.bcweekly.playing') !== null) {
-			// eslint-disable-next-line
 			const { bcw_data: bandcampWeeklyData } = getData(
 				'#pagedata',
 				'data-blob',
@@ -274,14 +273,12 @@ function initPropertiesForHomePage() {
 			const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
 
 			if (currentShowId && currentShowId in bandcampWeeklyData) {
-				// eslint-disable-next-line
 				const currentShowData = bandcampWeeklyData[currentShowId];
 				const currentTrackIndex = Util.getDataFromSelectors(
 					'.bcweekly-current',
 					'index',
 				);
 
-				// eslint-disable-next-line
 				return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
 			}
 		}
@@ -406,7 +403,7 @@ function getData(selector: string, attr: string) {
 	const element = document.querySelector(selector);
 	if (element) {
 		const rawData = element.getAttribute(attr);
-		// eslint-disable-next-line
+
 		return JSON.parse(rawData ?? '');
 	}
 

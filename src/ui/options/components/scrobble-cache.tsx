@@ -20,7 +20,6 @@ import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
 import type { ModalType } from './navigator';
 import savedEdits from '@/core/storage/saved-edits';
-import type { CloneableSong } from '@/core/object/song';
 import { debugLog } from '@/core/content/util';
 import SavedEditsModel from '@/core/storage/saved-edits.model';
 
@@ -637,21 +636,6 @@ async function scrobbleMultipleFromCache(scrobbles: CacheScrobble[]) {
 			type: 'scrobble',
 			payload: {
 				songs: scrobblesLimited.map((scrobble) => scrobble.song),
-				currentlyPlaying: false,
-			},
-		});
-	} catch (err) {
-		debugLog(err, 'error');
-	}
-}
-
-async function scrobbleFromCache(song: CloneableSong, id: number) {
-	await scrobbleCache.deleteScrobbles([id]);
-	try {
-		await sendContentMessage({
-			type: 'scrobble',
-			payload: {
-				songs: [song],
 				currentlyPlaying: false,
 			},
 		});

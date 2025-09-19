@@ -263,7 +263,7 @@ async function updateTab(
 		// this can be different from the tab of the script calling the mode change
 		const activeTabId = await getCurrentTabId();
 		updateTabsFromTabList(activeTabs, activeTabId);
-	} catch (err) {
+	} catch {
 		if (!performedSet) {
 			unlockState();
 		}
@@ -378,7 +378,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'setPaused',
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
+
 		fn: (payload, sender) => {
 			return sendPaused(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
@@ -391,7 +391,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'setResumedPlaying',
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
+
 		fn: (payload, sender) => {
 			return sendResumedPlaying(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
@@ -480,7 +480,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'updateTheme',
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
+
 		fn: async (payload) => {
 			const curState = await getState();
 			await setState({

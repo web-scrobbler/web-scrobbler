@@ -62,7 +62,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 				false,
 			);
 			token = responseData.token;
-		} catch (err) {
+		} catch {
 			this.debugLog('Error acquiring a token', 'warn');
 
 			throw new Error('Error acquiring a token');
@@ -71,7 +71,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 		if (!data) {
 			data = { token };
 		}
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- we need to set token even if not exists
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any -- we need to set token even if not exists
 		(data as any).token = token;
 
 		// set token and reset session so we will grab a new one
@@ -125,15 +125,15 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 				delete data.token;
 
-				/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- we need to set session even if not exists */
+				/* eslint-disable @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
 				(data as any).sessionID = session.sessionID;
 				(data as any).sessionName = session.sessionName;
-				/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
+				/* eslint-enable @typescript-eslint/no-explicit-any */
 
 				await this.storage.set(data);
 
 				return session;
-			} catch (err) {
+			} catch {
 				this.debugLog('Failed to trade token for session', 'warn');
 
 				await this.signOut();
@@ -141,7 +141,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 			}
 		}
 
-		/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
+		/* eslint-disable @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
 		return {
 			sessionID: (data as any).sessionID,
 			sessionName: (data as any).sessionName,
@@ -320,7 +320,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 		try {
 			response = await timeoutPromise(timeout, promise);
 			responseData = (await response.json()) as T;
-		} catch (e) {
+		} catch {
 			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 

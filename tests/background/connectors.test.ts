@@ -64,7 +64,7 @@ function testPaths(entry: ConnectorMeta) {
 	);
 	try {
 		fs.statSync(jsPath);
-	} catch (e) {
+	} catch {
 		throw new Error(`File is missing: ${entry.js}`);
 	}
 }

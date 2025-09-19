@@ -59,7 +59,7 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 			const tab = await browser.tabs.get(entry.tabId);
 			await getConnectorByUrl(tab.url ?? '');
 			return true;
-		} catch (err) {
+		} catch {
 			return false;
 		}
 	});
@@ -171,7 +171,7 @@ async function getTabDetails(tabId: number): Promise<ManagerTab> {
 			song: tabState.song,
 		};
 		return curTab;
-	} catch (err) {
+	} catch {
 		return {
 			tabId,
 			mode: ControllerMode.Unsupported,

@@ -124,7 +124,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 			if (response.status !== 200) {
 				return ServiceCallResult.ERROR_OTHER;
 			}
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
 			return ServiceCallResult.ERROR_OTHER;
 		}

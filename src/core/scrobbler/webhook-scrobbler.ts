@@ -112,7 +112,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 					return ServiceCallResult.ERROR_OTHER;
 				}
 			}
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
 			return ServiceCallResult.ERROR_OTHER;
 		}

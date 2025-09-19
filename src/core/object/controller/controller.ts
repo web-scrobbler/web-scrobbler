@@ -307,7 +307,7 @@ export default class Controller {
 			}),
 			contentListener({
 				type: 'disableConnectorUntilTabIsClosed',
-				// eslint-disable-next-line
+
 				fn: () => this.disableUntilTabIsClosed(),
 			}),
 			contentListener({
@@ -617,7 +617,7 @@ export default class Controller {
 					shouldShowNotification,
 				},
 			});
-		} catch (err) {
+		} catch {
 			this.currentSong.setLoveStatus(!isLoved, true);
 		}
 
@@ -753,7 +753,6 @@ export default class Controller {
 	 */
 	private setMode(mode: ControllerModeStr): void {
 		if (!mode) {
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			throw new Error(`Unknown mode: ${mode}`);
 		}
 

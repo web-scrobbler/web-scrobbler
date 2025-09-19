@@ -34,7 +34,7 @@ export async function process(song: Song): Promise<void> {
 			}
 
 			coverArtUrl = await checkCoverArt(mbId);
-		} catch (e) {
+		} catch {
 			continue;
 		}
 

@@ -72,7 +72,7 @@ class ScrobbleService {
 			try {
 				await scrobbler.getSession();
 				this.bindScrobbler(scrobbler);
-			} catch (e) {
+			} catch {
 				debugLog(`Unable to bind ${scrobbler.getLabel()}`, 'warn');
 			}
 		}
