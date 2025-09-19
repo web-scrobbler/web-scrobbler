@@ -1,14 +1,14 @@
-const {
-    defineConfig,
-} = require('eslint/config');
+const { defineConfig } = require('eslint/config');
 
 const globals = require('globals');
 
-module.exports = defineConfig([{
-    languageOptions: {
-        globals: {
-            ...globals.mocha,
-            define: 'readonly',
-        },
-    },
-}]);
+module.exports = defineConfig([
+	{
+		languageOptions: {
+			globals: {
+				...globals.mocha,
+				define: 'readonly',
+			},
+		},
+	},
+]);
