@@ -339,7 +339,7 @@ async function fetchCategoryName(videoId: string) {
 		if (categoryMatch !== null) {
 			return categoryMatch[1];
 		}
-	} catch (e) {
+	} catch {
 		// Do nothing
 	}
 

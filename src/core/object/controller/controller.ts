@@ -617,7 +617,7 @@ export default class Controller {
 					shouldShowNotification,
 				},
 			});
-		} catch (err) {
+		} catch {
 			this.currentSong.setLoveStatus(!isLoved, true);
 		}
 

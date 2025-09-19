@@ -126,7 +126,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				await this.storage.set(data);
 
 				return session;
-			} catch (err) {
+			} catch {
 				this.debugLog('Failed to get session', 'warn');
 
 				await this.signOut();
@@ -226,7 +226,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				null,
 				null,
 			);
-		} catch (e) {
+		} catch {
 			// ignore error
 		}
 
@@ -296,7 +296,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		try {
 			response = await Util.timeoutPromise(timeout, promise);
 			result = (await response.json()) as T;
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
 			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
@@ -333,7 +333,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 
 		try {
 			session = await this.fetchSession(listenBrainzTokenPage);
-		} catch (e) {
+		} catch {
 			this.debugLog('request session timeout', 'warn');
 		}
 

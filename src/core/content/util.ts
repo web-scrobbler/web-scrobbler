@@ -800,7 +800,7 @@ class DebugLogQueue {
 				}
 			}
 			this.isActive = false;
-		} catch (err) {
+		} catch {
 			this.isActive = false;
 		}
 	}

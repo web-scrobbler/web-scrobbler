@@ -263,7 +263,7 @@ async function updateTab(
 		// this can be different from the tab of the script calling the mode change
 		const activeTabId = await getCurrentTabId();
 		updateTabsFromTabList(activeTabs, activeTabId);
-	} catch (err) {
+	} catch {
 		if (!performedSet) {
 			unlockState();
 		}

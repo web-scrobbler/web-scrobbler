@@ -245,7 +245,7 @@ function testTimeoutPromise() {
 		});
 		try {
 			await Util.timeoutPromise(testTimeout, slowPromise);
-		} catch (err) {
+		} catch {
 			/* Do nothing, it's expected */
 			return;
 		}
