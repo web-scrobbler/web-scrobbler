@@ -1,7 +1,6 @@
 import browser from 'webextension-polyfill';
 import type { DataModels } from '@/core/storage/wrapper';
 import StorageWrapper from '@/core/storage/wrapper';
-import type CloneableSong from '../object/song';
 
 const LOCAL = 0;
 const SYNC = 1;
