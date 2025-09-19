@@ -5,11 +5,6 @@ enum State {
 	Confirmed = 'CONFIRMED',
 }
 
-declare interface Window {
-	wsState: () => State;
-	setWSState: (newState: State) => void;
-}
-
 setInterval(() => {
 	if (window.wsState() === State.Accepted) {
 		const search = new URLSearchParams(window.location.search);
