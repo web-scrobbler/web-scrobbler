@@ -2654,6 +2654,7 @@ export default <ConnectorMeta[]>[
 		js: 'gravity.fm.js',
 		id: 'gravity',
 	},
+
 	{
 		label: 'Archaic Horizon',
 		matches: ['*://archaichorizon.com/*', '*://www.archaichorizon.com/*'],
@@ -2665,5 +2666,17 @@ export default <ConnectorMeta[]>[
 		matches: ['*://aonsoku.vercel.app/*'],
 		js: 'aonsoku.js',
 		id: 'aonsoku',
+	},
+	{
+		label: 'Radyo Voyage',
+		matches: ['*://radyovoyage.com/*'],
+		js: 'radyovoyage.js',
+		id: 'radyovoyage',
+	},
+	{
+		label: 'Radyo Eksen',
+		matches: ['*://radioeksen.com/*'],
+		js: 'radioeksen.js',
+		id: 'radioeksen',
 	},
 ];
