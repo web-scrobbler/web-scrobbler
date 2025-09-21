@@ -1,4 +1,4 @@
-import { getConnectorByUrl } from '@/util/util-connector';
+import { getConnectorFromBackgroundScript } from '@/util/util-connector';
 import type { ManagerTab, StateManagement } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
@@ -54,11 +54,10 @@ export async function filterAsync<T>(
  * @returns tab list updated to filter out tabs that are no longer relevant
  */
 export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
-	return filterAsync(activeTabs, async (entry) => {
+	return filterAsync(activeTabs, async (tab) => {
 		try {
-			const tab = await browser.tabs.get(entry.tabId);
-			await getConnectorByUrl(tab.url ?? '');
-			return true;
+			const connector = await getConnectorFromBackgroundScript(tab.tabId);
+			return Boolean(connector);
 		} catch (err) {
 			return false;
 		}

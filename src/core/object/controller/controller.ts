@@ -358,6 +358,10 @@ export default class Controller {
 					}
 				},
 			}),
+			contentListener({
+				type: 'getConnector',
+				fn: () => this.connector.meta,
+			}),
 		);
 	}
 
