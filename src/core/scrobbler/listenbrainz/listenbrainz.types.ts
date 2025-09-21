@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 export interface ListenBrainzTrackMeta {
 	artist_name: string;
 	track_name: string;
@@ -49,4 +48,3 @@ export interface ListenBrainzHTMLReactProps {
 		auth_token: string;
 	};
 }
-/* eslint-enable camelcase */

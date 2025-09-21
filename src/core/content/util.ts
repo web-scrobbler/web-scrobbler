@@ -676,7 +676,6 @@ export function queryElements(
 	}
 
 	for (const selector of selectors) {
-		// eslint-disable-next-line
 		const elements = document.querySelectorAll(
 			selector,
 		) as NodeListOf<HTMLElement>;
@@ -801,7 +800,7 @@ class DebugLogQueue {
 				}
 			}
 			this.isActive = false;
-		} catch (err) {
+		} catch {
 			this.isActive = false;
 		}
 	}

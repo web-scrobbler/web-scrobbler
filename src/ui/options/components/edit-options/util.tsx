@@ -20,15 +20,6 @@ type EditWrapper = StorageWrapper<
 	| typeof BrowserStorage.LOCAL_CACHE
 	| typeof BrowserStorage.BLOCKED_TAGS
 >;
-type EditSetter = Setter<
-	| {
-			[key: string]: Options.SavedEdit;
-	  }
-	| RegexEdit[]
-	| BlockedTags
-	| null
-	| undefined
->;
 
 /**
  * Button that allows the user to open the modal that shows them their track edits
