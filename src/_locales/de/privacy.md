@@ -1,6 +1,6 @@
-# Datenschutzrichtlinie
+# Datenschutzerklärung
 
-Diese Datenschutzrichtlinie erklärt, welche Daten wir erheben und speichern, wie wir sie verwenden und mitteilen.
+Diese Datenschutzerklärung erläutert, welche Daten wir erheben und speichern und wie wir diese Daten verwenden und weitergeben.
 
 **Wichtiger Hinweis**: Dieses Dokument ist anwendbar auf Web Scrobbler v2.40.0 und neuer.
 
@@ -26,4 +26,4 @@ Alle Daten werden innerhalb der Erweiterung verarbeitet; wir senden diese Daten 
 
 Die Erweiterung unterstützt etliche selbstgehostete Dienste (z.B. Funkwhale), die üblicherweise benutzerdefinierte URLs haben. Die Erweiterung kann diese URLs nicht kennen; daher ist der Zugriff auf alle Websites erforderlich.
 
-Darüber hinaus erbittet sie den Zugriff nur noch wegen der Nutzerfreundlichkeit. Nutzer werden nicht bei Websites, die in neueren Versionen der Erweiterung hinzugefügt werden, erneut zur Zustimmung aufgefordert.
+Außerdem wird der Zugriff nur aus Gründen der Benutzerfreundlichkeit angefordert. Benutzer werden nicht aufgefordert, den Zugriff auf neue Websites zu bestätigen, die in neuen Erweiterungsversionen hinzugefügt wurden.
