@@ -2669,7 +2669,7 @@ export default <ConnectorMeta[]>[
 	{
 		label: 'CREAMER NATION',
 		matches: ['*://creamernation.men/*'],
-		js: 'creamer-nation.js',
+		js: 'creamernation.js',
 		id: 'creamer-nation',
 	},
 ];
