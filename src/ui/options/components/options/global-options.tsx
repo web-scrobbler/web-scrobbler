@@ -1,7 +1,8 @@
 import type { Resource, ResourceActions } from 'solid-js';
 import { For, Show, createResource } from 'solid-js';
 import * as Options from '@/core/storage/options';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { OPTIONS } from '@/core/storage/storage-constants';
 import browser from 'webextension-polyfill';
 import { GlobalOptionEntry } from '../inputs';
 import styles from '../components.module.scss';
@@ -15,7 +16,7 @@ import {
 	updateTheme,
 } from '@/theme/themes';
 
-const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+const globalOptions = getStorage(OPTIONS);
 
 /**
  * Component that shows the basic global options to the user.

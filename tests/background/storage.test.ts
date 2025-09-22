@@ -5,7 +5,17 @@
  */
 
 import '#/mocks/webextension-polyfill';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import {
+	StorageNamespace,
+	OPTIONS,
+	CORE,
+} from '@/core/storage/storage-constants';
+import {
+	getStorage,
+	getScrobblerStorage,
+	getLocalStorage,
+	getSyncStorage,
+} from '@/core/storage/browser-storage';
 import type StorageWrapper from '@/core/storage/wrapper';
 import { describe, it, expect } from 'vitest';
 
@@ -14,7 +24,7 @@ import { describe, it, expect } from 'vitest';
  * @param type - Storage type
  * @param storage - Storage instance
  */
-function testStorage<K extends BrowserStorage.StorageNamespace>(
+function testStorage<K extends StorageNamespace>(
 	type: K,
 	storage: StorageWrapper<K>,
 ) {
@@ -56,9 +66,9 @@ function testStorage<K extends BrowserStorage.StorageNamespace>(
 function runTests() {
 	const storages = {
 		// @ts-expect-error not a storage type we ever expect
-		local: BrowserStorage.getLocalStorage('Local'),
+		local: getLocalStorage('Local'),
 		// @ts-expect-error not a storage type we ever expect
-		sync: BrowserStorage.getSyncStorage('Sync'),
+		sync: getSyncStorage('Sync'),
 	};
 
 	for (const type in storages) {
@@ -75,24 +85,24 @@ function runTests() {
 
 function testBrowserStorage() {
 	it('should return local storage', () => {
-		const storage = BrowserStorage.getScrobblerStorage('LastFM');
+		const storage = getScrobblerStorage('LastFM');
 		expect(storage).to.be.an('object');
 	});
 
 	it('should return local storage', () => {
-		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+		const storage = getStorage(CORE);
 		expect(storage).to.be.an('object');
 	});
 
 	it('should return sync storage', () => {
-		const storage = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+		const storage = getStorage(OPTIONS);
 		expect(storage).to.be.an('object');
 	});
 
 	it('should throw error for unknown storage', () => {
 		expect(() => {
 			// @ts-expect-error actually fails typechecking on top of it
-			return BrowserStorage.getStorage('unknown-storage123');
+			return getStorage('unknown-storage123');
 		}).to.throw();
 	});
 }

@@ -1,12 +1,11 @@
 import { createResource } from 'solid-js';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { CONNECTORS_OPTIONS } from '@/core/storage/storage-constants';
 import styles from '../components.module.scss';
 import { ConnectorOptionEntry } from '../inputs';
 import { t } from '@/util/i18n';
 
-const connectorOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OPTIONS,
-);
+const connectorOptions = getStorage(CONNECTORS_OPTIONS);
 
 const [options, setOptions] = createResource(
 	connectorOptions.get.bind(connectorOptions),

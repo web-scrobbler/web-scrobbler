@@ -1,5 +1,10 @@
 import * as ControllerMode from '@/core/object/controller/controller-mode';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import {
+	DISABLED_TABS,
+	CORE,
+	STATE_MANAGEMENT,
+} from '@/core/storage/storage-constants';
 import type { ManagerTab } from '@/core/storage/wrapper';
 import {
 	backgroundListener,
@@ -49,7 +54,7 @@ import {
 import scrobbleService from '../object/scrobble-service';
 import { fetchListenBrainzProfile } from '@/util/util';
 
-const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
+const disabledTabs = getStorage(DISABLED_TABS);
 
 // Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
 browser.runtime.onStartup.addListener(onStartup);
@@ -530,7 +535,7 @@ setupBackgroundListeners(
  * Replace the extension version stored in local storage by current one.
  */
 async function updateVersionInStorage() {
-	const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+	const storage = getStorage(CORE);
 	let data = await storage.get();
 	if (!data) {
 		data = {
@@ -560,7 +565,7 @@ async function bindScrobblers() {
  * Storage is used instead of variables, as with Manifest V3 service workers, script state cannot be guaranteed.
  */
 function onStartup() {
-	const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
+	const state = getStorage(STATE_MANAGEMENT);
 	state.set(DEFAULT_STATE);
 	disabledTabs.set({});
 

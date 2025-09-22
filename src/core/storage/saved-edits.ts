@@ -1,20 +1,19 @@
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { LOCAL_CACHE } from '@/core/storage/storage-constants';
+import { getStorage, getLocalStorage } from '@/core/storage/browser-storage';
 import SavedEditsModel from '@/core/storage/saved-edits.model';
 import type { SavedEdit } from '@/core/storage/options';
 import type { DataModels } from '@/core/storage/wrapper';
 import type StorageWrapper from '@/core/storage/wrapper';
 
-type K = typeof BrowserStorage.LOCAL_CACHE;
+type K = typeof LOCAL_CACHE;
 type V = DataModels[K];
 type T = Record<K, V>;
 
 class SavedEditsImpl extends SavedEditsModel {
-	private songInfoStorage = BrowserStorage.getStorage<K>(
-		BrowserStorage.LOCAL_CACHE,
-	);
+	private songInfoStorage = getStorage<K>(LOCAL_CACHE);
 
 	public init() {
-		this._init(BrowserStorage.getLocalStorage(BrowserStorage.LOCAL_CACHE));
+		this._init(getLocalStorage(LOCAL_CACHE));
 
 		// #v-ifdef VITE_DEV
 		void this.songInfoStorage.debugLog();
@@ -38,7 +37,7 @@ class SavedEditsImpl extends SavedEditsModel {
 
 	/** @override */
 	getStorage(): StorageWrapper<K> {
-		return BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
+		return getStorage(LOCAL_CACHE);
 	}
 }
 

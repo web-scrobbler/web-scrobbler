@@ -6,7 +6,7 @@ import type { BaseSong } from '@/core/object/song';
 import Song from '@/core/object/song';
 import { CustomStorage } from '@/core/storage/custom-storage';
 import type { DataModels } from '@/core/storage/wrapper';
-import type { LOCAL_CACHE } from '@/core/storage/browser-storage';
+import type { LOCAL_CACHE } from '@/core/storage/storage-constants';
 import type { SavedEdit } from '@/core/storage/options';
 
 type K = typeof LOCAL_CACHE;

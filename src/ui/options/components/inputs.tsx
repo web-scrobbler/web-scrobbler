@@ -4,7 +4,6 @@ import styles from './components.module.scss';
 import type * as Options from '@/core/storage/options';
 import { t } from '@/util/i18n';
 import type StorageWrapper from '@/core/storage/wrapper';
-import type * as BrowserStorage from '@/core/storage/browser-storage';
 import {
 	CheckOutlined,
 	CloseOutlined,
@@ -13,6 +12,11 @@ import {
 } from '@/ui/components/icons';
 import type { ConnectorMeta } from '@/core/connectors';
 import { clamp } from '@/util/util';
+import {
+	CONNECTORS_OPTIONS,
+	OPTIONS,
+	CONNECTORS_OVERRIDE_OPTIONS,
+} from '@/core/storage/storage-constants';
 
 /**
  * Checkbox option component
@@ -210,7 +214,7 @@ export function ConnectorOptionEntry<
 		Options.ConnectorOptions | null | undefined,
 		unknown
 	>;
-	connectorOptions: StorageWrapper<typeof BrowserStorage.CONNECTORS_OPTIONS>;
+	connectorOptions: StorageWrapper<typeof CONNECTORS_OPTIONS>;
 	i18ntitle: string;
 	i18nlabel: string;
 	connector: K;
@@ -259,7 +263,7 @@ export function GlobalOptionEntry(props: {
 	>;
 	i18ntitle: string;
 	i18nlabel: string;
-	globalOptions: StorageWrapper<typeof BrowserStorage.OPTIONS>;
+	globalOptions: StorageWrapper<typeof OPTIONS>;
 	key: keyof Options.GlobalOptions;
 }) {
 	return (
@@ -302,7 +306,7 @@ export function RangeOptionEntry(props: {
 	prefixi18n: string;
 	suffixi18n: string;
 	numberType: 'percent';
-	globalOptions: StorageWrapper<typeof BrowserStorage.OPTIONS>;
+	globalOptions: StorageWrapper<typeof OPTIONS>;
 	key: keyof Options.GlobalOptions;
 }) {
 	return (
@@ -522,7 +526,7 @@ export function ConnectorTripleCheckbox(props: {
 		unknown
 	>;
 	connectorOverrideOptions: StorageWrapper<
-		typeof BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS
+		typeof CONNECTORS_OVERRIDE_OPTIONS
 	>;
 }) {
 	return (

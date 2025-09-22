@@ -1,4 +1,9 @@
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import {
+	OPTIONS,
+	CONNECTORS_OVERRIDE_OPTIONS,
+	CUSTOM_PATTERNS,
+} from '@/core/storage/storage-constants';
 import * as Options from '@/core/storage/options';
 import type { Accessor, Setter } from 'solid-js';
 import {
@@ -29,13 +34,9 @@ import { t } from '@/util/i18n';
 import BlockedChannels from './edit-options/blocked-channels';
 import type { ModalType } from './navigator';
 
-const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
-const connectorOverrideOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS,
-);
-const customPatterns = BrowserStorage.getStorage(
-	BrowserStorage.CUSTOM_PATTERNS,
-);
+const globalOptions = getStorage(OPTIONS);
+const connectorOverrideOptions = getStorage(CONNECTORS_OVERRIDE_OPTIONS);
+const customPatterns = getStorage(CUSTOM_PATTERNS);
 
 const [options, setOptions] = createResource(
 	globalOptions.get.bind(globalOptions),

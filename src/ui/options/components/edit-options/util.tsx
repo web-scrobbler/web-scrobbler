@@ -1,7 +1,12 @@
 import type { BlockedTags, Blocklists } from '@/core/storage/wrapper';
 import type StorageWrapper from '@/core/storage/wrapper';
 import type * as Options from '@/core/storage/options';
-import type * as BrowserStorage from '@/core/storage/browser-storage';
+import {
+	REGEX_EDITS,
+	LOCAL_CACHE,
+	BLOCKED_TAGS,
+	BLOCKLISTS,
+} from '@/core/storage/storage-constants';
 import {
 	VisibilityOutlined,
 	UploadOutlined,
@@ -16,9 +21,7 @@ import type { ModalType } from '../navigator';
 import type { ConnectorMeta } from '@/core/connectors';
 
 type EditWrapper = StorageWrapper<
-	| typeof BrowserStorage.REGEX_EDITS
-	| typeof BrowserStorage.LOCAL_CACHE
-	| typeof BrowserStorage.BLOCKED_TAGS
+	typeof REGEX_EDITS | typeof LOCAL_CACHE | typeof BLOCKED_TAGS
 >;
 
 /**
@@ -91,7 +94,7 @@ export function ExportEdits(props: {
  * Button that exports blocklist for the user
  */
 export function ExportBlocklist(props: {
-	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>;
+	blocklistWrapper: StorageWrapper<typeof BLOCKLISTS>;
 	connector: ConnectorMeta;
 	filename: string;
 }) {
@@ -116,7 +119,7 @@ export function ExportBlocklist(props: {
  * Compiles all the users track edits from storage and downloads them
  */
 async function downloadBlocklist(
-	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>,
+	blocklistWrapper: StorageWrapper<typeof BLOCKLISTS>,
 	connector: ConnectorMeta,
 	filename: string,
 ) {
@@ -154,7 +157,7 @@ async function downloadEdits(editWrapper: EditWrapper, filename: string) {
  * Button that allows the user to upload a .json file and get blocklist from it.
  */
 export function ImportBlocklist(props: {
-	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>;
+	blocklistWrapper: StorageWrapper<typeof BLOCKLISTS>;
 	connector: ConnectorMeta;
 	mutate: Setter<Blocklists | null | undefined>;
 }) {
@@ -310,7 +313,7 @@ function pushBlocklist(
 		currentTarget: HTMLInputElement;
 		target: Element;
 	},
-	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>,
+	blocklistWrapper: StorageWrapper<typeof BLOCKLISTS>,
 	connector: ConnectorMeta,
 	mutate: Setter<Blocklists | null | undefined>,
 ) {

@@ -2,14 +2,15 @@ import { getConnectorByUrl } from '@/util/util-connector';
 import type { ManagerTab, StateManagement } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { STATE_MANAGEMENT, BLOCKLISTS } from '@/core/storage/storage-constants';
 import { isPrioritizedMode } from '@/core/object/controller/controller';
 import { performUpdateAction } from './action';
 import { sendBackgroundMessage } from '@/util/communication';
 import type { ConnectorMeta } from '../connectors';
 
-const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
-const blocklistStorage = BrowserStorage.getStorage(BrowserStorage.BLOCKLISTS);
+const state = getStorage(STATE_MANAGEMENT);
+const blocklistStorage = getStorage(BLOCKLISTS);
 
 export const contextMenus = {
 	ENABLE_CONNECTOR: 'enableConnector',

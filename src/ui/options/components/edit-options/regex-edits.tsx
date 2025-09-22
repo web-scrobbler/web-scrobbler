@@ -1,7 +1,8 @@
 import { t } from '@/util/i18n';
 import type { Setter } from 'solid-js';
 import { For, Show, createMemo, createResource } from 'solid-js';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { REGEX_EDITS } from '@/core/storage/storage-constants';
 import styles from '../components.module.scss';
 import {
 	CaseSensitiveOutlined,
@@ -14,7 +15,7 @@ import { pascalCaseField } from '@/util/regex';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import type { ModalType } from '../navigator';
 
-const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
+const regexEdits = getStorage(REGEX_EDITS);
 
 /**
  * Component that allows the user to see, import, and export track metadata edits.

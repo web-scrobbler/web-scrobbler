@@ -16,7 +16,7 @@ import type {
 	StorageNamespace,
 	BLOCKLISTS,
 	NATIVE_SCROBBLER_NOTIFICATION,
-} from '@/core/storage/browser-storage';
+} from '@/core/storage/storage-constants';
 import type {
 	ConnectorOptions,
 	ConnectorsOverrideOptions,

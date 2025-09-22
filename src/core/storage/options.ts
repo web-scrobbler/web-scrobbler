@@ -1,16 +1,17 @@
 import type { ConnectorMeta } from '@/core/connectors';
 import connectors from '@/core/connectors';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import {
+	CONNECTORS_OPTIONS,
+	CONNECTORS_OVERRIDE_OPTIONS,
+	OPTIONS,
+} from '@/core/storage/storage-constants';
+import { getStorage } from '@/core/storage/browser-storage';
 import { debugLog } from '../content/util';
 import { DEFAULT_SCROBBLE_PERCENT } from '@/util/util';
 
-const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
-const connectorsOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OPTIONS,
-);
-const connectorsOverrideOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS,
-);
+const options = getStorage(OPTIONS);
+const connectorsOptions = getStorage(CONNECTORS_OPTIONS);
+const connectorsOverrideOptions = getStorage(CONNECTORS_OVERRIDE_OPTIONS);
 
 export const USE_NOTIFICATIONS = 'useNotifications';
 export const USE_UNRECOGNIZED_SONG_NOTIFICATIONS =

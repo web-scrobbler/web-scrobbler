@@ -1,7 +1,8 @@
 import { t } from '@/util/i18n';
 import type { Setter } from 'solid-js';
 import { For, createMemo, createResource } from 'solid-js';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { BLOCKED_TAGS } from '@/core/storage/storage-constants';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
@@ -9,7 +10,7 @@ import type { ModalType } from '../navigator';
 import type { BlockedTags, BlockedTagsReference } from '@/core/storage/wrapper';
 import { Dynamic } from 'solid-js/web';
 
-const blocklist = BrowserStorage.getStorage(BrowserStorage.BLOCKED_TAGS);
+const blocklist = getStorage(BLOCKED_TAGS);
 
 /**
  * Component that allows the user to see, import, and export track metadata edits.

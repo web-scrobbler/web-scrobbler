@@ -1,10 +1,11 @@
 import type { Resource, ResourceActions } from 'solid-js';
 import { RadioButtons } from '../inputs';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { OPTIONS } from '@/core/storage/storage-constants';
 import * as Options from '@/core/storage/options';
 import { t } from '@/util/i18n';
 
-const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+const globalOptions = getStorage(OPTIONS);
 
 /**
  * Component that allows the user to select requirements for the scrobbler to actually scrobble a song.

@@ -4,7 +4,8 @@
  */
 
 import BaseConnector from './connector';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { OPTIONS, DISABLED_TABS } from '@/core/storage/storage-constants';
 import { DISABLED_CONNECTORS } from '@/core/storage/options';
 import { sendContentMessage } from '@/util/communication';
 import * as Util from '@/core/content/util';
@@ -46,11 +47,9 @@ function isConnectorInvalid(): boolean {
  * Sets up state listening and controller.
  */
 async function setupStateListening(): Promise<void> {
-	const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+	const globalOptions = getStorage(OPTIONS);
 	const options = await globalOptions.get();
-	const disabledTabs = BrowserStorage.getStorage(
-		BrowserStorage.DISABLED_TABS,
-	);
+	const disabledTabs = getStorage(DISABLED_TABS);
 	const disabledTabList = await disabledTabs.get();
 	const currentTab = await sendContentMessage({
 		type: 'getTabId',

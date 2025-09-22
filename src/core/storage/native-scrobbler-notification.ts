@@ -1,9 +1,8 @@
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { NATIVE_SCROBBLER_NOTIFICATION } from '@/core/storage/storage-constants';
+import { getStorage } from '@/core/storage/browser-storage';
 
 export default class NativeScrobblerNotification {
-	private storage = BrowserStorage.getStorage(
-		BrowserStorage.NATIVE_SCROBBLER_NOTIFICATION,
-	);
+	private storage = getStorage(NATIVE_SCROBBLER_NOTIFICATION);
 
 	/**
 	 * Add connector ID to list of connectors that has been notified about.

@@ -1,7 +1,8 @@
 import { t } from '@/util/i18n';
 import type { Setter } from 'solid-js';
 import { For, createEffect, createResource, createSignal } from 'solid-js';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { BLOCKLISTS } from '@/core/storage/storage-constants';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportBlocklist, ImportBlocklist, ViewBlocklist } from './util';
@@ -9,7 +10,7 @@ import type { ModalType } from '../navigator';
 import type { ConnectorMeta } from '@/core/connectors';
 import type { Blocklists } from '@/core/storage/wrapper';
 
-const blocklistStorage = BrowserStorage.getStorage(BrowserStorage.BLOCKLISTS);
+const blocklistStorage = getStorage(BLOCKLISTS);
 const [blocklists, { mutate }] = createResource(
 	blocklistStorage.get.bind(blocklistStorage),
 );

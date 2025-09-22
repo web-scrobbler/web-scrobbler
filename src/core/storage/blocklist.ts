@@ -1,8 +1,9 @@
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { BLOCKLISTS } from '@/core/storage/storage-constants';
+import { getStorage } from '@/core/storage/browser-storage';
 import type { ChannelInfo } from '../content/util';
 
 export default class Blocklist {
-	private storage = BrowserStorage.getStorage(BrowserStorage.BLOCKLISTS);
+	private storage = getStorage(BLOCKLISTS);
 	private connectorId: string;
 	private isReady: Promise<true>;
 

@@ -1,7 +1,7 @@
-import { SCROBBLE_CACHE } from './browser-storage';
+import { SCROBBLE_CACHE } from './storage-constants';
 import type { CacheScrobble, DataModels } from './wrapper';
 import type StorageWrapper from './wrapper';
-import * as BrowserStorage from './browser-storage';
+import { getLocalStorage, getStorage } from './browser-storage';
 import ScrobbleCacheModel from './scrobble-cache.model';
 
 type K = typeof SCROBBLE_CACHE;
@@ -12,9 +12,7 @@ class ScrobbleCacheImpl extends ScrobbleCacheModel {
 	private scrobbleCacheStorage = this.getStorage();
 
 	public init() {
-		this._init(
-			BrowserStorage.getLocalStorage(BrowserStorage.SCROBBLE_CACHE),
-		);
+		this._init(getLocalStorage(SCROBBLE_CACHE));
 
 		// #v-ifdef VITE_DEV
 		void this.scrobbleCacheStorage.debugLog();
@@ -43,7 +41,7 @@ class ScrobbleCacheImpl extends ScrobbleCacheModel {
 
 	/** @override */
 	getStorage(): StorageWrapper<K> {
-		return BrowserStorage.getStorage(SCROBBLE_CACHE);
+		return getStorage(SCROBBLE_CACHE);
 	}
 }
 

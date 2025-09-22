@@ -1,6 +1,7 @@
 import type { BaseSong } from '@/core/object/song';
 import type Song from '@/core/object/song';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { REGEX_EDITS } from '@/core/storage/storage-constants';
 
 /**
  * Editable fields.
@@ -376,7 +377,7 @@ const DEFAULT_REGEXES = [
  * Sets default regexes if none exist.
  */
 export async function setRegexDefaults() {
-	const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
+	const regexEdits = getStorage(REGEX_EDITS);
 	const regexes = await regexEdits.get();
 	if (!regexes) {
 		regexEdits.set(DEFAULT_REGEXES);

@@ -21,7 +21,8 @@ import {
 	setupContentListeners,
 } from '@/util/communication';
 import EventEmitter from '@/util/emitter';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { DISABLED_TABS } from '@/core/storage/storage-constants';
 import { debugLog } from '@/core/content/util';
 import scrobbleCache from '@/core/storage/scrobble-cache';
 import { ScrobbleStatus } from '@/core/storage/wrapper';
@@ -61,7 +62,7 @@ type updateEvent = {
 	updateEditStatus: (isEditing: boolean) => void;
 };
 
-const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
+const disabledTabs = getStorage(DISABLED_TABS);
 
 /**
  * Object that handles song playback and scrobbling actions.

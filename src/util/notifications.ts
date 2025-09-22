@@ -6,7 +6,8 @@ import * as Options from '@/core/storage/options';
 import type { ConnectorMeta } from '@/core/connectors';
 import type { Scrobbler } from '@/core/object/scrobble-service';
 import { debugLog } from '@/core/content/util';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { NOTIFICATIONS } from '@/core/storage/storage-constants';
 import NativeScrobblerNotification from '@/core/storage/native-scrobbler-notification';
 
 /**
@@ -346,9 +347,7 @@ const authNotificationDisplayCount = 3;
 /**
  * Storage for auth notification display count.
  */
-const notificationStorage = BrowserStorage.getStorage(
-	BrowserStorage.NOTIFICATIONS,
-);
+const notificationStorage = getStorage(NOTIFICATIONS);
 
 /**
  * Check if auth notification is allowed.

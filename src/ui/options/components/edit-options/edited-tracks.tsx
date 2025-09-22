@@ -6,9 +6,10 @@ import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import type { ModalType } from '../navigator';
-import * as BrowserStorage from '@/core/storage/browser-storage';
+import { getStorage } from '@/core/storage/browser-storage';
+import { LOCAL_CACHE } from '@/core/storage/storage-constants';
 
-const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
+const localCache = getStorage(LOCAL_CACHE);
 
 /**
  * Component that allows the user to see, import, and export track metadata edits.
