@@ -2666,4 +2666,10 @@ export default <ConnectorMeta[]>[
 		js: 'aonsoku.js',
 		id: 'aonsoku',
 	},
+	{
+		label: 'CREAMER NATION',
+		matches: ['*://creamernation.men/*'],
+		js: 'creamernation.js',
+		id: 'creamer-nation',
+	},
 ];
