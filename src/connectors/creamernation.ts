@@ -9,5 +9,4 @@ Connector.albumSelector = '#now-playing-bar #web-scrobbler-album';
 
 Connector.trackArtSelector = '#player-art-img';
 
-Connector.isPlaying = () =>
-	Util.hasElementClass('#play-pause-btn', 'playing')
+Connector.isPlaying = () => Util.hasElementClass('#play-pause-btn', 'playing');
