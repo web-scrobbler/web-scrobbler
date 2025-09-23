@@ -2672,4 +2672,10 @@ export default <ConnectorMeta[]>[
 		js: 'creamernation.js',
 		id: 'creamer-nation',
 	},
+	{
+		label: 'Feishin',
+		matches: ['*://feishin.vercel.app/*'],
+		js: 'feishin.js',
+		id: 'feishin',
+	},
 ];
