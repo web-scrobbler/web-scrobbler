@@ -10,3 +10,9 @@ Connector.getArtistTrack = () => {
 		return	Util.splitArtistTrack(artistTrack.split(' - ', 2)[1], [', '])
 	}
 }
+
+Util.bindListeners(
+	['audio'],
+	['playing', 'pause', 'timeupdate'],
+	Connector.onStateChanged,
+);
