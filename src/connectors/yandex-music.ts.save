@@ -21,18 +21,15 @@ function setupConnector() {
 
 			if (isNewDesign) {
 				setupNewConnector();
-				console.log(
-					'[WScrobbler/YandexMusic]: New design was recognized',
-				);
+				console.log('Новый дизайн определен после проверки');
 			} else {
 				setupOldConnector();
-				console.log(
-					'[WScrobbler/YandexMusic]: Old design was recognized',
-				);
+				console.log('Старый дизайн определен после проверки');
 			}
 		}
 	}, intervalMs);
 }
+
 function setupOldConnector() {
 	const observer = new MutationObserver(() => {
 		const el = document.querySelector('.track.track_type_player');
@@ -118,7 +115,7 @@ function setupOldConnector() {
 }
 
 function setupNewConnector() {
-	console.log('[WScrobbler/YandexMusic]: Initialization started');
+	console.log('[Yandex Connector] Initialization started');
 	let attempts = 0;
 	const maxAttempts = 20;
 	const intervalMs = 500;
@@ -147,7 +144,7 @@ function setupNewConnector() {
 			return;
 		}
 		console.log(
-			'[WScrobbler/YandexMusic]: playerContainer found. Initializing connector.',
+			'[Yandex Connector] playerContainer found. Initializing connector.',
 		);
 		clearInterval(initInterval);
 		Connector.playerSelector = playerContainer;
@@ -285,9 +282,7 @@ function setupNewConnector() {
 					setupNewConnector();
 					attempts = 0;
 					containerWasMissing = false;
-					console.log(
-						'[WScrobbler/YandexMusic]: playerContainer restored.',
-					);
+					console.log('[Yandex Connector] playerContainer restored.');
 				}
 				return; // Контейнер есть, продолжаем наблюдать
 			}
@@ -303,7 +298,7 @@ function setupNewConnector() {
 				);
 				if (isMobile) {
 					const proceed = confirm(
-						'[WScrobbler/YandexMusic]: It seems that you are in mobile version of site. Unfortunately, the extension does not support mobile design yet. ' +
+						'[Web Scrobbler: Yandex Connector] It seems that you are in mobile version of site. Unfortunately, the extension does not support mobile design yet. ' +
 							'Please, change display ratio. \n\n' +
 							'If you believe this is a mistake, please, press "Ok" to reload the page, or "Cancel" to do nothing.',
 					);
@@ -311,12 +306,12 @@ function setupNewConnector() {
 						location.reload();
 					} else {
 						console.warn([
-							'[WScrobbler/YandexMusic]: Watchdog stopped by user',
+							'[Yandex Connector] Watchdog stopped by user',
 						]);
 					}
 				} else {
 					console.error(
-						'[WScrobbler/YandexMusic]: It seems that there is error with extension happened. Please, try to reinstall extension or to reload page',
+						'[Web Scrobbler: Yandex Connector] It seems that there is error with extension happened. Please, try to reinstall extension or to reload page',
 					);
 				}
 			}
