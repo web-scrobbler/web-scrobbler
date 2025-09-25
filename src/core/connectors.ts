@@ -2678,4 +2678,10 @@ export default <ConnectorMeta[]>[
 		js: 'feishin.js',
 		id: 'feishin',
 	},
+	{
+		label: 'WQXR',
+		matches: ['*://www.wqxr.org/*'],
+		js: 'wqxr.js',
+		id: 'wqxr'
+	}
 ];
