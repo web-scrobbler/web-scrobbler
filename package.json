@@ -70,7 +70,7 @@
     "remark-preset-lint-recommended": "7.0.1",
     "sass": "1.93.0",
     "solid-js": "1.9.9",
-    "tsx": "4.20.5",
+    "tsx": "4.20.6",
     "typescript": "5.9.2",
     "typescript-eslint": "8.44.0",
     "vite-plugin-conditional-compiler": "0.3.1",
