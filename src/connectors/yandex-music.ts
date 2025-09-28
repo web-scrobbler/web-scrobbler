@@ -150,7 +150,10 @@ function setupNewConnector() {
 			'[WScrobbler/YandexMusic]: playerContainer found. Initializing connector.',
 		);
 		clearInterval(initInterval);
-		Connector.playerSelector = playerContainer;
+		Connector.playerSelector = playerContainer as unknown as
+			| string
+			| string[]
+			| null;
 		new MutationObserver(() => Connector.onStateChanged()).observe(
 			playerContainer,
 			{
