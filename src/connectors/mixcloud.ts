@@ -4,9 +4,9 @@ const filter = MetadataFilter.createFilter({
 	artist: [removeByPrefix, removeBuySuffix],
 });
 
-Connector.playerSelector = '[class^=styles__PlayerWrapper-]';
+Connector.playerSelector = '[class*=styles__PlayerWrapper]';
 
-const trackInfoSelector = '[class^=styles__PlayerTrackInfo-]';
+const trackInfoSelector = '[class*=styles__PlayerTrackInfo]';
 
 Connector.getTrackInfo = () => {
 	const artistTrackElement = document.querySelector(trackInfoSelector);
