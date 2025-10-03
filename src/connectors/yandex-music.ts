@@ -1,4 +1,5 @@
 export {};
+const connectorLabel = 'YandexMusic';
 setupConnector();
 function setupConnector() {
 	let isNewDesign = false;
@@ -21,13 +22,15 @@ function setupConnector() {
 
 			if (isNewDesign) {
 				setupNewConnector();
-				console.log(
-					'[WScrobbler/YandexMusic]: New design was recognized',
+				Util.debugLog(
+					`${connectorLabel}: New design was recognized.`,
+					'log',
 				);
 			} else {
 				setupOldConnector();
-				console.log(
-					'[WScrobbler/YandexMusic]: Old design was recognized',
+				Util.debugLog(
+					`${connectorLabel}: Old design was recognized`,
+					'log',
 				);
 			}
 		}
@@ -39,6 +42,15 @@ function setupOldConnector() {
 		if (el) {
 			observer.disconnect();
 			Connector.playerSelector = '.track.track_type_player';
+			Util.debugLog(
+				`${connectorLabel}: Successfully catched playerSelector`,
+				'log',
+			);
+		} else {
+			Util.debugLog(
+				`${connectorLabel}: Failed to catch the playerSelector`,
+				'error',
+			);
 		}
 	});
 
@@ -118,7 +130,7 @@ function setupOldConnector() {
 }
 
 function setupNewConnector() {
-	console.log('[WScrobbler/YandexMusic]: Initialization started');
+	Util.debugLog(`${connectorLabel}: Initialization started`, 'log');
 	let attempts = 0;
 	const maxAttempts = 20;
 	const intervalMs = 500;
@@ -146,9 +158,7 @@ function setupNewConnector() {
 		if (!titleSpan) {
 			return;
 		}
-		console.log(
-			'[WScrobbler/YandexMusic]: playerContainer found. Initializing connector.',
-		);
+		Util.debugLog(`${connectorLabel}: playerContainer found.`, 'log');
 		clearInterval(initInterval);
 		Connector.playerSelector = playerContainer as unknown as
 			| string
@@ -288,8 +298,9 @@ function setupNewConnector() {
 					setupNewConnector();
 					attempts = 0;
 					containerWasMissing = false;
-					console.log(
-						'[WScrobbler/YandexMusic]: playerContainer restored.',
+					Util.debugLog(
+						`${connectorLabel} playerContainer disappeared earlier, but is restored now. You switched to the mobile version by an accident, did you?`,
+						'log',
 					);
 				}
 				return; // Контейнер есть, продолжаем наблюдать
@@ -305,21 +316,14 @@ function setupNewConnector() {
 					'section[class*="PlayerBarMobile_root__"]',
 				);
 				if (isMobile) {
-					const proceed = confirm(
-						'[WScrobbler/YandexMusic]: It seems that you are in mobile version of site. Unfortunately, the extension does not support mobile design yet. ' +
-							'Please, change display ratio. \n\n' +
-							'If you believe this is a mistake, please, press "Ok" to reload the page, or "Cancel" to do nothing.',
+					Util.debugLog(
+						`${connectorLabel}: It seems that you are in mobile version of site. Unfortunately, the extension does not support mobile design yet. Please, change display ratio or switch to Desktop version`,
+						'log',
 					);
-					if (proceed) {
-						location.reload();
-					} else {
-						console.warn([
-							'[WScrobbler/YandexMusic]: Watchdog stopped by user',
-						]);
-					}
 				} else {
-					console.error(
-						'[WScrobbler/YandexMusic]: It seems that there is error with extension happened. Please, try to reinstall extension or to reload page',
+					Util.debugLog(
+						`${connectorLabel}: It seems that there is error with extension happened. Please, try to reinstall extension or to reload page. If you still getting this error, please, open an issue on https://github.com/web-scrobbler/web-scrobbler/issues/new/choose and mention BananaDeadRU`,
+						'error',
 					);
 				}
 			}
