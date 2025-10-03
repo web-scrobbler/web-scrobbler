@@ -300,7 +300,7 @@ function setupNewConnector() {
 					containerWasMissing = false;
 					Util.debugLog(
 						`${connectorLabel} playerContainer disappeared earlier, but is restored now. You switched to the mobile version by an accident, did you?`,
-						'log',
+						'warn',
 					);
 				}
 				return; // Контейнер есть, продолжаем наблюдать
@@ -318,7 +318,7 @@ function setupNewConnector() {
 				if (isMobile) {
 					Util.debugLog(
 						`${connectorLabel}: It seems that you are in mobile version of site. Unfortunately, the extension does not support mobile design yet. Please, change display ratio or switch to Desktop version`,
-						'log',
+						'error',
 					);
 				} else {
 					Util.debugLog(
