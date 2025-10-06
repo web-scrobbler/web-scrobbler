@@ -2678,4 +2678,10 @@ export default <ConnectorMeta[]>[
 		js: 'feishin.js',
 		id: 'feishin',
 	},
+	{
+		label: 'XRaydio',
+		matches: ['*://xraydio.net/*'],
+		js: 'xraydio.js',
+		id: 'xraydio',
+	},
 ];
