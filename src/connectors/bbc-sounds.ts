@@ -1,50 +1,38 @@
 export {};
 
-setupConnector();
+Connector.playerSelector = 'ol';
 
-function setupConnector() {
-	if (isLiveRadio()) {
-		setupPropertiesForLiveRadio();
-	} else {
-		setupPropertiesForOfflineRecord();
-	}
-}
+Connector.isPlaying = () => {
+  const btn = document.querySelector('[data-testid="play_pause_button"]');
+  return btn?.getAttribute('aria-label')?.toUpperCase() === 'PAUSE';
+};
 
-function isLiveRadio() {
-	return document.querySelector('.sc-c-episode__metadata') === null;
-}
+Connector.scrobblingDisallowedReason = () => {
+  const activeTrack = Array.from(document.querySelectorAll('ol li')).find((li) => 
+    li.textContent?.toLowerCase().includes('now playing')
+  );
+  return activeTrack ? null : 'Other';
+};
 
-// Example: any of live radios from https://www.bbc.co.uk/sounds
-function setupPropertiesForLiveRadio() {
-	Connector.playerSelector = '.sc-c-tracks';
+Connector.getArtistTrack = () => {
+  const activeTrack = Array.from(document.querySelectorAll('ol li')).find((li) => 
+    li.textContent?.toLowerCase().includes('now playing')
+  );
 
-	Connector.artistSelector = '.sc-c-track__artist';
+  if (!activeTrack) return null;
 
-	Connector.trackSelector = '.sc-c-track__title';
-}
+  const artistEls = activeTrack.querySelectorAll('.sw-text-secondary');
+  const artist = artistEls[artistEls.length - 1]?.textContent?.trim();
+  
+  const trackElement = activeTrack.querySelector('.sw-text-minion')?.parentElement;
+  const track = trackElement?.textContent?.replace(/now\s*playing/gi, '').trim();
+  
+  return artist && track ? { artist, track } : null;
+};
 
-// Example: any of music mixes from https://www.bbc.co.uk/sounds
-function setupPropertiesForOfflineRecord() {
-	const trackItemSelector = '.sc-c-basic-tile';
-	const equalizerIconSelector = '.sc-c-equalizer';
-
-	const artistSelector = '.sc-c-basic-tile__artist';
-	const trackSelector = '.sc-c-basic-tile__title';
-
-	Connector.playerSelector = '.sc-c-scrollable-list';
-
-	Connector.getArtistTrack = () => {
-		const artistTrackElement = document.querySelector(
-			equalizerIconSelector,
-		);
-		if (!artistTrackElement) {
-			return null;
-		}
-
-		const trackItem = artistTrackElement.closest(trackItemSelector);
-		const artist = trackItem?.querySelector(artistSelector)?.textContent;
-		const track = trackItem?.querySelector(trackSelector)?.textContent;
-
-		return { artist, track };
-	};
-}
+Connector.getTrackArt = () => {
+  const activeTrack = Array.from(document.querySelectorAll('ol li')).find((li) => 
+    li.textContent?.toLowerCase().includes('now playing')
+  );
+  return activeTrack?.querySelector('img')?.src || null;
+};
