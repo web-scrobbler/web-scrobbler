@@ -2678,4 +2678,10 @@ export default <ConnectorMeta[]>[
 		js: 'feishin.js',
 		id: 'feishin',
 	},
+	{
+		label: 'Monochrome',
+		matches: ['*://monochrome.prigoana.com/*'],
+		js: 'monochrome.js',
+		id: 'monochrome',
+	},
 ];
