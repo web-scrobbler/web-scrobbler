@@ -9,17 +9,23 @@ Connector.trackSelector = '.now-playing-bar .title';
 Connector.trackArtSelector = '.now-playing-bar .cover';
 
 Connector.isPlaying = () => {
-	const audioPlayer = document.getElementById('audio-player');
+	const audioPlayer = document.getElementById(
+		'audio-player',
+	) as HTMLAudioElement;
 	return audioPlayer && !audioPlayer.paused;
 };
 
 Connector.getCurrentTime = () => {
-	const audioPlayer = document.getElementById('audio-player');
+	const audioPlayer = document.getElementById(
+		'audio-player',
+	) as HTMLAudioElement;
 	return audioPlayer ? audioPlayer.currentTime : null;
 };
 
 Connector.getDuration = () => {
-	const audioPlayer = document.getElementById('audio-player');
+	const audioPlayer = document.getElementById(
+		'audio-player',
+	) as HTMLAudioElement;
 	return audioPlayer ? audioPlayer.duration : null;
 };
 
