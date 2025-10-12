@@ -491,6 +491,15 @@ function getTrackInfoFromChapters() {
 	}
 
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
+	
+	// Check if this is likely an AI-generated chapter that doesn't contain track info
+	if (isAiGeneratedChapter(chapterName)) {
+		return {
+			artist: null,
+			track: null,
+		};
+	}
+
 	const artistTrack = Util.processYtVideoTitle(chapterName);
 	if (!artistTrack.track) {
 		artistTrack.track = chapterName;
@@ -549,5 +558,99 @@ function isVideoCategoryAllowed() {
 	return (
 		allowedCategories.includes(videoCategory) ||
 		videoCategory === categoryUnknown
+	);
+}
+
+/**
+ * Check if a chapter name is likely AI-generated and doesn't contain track information.
+ * AI-generated chapters often contain generic descriptions that don't help with scrobbling.
+ */
+function isAiGeneratedChapter(chapterName: string): boolean {
+	if (!chapterName) {
+		return true;
+	}
+
+	// Convert to lowercase for case-insensitive matching
+	const lowerChapterName = chapterName.toLowerCase().trim();
+
+	// Common AI-generated chapter patterns that don't contain track info
+	const aiGeneratedPatterns = [
+		// Generic content descriptions
+		/^(introduction|intro|opening|beginning|start)$/,
+		/^(conclusion|ending|outro|finish|end)$/,
+		/^(main content|content|body|middle|core)$/,
+		/^(part \d+|section \d+|chapter \d+)$/,
+		/^(verse|chorus|bridge|solo|instrumental)$/,
+		/^(preview|teaser|trailer|promo)$/,
+		/^(behind the scenes|making of|interview|q&a)$/,
+		/^(credits|outro|thank you|goodbye)$/,
+		// Time-based descriptions
+		/^\d+:\d+$/,
+		/^(minute \d+|hour \d+)$/,
+		// Generic music terms without artist/track info
+		/^(music|song|track|melody|beat|rhythm)$/,
+		// Common AI-generated phrases
+		/^(let's|let us|welcome|hello|hi there)/,
+		/^(that's all|thanks for watching|see you|until next)/,
+		// Very short or generic descriptions
+		/^.{1,3}$/, // 1-3 characters
+		/^(the|and|or|but|with|without)$/,
+	];
+
+	// Check if the chapter name matches any AI-generated patterns
+	for (const pattern of aiGeneratedPatterns) {
+		if (pattern.test(lowerChapterName)) {
+			return true;
+		}
+	}
+
+	// Check if it's a very generic description (common words only)
+	const commonWords = [
+		'the', 'and', 'or', 'but', 'with', 'without', 'for', 'to', 'of', 'in',
+		'on', 'at', 'by', 'from', 'up', 'about', 'into', 'through', 'during',
+		'before', 'after', 'above', 'below', 'between', 'among', 'music',
+		'song', 'track', 'video', 'content', 'part', 'section', 'chapter'
+	];
+	
+	const words = lowerChapterName.split(/\s+/);
+	const isOnlyCommonWords = words.every(word => 
+		commonWords.includes(word) || word.length <= 2
+	);
+	
+	if (isOnlyCommonWords && words.length <= 4) {
+		return true;
+	}
+
+	// If the chapter name is too short or doesn't contain typical music metadata patterns
+	if (lowerChapterName.length < 4) {
+		return true;
+	}
+
+	// Check if it contains typical music metadata patterns (artist - track, etc.)
+	const musicMetadataPatterns = [
+		/ - /, // Artist - Track format
+		/ by /, // Track by Artist format
+		/ feat\./, // Featured artist
+		/ ft\./, // Featured artist (short)
+		/ vs\./, // Versus
+		/ & /, // Artist collaboration
+		/ \| /, // Pipe separator
+	];
+
+	const hasMusicMetadata = musicMetadataPatterns.some(pattern => 
+		pattern.test(chapterName)
+	);
+
+	// If it doesn't have music metadata patterns and is generic, likely AI-generated
+	return !hasMusicMetadata && (
+		lowerChapterName.includes('introduction') ||
+		lowerChapterName.includes('conclusion') ||
+		lowerChapterName.includes('part ') ||
+		lowerChapterName.includes('section ') ||
+		lowerChapterName.includes('chapter ') ||
+		lowerChapterName.includes('content') ||
+		lowerChapterName.includes('main ') ||
+		lowerChapterName.includes('beginning') ||
+		lowerChapterName.includes('ending')
 	);
 }
