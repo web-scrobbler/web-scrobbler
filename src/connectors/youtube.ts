@@ -491,7 +491,7 @@ function getTrackInfoFromChapters() {
 	}
 
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
-	
+
 	// Check if this is likely an AI-generated chapter that doesn't contain track info
 	if (isAiGeneratedChapter(chapterName)) {
 		return {
@@ -606,17 +606,46 @@ function isAiGeneratedChapter(chapterName: string): boolean {
 
 	// Check if it's a very generic description (common words only)
 	const commonWords = [
-		'the', 'and', 'or', 'but', 'with', 'without', 'for', 'to', 'of', 'in',
-		'on', 'at', 'by', 'from', 'up', 'about', 'into', 'through', 'during',
-		'before', 'after', 'above', 'below', 'between', 'among', 'music',
-		'song', 'track', 'video', 'content', 'part', 'section', 'chapter'
+		'the',
+		'and',
+		'or',
+		'but',
+		'with',
+		'without',
+		'for',
+		'to',
+		'of',
+		'in',
+		'on',
+		'at',
+		'by',
+		'from',
+		'up',
+		'about',
+		'into',
+		'through',
+		'during',
+		'before',
+		'after',
+		'above',
+		'below',
+		'between',
+		'among',
+		'music',
+		'song',
+		'track',
+		'video',
+		'content',
+		'part',
+		'section',
+		'chapter',
 	];
-	
+
 	const words = lowerChapterName.split(/\s+/);
-	const isOnlyCommonWords = words.every(word => 
-		commonWords.includes(word) || word.length <= 2
+	const isOnlyCommonWords = words.every(
+		(word) => commonWords.includes(word) || word.length <= 2,
 	);
-	
+
 	if (isOnlyCommonWords && words.length <= 4) {
 		return true;
 	}
@@ -637,20 +666,21 @@ function isAiGeneratedChapter(chapterName: string): boolean {
 		/ \| /, // Pipe separator
 	];
 
-	const hasMusicMetadata = musicMetadataPatterns.some(pattern => 
-		pattern.test(chapterName)
+	const hasMusicMetadata = musicMetadataPatterns.some((pattern) =>
+		pattern.test(chapterName),
 	);
 
 	// If it doesn't have music metadata patterns and is generic, likely AI-generated
-	return !hasMusicMetadata && (
-		lowerChapterName.includes('introduction') ||
-		lowerChapterName.includes('conclusion') ||
-		lowerChapterName.includes('part ') ||
-		lowerChapterName.includes('section ') ||
-		lowerChapterName.includes('chapter ') ||
-		lowerChapterName.includes('content') ||
-		lowerChapterName.includes('main ') ||
-		lowerChapterName.includes('beginning') ||
-		lowerChapterName.includes('ending')
+	return (
+		!hasMusicMetadata &&
+		(lowerChapterName.includes('introduction') ||
+			lowerChapterName.includes('conclusion') ||
+			lowerChapterName.includes('part ') ||
+			lowerChapterName.includes('section ') ||
+			lowerChapterName.includes('chapter ') ||
+			lowerChapterName.includes('content') ||
+			lowerChapterName.includes('main ') ||
+			lowerChapterName.includes('beginning') ||
+			lowerChapterName.includes('ending'))
 	);
 }
