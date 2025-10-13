@@ -2679,6 +2679,12 @@ export default <ConnectorMeta[]>[
 		id: 'feishin',
 	},
 	{
+		label: 'WQXR',
+		matches: ['*://www.wqxr.org/*'],
+		js: 'wqxr.js',
+		id: 'wqxr',
+	},
+	{
 		label: 'Monochrome',
 		matches: ['*://monochrome.prigoana.com/*', '*://monochrome.tf/*'],
 		js: 'monochrome.js',
