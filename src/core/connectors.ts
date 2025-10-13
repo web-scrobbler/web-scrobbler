@@ -2680,7 +2680,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Monochrome',
-		matches: ['*://monochrome.prigoana.com/*'],
+		matches: ['*://monochrome.prigoana.com/*', '*://monochrome.tf/*'],
 		js: 'monochrome.js',
 		id: 'monochrome',
 	},
