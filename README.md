@@ -87,8 +87,9 @@ also read our [contribution guidelines][Contributing].
 
 ### Translations
 
-We use Transifex to maintain translations. If you want to translate
-the extension, follow the [translations][Translations] wiki page for details.
+The connector supports multiple languages with the locales residing in `./src/_locales/`.
+
+The default locale is `en` and must contain translations for all new features.
 
 ## Media
 
