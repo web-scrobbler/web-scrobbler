@@ -2682,6 +2682,12 @@ export default <ConnectorMeta[]>[
 		label: 'WQXR',
 		matches: ['*://www.wqxr.org/*'],
 		js: 'wqxr.js',
-		id: 'wqxr'
-	}
+		id: 'wqxr',
+	},
+	{
+		label: 'Monochrome',
+		matches: ['*://monochrome.prigoana.com/*', '*://monochrome.tf/*'],
+		js: 'monochrome.js',
+		id: 'monochrome',
+	},
 ];
