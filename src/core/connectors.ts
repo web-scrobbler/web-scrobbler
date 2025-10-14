@@ -216,6 +216,12 @@ export default <ConnectorMeta[]>[
 		id: 'subphonic',
 	},
 	{
+		label: 'Nextcloud music',
+		matches: ['*://*/apps/music/*'],
+		js: 'nextcloud-music.js',
+		id: 'nextcloud-music',
+	},
+	{
 		label: 'Digitally Imported',
 		matches: ['*://www.di.fm/*'],
 		js: 'radiotunes.js',
