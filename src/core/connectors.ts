@@ -2684,4 +2684,10 @@ export default <ConnectorMeta[]>[
 		js: 'monochrome.js',
 		id: 'monochrome',
 	},
+	{
+		label: 'WeeklyBeats',
+		matches: ['*://weeklybeats.com/*'],
+		js: 'weeklybeats.js',
+		id: 'weeklybeats',
+	},
 ];
