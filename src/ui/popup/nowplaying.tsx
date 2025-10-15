@@ -323,7 +323,7 @@ function TrackMetadata(props: { song: Accessor<ClonedSong | null> }) {
 }
 
 /**
- * The compontent for the footer of the now playing popup, showing buttons to control and edit.
+ * The component for the footer of the now playing popup, showing buttons to control and edit.
  */
 function TrackControls(props: {
 	song: Accessor<ClonedSong | null>;

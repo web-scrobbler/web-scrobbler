@@ -37,7 +37,7 @@ export const CUSTOM_PATTERNS = 'customPatterns';
  * The format of storage data is following:
  * \{
  *     changelog: \{
- *     	   // `ver` is the extention version, e.g. 'v2.15.1'
+ *     	   // `ver` is the extension version, e.g. 'v2.15.1'
  *     	   // `true` means the notification of the version changelog
  *     	   // was displayed.
  *         ver: true,

@@ -12,7 +12,7 @@ const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 const SEPARATORS: Separator[] = [' - ', ' | '];
 
 /**
- * This filter is applied after all page properties are inititialized.
+ * This filter is applied after all page properties are initialized.
  */
 let bandcampFilter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(

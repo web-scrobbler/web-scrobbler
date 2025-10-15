@@ -408,7 +408,7 @@ export async function showAuthNotification(): Promise<void> {
 
 /**
  * Show 'Loved'/'Unloved' notification when song is love/unlove toggled.
- * @param song - Copy of song isntance
+ * @param song - Copy of song instance
  * @param isLoved - whether a song is loved or not
  */
 export async function showLovedNotification(
