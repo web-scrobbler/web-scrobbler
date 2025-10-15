@@ -1,50 +1,50 @@
 export {};
 
-setupConnector();
+Connector.playerSelector = '[data-testid="rail-recent_tracks"]';
 
-function setupConnector() {
-	if (isLiveRadio()) {
-		setupPropertiesForLiveRadio();
-	} else {
-		setupPropertiesForOfflineRecord();
+Connector.isPlaying = () => {
+	const btn = document.querySelector('[data-testid="play_pause_button"]');
+	return btn?.getAttribute('aria-label')?.toUpperCase() === 'PAUSE';
+};
+
+Connector.scrobblingDisallowedReason = () => {
+	const firstTrack = document.querySelector(
+		'[data-testid="rail-recent_tracks"] li:nth-child(2)',
+	);
+	const hasNowPlaying = firstTrack?.textContent
+		?.toLowerCase()
+		.includes('now playing');
+	return hasNowPlaying ? null : 'Other';
+};
+
+Connector.getArtistTrack = () => {
+	const firstTrack = document.querySelector(
+		'[data-testid="rail-recent_tracks"] li:nth-child(2)',
+	);
+
+	if (!firstTrack?.textContent?.toLowerCase().includes('now playing')) {
+		return null;
 	}
-}
 
-function isLiveRadio() {
-	return document.querySelector('.sc-c-episode__metadata') === null;
-}
+	const cleanText = (firstTrack as HTMLElement).innerText
+		.replace(/(^\d\.|\nnow playing)/gi, '')
+		.trim();
 
-// Example: any of live radios from https://www.bbc.co.uk/sounds
-function setupPropertiesForLiveRadio() {
-	Connector.playerSelector = '.sc-c-tracks';
+	const parts = cleanText.split('\n');
+	const track = parts[0]?.trim();
+	const artist = parts[1]?.trim();
 
-	Connector.artistSelector = '.sc-c-track__artist';
+	return artist && track ? { artist, track } : null;
+};
 
-	Connector.trackSelector = '.sc-c-track__title';
-}
+Connector.getTrackArt = () => {
+	const firstTrack = document.querySelector(
+		'[data-testid="rail-recent_tracks"] li:nth-child(2)',
+	);
 
-// Example: any of music mixes from https://www.bbc.co.uk/sounds
-function setupPropertiesForOfflineRecord() {
-	const trackItemSelector = '.sc-c-basic-tile';
-	const equalizerIconSelector = '.sc-c-equalizer';
+	if (!firstTrack?.textContent?.toLowerCase().includes('now playing')) {
+		return null;
+	}
 
-	const artistSelector = '.sc-c-basic-tile__artist';
-	const trackSelector = '.sc-c-basic-tile__title';
-
-	Connector.playerSelector = '.sc-c-scrollable-list';
-
-	Connector.getArtistTrack = () => {
-		const artistTrackElement = document.querySelector(
-			equalizerIconSelector,
-		);
-		if (!artistTrackElement) {
-			return null;
-		}
-
-		const trackItem = artistTrackElement.closest(trackItemSelector);
-		const artist = trackItem?.querySelector(artistSelector)?.textContent;
-		const track = trackItem?.querySelector(trackSelector)?.textContent;
-
-		return { artist, track };
-	};
-}
+	return firstTrack.querySelector('img')?.src || null;
+};
