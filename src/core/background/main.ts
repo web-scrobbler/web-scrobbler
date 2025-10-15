@@ -223,7 +223,7 @@ async function updateTab(
 		throw new Error('No tabid given');
 	}
 
-	// perform the update, making sure there is no race condition, and making sure locking isnt permanently locked by an error
+	// perform the update, making sure there is no race condition, and making sure locking isn't permanently locked by an error
 	let performedSet = false;
 	try {
 		const curState = await getState();

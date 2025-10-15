@@ -105,7 +105,7 @@ export function stringToSeconds(str: string | null | undefined): number {
 }
 
 /**
- * Find first occurence of possible separator in given string
+ * Find first occurrence of possible separator in given string
  * and return separator's position and size in chars or null.
  * @param str - String containing separator
  * @param separators - Array of separators
@@ -229,7 +229,7 @@ export function splitTimeInfo(
  * @param str - Any string
  * @param separators - Array of separators
  * @param swap - Swap values
- * @returns Array of strings splitted by separator
+ * @returns Array of strings split by separator
  */
 export function splitString(
 	str: string | null | undefined,
@@ -423,7 +423,7 @@ export function getTextFromSelectors(
  * a first element with the attribute available.
  *
  * @param selectors - Single selector or array of selectors
- * @param attr - Attrubute to get
+ * @param attr - Attribute to get
  * @param defaultValue - Fallback value
  * @returns Text of element, if available, or default value
  */
