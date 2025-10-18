@@ -54,7 +54,7 @@
     "chokidar": "4.0.3",
     "eslint": "9.35.0",
     "eslint-plugin-jsdoc": "59.0.2",
-    "esbuild": "0.25.10",
+    "esbuild": "0.25.11",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-solid": "0.14.5",
     "eslint-plugin-tsdoc": "0.4.0",
