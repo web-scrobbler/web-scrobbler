@@ -16,7 +16,12 @@ Connector.isPlaying = () => {
 	const pauseDiv = document
 		.querySelector('.lunaradiopauseicon')
 		?.closest('div');
-	const opacity = parseFloat(getComputedStyle(pauseDiv)?.opacity || 0);
 
-	return Boolean(opacity);
+	if(!pauseDiv) {
+		return false;
+	}
+
+	const opacity = Number.parseFloat(getComputedStyle(pauseDiv).opacity);
+	
+	return opacity > 0;
 };
