@@ -1,6 +1,6 @@
 export {};
 
-// theres no set selector to use here unfortunately.
+// there's no set selector to use here unfortunately.
 Connector.playerSelector = 'body';
 
 /**
