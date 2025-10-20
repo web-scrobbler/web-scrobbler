@@ -1545,7 +1545,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'swr3',
-		matches: ['*://www.swr3.de/*'],
+		matches: ['*://www.swr3.de/*', '*://www.swr.de/*'],
 		js: 'swr3.js',
 		id: 'swr3',
 	},
