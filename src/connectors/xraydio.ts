@@ -17,11 +17,11 @@ Connector.isPlaying = () => {
 		.querySelector('.lunaradiopauseicon')
 		?.closest('div');
 
-	if(!pauseDiv) {
+	if (!pauseDiv) {
 		return false;
 	}
 
 	const opacity = Number.parseFloat(getComputedStyle(pauseDiv).opacity);
-	
+
 	return opacity > 0;
 };
