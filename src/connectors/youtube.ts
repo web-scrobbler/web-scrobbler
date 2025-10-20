@@ -565,7 +565,7 @@ function isVideoCategoryAllowed() {
  * Check if a chapter name is likely AI-generated and doesn't contain track information.
  * AI-generated chapters often contain generic descriptions that don't help with scrobbling.
  */
-function isAiGeneratedChapter(chapterName: string): boolean {
+function isAiGeneratedChapter(chapterName: string | null): boolean {
 	if (!chapterName) {
 		return true;
 	}
