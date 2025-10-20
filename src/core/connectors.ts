@@ -2690,4 +2690,10 @@ export default <ConnectorMeta[]>[
 		js: 'monochrome.js',
 		id: 'monochrome',
 	},
+	{
+		label: 'XRaydio',
+		matches: ['*://xraydio.net/*'],
+		js: 'xraydio.js',
+		id: 'xraydio',
+	},
 ];
