@@ -19,8 +19,10 @@ Connector.getArtist = () => {
 	for (const element of elements) {
 		for (const child of element.childNodes) {
 			if (child.nodeType === Node.TEXT_NODE) {
-				const match = child.wholeText.match(/^(?<artist>.+):\s*$/);
-				if (match) {
+				const match = (child as Text).wholeText.match(
+					/^(?<artist>.+):\s*$/,
+				);
+				if (match?.groups?.artist) {
 					return match.groups.artist;
 				}
 			}
@@ -38,7 +40,7 @@ Connector.getUniqueID = () => {
 	const match = src.match(
 		/^https:\/\/weeklybeats\.s3\.amazonaws\.com\/music\/(?<year>\d+)\/(?<id>[^/]+)\.(?<ext>[^.]{2,4})$/,
 	);
-	if (!match) {
+	if (!match?.groups?.id) {
 		return null;
 	}
 	return match.groups.id;
