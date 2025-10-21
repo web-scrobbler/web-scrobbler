@@ -49,7 +49,7 @@ The extension is also available in the [Apple Store][AppleStore].
 
 ### Microsoft Edge Add-ons
 
-The extension is also avaiable on the [Microsoft Edge Add-ons][Edge].
+The extension is also available on the [Microsoft Edge Add-ons][Edge].
 
 ### Install from source code
 

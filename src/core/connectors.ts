@@ -216,6 +216,12 @@ export default <ConnectorMeta[]>[
 		id: 'subphonic',
 	},
 	{
+		label: 'Nextcloud music',
+		matches: ['*://*/apps/music/*'],
+		js: 'nextcloud-music.js',
+		id: 'nextcloud-music',
+	},
+	{
 		label: 'Digitally Imported',
 		matches: ['*://www.di.fm/*'],
 		js: 'radiotunes.js',
@@ -1545,7 +1551,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'swr3',
-		matches: ['*://www.swr3.de/*'],
+		matches: ['*://www.swr3.de/*', '*://www.swr.de/*'],
 		js: 'swr3.js',
 		id: 'swr3',
 	},
@@ -2677,5 +2683,17 @@ export default <ConnectorMeta[]>[
 		matches: ['*://feishin.vercel.app/*'],
 		js: 'feishin.js',
 		id: 'feishin',
+	},
+	{
+		label: 'Monochrome',
+		matches: ['*://monochrome.prigoana.com/*', '*://monochrome.tf/*'],
+		js: 'monochrome.js',
+		id: 'monochrome',
+	},
+	{
+		label: 'XRaydio',
+		matches: ['*://xraydio.net/*'],
+		js: 'xraydio.js',
+		id: 'xraydio',
 	},
 ];

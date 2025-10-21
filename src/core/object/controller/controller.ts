@@ -648,7 +648,7 @@ export default class Controller {
 		 * If there has not been definitive state before,
 		 * just change state without sending anything to service.
 		 * We dont want the extension to randomly unlove songs
-		 * on scrobbling service because user didnt do it on
+		 * on scrobbling service because user didn't do it on
 		 * streaming service.
 		 */
 		if (this.currentSong.flags.isLovedInService === null) {

@@ -7,7 +7,7 @@ import { getExtensionVersion } from '@/util/util-browser';
  * THE RETURN VALUE OF THIS FUNCTION IS USED IN INNERHTML. IT IS SAFE.
  *
  * @param messageName - i18n property name
- * @param substitutions - substitions to be made to i18n content
+ * @param substitutions - substitutions to be made to i18n content
  * @returns localized string
  */
 export function t(messageName: string, substitutions?: string | string[]) {
