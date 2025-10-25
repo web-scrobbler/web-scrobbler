@@ -2678,4 +2678,10 @@ export default <ConnectorMeta[]>[
 		js: 'feishin.js',
 		id: 'feishin',
 	},
+	{
+		label: 'Ampwall',
+		matches: ['*://ampwall.com/*'],
+		js: 'ampwall.js',
+		id: 'ampwall',
+	},
 ];
