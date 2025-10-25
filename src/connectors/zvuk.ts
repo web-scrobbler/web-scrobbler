@@ -27,7 +27,7 @@ Connector.getDuration = () => {
 		return null;
 	}
 	// strip everything except transformX value, this is 0 at finished track, -100 at start of track.
-	// convert into a number thats easier to work with. (progress percentage expressed as 0-1 decimal).
+	// convert into a number that's easier to work with. (progress percentage expressed as 0-1 decimal).
 	const progressDecimal =
 		(100 + Number(progressElement.style.transform.slice(11, -2))) / 100;
 	return currentTime / progressDecimal;

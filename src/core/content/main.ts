@@ -56,7 +56,7 @@ async function fetchConnector(): Promise<void> {
 		Util.debugLog(`Successfully loaded ${connector.label} connector`);
 	} catch (err) {
 		Util.debugLog(
-			`An error occured while loading ${connector.label} connector`,
+			`An error occurred while loading ${connector.label} connector`,
 			'error',
 		);
 		throw err;
