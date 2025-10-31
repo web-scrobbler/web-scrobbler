@@ -87,8 +87,7 @@ also read our [contribution guidelines][Contributing].
 
 ### Translations
 
-We use Transifex to maintain translations. If you want to translate
-the extension, follow the [translations][Translations] wiki page for details.
+Follow the [Translation wiki][Translations] for details.
 
 ## Media
 
