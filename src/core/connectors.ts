@@ -2691,6 +2691,12 @@ export default <ConnectorMeta[]>[
 		id: 'monochrome',
 	},
 	{
+		label: 'WeeklyBeats',
+		matches: ['*://weeklybeats.com/*'],
+		js: 'weeklybeats.js',
+		id: 'weeklybeats',
+	},
+	{
 		label: 'XRaydio',
 		matches: ['*://xraydio.net/*'],
 		js: 'xraydio.js',
