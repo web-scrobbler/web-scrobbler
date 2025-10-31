@@ -87,9 +87,7 @@ also read our [contribution guidelines][Contributing].
 
 ### Translations
 
-The connector supports multiple languages with the locales residing in `./src/_locales/`.
-
-The default locale is `en` and must contain translations for all new features.
+Follow the [Translation wiki][Translations] for details.
 
 ## Media
 
