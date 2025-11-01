@@ -12,11 +12,11 @@
 
 Jūsų nustatymai ir kredencialai saugomi naršyklėje. Šis plėtinys saugo:
 
- - kredencialus apie skroblų paslaugas;
- - asmeninius „Web Scrobbler“ nustatymus;
- - redaguotus takelius;
- - pasirinktinius jungčių URL šablonus;
- - sistemos informaciją apie plėtinį.
+- kredencialus apie skroblų paslaugas;
+- asmeninius „Web Scrobbler“ nustatymus;
+- redaguotus takelius;
+- pasirinktinius jungčių URL šablonus;
+- sistemos informaciją apie plėtinį.
 
 Jūsų kredencialai naudojami tik ryšiui su skroblų paslaugomis palaikyti.
 
