@@ -12,7 +12,7 @@ Diese Erweiterung sammelt keine deiner personenbezogenen Daten.
 
 Deine Einstellungen und Zugangsdaten werden in deinem Browser gespeichert. Die Erweiterung speichert:
 
-- Your credentials of scrobble services
+- Deine Zugangsdaten für Scrobble-Dienste
 - Deine persönlichen Einstellungen für Web Scrobbler
 - Deine bearbeiteten Titel
 - Deine individuellen URL-Muster für Verbinder
