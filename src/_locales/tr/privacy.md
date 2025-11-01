@@ -12,11 +12,11 @@ Uzantı hiçbir kişisel verinizi toplamaz.
 
 Ayarlarınız ve kimlik bilgileriniz tarayıcınızda saklanır. Uzantı şunları depolar:
 
- - Skroplama hizmetlerine ilişkin kimlik bilgileriniz
- - Kişisel Web Scrobbler ayarlarınız
- - Düzenlediğiniz parçalar
- - Bağlayıcılar için özel URL kalıplarınız
- - Uzantının sistem bilgileri
+- Skroplama hizmetlerine ilişkin kimlik bilgileriniz
+- Kişisel Web Scrobbler ayarlarınız
+- Your edited tracks
+- Bağlayıcılar için özel URL kalıplarınız
+- Uzantının sistem bilgileri
 
 Kimlik bilgileriniz yalnızca skroplama hizmetleriyle iletişim kurmak için kullanılır.
 

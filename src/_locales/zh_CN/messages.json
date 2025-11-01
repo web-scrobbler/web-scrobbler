@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "追踪全网音乐播放记录！",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Web Scrobbler 选项",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Delete $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Enabled",
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "The song is not being scrobbled, as it is marked private by the owner. ",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "曲目未被识别。点击 Web Scrobbler 扩展图标以更正信息。",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "追踪全网音乐播放记录！",
-        "description": "Description of the extension"
     }
 }

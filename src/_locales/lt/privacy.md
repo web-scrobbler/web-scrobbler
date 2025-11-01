@@ -10,20 +10,20 @@
 
 ## Kokie duomenys saugomi plėtiniu?
 
-Jūsų nustatymai ir kredencialai saugomi naršyklėje. Šis plėtinys saugo:
+Your settings and credentials are stored within your browser. The extension stores:
 
- - kredencialus apie skroblų paslaugas;
- - asmeninius „Web Scrobbler“ nustatymus;
- - redaguotus takelius;
- - pasirinktinius jungčių URL šablonus;
- - sistemos informaciją apie plėtinį.
+- kredencialus apie skroblų paslaugas;
+- asmeninius „Web Scrobbler“ nustatymus;
+- redaguotus takelius;
+- pasirinktinius jungčių URL šablonus;
+- sistemos informaciją apie plėtinį.
 
 Jūsų kredencialai naudojami tik ryšiui su skroblų paslaugomis palaikyti.
 
-Visus duomenis plėtinys naudoja savo viduje. Nesiunčiame šių duomenų 3-iosios šalies paslaugoms.
+All data is used by the extension internally; we don't send this data to 3rd-party services.
 
 ## Kodėl plėtinys pasiekia visas svetaines?
 
-Šis plėtinys palaiko kelias savarankiškai teikiamas paslaugas (pvz., „Funkwhale“), kurios turėtų turėti naudotojo apibrėžtus URL. Plėtinys negalėtų žinoti šių URL, todėl reikia prieigos prie visų svetainių.
+The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
 
-Be to, prieigos prašoma tik naudotojo patogumui. Naudotojų nebus prašoma patvirtinti prieigą prie naujų svetainių, pridėtų naujose plėtinio versijose.
+Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.

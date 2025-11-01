@@ -1,410 +1,410 @@
 {
     "extDescription": {
-        "message": "保存網路上各處的播放記錄！",
+        "message": "Scrobblez de la musique partout sur le web !",
         "description": "Description of the extension"
     },
     "optionsTitle": {
-        "message": "Web Scrobbler 選項",
+        "message": "Options de Web Scrobbler",
         "description": "Title of options page"
     },
     "optionsGeneral": {
-        "message": "一般",
+        "message": "Général",
         "description": "'General' section"
     },
     "optionsPermissionsLabel": {
-        "message": "您尚未允許 Web Scrobbler 存取所有網站，這表示您每次都必須手動點擊擴充功能的圖示來啟動追蹤。請點擊此處以授予權限。請注意，在Safari中，此權限不會被自動授予，但是下次您瀏覽支援的網站時，您將可以點擊「永遠在所有網站上允許...」以授予權限。",
+        "message": "Vous n’avez pas accordé à Web Scrobbler l’autorisation d’accéder à tous les sites, ce qui signifie que vous devez cliquer sur l’icône de l’extension pour commencer à scrobbling à chaque fois. Cliquez ici pour accorder l’autorisation. Notez que dans Safari, l’autorisation ne sera pas automatiquement accordée, mais la prochaine fois que vous visiterez un site pris en charge, vous pourrez cliquer sur \" Toujours autoriser sur chaque site Web... \" pour accorder l’autorisation.",
         "description": "Label for permissions button"
     },
     "optionUseNotifications": {
-        "message": "使用「正在播放」通知",
+        "message": "Afficher les notifications de lecture",
         "description": "Option label"
     },
     "optionUseNotificationsTitle": {
-        "message": "在所有支援的網站上啟用「正在播放」通知",
+        "message": "Afficher les notifications de lecture pour tous les sites web supportés",
         "description": "Option title"
     },
     "optionUnrecognizedNotifications": {
-        "message": "識別失敗時通知您",
+        "message": "Notifier si la piste n'est pas reconnue",
         "description": "Option label"
     },
     "optionUnrecognizedNotificationsTitle": {
-        "message": "擴充功能無法辨識曲目時顯示通知",
+        "message": "Affiche une notification si la piste n'est pas reconnue par l'extension",
         "description": "Option title"
     },
     "optionUseInfobox": {
-        "message": "顯示資訊盒",
+        "message": "Afficher l’infobox",
         "description": "Option label"
     },
     "optionUseInfoboxTitle": {
-        "message": "在支援的網站頁面當中顯示 Web Scrobbler 資訊盒",
+        "message": "Afficher l’infobox du scrobbler sur la page pour les sites web pris en charge",
         "description": "Option title"
     },
     "optionScrobblePodcasts": {
-        "message": "記錄 podcast",
+        "message": "Scrobbler les podcasts",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
-        "message": "記錄 podcast 集數",
+        "message": "Scrobbler les épisodes du podcast",
         "description": "Option title"
     },
     "optionAutoToggleLove": {
-        "message": "透過播放器對曲目標記/取消標記「喜歡」",
+        "message": "Love/unlove tracks through players",
         "description": "Option label"
     },
     "optionAutoToggleLoveTitle": {
-        "message": "若您在網站上對一個曲目表示喜歡/不喜歡，則此曲目也會在您的 Scroobbler 中被標記/取消標記「喜歡」",
+        "message": "When you like or dislike a track on a website, the track will also be loved/unloved in your scrobbler",
         "description": "Option label"
     },
     "optionDebugLoggingEnabled": {
-        "message": "啟用除錯紀錄",
+        "message": "Activer la journalisation de débogage",
         "description": "Option label"
     },
     "optionDebugLoggingEnabledTitle": {
-        "message": "允許擴充功能在瀏覽器的控制臺中記錄除錯訊息",
+        "message": "Autoriser l’extension à consigner les messages de débogage dans la console du navigateur",
         "description": "Option title"
     },
     "optionsAlbumGuessing": {
-        "message": "專輯猜測",
+        "message": "Album guessing",
         "description": "'Album guessing' section"
     },
     "optionAlbumGuessingDisabled": {
-        "message": "停用專輯猜測",
+        "message": "Disable album guessing",
         "description": "Option label"
     },
     "optionAlbumGuessingDisabledTitle": {
-        "message": "Web Scrobbler 不會猜測任何曲目的專輯名稱",
+        "message": "Web Scrobbler will not guess the album title of any track",
         "description": "Option title"
     },
     "optionAlbumGuessingUneditedOnly": {
-        "message": "僅猜測未編輯曲目的專輯 (預設值)",
+        "message": "Only guess album for unedited tracks (default)",
         "description": "Option label"
     },
     "optionAlbumGuessingUneditedOnlyTitle": {
-        "message": "Web Scrobbler 僅會猜測未編輯曲目的專輯名稱，也會猜測已套用大量編輯的曲目",
+        "message": "Web Scrobbler will only guess the album title of unedited tracks. Tracks with only bulk edits applied will still have album guessed",
         "description": "Option title"
     },
     "optionAlbumGuessingAllTracks": {
-        "message": "猜測所有曲目的專輯名稱",
+        "message": "Guess album title for all tracks",
         "description": "Option label"
     },
     "optionAlbumGuessingAllTracksTitle": {
-        "message": "Web Scrobbler 會猜測沒有專輯的曲目之專輯標題，包含已編輯的曲目",
+        "message": "Web Scrobbler will guess the album title of all albumless tracks including edited ones",
         "description": "Option title"
     },
     "optionsScrobbleBehavior": {
-        "message": "記錄失敗",
+        "message": "Comportement de scrobble",
         "description": "'Scrobble behavior' section"
     },
     "optionForceRecognize": {
-        "message": "強制辨識",
+        "message": "Forcer la reconnaissance de piste",
         "description": "Option label"
     },
     "optionForceRecognizeTitle": {
-        "message": "強制辨識未知的曲目",
+        "message": "Forcer la reconnaissance des pistes non reconnues",
         "description": "Option title"
     },
     "optionScrobbleRecognizedTracks": {
-        "message": "記錄可辨識或已編輯過的曲目（預設值）",
+        "message": "Pistes reconnues ou éditées par Scrobble (par défaut)",
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
-        "message": "只記錄辨識成功或已編輯過的曲目",
+        "message": "Seulement scrobble trace si ils sont reconnus ou édités",
         "description": "Option title"
     },
     "optionScrobbleEditedTracksOnly": {
-        "message": "只記錄已編輯過的曲目",
+        "message": "Pistes éditées par Scrobble uniquement",
         "description": "Option label"
     },
     "optionScrobbleEditedTracksOnlyTitle": {
-        "message": "只記錄已編輯過的曲目",
+        "message": "Seulement scrobble trace si ils sont édités",
         "description": "Option title"
     },
     "optionsAdvanced": {
-        "message": "進階",
+        "message": "Avancé",
         "description": "'Advanced' section"
     },
     "optionsHidden": {
-        "message": "隱藏的",
+        "message": "Caché",
         "description": "'Hidden' section"
     },
     "optionScrobblePercent": {
-        "message": "記錄於",
+        "message": "Scrobblé à",
         "description": "Option title"
     },
     "optionScrobblePercentSuffix": {
-        "message": "曲目長度",
+        "message": "de la durée de la musique",
         "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "如果您停用這兩個選項，本擴充元件則會記錄所有類別的 YouTube 影片播放。",
+        "message": "Si vous désactivez les deux options, l’extension scrobblera les vidéos YouTube de toutes les catégories.",
         "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
-        "message": "曲目播放超過 4 分鐘的時候還是會被記錄，不論選項值為何。",
+        "message": "Notez qu'un titre sera scrobblé dans tout les cas, si elle a été jouée pendant 4 minutes, quelle que soit la valeur de l'option.",
         "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
-        "message": "記錄「音樂」類別的影片",
+        "message": "Scrobbler les vidéos de la catégorie \"Musique\"",
         "description": "Option title"
     },
     "optionYtMusicOnlyTitle": {
-        "message": "忽略不是「音樂」類別的影片",
+        "message": "Ignorer les vidéos qui ne sont pas dans la catégorie \"Musique\"",
         "description": "Option label"
     },
     "optionYtEntertainmentOnly": {
-        "message": "記錄「娛樂」類別的影片",
+        "message": "Scrobbler les vidéos de la catégorie \"Divertissement\"",
         "description": "Option label"
     },
     "optionYtEntertainmentOnlyTitle": {
-        "message": "忽略不是「娛樂」類別的影片",
+        "message": "Ignorer les vidéos qui ne sont pas dans la catégorie \"Divertissement\"",
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "使用 YouTube Music 來取得資訊",
+        "message": "Utilisez Youtube Music pour obtenir des informations sur les morceaux",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "使用 YouTube Music 取得曲目資訊；停用則使用影片標題及說明欄",
+        "message": "Utilisez Youtube Music pour obtenir des informations sur les pistes, si cette option est désactivée, la description et le titre de la vidéo sont utilisés par défaut",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "僅記錄被 YouTube Music 辨識為音樂的影片",
+        "message": "Scrobble uniquement les vidéos reconnues par YouTube Music comme de la musique",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "忽略未被 YouTube Music 辨識為音樂的影片",
+        "message": "Ignorer les vidéos qui ne sont pas reconnues comme de la musique par YouTube Music",
         "description": "Option title"
     },
     "optionTheme": {
-        "message": "配色",
+        "message": "Thème",
         "description": "Option label"
     },
     "optionThemeTitle": {
-        "message": "選擇擴充元件的配色",
+        "message": "Choisissez le thème de l’extension",
         "description": "Option title"
     },
     "optionThemeLight": {
-        "message": "明亮",
+        "message": "Clair",
         "description": "Option label"
     },
     "optionThemeDark": {
-        "message": "深色",
+        "message": "Sombre",
         "description": "Option label"
     },
     "optionThemeHighContrastDark": {
-        "message": "高對比深色",
+        "message": "High Contrast Dark",
         "description": "Option label"
     },
     "optionThemeHighContrastLight": {
-        "message": "高對比明亮",
+        "message": "High Contrast Light",
         "description": "Option label"
     },
     "optionThemeSystem": {
-        "message": "依據系統主題",
+        "message": "System",
         "description": "Option label"
     },
     "optionsAccounts": {
-        "message": "帳號",
+        "message": "Comptes",
         "description": "'Accounts' section"
     },
     "accountsSignedInAs": {
-        "message": "您已以 $1 的身分登入。",
+        "message": "Vous êtes connecté en tant que $1.",
         "description": "'Signed in' label"
     },
     "accountsNotSignedIn": {
-        "message": "您尚未登入",
+        "message": "Vous n'êtes pas connecté.",
         "description": "'Signed in' label"
     },
     "accountsProfile": {
-        "message": "個人資料",
+        "message": "Profil",
         "description": "'Signed in' label"
     },
     "accountsSignOut": {
-        "message": "登出",
+        "message": "Se déconnecter",
         "description": "Button label"
     },
     "accountsSignIn": {
-        "message": "登入",
+        "message": "Se connecter",
         "description": "Button label"
     },
     "accountsUseLocalInstance": {
-        "message": "使用本機實體",
+        "message": "Use local instance",
         "description": "Button label"
     },
     "accountsScrobblerProps": {
-        "message": "屬性",
+        "message": "Propriétés",
         "description": "Button label"
     },
     "accountsScrobblerPropsTitle": {
-        "message": "$1 屬性",
+        "message": "$1 propriétés",
         "description": "Button label"
     },
     "accountsUserApiUrl": {
-        "message": "API 網址",
+        "message": "URL d'API",
         "description": "Input label"
     },
     "accountsUserApiUrlPlaceholder": {
-        "message": "自訂 API 網址",
+        "message": "URL d'API personnalisé",
         "description": "Input label"
     },
     "instanceDomain": {
-        "message": "實體域名 (Instance Domain)",
+        "message": "Instance Domain",
         "description": "Input label"
     },
     "instanceDomainPlaceholder": {
-        "message": "僅域名: example.com",
+        "message": "just domain: example.com",
         "description": "Input label"
     },
     "accountsUserToken": {
-        "message": "Token",
+        "message": "Jeton",
         "description": "Input label"
     },
     "accountsUserTokenPlaceholder": {
-        "message": "自訂 Token",
+        "message": "Jeton personnalisé",
         "description": "Input label"
     },
     "accountsApplicationName": {
-        "message": "應用程式名稱 (Application name)",
+        "message": "Application name",
         "description": "Input label"
     },
     "accountsApplicationNamePlaceholder": {
-        "message": "自訂 Webhook 標籤",
+        "message": "Custom webhook label",
         "description": "Input label"
     },
     "accountsAddWebhook": {
-        "message": "新增 Webhook",
+        "message": "Add Webhook",
         "description": "Button label"
     },
     "optionsOptions": {
-        "message": "選項",
+        "message": "Options",
         "description": "'Options' section"
     },
     "optionsScrobbleCache": {
-        "message": "快取",
+        "message": "Cache",
         "description": "'Scrobble Cache' section"
     },
     "optionsScrobbleCacheSelectAll": {
-        "message": "全選",
+        "message": "Select All",
         "description": "Select All button label"
     },
     "optionsScrobbleCacheUnselectAll": {
-        "message": "取消全選",
+        "message": "Unselect All",
         "description": "Unselect All button label"
     },
     "optionsScrobbleCacheSelectScrobbles": {
-        "message": "選擇項目",
+        "message": "Select Scrobbles",
         "description": "Select Scrobbles button label"
     },
     "optionsScrobbleCacheScrobbleSelected": {
-        "message": "已選取的項目",
+        "message": "Scrobble Selected",
         "description": "Scrobble Selected button label"
     },
     "optionsScrobbleCacheEditAll": {
-        "message": "編輯並記錄所有此曲目的未記錄實體",
+        "message": "Edit and scrobble all unscrobbled instances of this song",
         "description": "Label for checkbox to apply cache edit to all unscrobbled instances of the same track in cache."
     },
     "optionsScrobbleCacheLoading": {
-        "message": "載入紀錄快取中...",
+        "message": "Loading scrobble cache...",
         "description": "'Scrobble Cache' section"
     },
     "optionsScrobbleCacheSuccess": {
-        "message": "成功的項目",
+        "message": "Successful Scrobbles",
         "description": "'Scrobble Cache' successful scrobbles section header"
     },
     "optionsScrobbleCacheError": {
-        "message": "錯誤的項目",
+        "message": "Errored Scrobbles",
         "description": "'Scrobble Cache' errored scrobbles section header"
     },
     "optionsScrobbleCacheIgnored": {
-        "message": "已忽略的項目",
+        "message": "Ignored Scrobbles",
         "description": "'Scrobble Cache' ignored scrobbles section header"
     },
     "optionsScrobbleCacheDisallowed": {
-        "message": "不允許的項目",
+        "message": "Disallowed Scrobbles",
         "description": "'Scrobble Cache' disallowed scrobbles section header"
     },
     "optionsScrobbleCacheUnrecognized": {
-        "message": "無法辨識的項目",
+        "message": "Unrecognized Scrobbles",
         "description": "'Scrobble Cache' unrecognized scrobbles section header"
     },
     "optionsEdits": {
-        "message": "編輯",
+        "message": "Edits",
         "description": "'Edits' section"
     },
     "optionsEditedTracks": {
-        "message": "已編輯曲目",
+        "message": "Pistes éditées",
         "description": "'Edited tracks' header"
     },
     "optionsEditedTracksDesc": {
-        "message": "本擴充元件記錄已編輯的曲目",
+        "message": "Cette extension stocke les pistes éditées.",
         "description": "Description of edited tracks"
     },
     "optionsEditedTracksPopupTitle": {
-        "message": "$1 已編輯曲目",
+        "message": "$1 pistes éditées",
         "description": "'Edited tracks' header"
     },
     "optionsRegexEdits": {
-        "message": "正規表達式 (Regex) / 大量編輯",
+        "message": "Regex/Bulk edits",
         "description": "'Regex/Bulk edits' header"
     },
     "optionsRegexEditsDesc": {
-        "message": "此擴充套件記錄正規表達式 (Regex) / 大量編輯。",
+        "message": "This extension stores regex/bulk edits.",
         "description": "Description of regex/bulk edits"
     },
     "optionsRegexEditsPopupTitle": {
-        "message": "$1 個正規表達式 (Regex) / 大量編輯",
+        "message": "$1 regex/bulk edits",
         "description": "'Regex/Bulk edits' header"
     },
     "optionsBlockedTags": {
-        "message": "已封鎖的標籤",
+        "message": "Blocked tags",
         "description": "'Blocked tags' header"
     },
     "optionsBlockedTagsDesc": {
-        "message": "此擴充套件記錄已封鎖的藝人/專輯/曲目標籤。",
+        "message": "This extension stores blocked artist/album/track tags.",
         "description": "Description of blocked tags"
     },
     "optionsBlockedTagsPopupTitle": {
-        "message": "$1 個已封鎖的標籤",
+        "message": "$1 blocked tags",
         "description": "'Blocked tags' header"
     },
     "optionsBlockedSources": {
-        "message": "已封鎖的來源",
+        "message": "Blocked sources",
         "description": "'Edited tracks' header"
     },
     "optionsBlockedSourcesDesc": {
-        "message": "您可以封鎖此網站上的特定來源(如頻道)以停止記錄。",
+        "message": "You can block scrobbling from specific sources such as channels on this website.",
         "description": "Description of blocked sources"
     },
     "optionsBlockedSourcesPopupTitle": {
-        "message": "$1 個封鎖的來源",
+        "message": "$1 blocked sources",
         "description": "'Blocked sources' header"
     },
     "optionsViewEdited": {
-        "message": "檢視",
+        "message": "Voir",
         "description": "Button to view edited tracks"
     },
     "optionsExportEdited": {
-        "message": "匯出",
+        "message": "Exporter",
         "description": "Button to export edited tracks"
     },
     "optionsImportEdited": {
-        "message": "匯入",
+        "message": "Importer",
         "description": "Button to import edited tracks"
     },
     "optionsDelete": {
-        "message": "刪除「$1」",
+        "message": "Delete $1",
         "description": "Option label"
     },
     "optionsEnabled": {
-        "message": "已啟用",
+        "message": "Enabled",
         "description": "Option label"
     },
     "optionsDisabled": {
-        "message": "已停用",
+        "message": "Disabled",
         "description": "Option label"
     },
     "optionsIndeterminate": {
-        "message": "與全域設定相同",
+        "message": "Same as global option",
         "description": "Option label"
     },
     "optionsConnectors": {
@@ -412,695 +412,695 @@
         "description": "'Connectors' section"
     },
     "optionsEnableDisableHint": {
-        "message": "點擊選取方塊以啟用/停用 Connectors。",
+        "message": "Cliquer sur la case à cocher pour activer/désactiver un connecteur.",
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "點擊齒輪圖示以設定 Connector 的自訂 URL 規則。",
+        "message": " Cliquez sur l'icône en forme d'engrenage pour configurer des modèles d'URL personnalisés pour les connecteurs.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
-        "message": "支援的網站",
+        "message": "Sites web pris en charge",
         "description": "'Supported websites' header"
     },
     "optionsToggle": {
-        "message": "啟用／停用",
+        "message": "Sélectionner",
         "description": "Label of toggle button"
     },
     "optionsLoadingConnectorOptions": {
-        "message": "載入 Connector 設定中...",
+        "message": "Loading connector options...",
         "description": "Loading connector options message"
     },
     "learnMoreLabel": {
-        "message": "了解更多",
+        "message": "En apprendre plus",
         "description": "Learn more label"
     },
     "contactTitle": {
-        "message": "連絡資訊",
+        "message": "Contact",
         "description": "'Contact' section"
     },
     "contactGitHubDesc": {
-        "message": "回報問題來共獻",
+        "message": "Signaler un problème et contribuer",
         "description": "Description for GitHub section"
     },
     "contactTwitterDesc": {
-        "message": "看看最新消息和交流",
+        "message": "Restez au courant des mises à jours et discutez avez nous",
         "description": "Description for Twitter section"
     },
     "contactPrivacyPolicyDesc": {
-        "message": "檢視隱私條款",
+        "message": "Consulter la politique de confidentialité",
         "description": "Description for privacy section"
     },
     "faqTitle": {
-        "message": "常見問題",
+        "message": "FAQ",
         "description": "'FAQ' section"
     },
     "faqQuestion1": {
-        "message": "如何啟用本擴充元件？",
+        "message": "Comment je peux commencer à utiliser l'extension ?",
         "description": "Question #1"
     },
     "faqAnswer1a": {
-        "message": "請點擊首次載入擴充套件時出現的通知。接著，您應該能授權存取您的帳戶。",
+        "message": "Vous devez cliquez sur la notification qui apparait lorsque l'application est chargée pour la première fois. Ensuite, vous devez donner l'accès à vos comptes.",
         "description": "Answer #1"
     },
     "faqAnswer1b": {
-        "message": "注意：在某些情況下 (例如在 Mac OS 上以全螢幕模式執行 Chrome)，通知可能不會顯示；此時，擴充功能會開啟一個新分頁，您可以在該分頁連接帳戶。",
+        "message": "Note : Dans certains cas, la notification ne s'affichera pas, ex : sur Mac OS si Chrome est lancé en plein écran; l'extension ouvrira un onglet où vous pourrez accorder l'accès à vos comptes.",
         "description": "Answer #1"
     },
     "faqQuestion2": {
-        "message": "如何暫時停用曲目記錄？",
+        "message": "Comment je peux désactiver le scrobbling temporairement ?",
         "description": "Question #2"
     },
     "faqAnswer2a": {
-        "message": "您可以透過右鍵點擊擴充功能欄的綠色擴充功能圖示，以完成此操作。在右鍵選單中，您可以停用目前網頁服務的 Connector。",
+        "message": "Vous pouvez faire ça en cliquant droit sur le logo vert de l'extension dans la barre des extensions. En utilisant le menu, vous pouvez désactiver le connecteur pour le service web actuel.",
         "description": "Answer #2"
     },
     "faqAnswer2b": {
-        "message": "使用「選項」頁面的選取方塊以停用特定的 Connector，或是使用「啟用／停用」選取方塊以停用全域記錄功能。",
+        "message": "Utilisez les cases à cocher sur la page des options pour désactiver certains connecteurs ou sur la case à côté de \"Toggle\" pour tout désactiver.",
         "description": "Answer #2"
     },
     "faqQuestion3": {
-        "message": "這首曲目辨識失敗了！你能修好它嗎？",
+        "message": "Le titre n'a pas été reconnu ! Pouvez-vous le réparer ?",
         "description": "Question #3"
     },
     "faqAnswer3a": {
-        "message": "當曲目無法辨識時，一個帶有問號的灰色圖示會出現在擴充功能列中。您可以點擊該圖示，並在開啟的彈出視窗中輸入正確的資料。",
+        "message": "Quand un titre n'est pas reconnu, un icon gris avec un point d'interrogation apparaît dans la barre des extensions. Vous pouvez cliquer sur cet icon pour renseigner les bonnes informations dans la popup.",
         "description": "Answer #3"
     },
     "faqAnswer3b": {
-        "message": "此外，「強制辨識」選項會讓本擴充元件保存不被 Last.fm 驗證的曲目。",
+        "message": "Il existe aussi une option appelé \"Forcer la détection du titre\" qui forcera l'extension à scrobbler le titre même si le titre n'est pas validé part Last.fm.",
         "description": "Answer #3"
     },
     "faqQuestion4": {
-        "message": "無法記錄 Bandcamp 上的一些曲目。請問有可能修復這個問題嗎？",
+        "message": "Certaines musiques sur Bandcamp ne peuvent pas être scrobblé. Est-il possible de réparer cela ?",
         "description": "Question #4"
     },
     "faqAnswer4a": {
-        "message": "可能是因為此曲目被託管在自訂的域名中，而擴充功能無法辨識其是否屬於 Bandcamp。",
+        "message": "Il semblerait que la musique soit hébergée sur un domaine personnalisé et que l'extension ne puisse pas détecter s'il s'agit de Bandcamp ou non.",
         "description": "Answer #4"
     },
     "faqAnswer4b": {
-        "message": "作為解決方案，請按以下步驟設定擴充套件，使其能辨識自訂域名：",
+        "message": "Comme solution de contournement, configurez l'extension pour qu'elle fonctionne avec des domaines personnalisés comme suit :",
         "description": "Answer #4"
     },
     "faqAnswer4b1": {
-        "message": "開啟擴充功能的設定頁面，並展開「選項」部分。",
+        "message": "Ouvrez la page des paramètres de l'extension et déroulez la section \"Options\".",
         "description": "Answer #4"
     },
     "faqAnswer4b2": {
-        "message": "在支援的網站中找出 Bandcamp 的 Connector。",
+        "message": "Trouvez le connecteur Bandcamp dans la liste des services supportés.",
         "description": "Answer #4"
     },
     "faqAnswer4b3": {
-        "message": "點選 Connector 附近的齒輪圖示。",
+        "message": "Cliquez sur l'icon d'engrennage à côté du nom du connecteur.",
         "description": "Answer #4"
     },
     "faqAnswer4b4": {
-        "message": "加入符合 Bandcamp 中自訂域名的 URL 規則並套用變更。",
+        "message": "Ajoutez le modèle d'URL qui correspond à l'URL du domaine personnalisé Bandcamp et appliquez les changements.",
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "您可以在 <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>此處</a> 進一步了解 URL 規則。",
+        "message": "Vous pouvez en apprendre plus concernant les modèles d'URL personnalisés <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>ici</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
-        "message": "你會新增對 ____ 的支援嗎？",
+        "message": "Allez-vous ajouter le support pour scrobblé sur ____ ?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "在 GitHub 上開啟<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">新的 issue</a>，我們會告訴您我們能不能新增對該網站的支援。您也可以自己將 <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub 版本庫</a>進行分支，撰寫支援之後像我們遞交 pull request。",
+        "message": "Ouvrez une <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nouvelle issue</a> sur GitHub avec votre requête et nous vous dirons si nous pouvons ajouter le support pour le site ou non. Vous pouvez aussi ajouter le support du site en forkant le <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repository GitHub</a> et en nous envoyant une pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
-        "message": "你會新增 ____ 功能嗎",
+        "message": "Allez-vous ajouter ____ fonctionnalité ?",
         "description": "Question #6"
     },
     "faqAnswer6": {
-        "message": "或許，如果有道理的話。但如果您是希望我加入很酷但不是那麼有用的功能的話，應該是會讓您失望了。",
+        "message": "Probablement si cela fait sens. Mais si vous souhaitez ajouter des fonctions pas-très-utilent-mais-très-cool, vous allez probablement être déçu.",
         "description": "Answer #6"
     },
     "faqQuestion7": {
-        "message": "作者是誰？",
+        "message": "Qui est l'auteur ?",
         "description": "Question #7"
     },
     "faqAnswer7": {
-        "message": "此擴充功能的原作者是 David Šabata。現在，此擴充功能由 Web Scrobbler 團隊開發及維護。",
+        "message": "Le développeur original de l'extension est David Šabata. Maintenant l'extension est développée et maintenue par l'équipe Web Scrobbler.",
         "description": "Answer #7"
     },
     "optionsAbout": {
-        "message": "關於",
+        "message": "À propos",
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "目前版本的更新日誌可 <a id='latest-release' target='_blank' href='$1'>在此</a> 查看。如要查看完整的更新日誌，請查看 <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>此頁面</a>。",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler 是製作給透過瀏覽器在線上聆聽音樂，而希望使用曲目記錄服務（例如 Last.fm、Libre.fm、ListenBrainz、Pleroma）來記錄播放歷史的人們的擴充元件。",
+        "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm, ListenBrainz, and Pleroma.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
-        "message": "貢獻者",
+        "message": "Contributeurs",
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "您可以在 <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub</a> 上找到貢獻者列表",
+        "message": "Vous pouvez trouver la liste des contributeurs <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">directement sur le repository GitHub</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
-        "message": "版本",
+        "message": "Version",
         "description": "'Version' header"
     },
     "versionText": {
-        "message": "目前使用擴充元件版本為 $1。",
+        "message": "You are using version $1 of the extension.",
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "希望貢獻嗎？請到<a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">我們的網站</a>查看您可以對此專案進行貢獻的方式。",
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
-        "message": "表達支持",
+        "message": "Montrer votre amour",
         "description": "'Show some love' section"
     },
     "showSomeLoveText1": {
-        "message": "不像其他擴充元件，這個擴充元件不包含任何閃來閃去的全幅廣告或是偷偷摸摸的廣告。",
+        "message": "Contrairement à d'autres extensions, celle-ci ne contient pas de bannières clignotantes ni de publicités sournoises.",
         "description": ""
     },
     "showSomeLoveText2": {
-        "message": "這個擴充元件是免費的，不會變成付費軟體。不過如果您願意支持它的開發，您可以使用下方的按鈕。",
+        "message": "Cette extension est gratuite, est le restera toujours. Mais si vous souhaitez supporter le développement de l'extension, vous pouvez utiliser le bouton ci-dessous.",
         "description": ""
     },
     "donationButtonLabel": {
-        "message": "在 OpenCollective 上支持我們",
+        "message": "Support us on OpenCollective",
         "description": "The donation button label"
     },
     "customPatterns": {
-        "message": "URL 規則",
+        "message": "URL patterns",
         "description": "'URL patterns' section"
     },
     "customPatternsHint": {
-        "message": "在下方加入連接器應該符合的 URL 規則。",
+        "message": "Ajouter un modèle d'URL que le connecteur doit faire correspondre.",
         "description": "Popup hint"
     },
     "customPatternsAdd": {
-        "message": "新增規則（pattern）",
+        "message": "Ajouter un modèle",
         "description": "Add button"
     },
     "albumTooltip": {
-        "message": "來自「$1」專輯",
+        "message": "De l'album \"$1\"",
         "description": "Tooltip text"
     },
     "buttonScrobble": {
-        "message": "記錄",
+        "message": "Scrobble",
         "description": "Scrobble button label"
     },
     "buttonOk": {
-        "message": "確認",
+        "message": "OK",
         "description": "OK button label"
     },
     "buttonCancel": {
-        "message": "取消",
+        "message": "Annuler",
         "description": "Cancel button label"
     },
     "buttonReset": {
-        "message": "重設",
+        "message": "Réinitialiser",
         "description": "Reset button label"
     },
     "buttonClear": {
-        "message": "清除",
+        "message": "Effacer",
         "description": "Clear button label"
     },
     "buttonRemove": {
-        "message": "移除",
+        "message": "Remove",
         "description": "Remove button label, for removing a single scrobble from the cache"
     },
     "noItemsInCache": {
-        "message": "快取為空",
+        "message": "Pas d'éléments en cache.",
         "description": "Popup hint"
     },
     "getStartedHeader": {
-        "message": "播放音樂來開始使用",
+        "message": "Lancer de la musique pour commencer",
         "description": "The header of 'Get started' popup"
     },
     "getStartedSubheader": {
-        "message": "已經在播音樂了嗎？",
+        "message": "La lecture a déjà commencé ?",
         "description": "The subheader of 'Get started' popup"
     },
     "getStartedSiteChanged": {
-        "message": "通常這代表網站有些變更，即使使用者看不到，但這個擴充元件需要的內容可能變了。",
+        "message": "Dans la plupart des cas, cela signifie que le site a subit des modifications. Ces modifications ne sont peut-être pas visibles par l'utilisateur mais cela signifie beaucoup pour l'extension.",
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "這個網站的 Connector 程式碼需要修改。您可以到 <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">issue 列表</a>查看有沒有人已經回報這個網站的問題了。如果沒有的話，您可以提交一個新的 issue 描述出了什麼問題 (what's wrong)、應該要是什麼樣子 (expected behavior)，與實際的情形 (what's happening instead)。（Issue 列表只有英文。）",
+        "message": "Le code du connecteur pour ce site en particulier a donc besoin d'être mis à jour. Vous pouvez naviguer sur <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">la liste des problèmes</a>et voir si ce site a déjà été signalé. Si ce n'est pas le cas, vous pouvez signaler le problème en décrivant ce qui ne va pas, le comportement attendu et ce qui se passe à la place.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
-        "message": "服務錯誤",
+        "message": "Erreur avec un service",
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "記錄音樂時似乎發生了問題。請開啟設定頁面並重新認證服務。如果重新認證沒有幫助，而您仍然看到這個訊息，請在 GitHub 專案頁面建立<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">新的 issue</a> 。",
+        "message": "Quelque chose s'est mal passé lors du scrobble. Merci d'ouvrir la page des options et d'essayer de vous ré-authentifier aux services. Si la ré-authentification ne fonctionne pas et que vous voyez toujours ce message, merci de <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">signaler le problème</a> sur la page GitHub du projet.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
-        "message": "已停用對目前網站的記錄",
+        "message": "Ce site web est désactivé",
         "description": "The header of 'disabled' popup"
     },
     "disabledSiteDesc": {
-        "message": "由於擴充功能設定值已停用對於這個網站音樂的記錄，因此本擴充功能不會記錄這個網站上的音樂。",
+        "message": "L'extension ne scrobblera pas la musique de ce site tant que vous ne l'aurez pas activé dans les options d'extension.",
         "description": "The description of 'disabled' popup"
     },
     "disabledSiteButton": {
-        "message": "打開選項頁面",
+        "message": "Ouvrir la page des options",
         "description": "Button label"
     },
     "disallowedHeader": {
-        "message": "這首歌不會被記錄",
+        "message": "This song is not being scrobbled",
         "description": "The header of 'disallowed' popup"
     },
     "disallowedDescIsPrivate": {
-        "message": "這首歌不會被記錄，因為擁有者將其標記為私人。",
+        "message": "The song is not being scrobbled, as it is marked private by the owner. ",
         "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
-        "message": "Web Scrobbler 偵測到了 $1 的歌曲 $2，但不會記錄它。",
+        "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
         "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
     },
     "disallowedDescIsAd": {
-        "message": "這是因為 Web Scrobbler 已判斷它是廣告。",
+        "message": "The reason is that Web Scrobbler has detected this as being an ad.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescForbiddenYouTubeCategory": {
-        "message": "您已停用非音樂或娛樂類別 YouTube 影片的記錄，而這個影片由上傳者標記為別的類別。如要記錄任何類別的影片，可以到 Web Scrobbler 設定停用「記錄「音樂」類別的影片」和「記錄「娛樂」類別的影片」這兩個選項。",
+        "message": "You have disabled scrobbling youtube video categories other than music and/or entertainment, and this video is marked by the uploader as a different category. You can choose to scrobble any video category by disabling both \"Scrobble videos from \"Music\" category\" and \"Scrobble videos from \"Entertainment\" category\" in Web Scrobbler settings.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescForbiddenTag": {
-        "message": "您已停用這個藝人、專輯或曲目的記錄。您可以在設定裡重新啟用標籤，或是按下「還是要記錄」並在正則表達式編輯當中重新啟用標籤。",
+        "message": "You have disabled scrobbling this artist, album, and/or track. You can re-enable tags in settings, or by hitting \"Scrobble anyway\" and re-enabling the tags in regex editing.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescForbiddenChannel": {
-        "message": "您已停用這個頻道的記錄。您可以從 Connector 設定重新啟用它，或是右鍵點擊擴充元件圖示之後選擇「啟用 <ID> 的記錄」。",
+        "message": "You have disabled scrobbling this channel. You can re-enable it in connector settings, or by right clicking the extension icon and clicking \"Enable scrobbling from <ID>\".",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-        "message": "YouTube Music 沒有將此影片識別為音樂，且您啟用了「僅記錄被 YouTube Music 辨識為音樂的影片」設定。",
+        "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
-        "message": "這是因為 Web Scrobbler 認為曲目正在別的地方播放而不應記錄。",
+        "message": "The reason is that Web Scrobbler thinks this track is playing elsewhere and should not be scrobbled.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescElementMissing": {
-        "message": "這是因為 Web Scrobbler 依賴的某個元素不在頁面當中。這可能代表您並沒有在播放音樂，或者是 Connector 有問題。",
+        "message": "The reason is that some element Web Scrobbler relies on is not in the page. This probably means that either you are not playing music, or there is a bug in the connector.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescFilteredTag": {
-        "message": "藝人、專輯或是曲目已被 Connector 過濾為不該被記錄的項目。這不是您在您的設定值當中所選擇的設定所造成的。",
+        "message": "Either the artist, album, or track has been filtered by the connector as something that should not be scrobbled. This is not due to any setting you have set in your settings.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsLoading": {
-        "message": "Web Scrobbler 依賴以取得曲目內容的東西正在載入中。請稍候幾秒。如果這個訊息一直持續顯示，請向我們回報問題，因為這代表有東西出錯。",
+        "message": "Something Web Scrobbler relies on for finding the track details is loading. Please wait a few seconds. If this message persists, please report it, as something is wrong.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescOther": {
-        "message": "因為不明的原因，Web Scrobbler 判斷這不應該被記錄。這不是您在您的設定值當中所選擇的設定所造成的。如果您認為這是錯的，請向我們回報。",
+        "message": "For some unknown reason, Web Scrobbler has determined this should not scrobble. This is not related to any setting you have set. If you believe this is an error, please report it.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDesc3": {
-        "message": "Web Scrobbler 仍應從這個網站的別處記錄音樂。",
+        "message": "Web Scrobbler should still scrobble music from elsewhere on this website.",
         "description": "The description of 'disallowed' popup on all sites including youtube"
     },
     "disallowedButton": {
-        "message": "還是要記錄",
+        "message": "Scrobble anyway",
         "description": "Button label"
     },
     "ignoredHeader": {
-        "message": "這個記錄已被忽略",
+        "message": "This scrobble was ignored",
         "description": "The header of 'ignored' popup"
     },
     "ignoredDesc": {
-        "message": "Web Scrobbler 嘗試記錄了 \"$1\" 的 \"$2\"，但標籤被 Last.FM 忽略了。",
+        "message": "Web Scrobbler tried to scrobble \"$2\" by \"$1\", but the tags were ignored by Last.FM.",
         "description": "The description of 'ignored' popup. $1 is artist name, and $2 is track name"
     },
     "ignoredDescReadMore": {
-        "message": "閱讀更多並請求歌曲在此加入白名單",
+        "message": "Read more and ask for the song to be allowlisted here",
         "description": "The description of 'ignored' popup, links to support.last.fm thread"
     },
     "unsupportedWebsiteHeader": {
-        "message": "不支援此網站",
+        "message": "Ce site web n'est pas pris en charge",
         "description": "The header of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Web Scrobbler 不支援從這個網站進行曲目記錄。",
+        "message": "Web Scrobbler ne prend pas en charge le scrobbling sur ce site web.",
         "description": "The description of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc2": {
-        "message": "某些這個擴充元件支援的 Google 旗下網站（像是 Google Play Music、YouTube）可能因為某 ExtensionSettings（擴充元件設定）策略而被阻擋。",
+        "message": "Certains site de Google supportés par cette extension (ex : Google Play Music, Youtube) peuvent être bloqués à cause d'une règle \"ExtensionSettings\".",
         "description": "The description of 'unsupported' popup"
     },
     "unsupportedWebsiteUpdateNote": {
-        "message": "如果擴充元件剛更新，網站可能在重新整理之前會顯示為不支援。",
+        "message": "If the extension recently updated sites may show as unsupported until you refresh the page.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {
-        "message": "收藏曲目",
+        "message": "Aimer le titre",
         "description": "Label of love/unlove button"
     },
     "infoUnlove": {
-        "message": "取消收藏",
+        "message": "Ne plus aimer le titre",
         "description": "Label of love/unlove button"
     },
     "infoEditTitle": {
-        "message": "編輯曲目資訊",
+        "message": "Editer les données de la piste",
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "無法編輯此曲目",
+        "message": "Vous ne pouvez pas éditer ce titre",
         "description": "Title of edit button"
     },
     "infoEditTitleShort": {
-        "message": "編輯",
+        "message": "Edit",
         "description": "Title of edit button, should be short for mobile button label"
     },
     "infoEditUnableTitleShort": {
-        "message": "無法編輯",
+        "message": "Can't Edit",
         "description": "Title of edit button, should be short for mobile button label"
     },
     "infoSwapTitle": {
-        "message": "對調曲目名稱和藝人",
+        "message": "Inverser le titre et l'artiste",
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "無法對調不存在的資訊",
+        "message": "Vous ne pouvez pas échanger des informations sur les titres vides",
         "description": "Title of swap button"
     },
     "infoSwapTitleShort": {
-        "message": "交換標題/藝人",
+        "message": "Swap title/artist",
         "description": "Title of swap button, should be short for mobile button label"
     },
     "infoSwapUnableTitleShort": {
-        "message": "無法交換資訊",
+        "message": "Can't swap info",
         "description": "Title of swap button, should be short for mobile button label"
     },
     "infoRegexTitle": {
-        "message": "正則表達式/大量編輯模式",
+        "message": "Regex/Bulk edit mode",
         "description": "Title of regex/bulk edit button"
     },
     "infoRegexTitleShort": {
-        "message": "正則表達式/大量編輯",
+        "message": "Regex/Bulk edit",
         "description": "Title of regex/bulk edit button, should be short for mobile button label"
     },
     "infoEditedWarning": {
-        "message": "這個曲目已被編輯。Regex 編輯不會套用到編輯過的曲目，因此此處的預覽可能是不準確的。",
+        "message": "This track has been edited. Regex edits are not applied to edited tracks, and the preview you see here may be inaccurate.",
         "description": "Warning message to user if bulk editing on a previously edited track"
     },
     "infoSubmitTitle": {
-        "message": "送出修改",
+        "message": "Envoyer les modifications",
         "description": "Title of submit button"
     },
     "infoSubmitUnableTitle": {
-        "message": "您無法提交空白曲目資訊",
+        "message": "Vous ne pouvez pas envoyer des informations vides pour le titre",
         "description": "Title of submit button"
     },
     "infoSubmitTitleShort": {
-        "message": "提交",
+        "message": "Submit",
         "description": "Title of submit button, should be short for mobile button label"
     },
     "infoSubmitUnableTitleShort": {
-        "message": "無法提交",
+        "message": "Can't submit",
         "description": "Title of submit button, should be short for mobile button label"
     },
     "infoRevertTitle": {
-        "message": "取消修改",
+        "message": "Annuler les changements",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "您無法復原這個曲目",
+        "message": "Vous ne pouvez pas annulez ce titre",
         "description": "Title of revert button"
     },
     "infoRevertTitleShort": {
-        "message": "復原",
+        "message": "Revert",
         "description": "Title of revert button, should be short for mobile button label"
     },
     "infoRevertUnableTitleShort": {
-        "message": "無法復原",
+        "message": "Can't Revert",
         "description": "Title of revert button, should be short for mobile button label"
     },
     "infoSkipTitle": {
-        "message": "不記錄正在播放的曲目",
+        "message": "Ne pas scrobblé le titre en cours",
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "無法跳過此曲目",
+        "message": "Vous ne pouvez pas ignorer ce titre",
         "description": "Title of skip button"
     },
     "infoSkippedTitle": {
-        "message": "您已跳過此曲目",
+        "message": "Vous avez ignoré ce titre",
         "description": "Title of unskip button"
     },
     "infoSkipTitleShort": {
-        "message": "跳過",
+        "message": "Skip",
         "description": "Title of skip button, should be short for mobile button label"
     },
     "infoSkipUnableTitleShort": {
-        "message": "無法跳過",
+        "message": "Can't Skip",
         "description": "Title of skip button, should be short for mobile button label"
     },
     "infoSkippedTitleShort": {
-        "message": "已跳過",
+        "message": "Skipped",
         "description": "Title of unskip button, should be short for mobile button label"
     },
     "infoBlockArtist": {
-        "message": "不要記錄這個藝人",
+        "message": "Never scrobble this artist",
         "description": "Title of button to block scrobbling artist"
     },
     "infoUnblockArtist": {
-        "message": "記錄這個藝人",
+        "message": "Scrobble this artist",
         "description": "Title of button to unblock scrobbling artist"
     },
     "infoBlockAlbum": {
-        "message": "不要記錄這個專輯",
+        "message": "Never scrobble this album",
         "description": "Title of button to block scrobbling album"
     },
     "infoUnblockAlbum": {
-        "message": "記錄這個專輯",
+        "message": "Scrobble this album",
         "description": "Title of button to unblock scrobbling album"
     },
     "infoBlockTrack": {
-        "message": "不要記錄這個曲目",
+        "message": "Never scrobble this track",
         "description": "Title of button to block scrobbling track"
     },
     "infoUnblockTrack": {
-        "message": "記錄這個曲目",
+        "message": "Scrobble this track",
         "description": "Title of button to unblock scrobbling track"
     },
     "infoOpenAlbumArt": {
-        "message": "在新分頁裡打開專輯封面",
+        "message": "Ouvrir la pochette de l'album dans un nouvel onglet",
         "description": "Title of album image"
     },
     "infoArtistPlaceholder": {
-        "message": "藝人",
+        "message": "Artiste",
         "description": "Placeholder of artist input"
     },
     "infoTrackPlaceholder": {
-        "message": "曲目",
+        "message": "Piste",
         "description": "Placeholder of track input"
     },
     "infoAlbumPlaceholder": {
-        "message": "專輯（選填）",
+        "message": "Album (optionnel)",
         "description": "Placeholder of album input"
     },
     "infoAlbumArtistPlaceholder": {
-        "message": "專輯藝人（選填）",
+        "message": "Artiste de l'album (optionnel)",
         "description": "Placeholder of album artist input"
     },
     "infoSearchLabel": {
-        "message": "搜尋",
+        "message": "Search",
         "description": "Label of regex edit search input"
     },
     "infoReplaceLabel": {
-        "message": "取代",
+        "message": "Replace",
         "description": "Label of regex edit replace input"
     },
     "infoDeleteLabel": {
-        "message": "刪除",
+        "message": "Delete",
         "description": "Label of regex edit delete button"
     },
     "infoPreviewLabel": {
-        "message": "預覽",
+        "message": "Preview",
         "description": "Label of regex edit preview output"
     },
     "infoArtistLabel": {
-        "message": "藝人",
+        "message": "Artist",
         "description": "Label of artist input row"
     },
     "infoTrackLabel": {
-        "message": "曲目",
+        "message": "Track",
         "description": "Label of track input row"
     },
     "infoAlbumLabel": {
-        "message": "專輯",
+        "message": "Album",
         "description": "Label of album input row"
     },
     "infoAlbumArtistLabel": {
-        "message": "專輯藝人",
+        "message": "Album artist",
         "description": "Label of album artist input row"
     },
     "infoUseRegex": {
-        "message": "使用正則表達式",
+        "message": "Use regex",
         "description": "Title of checkbox to toggle bulk edit flag"
     },
     "infoMatchCase": {
-        "message": "符合大小寫",
+        "message": "Match case",
         "description": "Title of checkbox to toggle bulk edit flag"
     },
     "infoMatchWholeTag": {
-        "message": "符合整個標籤",
+        "message": "Match entire tag",
         "description": "Title of checkbox to toggle bulk edit flag"
     },
     "infoViewArtistPage": {
-        "message": "檢視藝人頁面：$1",
+        "message": "View artist page: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "檢視專輯頁面：$1",
+        "message": "View album page: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "檢視曲目頁面：$1",
+        "message": "View track page: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
-        "message": "您的記錄：$1",
+        "message": "Vos scrobbles : $1",
         "description": "Label for user play count"
     },
     "pageActionBase": {
-        "message": "不支援保存本網站的播放記錄",
+        "message": "Ce site support le scrobbling",
         "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
-        "message": "搜尋 $1",
+        "message": "Chercher $1",
         "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
-        "message": "正在播放 $1",
+        "message": "Now playing $1",
         "description": "`playing` page action title, also used for infobox"
     },
     "pageActionPaused": {
-        "message": "已暫停 $1",
+        "message": "Paused $1",
         "description": "`paused` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
-        "message": "已記錄 $1",
+        "message": "Scrobblé $1",
         "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
-        "message": "已略過 $1",
+        "message": "Ignoré $1",
         "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
-        "message": "已忽略 $1",
+        "message": "Ignorer $1",
         "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
-        "message": "支援記錄這個網站，但您停用了它",
+        "message": "Ce site support le scrobbling mais vous pouvez le desactiver",
         "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
-        "message": "無法辨視該曲目。點擊來送出正確資訊。",
+        "message": "Ce titre n'est pas reconnu. Cliquez ici pour transmettre les bonnes informations",
         "description": "`unknown` page action title"
     },
     "pageActionError": {
-        "message": "發生服務錯誤。點擊以取得更多資訊。",
+        "message": "Une erreur est survenue. Cliquez ici pour plus d'informations.",
         "description": "`loading` page action title"
     },
     "pageActionUnsupported": {
-        "message": "Web Scrobbler 不支援此網站",
+        "message": "Web Scrobbler ne supporte pas ce site.",
         "description": "`unsupported` page action title"
     },
     "pageActionLoved": {
-        "message": "已收藏 $1",
+        "message": "Vous avez aimé $1",
         "description": "`unsupported` page action title"
     },
     "pageActionUnloved": {
-        "message": "已取消收藏 $1",
+        "message": "Vous n'aimez plus $1",
         "description": "`unsupported` page action title"
     },
     "menuDisableConnector": {
-        "message": "停用 $1 Connector",
+        "message": "Désactiver le connecteur $1",
         "description": "Context menu item"
     },
     "menuEnableConnector": {
-        "message": "啟用 $1 Connector",
+        "message": "Activer le connecteur $1",
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-        "message": "停用 $1 Connector 直到分頁關閉",
+        "message": "Désactiver le connecteur $1 jusqu'à ce que cet onglet soit fermé",
         "description": "Context menu item"
     },
     "menuDisableChannel": {
-        "message": "停用 $1 的記錄",
+        "message": "Disable scrobbling from $1",
         "description": "Context menu item"
     },
     "menuEnableChannel": {
-        "message": "啟用 $1 的記錄",
+        "message": "Enable scrobbling from $1",
         "description": "Context menu item"
     },
     "notificationConnectAccounts": {
-        "message": "連接帳號",
+        "message": "Connectez vos comptes",
         "description": "Notification title"
     },
     "notificationConnectAccountsText": {
-        "message": "點擊通知來登入",
+        "message": "Cliquez sur la notification pour connecter vos comptes.",
         "description": "Notification text"
     },
     "notificationNativeScrobbler": {
-        "message": "$1 有內建的曲目記錄功能！",
+        "message": "$1 has a built-in scrobbler!",
         "description": "Notification title, $1 denotes the name of the website."
     },
     "notificationNativeScrobblerText": {
-        "message": "請確保您有關閉 Web Scrobbler 或內建的曲目記錄，不要兩個都開著！",
+        "message": "Make sure to turn off either Web Scrobbler or the built-in scrobbler!",
         "description": "Notification text"
     },
     "notificationAuthError": {
-        "message": "認證錯誤",
+        "message": "Problème d'authentification",
         "description": "Notification title"
     },
     "notificationUnableSignIn": {
-        "message": "無法登入 $1。請稍候再試。",
+        "message": "Impossible de se connecter à $1. Veuillez essayer plus tard.",
         "description": "Notification text"
     },
     "notificationNotRecognized": {
-        "message": "無法辨識曲目",
+        "message": "La piste n'est pas reconnue",
         "description": "Notification title"
     },
     "notificationNotRecognizedText": {
-        "message": "點擊擴充元件列當中的圖示來修正並提交曲目資訊。",
+        "message": "Cliquez sur l'icon dans la barre d'extension pour corriger et envoyer les informations du titre.",
         "description": "Notification text"
     },
     "hotkeyToggleConnector": {
-        "message": "啟用／停用對目前網站的記錄",
+        "message": "Basculer le scrobbling pour le site web actuel",
         "description": "Hotkey label"
     },
     "hotkeyLoveSong": {
-        "message": "收藏現正播放的曲目",
+        "message": "Aimer le titre en cours de lecture",
         "description": "Hotkey label"
     },
     "hotkeyUnloveSong": {
-        "message": "取消收藏現正播放的曲目",
+        "message": "Ne plus aimer le titre en cours de lecture",
         "description": "Hotkey label"
     },
     "infoBoxStateDisallowed": {
-        "message": "曲目記錄不被允許。點擊 Web Scrobbler 擴充元件圖示以取得更多資訊。",
+        "message": "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
         "description": "Infobox text when an option is disallowing scrobbling"
     },
     "infoBoxStateError": {
-        "message": "發生服務錯誤。點擊 Web Scrobbler 擴充元件圖示以取得更多資訊。",
+        "message": "A service error occurred. Click web scrobbler extension icon for more information.",
         "description": "Infobox text when an error occured"
     },
     "infoBoxStateUnknown": {
-        "message": "曲目未被辨識。點擊 Web Scrobbler 擴充元件圖示來修正資訊。",
+        "message": "The track is not recognized. Click web scrobbler extension icon to correct info.",
         "description": "Infobox track is not recognized"
     }
 }
