@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "İnternetin her yerinde müzik skropla!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Web Scrobbler seçenekleri",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Delete $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Enabled",
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "The song is not being scrobbled, as it is marked private by the owner. ",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler \"$2\" ile \"$1\" şarkısını algıladı, ancak onları skroplamayacak.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "Parça tanınmıyor. Bilgileri düzeltmek için web scrobbler uzantısı simgesine tıklayın.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "İnternetin her yerinde müzik skropla!",
-        "description": "Description of the extension"
     }
 }

@@ -1,0 +1,28 @@
+name: Crowdin Action
+
+on:
+  push:
+    paths:
+      - 'src/_locales/**'
+    branches:
+      - master
+
+jobs:
+  synchronize-with-crowdin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v5
+
+      - name: Perform Crowdin synchronization
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: true
+          upload_translations: false
+          download_translations: true
+          create_pull_request: true
+          pull_request_base_branch_name: 'master'
+        env:
+          GITHUB_TOKEN: '${{ secrets.BOT_PAT }}'
+          CROWDIN_PERSONAL_TOKEN: '${{ secrets.CROWDIN_PERSONAL_TOKEN }}'

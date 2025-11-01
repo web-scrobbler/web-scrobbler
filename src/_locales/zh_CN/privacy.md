@@ -12,11 +12,11 @@ The extension does not collect any of your personal data.
 
 Your settings and credentials are stored within your browser. The extension stores:
 
- - Your credentials of scrobble services
- - Your personal Web Scrobbler settings
- - Your edited tracks
- - Your custom URL patterns for connectors
- - System information of the extension
+- Your credentials of scrobble services
+- Your personal Web Scrobbler settings
+- Your edited tracks
+- Your custom URL patterns for connectors
+- System information of the extension
 
 Your credentials are used to communicate with scrobble services only.
 

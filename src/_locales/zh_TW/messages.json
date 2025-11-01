@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "保存網路上各處的播放記錄！",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Web Scrobbler 選項",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "刪除「$1」",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "已啟用",
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "這首歌不會被記錄，因為擁有者將其標記為私人。",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler 偵測到了 $1 的歌曲 $2，但不會記錄它。",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "曲目未被辨識。點擊 Web Scrobbler 擴充元件圖示來修正資訊。",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "保存網路上各處的播放記錄！",
-        "description": "Description of the extension"
     }
 }

@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Faça scrobble de músicas por toda a internet!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Opções do Web Scrobbler",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Apagar $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Ativado",
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "O scrobble da música não está sendo feito, pois foi marcada como privada pelo dono.",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "O Web Scrobbler detectou a música \"$2\" por \"$1\", mas não irá fazer o scrobble dela.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "A música não foi reconhecida. Clique no ícone da extensão do Web Scrobbler para corrigir as informações.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Faça scrobble de músicas por toda a internet!",
-        "description": "Description of the extension"
     }
 }

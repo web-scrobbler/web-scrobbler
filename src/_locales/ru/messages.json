@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Скробблите музыку со всего Интернета!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Настройки Web Scrobbler",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Delete $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Enabled",
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "Эта композиция не скробблится, т.к. помечена приватной её создателем.",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler определил песню \"$2\" исполнителя \"$1\", но не будет скробблить её.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "Композиция не распознана. Кликните на иконке расширения Web Scrobbler, чтобы ввести верные данные.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Скробблите музыку со всего Интернета!",
-        "description": "Description of the extension"
     }
 }
