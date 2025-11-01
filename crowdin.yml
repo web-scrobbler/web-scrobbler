@@ -16,3 +16,4 @@ files:
     translation: /src/_locales/%locale%/messages.json
   - source: /src/_locales/en/privacy.md
     translation: /src/_locales/%locale%/privacy.md
+    type: md

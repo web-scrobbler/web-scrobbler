@@ -10,13 +10,13 @@
 
 ## Які дані зберігає розширення?
 
-Your settings and credentials are stored within your browser. The extension stores:
+Ваші налаштування та облікові дані зберігаються у вашому браузері. Розширення зберігає:
 
-- Ваші облікові дані сервісів скробблінґу
-- Ваші особисті налаштування Web Scrobbler
-- Ваші відредаговані треки
-- Ваші власні паттерни URL-адрес для конекторів
-- Системна інформація розширення
+ - Ваші облікові дані сервісів скробблінґу
+ - Ваші особисті налаштування Web Scrobbler
+ - Ваші відредаговані треки
+ - Ваші власні паттерни URL-адрес для конекторів
+ - Системна інформація розширення
 
 Ваші облікові дані використовуються лише для зв’язку зі службами скробблінґу.
 
@@ -24,6 +24,6 @@ Your settings and credentials are stored within your browser. The extension stor
 
 ## Чому розширення запитує доступ до всіх веб-сайтів?
 
-The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
+Розширення підтримує кілька саморозміщених сервісів (наприклад, Funkwhale), які повинні мати визначені користувачем URL-адреси. Розширення не може знати ці URL-адреси, тому потрібен доступ до всіх сайтів.
 
-Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.
+Також це зроблено для зручності користувачів. Користувачі не отримають повторного запиту на дозвіл доступу до нових сайтів, які будуть додаватись до нових версій розширення.
