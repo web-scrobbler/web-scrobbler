@@ -332,15 +332,25 @@ function isArtistVarious(artist: string | null, track: string | null) {
 	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
 	 */
 	if (trackNodes.length !== 0) {
-		const artists = [];
-		for (const trackNode of trackNodes) {
-			const trackName = trackNode.textContent;
-			if (!Util.findSeparator(trackName ?? '', SEPARATORS)) {
-				return false;
-			}
-			const { artist } = Util.splitArtistTrack(trackName, SEPARATORS);
-			artists.push(artist);
+		const artists = [...trackNodes]
+			.map((trackNode) => trackNode.textContent)
+			.filter((trackName) =>
+				Util.findSeparator(trackName ?? '', SEPARATORS),
+			)
+			.map(
+				(trackName) =>
+					Util.splitArtistTrack(trackName, SEPARATORS).artist,
+			);
+
+		/*
+		 * We allow one single track without a separator, as sometimes mixed versions
+		 * of a compilation are present that are formatted differently.
+		 * Example: https://leonvynehall.bandcamp.com/album/fabric-presents-leon-vynehall
+		 */
+		if (trackNodes.length - artists.length > 1) {
+			return false;
 		}
+
 		/*
 		 * Return false if every detected artist on the album has a very short name.
 		 * It is probably not artist names but disc sides or some kind of numbers.
