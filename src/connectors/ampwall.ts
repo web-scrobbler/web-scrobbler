@@ -1,3 +1,5 @@
+import type { Separator } from '@/core/content/util';
+
 export {};
 
 /**
@@ -6,7 +8,7 @@ export {};
 const MULTIPLE_ARTIST_DELIMITER = ' &&&& ';
 
 /**
- * Regex to match Various Artists
+ * Regex to match Various Artistsd
  */
 const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 
@@ -35,14 +37,15 @@ Connector.getAlbum = () =>
 	);
 
 Connector.getArtistTrack = () => {
-	let track = Util.getTextFromSelectors('#audio-player-track-title');
+	let track = Util.getTextFromSelectors('#audio-player-track-title') ?? '';
 
-	const artistData = Util.getAttrFromSelectors(
-		'#audio-player-track-artists',
-		'data-audio-player-track-artists',
-	);
+	const artistData =
+		Util.getAttrFromSelectors(
+			'#audio-player-track-artists',
+			'data-audio-player-track-artists',
+		) ?? '';
 
-	let artist;
+	let artist = '';
 	({ artist, track } = parseArtistTrackData(artistData, track));
 
 	if (isVariousArtists(artist, track)) {
@@ -70,11 +73,8 @@ function parseArtistTrackData(text: string, track: string) {
 	// append rest of artists into ft. block in track title
 	let updatedTrack = track;
 	if (artists.length > 1) {
-		updatedTrack = format(
-			'{0} (ft. {1})',
-			track,
-			artists.slice(1).join(', '),
-		);
+		const joinedArtists = artists.slice(1).join(', ');
+		updatedTrack = `${track} (ft. {1})`;
 	}
 
 	return { artist: artists[0], track: updatedTrack };
@@ -93,7 +93,7 @@ function isVariousArtists(mainArtist: string, track: string) {
 }
 
 /**
- * Returns artist, track details that is extracted from the track.
+ * Returns artist, track details that is extracted from the track name itself.
  * If extraction fails, returns the details as-is.
  */
 function getArtistDetailsFromTrack(artist: string, track: string) {
