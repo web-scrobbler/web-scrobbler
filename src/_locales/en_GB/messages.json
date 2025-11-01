@@ -24,11 +24,11 @@
         "description": "Option title"
     },
     "optionUnrecognizedNotifications": {
-        "message": "Notify if track is not recognized",
+        "message": "Notify if track is not recognised",
         "description": "Option label"
     },
     "optionUnrecognizedNotificationsTitle": {
-        "message": "Show notification if track is not recognized by the extension",
+        "message": "Show notification if track is not recognised by the extension",
         "description": "Option title"
     },
     "optionUseInfobox": {
@@ -104,11 +104,11 @@
         "description": "Option title"
     },
     "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble recognized or edited tracks (default)",
+        "message": "Scrobble recognised or edited tracks (default)",
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
-        "message": "Only scrobble tracks if they are recognized or edited",
+        "message": "Only scrobble tracks if they are recognised or edited",
         "description": "Option title"
     },
     "optionScrobbleEditedTracksOnly": {
@@ -168,7 +168,7 @@
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "Scrobble only videos that are recognized by YouTube Music as music",
+        "message": "Scrobble only videos that are recognised by YouTube Music as music",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
@@ -480,11 +480,11 @@
         "description": "Answer #2"
     },
     "faqQuestion3": {
-        "message": "The track was not recognized! Can you fix it?",
+        "message": "The track was not recognised! Can you fix it?",
         "description": "Question #3"
     },
     "faqAnswer3a": {
-        "message": "When a track cannot be recognized, a gray icon with question mark appears in the extension bar. You can click on this icon and input correct data in the opened popup window.",
+        "message": "When a track cannot be recognised, a gray icon with question mark appears in the extension bar. You can click on this icon and input correct data in the opened popup window.",
         "description": "Answer #3"
     },
     "faqAnswer3b": {
@@ -649,7 +649,7 @@
     },
     "getStartedSiteChanged": {
         "message": "In most cases this means the site has changed somehow. The change does not have to be visible to user, but means a lot to the extension.",
-        "description": "Description of why track is not recognized"
+        "description": "Description of why track is not recognised"
     },
     "getStartedSubmitIssue": {
         "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behavior and what's happening instead.",
@@ -704,7 +704,7 @@
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-        "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+        "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognised by YouTube Music as music\" in settings.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
@@ -1008,7 +1008,7 @@
         "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
-        "message": "The track is not recognized. Click to submit correct info.",
+        "message": "The track is not recognised. Click to submit correct info.",
         "description": "`unknown` page action title"
     },
     "pageActionError": {
@@ -1072,7 +1072,7 @@
         "description": "Notification text"
     },
     "notificationNotRecognized": {
-        "message": "The track is not recognized",
+        "message": "The track is not recognised",
         "description": "Notification title"
     },
     "notificationNotRecognizedText": {
@@ -1100,7 +1100,7 @@
         "description": "Infobox text when an error occured"
     },
     "infoBoxStateUnknown": {
-        "message": "The track is not recognized. Click web scrobbler extension icon to correct info.",
-        "description": "Infobox track is not recognized"
+        "message": "The track is not recognised. Click web scrobbler extension icon to correct info.",
+        "description": "Infobox track is not recognised"
     }
 }
