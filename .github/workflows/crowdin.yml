@@ -6,6 +6,9 @@ on:
       - 'src/_locales/**'
     branches:
       - master
+  repository_dispatch:
+    types: [crowdin-translation-updated]
+  workflow_dispatch:
 
 jobs:
   synchronize-with-crowdin:

@@ -14,6 +14,7 @@
 [![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
 [![Codacy Coverage Badge][CodacyCoverageBadge]][Codacy]
+[![Crowdin Badge][CrowdinBadge]][Crowdin]
 
 </div>
 
@@ -105,6 +106,7 @@ Licensed under the [MIT License][License].
 
 <!-- Badges -->
 
+[CrowdinBadge]: https://badges.crowdin.net/web-scrobbler-test/localized.svg
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=firefox-browser&logoColor=white
 [CodacyBadge]: https://img.shields.io/codacy/grade/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
 [CodacyCoverageBadge]: https://img.shields.io/codacy/coverage/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
@@ -140,6 +142,7 @@ Licensed under the [MIT License][License].
 [Discord]: https://discord.com/invite/u99wNWw
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
 [Twitter]: https://twitter.com/web_scrobbler
+[Crowdin]: https://crowdin.com/project/web-scrobbler-test
 
 <!-- Services -->
 
