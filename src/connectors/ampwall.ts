@@ -74,7 +74,7 @@ function parseArtistTrackData(text: string, track: string) {
 	let updatedTrack = track;
 	if (artists.length > 1) {
 		const joinedArtists = artists.slice(1).join(', ');
-		updatedTrack = `${track} (ft. {1})`;
+		updatedTrack = `${track} (ft. {joinedArtists})`;
 	}
 
 	return { artist: artists[0], track: updatedTrack };
