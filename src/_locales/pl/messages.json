@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Opcje rozszerzenia Web Scrobbler",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Usuń $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Aktywowane",
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "Ten utwór nie zostanie przescrobblowany, ponieważ został on oznaczony jako prywatny przez swojego twórcę.",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler rozpoznał ten utwór jako \"$2\" autorstwa \"$1\", ale nie przescrobbluje go.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "Utwór nie został rozpoznany. Naciśnij ikonę rozszerzenia Web Scrobbler aby przypisać informacje ręcznie.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",
-        "description": "Description of the extension"
     }
 }

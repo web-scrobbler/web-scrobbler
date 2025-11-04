@@ -10,7 +10,7 @@ to a [relevant repository][WebsiteRepository].
 
 ## Translating the extension
 
-Follow this [wiki page][TranslateHowto] for details.
+Follow the [Translation wiki][TranslateHowto] for details.
 
 ## Submitting issues
 

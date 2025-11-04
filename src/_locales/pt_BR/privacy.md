@@ -12,11 +12,11 @@ A extensão não coleta nenhum dos seus dados pessoais.
 
 Suas configurações e credenciais são armazenadas em seu navegador. A extensão armazena:
 
- - Suas credenciais dos serviços de scrobble
- - Suas configurações pessoais do Web Scrobbler
- - Suas músicas editadas
- - Seus padrões de URL personalizados para conectores
- - Informações do sistema da extensão
+- Suas credenciais dos serviços de scrobble
+- Suas configurações pessoais do Web Scrobbler
+- Suas músicas editadas
+- Seus padrões de URL personalizados para conectores
+- Informações do sistema da extensão
 
 Suas credenciais são usadas apenas para se comunicar com os serviços de scrobble.
 

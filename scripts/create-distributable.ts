@@ -1,4 +1,5 @@
 import archiver from 'archiver';
+import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import colorLog from './log';
@@ -13,26 +14,16 @@ async function createSrcArchive() {
 	const curDir = path.resolve(path.dirname(''));
 	const outputFile = `${curDir}/web-scrobbler-src.zip`;
 
-	const output = fs.createWriteStream(outputFile);
-
-	const archive = archiver('zip', {
-		zlib: {
-			level: 5,
-		},
-	});
-
-	archive.pipe(output);
-
-	archive
-		.directory('src', 'src')
-		.directory('scripts', 'scripts')
-		.directory('tests', 'tests')
-		.glob('*', {
-			ignore: ['web-scrobbler-*.zip', '*/'],
+	try {
+		execSync(`git archive --format=zip --output="${outputFile}" HEAD`, {
+			cwd: curDir,
+			stdio: 'inherit',
 		});
-
-	await archive.finalize();
-	colorLog('Created src archive', 'success');
+		colorLog('Created src archive', 'success');
+	} catch (error) {
+		colorLog('Failed to create src archive', 'error');
+		throw error;
+	}
 }
 
 export default async function createDistributable() {

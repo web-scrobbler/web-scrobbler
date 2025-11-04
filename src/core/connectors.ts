@@ -2685,10 +2685,22 @@ export default <ConnectorMeta[]>[
 		id: 'feishin',
 	},
 	{
+		label: 'Ampwall',
+		matches: ['*://ampwall.com/*'],
+		js: 'ampwall.js',
+		id: 'ampwall',
+	},
+	{
 		label: 'Monochrome',
 		matches: ['*://monochrome.prigoana.com/*', '*://monochrome.tf/*'],
 		js: 'monochrome.js',
 		id: 'monochrome',
+	},
+	{
+		label: 'WeeklyBeats',
+		matches: ['*://weeklybeats.com/*'],
+		js: 'weeklybeats.js',
+		id: 'weeklybeats',
 	},
 	{
 		label: 'XRaydio',

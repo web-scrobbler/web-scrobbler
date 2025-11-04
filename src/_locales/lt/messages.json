@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Skrobuolinkite muziką visame internete!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "„Web Scrobbler“ parinktys",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Ištrinti $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Įjungta",
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "Daina nėra skrobuolinima, nes savininkas ją pažymėjo kaip privačią.",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler aptiko dainą „$2“ – „$1“, bet jo neskrobuolins.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "Takelis neatpažintas. Spustelėkite „Web Scrobbler“ plėtinio piktogramą, kad ištaisytumėte informaciją.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Skrobuolinkite muziką visame internete!",
-        "description": "Description of the extension"
     }
 }
