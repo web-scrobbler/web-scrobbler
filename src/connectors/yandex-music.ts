@@ -322,7 +322,7 @@ function setupNewConnector() {
 					);
 				} else {
 					Util.debugLog(
-						`${connectorLabel}: It seems that there is error with extension happened. Please, try to reinstall extension or to reload page. If you still getting this error, please, open an issue on https://github.com/web-scrobbler/web-scrobbler/issues/new/choose and mention BananaDeadRU`,
+						`${connectorLabel}: It seems that there is error with extension happened. Please, try to reinstall extension or to reload page. If you still getting this error, please, open an issue on https://github.com/web-scrobbler/web-scrobbler/issues/new/choose and mention the BananaDeadRU`,
 						'error',
 					);
 				}
