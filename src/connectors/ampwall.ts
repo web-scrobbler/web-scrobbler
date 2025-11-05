@@ -65,19 +65,7 @@ Connector.getArtistTrack = () => {
 function parseArtistTrackData(text: string, track: string) {
 	const artists = text.split(MULTIPLE_ARTIST_DELIMITER);
 
-	// Check that artists has at least 1 item in it
-	if (!Array.isArray(artists) || !artists.length) {
-		return { artist: text, track };
-	}
-
-	// append rest of artists into ft. block in track title
-	let updatedTrack = track;
-	if (artists.length > 1) {
-		const joinedArtists = artists.slice(1).join(', ');
-		updatedTrack = `${track} (ft. ${joinedArtists})`;
-	}
-
-	return { artist: artists[0], track: updatedTrack };
+	return { artist: Util.joinArtistStrings(artists), track };
 }
 
 /**
