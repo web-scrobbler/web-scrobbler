@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Scrobble musik dari berbagai situs!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Opsi Web Scrobbler",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Delete $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Enabled",
@@ -572,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "The song is not being scrobbled, as it is marked private by the owner. ",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "The track is not recognized. Click web scrobbler extension icon to correct info.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Scrobble musik dari berbagai situs!",
-        "description": "Description of the extension"
     }
 }

@@ -108,7 +108,7 @@
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
-        "message": "Only scrobble tracks if they are recognised or edited",
+        "message": "Only scrobble tracks if they are recognised",
         "description": "Option title"
     },
     "optionScrobbleEditedTracksOnly": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -649,7 +649,7 @@
     },
     "getStartedSiteChanged": {
         "message": "In most cases this means the site has changed somehow. The change does not have to be visible to user, but means a lot to the extension.",
-        "description": "Description of why track is not recognised"
+        "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
         "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behavior and what's happening instead.",
@@ -1101,6 +1101,6 @@
     },
     "infoBoxStateUnknown": {
         "message": "The track is not recognised. Click web scrobbler extension icon to correct info.",
-        "description": "Infobox track is not recognised"
+        "description": "Infobox track is not recognized"
     }
 }
