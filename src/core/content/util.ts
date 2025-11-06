@@ -150,7 +150,7 @@ export function joinArtists(artists: Node[]): string | null {
 /**
  * Join array of strings into a single string.
  * @param artists - Array of strings
- * @returns String joined by separator or null
+ * @returns String joined by separator
  */
 export function joinArtistStrings(artists: string[]): string {
 	return artists.join(ARTIST_SEPARATOR);
