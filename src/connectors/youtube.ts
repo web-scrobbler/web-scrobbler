@@ -650,7 +650,7 @@ function isAiGeneratedChapter(chapterName: string | null): boolean {
 		return true;
 	}
 
-	// If the chapter name is too short or doesn't contain typical music metadata patterns
+	// If the chapter name is too short, it's likely not useful for scrobbling
 	if (lowerChapterName.length < 4) {
 		return true;
 	}
@@ -667,20 +667,24 @@ function isAiGeneratedChapter(chapterName: string | null): boolean {
 	];
 
 	const hasMusicMetadata = musicMetadataPatterns.some((pattern) =>
-		pattern.test(chapterName),
+		pattern.test(lowerChapterName),
 	);
+
+	// If it contains music metadata patterns, it's likely a valid track chapter
+	if (hasMusicMetadata) {
+		return false;
+	}
 
 	// If it doesn't have music metadata patterns and is generic, likely AI-generated
 	return (
-		!hasMusicMetadata &&
-		(lowerChapterName.includes('introduction') ||
-			lowerChapterName.includes('conclusion') ||
-			lowerChapterName.includes('part ') ||
-			lowerChapterName.includes('section ') ||
-			lowerChapterName.includes('chapter ') ||
-			lowerChapterName.includes('content') ||
-			lowerChapterName.includes('main ') ||
-			lowerChapterName.includes('beginning') ||
-			lowerChapterName.includes('ending'))
+		lowerChapterName.includes('introduction') ||
+		lowerChapterName.includes('conclusion') ||
+		lowerChapterName.includes('part ') ||
+		lowerChapterName.includes('section ') ||
+		lowerChapterName.includes('chapter ') ||
+		lowerChapterName.includes('content') ||
+		lowerChapterName.includes('main ') ||
+		lowerChapterName.includes('beginning') ||
+		lowerChapterName.includes('ending')
 	);
 }
