@@ -59,8 +59,7 @@ Connector.getArtistTrack = () => {
  * Parses artist and track details as obtained from Ampwall.
  * Ampwall uses a delimiter to separate multiple artists.
  * Splits artists using the delimiter and returns
- * a formatted artist string suitable for use, along
- * with track with artist feature details appended
+ * a formatted artist string suitable for use.
  */
 function parseArtistTrackData(text: string, track: string) {
 	const artists = text.split(MULTIPLE_ARTIST_DELIMITER);
