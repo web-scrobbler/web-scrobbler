@@ -72,7 +72,7 @@
     "solid-js": "1.9.9",
     "tsx": "4.20.6",
     "typescript": "5.9.2",
-    "typescript-eslint": "8.44.0",
+    "typescript-eslint": "8.46.3",
     "vite-plugin-conditional-compiler": "0.3.1",
     "vite-plugin-solid": "2.11.8",
     "vite-plugin-static-copy": "3.1.2",
