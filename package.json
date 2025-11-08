@@ -53,7 +53,7 @@
     "canvas": "3.2.0",
     "chokidar": "4.0.3",
     "eslint": "9.35.0",
-    "eslint-plugin-jsdoc": "59.0.2",
+    "eslint-plugin-jsdoc": "61.1.12",
     "esbuild": "0.25.11",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-solid": "0.14.5",
