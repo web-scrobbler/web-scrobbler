@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "<a target='_blank' href='$1'>Hier</a> kannst mehr über benutzerdefinierte URL-Muster erfahren.",
+        "message": "You can learn more about the custom URL patterns <a target='_blank' href='$1'>here</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Eröffne ein <a href='$1' target='_blank'>neues Issue</a> auf Github mit deiner Anfrage und wir werden dir sagen ob wir Unterstützung für die Seite hinzufügen können oder nicht. Außerdem kannst du die Unterstützung für die Webseite selbst hinzufügen indem du das <a href='$1'>Github-Repository</a> forkst und uns einen Pull-Request schickst.",
+        "message": "Open a <a href='$1' target='_blank'>new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href='$2' target='_blank'>GitHub repository</a> and sending us a pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "Das Änderungsprotokoll der aktuellen Version ist <a id='latest-release' target='_blank' href='$1'>hier</a> verfügbar. Besuche für das vollständige Änderungsprotokoll <a target='_blank' href='$2'>diese Seite</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Du kannst die Liste der Mitwirkenden <a href='$1'>direkt auf Github</a> sehen",
+        "message": "You can find the list of contributors <a href='$1'>right on the GitHub</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Der Verbinder für diese spezielle Webseite muss upgedatet werden. Du kannst auf die <a href='$1' target='_blank'>Liste der Issues</a> gehen und schauen ob diese Webseite schon gemeldet wurde. Falls das nicht der Fall ist, kannst du ein neues Issue anlegen, das den Fehler, sowie erwartetes und tatsächliches Verhalten beschreibt.",
+        "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href='$1' target='_blank'>list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behavior and what's happening instead.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Es scheint etwas ist schiefgelaufen beim scrobblen der Musik. Bitte geh auf die Einstellungen-Seite und versuch dich neu bei den Diensten anzumelden. Falls eine erneute Anmeldung nicht helfen sollte und diese Meldung wieder auftritt, mach bitte <a href='$1' target='_blank'>ein neues Issue</a> auf der Github-Projektseite auf.",
+        "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href='$1' target='_blank'>a new issue</a> at the GitHub project page.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
