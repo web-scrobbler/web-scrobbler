@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Du kannst die Liste der Mitwirkenden <a href='$1'>direkt auf Github</a> sehen.",
+        "message": "Möchtest du einen Beitrag leisten? Finde alle Möglichkeiten an diesem Projekt mitzuwirken auf <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">unserer Website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
