@@ -18,15 +18,25 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v5
 
-      - name: Perform Crowdin synchronization
+      - name: Perform Crowdin source upload
+        if: ${{ github.event_name == 'push' }}
         uses: crowdin/github-action@v2
         with:
           upload_sources: true
           upload_translations: false
+          download_translations: false
+          create_pull_request: false
+
+      - name: Perform Crowdin translation download
+        if: ${{ github.event_name != 'push' }}
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: false
+          upload_translations: false
           download_translations: true
           create_pull_request: true
           pull_request_base_branch_name: 'master'
-          pull_request_labels: 'patch, translations'
+          pull_request_labels: 'patch-change, translations'
         env:
           GITHUB_TOKEN: '${{ secrets.BOT_PAT }}'
           CROWDIN_PERSONAL_TOKEN: '${{ secrets.CROWDIN_PERSONAL_TOKEN }}'
