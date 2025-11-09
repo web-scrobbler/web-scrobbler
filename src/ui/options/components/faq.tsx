@@ -1,4 +1,4 @@
-import { t } from '@/util/i18n';
+import { CUSTOM_URLS_DOCS_URL, ISSUES_URL, t } from '@/util/i18n';
 
 /**
  * Component that shows some frequently asked questions
@@ -29,10 +29,10 @@ export default function FAQ() {
 				<li>{t('faqAnswer4b3')}</li>
 				<li>{t('faqAnswer4b4')}</li>
 			</ol>
-			<p innerHTML={t('faqAnswer4c')} />
+			<p innerHTML={t('faqAnswer4c', CUSTOM_URLS_DOCS_URL)} />
 
 			<h2>{t('faqQuestion5')}</h2>
-			<p innerHTML={t('faqAnswer5')} />
+			<p innerHTML={t('faqAnswer5', ISSUES_URL)} />
 
 			<h2>{t('faqQuestion6')}</h2>
 			<p>{t('faqAnswer6')}</p>

@@ -18,3 +18,14 @@ export function currentChangelog() {
 	const version = getExtensionVersion();
 	return `https://github.com/web-scrobbler/web-scrobbler/releases/tag/v${version}`;
 }
+
+export const CONTRIBUTING_URL = 'https://webscrobbler.com#contributing';
+export const REPO_URL = 'http://github.com/web-scrobbler/web-scrobbler';
+export const ISSUES_URL =
+	'https://github.com/web-scrobbler/web-scrobbler/issues';
+export const CONTRIBUTORS_URL =
+	'https://github.com/web-scrobbler/web-scrobbler/graphs/contributors';
+export const CUSTOM_URLS_DOCS_URL =
+	'https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns';
+export const RELEASES_URL =
+	'https://github.com/web-scrobbler/web-scrobbler/releases';
