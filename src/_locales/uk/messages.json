@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Ви можете дізнатися більше про паттерни URL від користувача <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>тут</a>.",
+        "message": "Ви можете дізнатися більше про паттерни URL від користувача <a target='_blank' href='$1'>тут</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Створіть <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">новий багрепорт</a> на GitHub, і ми вам скажемо, чи зможемо ми додати підтримку чи ні. Також ви можете додати підтримку якогось сайту самостійно, форкнувши <a href=\"http://github.com/web-scrobbler/web-scrobbler\">проект з GitHub</a> і відправивши нам pull-реквест.",
+        "message": "Створіть <a href='$1' target='_blank'>новий багрепорт</a> на GitHub, і ми вам скажемо, чи зможемо ми додати підтримку чи ні. Також ви можете додати підтримку якогось сайту самостійно, форкнувши <a href='$1'>проект з GitHub</a> і відправивши нам pull-реквест.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Ви можете переглянути список учасників проекту на <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">сторінці проекту на GitHub</a>",
+        "message": "Ви можете переглянути список учасників проекту на <a href='$1'>сторінці проекту на GitHub</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Хочете сприяти розвитку проекту? Продивіться всі варіанти на <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">нашій веб-сторінці</a>",
+        "message": "Хочете сприяти розвитку проекту? Продивіться всі варіанти на <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">нашій веб-сторінці</a>",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Код коннектору потребує оновлення для підтримки цього сайту. Ви можете відкрити <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">список багрепортів</a> і подивитися, чи не повідомив хтось про цю проблему. Якщо ні, то ви можете створити новий багрепорт із докладним описом проблеми.",
+        "message": "Код коннектору потребує оновлення для підтримки цього сайту. Ви можете відкрити <a href='$1' target='_blank'>список багрепортів</a> і подивитися, чи не повідомив хтось про цю проблему. Якщо ні, то ви можете створити новий багрепорт із докладним описом проблеми.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Схоже, щось сталося не так під час скроблінгу. Будь ласка, відкрийте сторінку з налаштуваннями та спробуйте заново авторизуватися. Якщо це не допомагає, будь ласка, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">повідомте про проблему</a> на сторінці проекту GitHub.",
+        "message": "Схоже, щось сталося не так під час скроблінгу. Будь ласка, відкрийте сторінку з налаштуваннями та спробуйте заново авторизуватися. Якщо це не допомагає, будь ласка, <a href='$1' target='_blank'>повідомте про проблему</a> на сторінці проекту GitHub.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Vous pouvez en apprendre plus concernant les modèles d'URL personnalisés <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>ici</a>.",
+        "message": "Vous pouvez en apprendre plus concernant les modèles d'URL personnalisés <a target='_blank' href='$1'>ici</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Ouvrez une <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nouvelle issue</a> sur GitHub avec votre requête et nous vous dirons si nous pouvons ajouter le support pour le site ou non. Vous pouvez aussi ajouter le support du site en forkant le <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repository GitHub</a> et en nous envoyant une pull request.",
+        "message": "Ouvrez une <a href='$1' target='_blank'>nouvelle issue</a> sur GitHub avec votre requête et nous vous dirons si nous pouvons ajouter le support pour le site ou non. Vous pouvez aussi ajouter le support du site en forkant le <a href='$1'>repository GitHub</a> et en nous envoyant une pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Vous pouvez trouver la liste des contributeurs <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">directement sur le repository GitHub</a>",
+        "message": "Vous pouvez trouver la liste des contributeurs <a href='$1'>directement sur le repository GitHub</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Le code du connecteur pour ce site en particulier a donc besoin d'être mis à jour. Vous pouvez naviguer sur <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">la liste des problèmes</a>et voir si ce site a déjà été signalé. Si ce n'est pas le cas, vous pouvez signaler le problème en décrivant ce qui ne va pas, le comportement attendu et ce qui se passe à la place.",
+        "message": "Le code du connecteur pour ce site en particulier a donc besoin d'être mis à jour. Vous pouvez naviguer sur <a href='$1' target='_blank'>la liste des problèmes</a>et voir si ce site a déjà été signalé. Si ce n'est pas le cas, vous pouvez signaler le problème en décrivant ce qui ne va pas, le comportement attendu et ce qui se passe à la place.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Quelque chose s'est mal passé lors du scrobble. Merci d'ouvrir la page des options et d'essayer de vous ré-authentifier aux services. Si la ré-authentification ne fonctionne pas et que vous voyez toujours ce message, merci de <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">signaler le problème</a> sur la page GitHub du projet.",
+        "message": "Quelque chose s'est mal passé lors du scrobble. Merci d'ouvrir la page des options et d'essayer de vous ré-authentifier aux services. Si la ré-authentification ne fonctionne pas et que vous voyez toujours ce message, merci de <a href='$1' target='_blank'>signaler le problème</a> sur la page GitHub du projet.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
