@@ -1,4 +1,4 @@
-# Política de Privacidade
+# Política de privacidade
 
 Esta política de privacidade explica quais dados coletamos e armazenamos; como usamos e divulgamos esses dados.
 
