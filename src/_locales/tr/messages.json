@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Özel URL kalıpları hakkında daha fazla bilgiyi <a target='_blank' href='$1'>burada</a> bulabilirsiniz.",
+        "message": "Özel URL kalıpları hakkında daha fazla bilgiyi <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>burada</a> bulabilirsiniz.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "İsteğinizle birlikte GitHub'da <a href='$1' target='_blank'>yeni issue</a> açın, size internet sitesi için destek ekleyip ekleyemeyeceğimizi söyleyeceğiz. Ayrıca <a href='$1'>GitHub deposu</a>nu çatallayarak ve bize bir çekme isteği göndererek web sitesi için destek ekleyebilirsiniz.",
+        "message": "İsteğinizle birlikte GitHub'da <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">yeni issue</a> açın, size internet sitesi için destek ekleyip ekleyemeyeceğimizi söyleyeceğiz. Ayrıca <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub deposu</a>nu çatallayarak ve bize bir çekme isteği göndererek web sitesi için destek ekleyebilirsiniz.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "Mevcut sürümün değişiklik günlüğüne <a id='latest-release' target='_blank' href='$1'>burada</a> ulaşılabilir. Değişiklik günlüğünün tamamı için lütfen <a target='_blank' href='$2'>bu sayfayı</a> ziyaret edin.",
+        "message": "Mevcut sürümün değişiklik günlüğüne <a id='latest-release' target='_blank' href='$1'>burada</a> ulaşılabilir. Değişiklik günlüğünün tamamı için lütfen <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>bu sayfayı</a> ziyaret edin.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Katkıda bulunanların listesini <a href='$1'>doğrudan GitHub</a>'da bulabilirsiniz.",
+        "message": "Katkıda bulunanların listesini <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">doğrudan GitHub</a>'da bulabilirsiniz.",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Katkıda bulunmak ister misiniz? <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">İnternet sitemiz</a>'de projeye katkıda bulunabileceğiniz tüm yolları görün.",
+        "message": "Katkıda bulunmak ister misiniz? <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">İnternet sitemiz</a>'de projeye katkıda bulunabileceğiniz tüm yolları görün.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Bu özel web sitesi için bağlayıcı kodunun güncellenmesi gerekiyor. Şuraya gidebilirsiniz: <a href='$1' target='_blank'>sorunların listesi</a> ve bu web sitesinin önceden bildirilmiş olup olmadığına bakın. Değilse, neyin yanlış olduğunu, beklenen davranışı ve bunun yerine ne olduğunu açıklayan yeni bir sorun gönderebilirsiniz.",
+        "message": "Bu özel web sitesi için bağlayıcı kodunun güncellenmesi gerekiyor. Şuraya gidebilirsiniz: <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">sorunların listesi</a> ve bu web sitesinin önceden bildirilmiş olup olmadığına bakın. Değilse, neyin yanlış olduğunu, beklenen davranışı ve bunun yerine ne olduğunu açıklayan yeni bir sorun gönderebilirsiniz.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Müziği skroplarken bir şeyler ters gitti gibi görünüyor. Lütfen seçenekler sayfasını açın ve hizmetlerle yeniden kimlik doğrulaması yapmayı deneyin. Yeniden doğrulama yardımcı olmazsa ve hala bu mesajı görüyorsanız, lütfen <a href='$1' target='_blank'>yeni bir sayı oluşturun</a> GitHub proje sayfasında.",
+        "message": "Müziği skroplarken bir şeyler ters gitti gibi görünüyor. Lütfen seçenekler sayfasını açın ve hizmetlerle yeniden kimlik doğrulaması yapmayı deneyin. Yeniden doğrulama yardımcı olmazsa ve hala bu mesajı görüyorsanız, lütfen <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">yeni bir sayı oluşturun</a> GitHub proje sayfasında.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

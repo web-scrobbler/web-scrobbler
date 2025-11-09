@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Galite sužinoti daugiau apie pasirinktinius URL šablonus <a target='_blank' href='$1'>čia</a>.",
+        "message": "Galite sužinoti daugiau apie pasirinktinius URL šablonus <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>čia</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Atidarykite <a href='$1' target='_blank'>naują problemą</a> platformoje „GitHub“ su savo prašymu ir mes jums pasakysime, ar galime pridėti svetainės palaikymą, ar ne. Be to, galite pridėti svetainės palaikymą iššakodami <a href='$1'>„GitHub“ saugyklą</a> ir siųsdami mums sujungimo prašymą.",
+        "message": "Atidarykite <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">naują problemą</a> platformoje „GitHub“ su savo prašymu ir mes jums pasakysime, ar galime pridėti svetainės palaikymą, ar ne. Be to, galite pridėti svetainės palaikymą iššakodami <a href=\"http://github.com/web-scrobbler/web-scrobbler\">„GitHub“ saugyklą</a> ir siųsdami mums sujungimo prašymą.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "Dabartinės versijos pakeitimų sąrašas pateikiamas <a id='latest-release' target='_blank' href='$1'>čia</a>. Dėl viso pakeitimų sąrašo aplankykite <a target='_blank' href='$2'>šį puslapį</a>.",
+        "message": "Dabartinės versijos pakeitimų sąrašas pateikiamas <a id='latest-release' target='_blank' href='$1'>čia</a>. Dėl viso pakeitimų sąrašo aplankykite <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>šį puslapį</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Bendradarbių sąrašą galite rasti <a href='$1'>svetainėje „GitHub“</a>",
+        "message": "Bendradarbių sąrašą galite rasti <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">svetainėje „GitHub“</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Norite prisidėti? Žiūrėkite visus būdus, kaip galite prisidėti prie projekto, <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">mūsų svetainėje</a>.",
+        "message": "Norite prisidėti? Žiūrėkite visus būdus, kaip galite prisidėti prie projekto, <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">mūsų svetainėje</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Reikia atnaujinti šios konkrečios svetainės jungties kodą. Galite naršyti <a href='$1' target='_blank'>problemų sąraše</a> ir pažiūrėti, ar apie šią svetainę jau pranešta. Jei ne, galite pateikti naują problemą, apibūdindami, kas negerai, kokios elgsenos tikimasi ir kas vyksta vietoj to.",
+        "message": "Reikia atnaujinti šios konkrečios svetainės jungties kodą. Galite naršyti <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">problemų sąraše</a> ir pažiūrėti, ar apie šią svetainę jau pranešta. Jei ne, galite pateikti naują problemą, apibūdindami, kas negerai, kokios elgsenos tikimasi ir kas vyksta vietoj to.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Atrodo, kad kažkas nutiko ne taip, kai buvo skrobuolinima muzika. Atidarykite parinkčių puslapį ir bandykite iš naujo nustatyti tapatybę naudojant paslaugas. Jei pakartotinis tapatybės nustatymas nepadeda ir vis dar matote šį pranešimą, sukurkite <a href='$1' target='_blank'>naują problemą</a> „GitHub“ projekto puslapyje.",
+        "message": "Atrodo, kad kažkas nutiko ne taip, kai buvo skrobuolinima muzika. Atidarykite parinkčių puslapį ir bandykite iš naujo nustatyti tapatybę naudojant paslaugas. Jei pakartotinis tapatybės nustatymas nepadeda ir vis dar matote šį pranešimą, sukurkite <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">naują problemą</a> „GitHub“ projekto puslapyje.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

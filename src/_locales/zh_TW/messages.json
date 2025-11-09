@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "您可以在 <a target='_blank' href='$1'>此處</a> 進一步了解 URL 規則。",
+        "message": "您可以在 <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>此處</a> 進一步了解 URL 規則。",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "在 GitHub 上開啟<a href='$1' target='_blank'>新的 issue</a>，我們會告訴您我們能不能新增對該網站的支援。您也可以自己將 <a href='$1'>GitHub 版本庫</a>進行分支，撰寫支援之後像我們遞交 pull request。",
+        "message": "在 GitHub 上開啟<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">新的 issue</a>，我們會告訴您我們能不能新增對該網站的支援。您也可以自己將 <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub 版本庫</a>進行分支，撰寫支援之後像我們遞交 pull request。",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "目前版本的更新日誌可 <a id='latest-release' target='_blank' href='$1'>在此</a> 查看。如要查看完整的更新日誌，請查看 <a target='_blank' href='$2'>此頁面</a>。",
+        "message": "目前版本的更新日誌可 <a id='latest-release' target='_blank' href='$1'>在此</a> 查看。如要查看完整的更新日誌，請查看 <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>此頁面</a>。",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "您可以在 <a href='$1'>GitHub</a> 上找到貢獻者列表",
+        "message": "您可以在 <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub</a> 上找到貢獻者列表",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "希望貢獻嗎？請到<a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">我們的網站</a>查看您可以對此專案進行貢獻的方式。",
+        "message": "希望貢獻嗎？請到<a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">我們的網站</a>查看您可以對此專案進行貢獻的方式。",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "這個網站的 Connector 程式碼需要修改。您可以到 <a href='$1' target='_blank'>issue 列表</a>查看有沒有人已經回報這個網站的問題了。如果沒有的話，您可以提交一個新的 issue 描述出了什麼問題 (what's wrong)、應該要是什麼樣子 (expected behavior)，與實際的情形 (what's happening instead)。（Issue 列表只有英文。）",
+        "message": "這個網站的 Connector 程式碼需要修改。您可以到 <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">issue 列表</a>查看有沒有人已經回報這個網站的問題了。如果沒有的話，您可以提交一個新的 issue 描述出了什麼問題 (what's wrong)、應該要是什麼樣子 (expected behavior)，與實際的情形 (what's happening instead)。（Issue 列表只有英文。）",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "記錄音樂時似乎發生了問題。請開啟設定頁面並重新認證服務。如果重新認證沒有幫助，而您仍然看到這個訊息，請在 GitHub 專案頁面建立<a href='$1' target='_blank'>新的 issue</a> 。",
+        "message": "記錄音樂時似乎發生了問題。請開啟設定頁面並重新認證服務。如果重新認證沒有幫助，而您仍然看到這個訊息，請在 GitHub 專案頁面建立<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">新的 issue</a> 。",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
