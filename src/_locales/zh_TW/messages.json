@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "希望貢獻嗎？請到<a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">我們的網站</a>查看您可以對此專案進行貢獻的方式。",
+        "message": "希望貢獻嗎？請到<a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">我們的網站</a>查看您可以對此專案進行貢獻的方式。",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

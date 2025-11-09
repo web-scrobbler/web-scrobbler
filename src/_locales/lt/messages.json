@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Norite prisidėti? Žiūrėkite visus būdus, kaip galite prisidėti prie projekto, <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">mūsų svetainėje</a>.",
+        "message": "Norite prisidėti? Žiūrėkite visus būdus, kaip galite prisidėti prie projekto, <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">mūsų svetainėje</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
