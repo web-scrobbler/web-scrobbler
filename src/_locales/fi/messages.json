@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "You can learn more about the custom URL patterns <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>here</a>.",
+        "message": "You can learn more about the custom URL patterns <a target='_blank' href='$1'>here</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Open a <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repository</a> and sending us a pull request.",
+        "message": "Open a <a href='$1' target='_blank'>new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href='$1'>GitHub repository</a> and sending us a pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "You can find the list of contributors <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
+        "message": "You can find the list of contributors <a href='$1'>right on the GitHub</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Tämän verkkosivuston liittimen koodi on päivitettävä. Voit selata <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">ongelmaluetteloa</a> ja tarkistaa, onko tästä verkkosivustosta jo ilmoitettu. Jos näin ei ole, voit lähettää uuden kysymyksen, joka kuvaa mikä on pielessä, miten sivuston tulisi toimia ja mitä sen sijaan tapahtuu.",
+        "message": "Tämän verkkosivuston liittimen koodi on päivitettävä. Voit selata <a href='$1' target='_blank'>ongelmaluetteloa</a> ja tarkistaa, onko tästä verkkosivustosta jo ilmoitettu. Jos näin ei ole, voit lähettää uuden kysymyksen, joka kuvaa mikä on pielessä, miten sivuston tulisi toimia ja mitä sen sijaan tapahtuu.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Näyttää siltä, että jotain meni pieleen, kun skrobblasit musiikkia. Avaa asetukset ja yritä kirjautua uudelleen palveluihin. Jos uudelleenkirjautuminen ei auta ja näet silti tämän viestin, luo <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">uusi ongelma</a> GitHub-projektisivulle.",
+        "message": "Näyttää siltä, että jotain meni pieleen, kun skrobblasit musiikkia. Avaa asetukset ja yritä kirjautua uudelleen palveluihin. Jos uudelleenkirjautuminen ei auta ja näet silti tämän viestin, luo <a href='$1' target='_blank'>uusi ongelma</a> GitHub-projektisivulle.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
