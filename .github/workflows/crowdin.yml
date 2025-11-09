@@ -3,7 +3,7 @@ name: Crowdin Action
 on:
   push:
     paths:
-      - 'src/_locales/**'
+      - 'src/_locales/en/**'
     branches:
       - master
   repository_dispatch:
