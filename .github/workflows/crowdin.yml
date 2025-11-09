@@ -26,6 +26,7 @@ jobs:
           download_translations: true
           create_pull_request: true
           pull_request_base_branch_name: 'master'
+          pull_request_labels: 'patch, translations'
         env:
           GITHUB_TOKEN: '${{ secrets.BOT_PAT }}'
           CROWDIN_PERSONAL_TOKEN: '${{ secrets.CROWDIN_PERSONAL_TOKEN }}'
