@@ -1,4 +1,4 @@
-import { t } from '@/util/i18n';
+import { ISSUES_URL, t } from '@/util/i18n';
 import { ExpandMoreOutlined, MusicNoteOutlined } from '@/ui/components/icons';
 import styles from './popup.module.scss';
 import { TPopupAnchor } from '../components/util';
@@ -18,7 +18,10 @@ export default function Base() {
 				</summary>
 				<p>{t('getStartedSiteChanged')}</p>
 				<p>
-					<TPopupAnchor messageName="getStartedSubmitIssue" />
+					<TPopupAnchor
+						messageName="getStartedSubmitIssue"
+						substitutions={ISSUES_URL}
+					/>
 				</p>
 			</details>
 		</div>
