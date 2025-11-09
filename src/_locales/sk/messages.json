@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "O URL vzoroch sa môžte dozvedieť viacej <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>tu</a>.",
+        "message": "O URL vzoroch sa môžte dozvedieť viacej <a target='_blank' href='$1'>tu</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Nahláste <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nový problém</a> na GitHube s vašimi požiadavkami a my Vám povieme, či vieme pridať podporu pre stránku. Prípadne môžete prispieť do projektu pridaním podpory pre stránku vytvorením forku <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repozitára</a> a zaslaním pull requestu.",
+        "message": "Nahláste <a href='$1' target='_blank'>nový problém</a> na GitHube s vašimi požiadavkami a my Vám povieme, či vieme pridať podporu pre stránku. Prípadne môžete prispieť do projektu pridaním podpory pre stránku vytvorením forku <a href='$1'>GitHub repozitára</a> a zaslaním pull requestu.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Úplný zoznam vývojárov môžete nájsť <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">priamo na Githube</a>",
+        "message": "Úplný zoznam vývojárov môžete nájsť <a href='$1'>priamo na Githube</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Kód konektoru pre danú stránku je potrebné aktualizovať. Navštívte <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">zoznam problémov</a> a vyhľadajte, či nefunkčnosť konektoru už nie je nahlásená. Ak nie, tak môžete nahlásiť nový problém aj s popisom chyby, očakávaného správania a aktuálneho správania.",
+        "message": "Kód konektoru pre danú stránku je potrebné aktualizovať. Navštívte <a href='$1' target='_blank'>zoznam problémov</a> a vyhľadajte, či nefunkčnosť konektoru už nie je nahlásená. Ak nie, tak môžete nahlásiť nový problém aj s popisom chyby, očakávaného správania a aktuálneho správania.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Zdá sa že niekde nastala chyba počas zaznamenávania hudby. Otvorte prosím stránku nastavení doplnku a pokúste sa znovu pripojiť k službám. Ak to nepomohlo a stále vidíte túto správu, prosím vytvorte <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nový problém</a> na GitHub stránke projektu.",
+        "message": "Zdá sa že niekde nastala chyba počas zaznamenávania hudby. Otvorte prosím stránku nastavení doplnku a pokúste sa znovu pripojiť k službám. Ak to nepomohlo a stále vidíte túto správu, prosím vytvorte <a href='$1' target='_blank'>nový problém</a> na GitHub stránke projektu.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

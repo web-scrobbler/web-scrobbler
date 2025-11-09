@@ -520,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "您可以在<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>这里</a>进一步了解自定义网址匹配模板。",
+        "message": "您可以在<a target='_blank' href='$1'>这里</a>进一步了解自定义网址匹配模板。",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -528,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "在 Github 上根据您的需求发布一个<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">新问题</a>，我们会告诉您能否添加对网站的支持。您也可以通过派生<a href=\"http://github.com/web-scrobbler/web-scrobbler\">Github 项目</a>并向我们发送拉取请求来添加对网站的支持。",
+        "message": "在 Github 上根据您的需求发布一个<a href='$1' target='_blank'>新问题</a>，我们会告诉您能否添加对网站的支持。您也可以通过派生<a href='$1'>Github 项目</a>并向我们发送拉取请求来添加对网站的支持。",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -552,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -564,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "您可以直接在 <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
+        "message": "您可以直接在 <a href='$1'>GitHub</a> 上找到贡献者列表。",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -576,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://webscrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -652,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "需要更新此特定网站的接口代码。您可以访问<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">问题列表</a>查看这个网站是否已被报错。如果没有，您可以提交一个新的问题，描述问题所在、预期行为和实际情形。",
+        "message": "需要更新此特定网站的接口代码。您可以访问<a href='$1' target='_blank'>问题列表</a>查看这个网站是否已被报错。如果没有，您可以提交一个新的问题，描述问题所在、预期行为和实际情形。",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -660,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "曲目记录追踪好像出错了。请打开选项页面，尝试重新认证追踪服务。若重新认证后您仍看到此消息，请在 GitHub 的项目页面创建<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">一个新问题</a>。",
+        "message": "曲目记录追踪好像出错了。请打开选项页面，尝试重新认证追踪服务。若重新认证后您仍看到此消息，请在 GitHub 的项目页面创建<a href='$1' target='_blank'>一个新问题</a>。",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
