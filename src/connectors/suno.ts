@@ -1,6 +1,7 @@
 export {};
 
-const durationSelector = 'span[aria-label^="Playbar: Duration for"]';
+const currentTimeSelector = 'div.min-w-8.text-right.text-xs';
+const durationTimeSelector = 'div.min-w-8.text-left.text-xs';
 
 enum TimePart {
 	Current = 'current',
@@ -8,7 +9,7 @@ enum TimePart {
 }
 
 Connector.playerSelector =
-	'div:has(a[aria-label^="Playbar: Title"]):has(button[aria-label^="Playbar: Play button"])';
+	'div:has(a[aria-label^="Playbar: Title"]):has(button[aria-label^="Playbar: Play button"], button[aria-label^="Playbar: Pause button"])';
 
 Connector.artistSelector = 'a[aria-label^="Playbar: Artist"]';
 
@@ -23,27 +24,12 @@ Connector.getDuration = () => getTimeSeconds(TimePart.Duration);
 Connector.playButtonSelector = 'button[aria-label^="Playbar: Play button"]';
 
 /**
- * Retrieves the time value in seconds from the DOM element for the specified time part.
- *
- * This function finds the element using the provided `durationSelector`, splits its text content
- * by the "/" character, and then converts the appropriate segment into seconds using `Util.stringToSeconds`.
- *
- * @param part - Specifies which part of the time to retrieve:
- *               TimePart.Current returns the current playback time,
- *               TimePart.Duration returns the total duration.
- * @returns A number representing the time in seconds.
+ * Get time in seconds from the playbar time elements.
+ * Uses the left (current) and right (duration) time labels.
  */
 function getTimeSeconds(part: TimePart): number {
-	const timeElement = document.querySelector(durationSelector);
-	if (!timeElement || !timeElement.textContent) {
-		return Util.stringToSeconds('');
-	}
-	const [currentTimeStr, durationStr] = timeElement.textContent
-		.split('/')
-		.map((str) => str.trim());
-	if (part === TimePart.Current) {
-		return Util.stringToSeconds(currentTimeStr ?? '');
-	}
-
-	return Util.stringToSeconds(durationStr ?? '');
+	const selector =
+		part === TimePart.Current ? currentTimeSelector : durationTimeSelector;
+	const el = document.querySelector(selector);
+	return Util.stringToSeconds(el?.textContent?.trim() ?? '');
 }
