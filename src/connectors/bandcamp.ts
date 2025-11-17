@@ -14,12 +14,12 @@ const SEPARATORS: Separator[] = [' - ', ' | '];
 /**
  * This filter is applied after all page properties are initialized.
  */
-let bandcampFilter = MetadataFilter.createFilter(
-	MetadataFilter.createFilterSetForFields(
-		['artist', 'track', 'album', 'albumArtist'],
-		MetadataFilter.removeZeroWidth,
-	),
-);
+let bandcampFilter = MetadataFilter.createFilter({
+	artist: MetadataFilter.removeZeroWidth,
+	track: MetadataFilter.removeZeroWidth,
+	album: [MetadataFilter.removeZeroWidth, removePreOrderSuffix],
+	albumArtist: MetadataFilter.removeZeroWidth,
+});
 
 if (document.querySelector('main#p-tralbum-page') === null) {
 	setupDesktopConnector();
@@ -426,4 +426,8 @@ function removeByPrefix(text: string) {
 
 function removeFromPrefix(text: string) {
 	return text.replace('from ', '');
+}
+
+function removePreOrderSuffix(text: string) {
+	return text.replace(/ ?pre-order/i, '');
 }
