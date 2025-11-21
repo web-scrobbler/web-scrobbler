@@ -235,71 +235,34 @@ function initPropertiesForFeedPlayer() {
 	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
 }
 
-// Example: https://bandcamp.com/?show=47
+// Example: https://bandcamp.com/radio
 function initPropertiesForHomePage() {
 	/*
 	 * Home page actually contains two players, and
 	 * we have selectors for both players.
 	 */
 
-	const playerContext = '.track-list-item.currently-playing';
+ 	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+		}),
+	);
 
-	Connector.playerSelector = '.full-page-app-wrapper .player-dialog-now-playing .track-meta';
-	Connector.trackArtSelector = '.track-list-item.currently-playing .g-image';
-	Connector.artistSelector = playerContext.concat(' ', '.artist-name');
-	Connector.albumSelector = playerContext.concat(' ', '.album-title > strong');
-	Connector.trackSelector = playerContext.concat(' ', '.title-text');
-	Connector.loveButtonSelector = playerContext.concat(' ', '.icon.heart-outline-icon');
-	Connector.unloveButtonSelector = playerContext.concat(' ', '.icon.heart-solid-icon');
+	const playerContext = '.track-list-item.currently-playing ';
 
-	Connector.isPlaying = () => { return true }
+	Connector.playerSelector = '.player-dialog-now-playing';
+	Connector.trackArtSelector = `${playerContext} .g-image`;
+	Connector.artistSelector = `${playerContext} .artist-name`;
+	Connector.albumSelector = `${playerContext} .album-title > strong`;
+	Connector.trackSelector = `${playerContext} .title-text`;
+	Connector.loveButtonSelector = `${playerContext} .icon.heart-outline-icon`;
+	Connector.unloveButtonSelector = `${playerContext} .icon.heart-solid-icon`;
 
-	// const weeklyPlayerContext = '.bcweekly.playing ~ .bcweekly-info';
-
-	// Connector.artistSelector = [
-	// 	`${weeklyPlayerContext} .bcweekly-current .track-artist a`,
-	// 	'.detail-artist a',
-	// ];
-
-	// Connector.trackSelector = [
-	// 	`${weeklyPlayerContext} .bcweekly-current .track-title`,
-	// 	'.track_info .title',
-	// ];
-
-	// Connector.albumSelector = [
-	// 	`${weeklyPlayerContext} .bcweekly-current .track-album`,
-	// 	'.detail-album',
-	// ];
-
-	// Connector.trackArtSelector = [
-	// 	`${weeklyPlayerContext} .bcweekly-current .ratio-1-1`,
-	// 	'.discover-detail-inner img',
-	// ];
-
-	// Connector.getUniqueID = () => {
-	// 	if (document.querySelector('.bcweekly.playing') !== null) {
-	// 		const { bcw_data: bandcampWeeklyData } = getData(
-	// 			'#pagedata',
-	// 			'data-blob',
-	// 		);
-	// 		const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
-
-	// 		if (currentShowId && currentShowId in bandcampWeeklyData) {
-	// 			const currentShowData = bandcampWeeklyData[currentShowId];
-	// 			const currentTrackIndex = Util.getDataFromSelectors(
-	// 				'.bcweekly-current',
-	// 				'index',
-	// 			);
-
-	// 			return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
-	// 		}
-	// 	}
-
-	// 	return null;
-	// };
-
-	// Connector.getOriginUrl = () =>
-	// 	Util.getOriginUrl('.playable.playing[href], .playable.playing + a');
+	Connector.isPlaying = () => {
+		const playButton = document.querySelector('.floating-player .play-pause-button');
+		const playingState = playButton?.getAttribute('aria-label');
+		return playingState === "Pause"
+	}
 }
 
 function isAlbumPage() {
