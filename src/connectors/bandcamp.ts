@@ -263,6 +263,9 @@ function initPropertiesForHomePage() {
 		const playingState = playButton?.getAttribute('aria-label');
 		return playingState === "Pause"
 	}
+
+	Connector.getUniqueID = () =>
+		document.querySelector(`${playerContext} .g-button div`)?.id;
 }
 
 function isAlbumPage() {
