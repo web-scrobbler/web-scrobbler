@@ -242,52 +242,64 @@ function initPropertiesForHomePage() {
 	 * we have selectors for both players.
 	 */
 
-	const weeklyPlayerContext = '.bcweekly.playing ~ .bcweekly-info';
+	const playerContext = '.track-list-item.currently-playing';
 
-	Connector.artistSelector = [
-		`${weeklyPlayerContext} .bcweekly-current .track-artist a`,
-		'.detail-artist a',
-	];
+	Connector.playerSelector = '.full-page-app-wrapper .player-dialog-now-playing .track-meta';
+	Connector.trackArtSelector = '.track-list-item.currently-playing .g-image';
+	Connector.artistSelector = playerContext.concat(' ', '.artist-name');
+	Connector.albumSelector = playerContext.concat(' ', '.album-title > strong');
+	Connector.trackSelector = playerContext.concat(' ', '.title-text');
+	Connector.loveButtonSelector = playerContext.concat(' ', '.icon.heart-outline-icon');
+	Connector.unloveButtonSelector = playerContext.concat(' ', '.icon.heart-solid-icon');
 
-	Connector.trackSelector = [
-		`${weeklyPlayerContext} .bcweekly-current .track-title`,
-		'.track_info .title',
-	];
+	Connector.isPlaying = () => { return true }
 
-	Connector.albumSelector = [
-		`${weeklyPlayerContext} .bcweekly-current .track-album`,
-		'.detail-album',
-	];
+	// const weeklyPlayerContext = '.bcweekly.playing ~ .bcweekly-info';
 
-	Connector.trackArtSelector = [
-		`${weeklyPlayerContext} .bcweekly-current .ratio-1-1`,
-		'.discover-detail-inner img',
-	];
+	// Connector.artistSelector = [
+	// 	`${weeklyPlayerContext} .bcweekly-current .track-artist a`,
+	// 	'.detail-artist a',
+	// ];
 
-	Connector.getUniqueID = () => {
-		if (document.querySelector('.bcweekly.playing') !== null) {
-			const { bcw_data: bandcampWeeklyData } = getData(
-				'#pagedata',
-				'data-blob',
-			);
-			const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
+	// Connector.trackSelector = [
+	// 	`${weeklyPlayerContext} .bcweekly-current .track-title`,
+	// 	'.track_info .title',
+	// ];
 
-			if (currentShowId && currentShowId in bandcampWeeklyData) {
-				const currentShowData = bandcampWeeklyData[currentShowId];
-				const currentTrackIndex = Util.getDataFromSelectors(
-					'.bcweekly-current',
-					'index',
-				);
+	// Connector.albumSelector = [
+	// 	`${weeklyPlayerContext} .bcweekly-current .track-album`,
+	// 	'.detail-album',
+	// ];
 
-				return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
-			}
-		}
+	// Connector.trackArtSelector = [
+	// 	`${weeklyPlayerContext} .bcweekly-current .ratio-1-1`,
+	// 	'.discover-detail-inner img',
+	// ];
 
-		return null;
-	};
+	// Connector.getUniqueID = () => {
+	// 	if (document.querySelector('.bcweekly.playing') !== null) {
+	// 		const { bcw_data: bandcampWeeklyData } = getData(
+	// 			'#pagedata',
+	// 			'data-blob',
+	// 		);
+	// 		const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
 
-	Connector.getOriginUrl = () =>
-		Util.getOriginUrl('.playable.playing[href], .playable.playing + a');
+	// 		if (currentShowId && currentShowId in bandcampWeeklyData) {
+	// 			const currentShowData = bandcampWeeklyData[currentShowId];
+	// 			const currentTrackIndex = Util.getDataFromSelectors(
+	// 				'.bcweekly-current',
+	// 				'index',
+	// 			);
+
+	// 			return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
+	// 		}
+	// 	}
+
+	// 	return null;
+	// };
+
+	// Connector.getOriginUrl = () =>
+	// 	Util.getOriginUrl('.playable.playing[href], .playable.playing + a');
 }
 
 function isAlbumPage() {
