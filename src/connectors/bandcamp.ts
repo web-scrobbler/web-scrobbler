@@ -255,8 +255,6 @@ function initPropertiesForHomePage() {
 	Connector.artistSelector = `${playerContext} .artist-name`;
 	Connector.albumSelector = `${playerContext} .album-title > strong`;
 	Connector.trackSelector = `${playerContext} .title-text`;
-	Connector.loveButtonSelector = `${playerContext} .icon.heart-outline-icon`;
-	Connector.unloveButtonSelector = `${playerContext} .icon.heart-solid-icon`;
 
 	Connector.isPlaying = () => {
 		const playButton = document.querySelector(
