@@ -242,7 +242,7 @@ function initPropertiesForHomePage() {
 	 * we have selectors for both players.
 	 */
 
- 	bandcampFilter = bandcampFilter.extend(
+	bandcampFilter = bandcampFilter.extend(
 		MetadataFilter.createFilter({
 			artist: [removeByPrefix],
 		}),
@@ -259,10 +259,12 @@ function initPropertiesForHomePage() {
 	Connector.unloveButtonSelector = `${playerContext} .icon.heart-solid-icon`;
 
 	Connector.isPlaying = () => {
-		const playButton = document.querySelector('.floating-player .play-pause-button');
+		const playButton = document.querySelector(
+			'.floating-player .play-pause-button',
+		);
 		const playingState = playButton?.getAttribute('aria-label');
-		return playingState === "Pause"
-	}
+		return playingState === 'Pause';
+	};
 
 	Connector.getUniqueID = () =>
 		document.querySelector(`${playerContext} .g-button div`)?.id;
@@ -385,17 +387,6 @@ function initEventListeners() {
 			audioElement.addEventListener(event, Connector.onStateChanged);
 		}
 	}
-}
-
-function getData(selector: string, attr: string) {
-	const element = document.querySelector(selector);
-	if (element) {
-		const rawData = element.getAttribute(attr);
-
-		return JSON.parse(rawData ?? '');
-	}
-
-	return {};
 }
 
 function removeByPrefix(text: string) {
