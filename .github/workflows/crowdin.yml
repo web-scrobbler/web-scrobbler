@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Perform Crowdin source upload
         if: ${{ github.event_name == 'push' }}
