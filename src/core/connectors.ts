@@ -2898,4 +2898,10 @@ export default <ConnectorMeta[]>[
 		js: 'pixabay.js',
 		id: 'pixabay',
 	},
+	{
+		label: 'WPGU',
+		matches: ['*://wpgu.com/*'],
+		js: 'wpgu.js',
+		id: 'wpgu',
+	},
 ];
