@@ -2708,4 +2708,10 @@ export default <ConnectorMeta[]>[
 		js: 'xraydio.js',
 		id: 'xraydio',
 	},
+	{
+		label: 'WPGU',
+		matches: ['*://wpgu.com/*'],
+		js: 'wpgu.js',
+		id: 'wpgu',
+	},
 ];
