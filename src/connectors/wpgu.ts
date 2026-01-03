@@ -1,7 +1,14 @@
 export {};
+Connector.isPlaying = () => {
+const playPauseButton = document.querySelector(
+'[class*="livestream_playPauseButton"]',
+);
 
-Connector.playerSelector = '.nowPlaying_nowPlayingText__Gszur';
+return playPauseButton?.className.includes('livestream_playing') ?? false;
+};
 
-Connector.trackSelector = '.nowPlaying_songTitle__BRb3L';
+Connector.playerSelector = 'body';
 
-Connector.artistSelector = '.nowPlaying_songArtist__1S2_y';
+Connector.trackSelector = '[class*="nowPlaying_songTitle"]';
+
+Connector.artistSelector = '[class*="nowPlaying_songArtist"]';
