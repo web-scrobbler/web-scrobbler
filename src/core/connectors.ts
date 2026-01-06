@@ -2720,4 +2720,10 @@ export default <ConnectorMeta[]>[
 		js: 'teleplay.js',
 		id: 'teleplay',
 	},
+	{
+		label: 'The Indie Beat Television',
+		matches: ['*://tv.theindiebeat.fm/*'],
+		js: 'theindiebeattv.js',
+		id: 'theindiebeattv',
+	},
 ];
