@@ -14,5 +14,7 @@ Connector.currentTimeSelector = '.player__current-time .current';
 
 Connector.durationSelector = '.player__end-time';
 
-Connector.pauseButtonSelector = '.player__play-pause button[name="pause"]';
-
+Connector.isPlaying = () => {
+    const icon = document.querySelector('.player__play-pause .material-symbols-outlined');
+    return icon?.textContent?.trim() === 'pause';
+};
