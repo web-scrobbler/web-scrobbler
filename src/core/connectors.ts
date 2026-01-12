@@ -2727,4 +2727,11 @@ export default <ConnectorMeta[]>[
 		id: 'ampache',
 		usesBlocklist: true,
 	},
+	{
+		label: 'Ample-Ampache',
+		matches: ['*://192.168.1.100:8087/*'],
+		js: 'ample-ampache.js',
+		id: 'ample-ampache',
+		usesBlocklist: true,
+	},
 ];
