@@ -2720,4 +2720,11 @@ export default <ConnectorMeta[]>[
 		js: 'teleplay.js',
 		id: 'teleplay',
 	},
+	{
+		label: 'Ampache',
+		matches: ['*://192.168.1.100:8087/*'],
+		js: 'ampache.js',
+		id: 'ampache',
+		usesBlocklist: true,
+	},
 ];
