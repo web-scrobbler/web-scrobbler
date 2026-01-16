@@ -17,7 +17,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
-	const sendData = () => {
+	let pollInterval: number | null = window.setInterval(() => {
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
@@ -31,24 +31,12 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			},
 			'*',
 		);
-	};
-	const playPauseButton = document.getElementById('play-pause-button');
-	const SongInfo = document.querySelector('.content-info-wrapper');
-
-	const observer = new MutationObserver(sendData);
-
-	observer.observe(playPauseButton as Node, {
-		attributes: true,
-	});
-
-	observer.observe(SongInfo as Node, {
-		attributes: true,
-		subtree: true,
-	});
+	}, 1000);
 
 	return () => {
-		// remove the subscribers added by this extension from the array.
-		// we dont have a confirmed reference to it so we have to check all of them.
-		observer.disconnect();
+		if (pollInterval !== null) {
+			window.clearInterval(pollInterval);
+			pollInterval = null;
+		}
 	};
 })();
