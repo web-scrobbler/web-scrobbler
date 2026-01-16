@@ -11,4 +11,15 @@ Connector.trackSelector = '#webplayer > div.playing_info > div.playing_title > a
 
 Connector.trackArtSelector = '#jp_poster_0';
 
-Connector.currentTimeSelector = '#jp_container_1 > div > div.jp-gui > div > div.jp-current-time';
+Connector.currentTimeSelector = '.jp-current-time';
+
+Connector.durationSelector = '.jp-duration';
+
+Connector.isPlaying = () => {
+    const pauseButton = document.querySelector('.jp-pause') as HTMLElement;
+    if (!pauseButton) {
+        return false;
+    }
+    const style = window.getComputedStyle(pauseButton);
+    return style.display !== 'none';
+};
