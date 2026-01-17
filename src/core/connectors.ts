@@ -2720,4 +2720,14 @@ export default <ConnectorMeta[]>[
 		js: 'teleplay.js',
 		id: 'teleplay',
 	},
+	{
+		label: 'Tidal QQDL',
+		matches: [
+			'*://tidal.qqdl.site/*',
+			'*://music.binimum.org/*',
+			'*://tidal.squid.wtf/*',
+		],
+		id: 'tidal.qqdl.site',
+		js: 'tidal.qqdl.site.js',
+	},
 ];
