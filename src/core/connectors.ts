@@ -2726,6 +2726,7 @@ export default <ConnectorMeta[]>[
 			'*://tidal.qqdl.site/*',
 			'*://music.binimum.org/*',
 			'*://tidal.squid.wtf/*',
+			'*://music.arjix.dev/',
 		],
 		id: 'tidal.qqdl.site',
 		js: 'tidal.qqdl.site.js',
