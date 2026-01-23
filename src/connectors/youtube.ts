@@ -43,6 +43,8 @@ const categoryUnknown = 'YT_DUMMY_CATEGORY_UNKNOWN';
 const categoryMusic = 'Music';
 const categoryEntertainment = 'Entertainment';
 
+const timelineChapterName = 'In this video';
+
 /**
  * Array of categories allowed to be scrobbled.
  */
@@ -491,6 +493,14 @@ function getTrackInfoFromChapters() {
 	}
 
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
+
+	if (chapterName === timelineChapterName) {
+		return {
+			artist: null,
+			track: null,
+		};
+	}
+
 	const artistTrack = Util.processYtVideoTitle(chapterName);
 	if (!artistTrack.track) {
 		artistTrack.track = chapterName;
