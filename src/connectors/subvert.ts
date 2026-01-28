@@ -1,13 +1,11 @@
 export {};
 // https://github.com/web-scrobbler/web-scrobbler/blob/master/src/core/content/connector.ts
 const player = '[class*=globalPlayerContainer]';
-//`${player} div:nth-child(3)` === album info
 const artistSelector = `${player} .globalPlayerCoverImage > div:nth-child(2) > a:nth-child(2)`;
 const trackSelector = `${player} .globalPlayerCoverImage > div:nth-child(2) > a:nth-child(1)`;
 const trackArtSelector = `${player} .globalPlayerCoverImage > div:nth-child(1) img`;
 const desktopDurationSelector = `${player} div:nth-child(4) > div:nth-child(4)`;
 const desktopCurrentTimeSelector = `${player} div:nth-child(4) > div:nth-child(2)`;
-// const mobileProgressSelector = ;
 
 Connector.playerSelector = player;
 
@@ -62,7 +60,6 @@ Connector.getArtistTrack = () => {
 
 	let titleParts = document.title.split('–');
 	if (!artist && titleParts.length === 3) {
-		// album = titleParts[0].trim();
 		artist = titleParts[1].trim();
 	}
 	return { artist, track };
