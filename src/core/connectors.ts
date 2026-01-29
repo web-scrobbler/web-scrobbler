@@ -2729,5 +2729,5 @@ export default <ConnectorMeta[]>[
                 ],
                 js: 'radioswissclassic.js',
                 id: 'radioswissclassic',
-        },
+     },
 ];
