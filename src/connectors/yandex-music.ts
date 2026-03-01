@@ -174,14 +174,17 @@ function setupNewConnector(): void {
 		]
 			.map((cover) => document.querySelector<HTMLImageElement>(cover))
 			.find((cover) => cover !== null);
-		
+
 		if (trackArtImage === undefined) {
 			return null;
 		}
 
-		const url = new URL(trackArtImage.src, window.location.origin).toString();
+		const url = new URL(
+			trackArtImage.src,
+			window.location.origin,
+		).toString();
 
-		return url.replace(/\d+x\d+/, "800x800");
+		return url.replace(/\d+x\d+/, '800x800');
 	};
 
 	Connector.getCurrentTime = (): number | null => {
