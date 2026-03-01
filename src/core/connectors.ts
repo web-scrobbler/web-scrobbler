@@ -2721,6 +2721,12 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
+		label: 'Debrid Vault',
+		matches: ['*://debridvault.elfhosted.com/*'],
+		js: 'debridvault.js',
+		id: 'debridvault',
+	},
+	{
 		label: 'Radio Swiss Classic',
 		matches: [
 			'*://www.radioswissclassic.ch/*',
