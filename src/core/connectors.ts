@@ -2726,4 +2726,14 @@ export default <ConnectorMeta[]>[
 		js: 'debridvault.js',
 		id: 'debridvault',
 	},
+	{
+		label: 'Radio Swiss Classic',
+		matches: [
+			'*://www.radioswissclassic.ch/*',
+			'*://www.radioswissjazz.ch/*',
+			'*://www.radioswisspop.ch/*',
+		],
+		js: 'radioswissclassic.js',
+		id: 'radioswissclassic',
+	},
 ];
