@@ -167,11 +167,21 @@ function setupNewConnector(): void {
 	};
 
 	Connector.getTrackArt = (): string | null => {
-		const img = document.querySelector(
-			'img[class*="PlayerBarDesktop_cover__"]',
-		);
-		const src = img?.getAttribute('src');
-		return src ? src.replace(/\d+x\d+/, '600x600') : null;
+		const trackArtImage: HTMLImageElement | undefined = [
+			'img[class*="PlayerBarMobile_cover"]',
+			'img[class*="PlayerBarDesktopWithBackgroundProgressBar_cover"]',
+			'img[class*="FullscreenPlayerDesktopPoster_cover"]',
+		]
+			.map((cover) => document.querySelector<HTMLImageElement>(cover))
+			.find((cover) => cover !== null);
+		
+		if (trackArtImage === undefined) {
+			return null;
+		}
+
+		const url = new URL(trackArtImage.src, window.location.origin).toString();
+
+		return url.replace(/\d+x\d+/, "800x800");
 	};
 
 	Connector.getCurrentTime = (): number | null => {
