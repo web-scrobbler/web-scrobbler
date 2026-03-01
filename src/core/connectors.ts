@@ -2720,4 +2720,10 @@ export default <ConnectorMeta[]>[
 		js: 'teleplay.js',
 		id: 'teleplay',
 	},
+	{
+		label: 'Debrid Vault',
+		matches: ['*://debridvault.elfhosted.com/*'],
+		js: 'debridvault.js',
+		id: 'debridvault',
+	},
 ];
