@@ -9,13 +9,16 @@ const videoSelector = '.PlayerPresenter video';
 
 Connector.playerSelector = '.PlayerPresenter > :nth-child(1)';
 
-Connector.artistSelector = '.w_\\[var\\(\\-\\-watch\\-owner\\-information\\-width\\)\\] > :nth-child(2)';
+Connector.artistSelector =
+	'.w_\\[var\\(\\-\\-watch\\-owner\\-information\\-width\\)\\] > :nth-child(2)';
 
 Connector.trackSelector = '.grid-area_\\[bottom\\] .fs_xl';
 
-Connector.durationSelector = '.max-h_watchcontroller\\.height .ff_metanumber > :nth-child(3)';
+Connector.durationSelector =
+	'.max-h_watchcontroller\\.height .ff_metanumber > :nth-child(3)';
 
-Connector.currentTimeSelector = '.max-h_watchController\\.height .ff_metaNumber > :nth-child(1)';
+Connector.currentTimeSelector =
+	'.max-h_watchController\\.height .ff_metaNumber > :nth-child(1)';
 
 Connector.isPlaying = () => {
 	const video = document.querySelector(videoSelector) as HTMLVideoElement;
