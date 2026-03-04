@@ -2736,4 +2736,10 @@ export default <ConnectorMeta[]>[
 		js: 'radioswissclassic.js',
 		id: 'radioswissclassic',
 	},
+	{
+		label: 'Bossa Jazz Brasil',
+		matches: ['*://bossajazzbrasil.com/ouca-on-line/*'],
+		js: 'bossajazzbrazil.js',
+		id: 'bossajazzbrazil',
+	},
 ];
