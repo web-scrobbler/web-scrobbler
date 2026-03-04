@@ -2736,4 +2736,10 @@ export default <ConnectorMeta[]>[
 		js: 'radioswissclassic.js',
 		id: 'radioswissclassic',
 	},
+	{
+		label: 'Rockserwis.fm',
+		matches: ['*://rockserwis.fm/*'],
+		js: 'rockserwis.fm.js',
+		id: 'rockserwis.fm',
+	},
 ];
