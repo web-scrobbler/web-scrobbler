@@ -518,7 +518,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Reddit Music Player',
-		matches: ['*://reddit.musicplayer.io/'],
+		matches: ['*://musicplayer.io/'],
 		js: 'redditmusicplayer.js',
 		id: 'redditmusicplayer',
 	},
