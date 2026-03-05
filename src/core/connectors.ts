@@ -2721,6 +2721,12 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
+		label: 'Subvert.fm',
+		matches: ['*://subvert.fm/*', '*://*.subvert.fm/*'],
+		js: 'subvert.js',
+		id: 'subvert',
+	},
+	{
 		label: 'Debrid Vault',
 		matches: ['*://debridvault.elfhosted.com/*'],
 		js: 'debridvault.js',
