@@ -2742,4 +2742,10 @@ export default <ConnectorMeta[]>[
 		js: 'bossajazzbrazil.js',
 		id: 'bossajazzbrazil',
 	},
+	{
+		label: 'Kiss rádio',
+		matches: ['*://www.kiss.cz/online/*'],
+		js: 'kiss.js',
+		id: 'kiss',
+	},
 ];
