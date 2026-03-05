@@ -2736,4 +2736,10 @@ export default <ConnectorMeta[]>[
 		js: 'radioswissclassic.js',
 		id: 'radioswissclassic',
 	},
+	{
+		label: 'Kiss rádio',
+		matches: ['*://www.kiss.cz/online/*'],
+		js: 'kiss.js',
+		id: 'kiss',
+	},
 ];
