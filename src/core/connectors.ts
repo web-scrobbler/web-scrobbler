@@ -2726,4 +2726,38 @@ export default <ConnectorMeta[]>[
 		js: 'subvert.js',
 		id: 'subvert',
 	},
+	{
+		label: 'Debrid Vault',
+		matches: ['*://debridvault.elfhosted.com/*'],
+		js: 'debridvault.js',
+		id: 'debridvault',
+	},
+	{
+		label: 'Radio Swiss Classic',
+		matches: [
+			'*://www.radioswissclassic.ch/*',
+			'*://www.radioswissjazz.ch/*',
+			'*://www.radioswisspop.ch/*',
+		],
+		js: 'radioswissclassic.js',
+		id: 'radioswissclassic',
+	},
+	{
+		label: 'Rockserwis.fm',
+		matches: ['*://rockserwis.fm/*'],
+		js: 'rockserwis.fm.js',
+		id: 'rockserwis.fm',
+	},
+	{
+		label: 'Bossa Jazz Brasil',
+		matches: ['*://bossajazzbrasil.com/ouca-on-line/*'],
+		js: 'bossajazzbrazil.js',
+		id: 'bossajazzbrazil',
+	},
+	{
+		label: 'Kiss rádio',
+		matches: ['*://www.kiss.cz/online/*'],
+		js: 'kiss.js',
+		id: 'kiss',
+	},
 ];
