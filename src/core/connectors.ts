@@ -1447,6 +1447,12 @@ export default <ConnectorMeta[]>[
 		id: 'chillhop',
 	},
 	{
+		label: 'Chillhop Radio',
+		matches: ['*://app.chillhop.com/*'],
+		js: 'chillhop-radio.js',
+		id: 'chillhop-radio',
+	},
+	{
 		label: 'DatPiff',
 		matches: ['*://www.datpiff.com/player/*'],
 		js: 'datpiff.js',
