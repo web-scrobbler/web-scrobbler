@@ -2737,6 +2737,12 @@ export default <ConnectorMeta[]>[
 		id: 'radioswissclassic',
 	},
 	{
+		label: 'Rockserwis.fm',
+		matches: ['*://rockserwis.fm/*'],
+		js: 'rockserwis.fm.js',
+		id: 'rockserwis.fm',
+	},
+	{
 		label: 'Bossa Jazz Brasil',
 		matches: ['*://bossajazzbrasil.com/ouca-on-line/*'],
 		js: 'bossajazzbrazil.js',
