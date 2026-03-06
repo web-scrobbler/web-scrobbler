@@ -753,6 +753,23 @@ export function normalizeUrl(url: string | null | undefined): string | null {
  */
 /* istanbul ignore next */
 export function injectScriptIntoDocument(scriptUrl: string): void {
+	// On Safari, script tags with src pointing to safari-web-extension:// URLs
+	// are blocked by Content Security Policy. Fetch and inject inline instead.
+	if (scriptUrl.startsWith('safari-web-extension://')) {
+		fetch(scriptUrl)
+			.then((response) => response.text())
+			.then((scriptContent) => {
+				const script = document.createElement('script');
+				script.textContent = scriptContent;
+				(document.head || document.documentElement).appendChild(script);
+				script.remove();
+			})
+			.catch((err) => {
+				console.error('Failed to inject script on Safari:', err);
+			});
+		return;
+	}
+
 	const script = document.createElement('script');
 	script.src = scriptUrl;
 	script.onload = function () {
