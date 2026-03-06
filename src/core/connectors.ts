@@ -1141,7 +1141,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Radiooooo',
-		matches: ['*://radiooooo.com/*', '*://mobile.radiooooo.com/*'],
+		matches: ['*://app.radiooooo.com/*', '*://mobile.radiooooo.com/*'],
 		js: 'radiooooo.js',
 		id: 'radiooooo',
 	},
