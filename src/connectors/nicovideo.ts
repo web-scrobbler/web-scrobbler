@@ -5,17 +5,20 @@ const filter = MetadataFilter.createFilter({
 	artist: selectPrimaryName,
 });
 
-const videoSelector = '.MainVideoPlayer > video';
+const videoSelector = '.PlayerPresenter video';
 
-Connector.playerSelector = '.PlayerContainer';
+Connector.playerSelector = '.PlayerPresenter > :nth-child(1)';
 
-Connector.artistSelector = '.VideoOwnerInfo-pageLink';
+Connector.artistSelector =
+	'.w_\\[var\\(\\-\\-watch\\-owner\\-information\\-width\\)\\] > :nth-child(2)';
 
-Connector.trackSelector = '.VideoTitle';
+Connector.trackSelector = '.grid-area_\\[bottom\\] .fs_xl';
 
-Connector.durationSelector = '.PlayerPlayTime-duration';
+Connector.durationSelector =
+	'.max-h_watchcontroller\\.height .ff_metanumber > :nth-child(3)';
 
-Connector.currentTimeSelector = '.PlayerPlayTime-playtime';
+Connector.currentTimeSelector =
+	'.max-h_watchController\\.height .ff_metaNumber > :nth-child(1)';
 
 Connector.isPlaying = () => {
 	const video = document.querySelector(videoSelector) as HTMLVideoElement;
