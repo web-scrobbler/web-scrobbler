@@ -253,13 +253,14 @@ function areChaptersAvailable() {
 		return false;
 	}
 
-	// YouTube introduced putting text into the current chapter element for
-	// referring users to the timeline ("In this video"). hard to check for
-	// because that text gets translated, we can however check if the
-	// description has a chapter like that, if not it's not a real chapter
+	// Chapters from the description have an "engagement panel" (sidebar),
+	// separate from "auto-chapters" which also have a one, but it's different.
+	// Some Music Videos also get text "In this video" inserted where the chapter
+	// would be, which this also catches because that only gets inserted when
+	// there are no description chapters.
 	if (
 		!document.querySelector(
-			`.ytd-watch-metadata ytd-macro-markers-list-item-renderer #details:has([title]):has(#time)`,
+			'[target-id="engagement-panel-macro-markers-description-chapters"]',
 		)
 	) {
 		return false;
