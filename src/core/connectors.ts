@@ -2765,4 +2765,10 @@ export default <ConnectorMeta[]>[
 		js: 'kiss.js',
 		id: 'kiss',
 	},
+	{
+		label: 'Radio SAW',
+		matches: ['*://www.radiosaw.de/*'],
+		js: 'radiosaw.js',
+		id: 'radiosaw',
+	},
 ];
