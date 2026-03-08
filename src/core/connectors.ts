@@ -518,7 +518,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Reddit Music Player',
-		matches: ['*://reddit.musicplayer.io/'],
+		matches: ['*://musicplayer.io/'],
 		js: 'redditmusicplayer.js',
 		id: 'redditmusicplayer',
 	},
@@ -1141,7 +1141,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Radiooooo',
-		matches: ['*://radiooooo.com/*', '*://mobile.radiooooo.com/*'],
+		matches: ['*://app.radiooooo.com/*', '*://mobile.radiooooo.com/*'],
 		js: 'radiooooo.js',
 		id: 'radiooooo',
 	},
@@ -1445,6 +1445,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://chillhop.com/*'],
 		js: 'chillhop.js',
 		id: 'chillhop',
+	},
+	{
+		label: 'Chillhop Radio',
+		matches: ['*://app.chillhop.com/*'],
+		js: 'chillhop-radio.js',
+		id: 'chillhop-radio',
 	},
 	{
 		label: 'DatPiff',
@@ -2692,7 +2698,12 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Monochrome',
-		matches: ['*://monochrome.prigoana.com/*', '*://monochrome.tf/*'],
+		matches: [
+			'*://monochrome.prigoana.com/*',
+			'*://monochrome.tf/*',
+			'*://monochrome.samidy.com/*',
+			'*://monochrome-back.pages.dev/*',
+		],
 		js: 'monochrome.js',
 		id: 'monochrome',
 	},
@@ -2719,5 +2730,45 @@ export default <ConnectorMeta[]>[
 		matches: ['*://teleplay.rv7.nl/*'],
 		js: 'teleplay.js',
 		id: 'teleplay',
+	},
+	{
+		label: 'Debrid Vault',
+		matches: ['*://debridvault.elfhosted.com/*'],
+		js: 'debridvault.js',
+		id: 'debridvault',
+	},
+	{
+		label: 'Radio Swiss Classic',
+		matches: [
+			'*://www.radioswissclassic.ch/*',
+			'*://www.radioswissjazz.ch/*',
+			'*://www.radioswisspop.ch/*',
+		],
+		js: 'radioswissclassic.js',
+		id: 'radioswissclassic',
+	},
+	{
+		label: 'Rockserwis.fm',
+		matches: ['*://rockserwis.fm/*'],
+		js: 'rockserwis.fm.js',
+		id: 'rockserwis.fm',
+	},
+	{
+		label: 'Bossa Jazz Brasil',
+		matches: ['*://bossajazzbrasil.com/ouca-on-line/*'],
+		js: 'bossajazzbrazil.js',
+		id: 'bossajazzbrazil',
+	},
+	{
+		label: 'Kiss rádio',
+		matches: ['*://www.kiss.cz/online/*'],
+		js: 'kiss.js',
+		id: 'kiss',
+	},
+	{
+		label: 'Radio SAW',
+		matches: ['*://www.radiosaw.de/*'],
+		js: 'radiosaw.js',
+		id: 'radiosaw',
 	},
 ];

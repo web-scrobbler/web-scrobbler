@@ -1,23 +1,24 @@
 export {};
 
-Connector.playerSelector = '.ui.controls';
+Connector.playerSelector = ['main+div>div+div', 'main>div>div:last-child'];
 
-Connector.currentTimeSelector = '.item.start.time';
+Connector.currentTimeSelector = `${Connector.playerSelector[0]}>div>span`;
+Connector.remainingTimeSelector = `${Connector.playerSelector[0]}>div>span:last-child`;
 
-Connector.trackArtSelector = '.ui.item.active img';
+Connector.trackSelector = `${Connector.playerSelector[1]} h2`;
 
 Connector.getArtistTrack = () => {
-	const text = Util.getTextFromSelectors('.current .title')?.replace(
+	const text = Util.getTextFromSelectors(Connector.trackSelector)?.replace(
 		/ \[.*/,
 		'',
 	);
 	return Util.splitArtistTrack(text);
 };
 
-Connector.isPlaying = () => Util.hasElementClass('.item.play.button', 'active');
+Connector.pauseButtonSelector = `${Connector.playerSelector[0]} .lucide-pause`;
 
 Connector.getUniqueID = () => {
-	const videoUrl = Util.getAttrFromSelectors('#player', 'src');
+	const videoUrl = Util.getAttrFromSelectors('iframe', 'src');
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
