@@ -2695,7 +2695,7 @@ export default <ConnectorMeta[]>[
 		matches: [
 			'*://monochrome.prigoana.com/*',
 			'*://monochrome.tf/*',
-			'://monochrome.samidy.com/',
+			'*://monochrome.samidy.com/',
 			'*://monochrome-back.pages.dev/',
 		],
 		js: 'monochrome.js',
