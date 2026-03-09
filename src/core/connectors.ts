@@ -446,12 +446,6 @@ export default <ConnectorMeta[]>[
 		id: 'audius',
 	},
 	{
-		label: 'GetWorkDoneMusic',
-		matches: ['*://*.getworkdonemusic.com/*'],
-		js: 'getworkdonemusic.js',
-		id: 'getworkdonemusic',
-	},
-	{
 		label: 'Jamendo',
 		matches: ['*://www.jamendo.com/*'],
 		js: 'jamendo.js',
