@@ -30,7 +30,9 @@ Connector.getTrackInfo = () => {
 	} else {
 		artistText = Util.getTextFromSelectors(artistSelector);
 		trackText = Util.getTextFromSelectors(trackSelector);
-		trackArtUrl = Util.extractImageUrlFromSelectors(trackArtSelector)?.replace(/\/\d+x\d+(?=\/)/g, ''); // larger image path
+		trackArtUrl = Util.extractImageUrlFromSelectors(
+			trackArtSelector,
+		)?.replace(/\/\d+x\d+(?=\/)/g, ''); // larger image path
 		currentTimeValue = Util.getSecondsFromSelectors(currentTimeSelector);
 		durationValue = Util.getSecondsFromSelectors(durationSelector);
 		podcastBoolean = true;
@@ -41,7 +43,7 @@ Connector.getTrackInfo = () => {
 		track: trackText,
 		trackArt: trackArtUrl,
 		currentTime: currentTimeValue,
-		duration: (durationValue ?? 0),
+		duration: durationValue ?? 0,
 		isPodcast: podcastBoolean,
 	};
 };
