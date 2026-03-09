@@ -37,12 +37,12 @@ Connector.getDuration = () => {
 	const text = Util.getTextFromSelectors(Connector.durationSelector);
 	if (text?.startsWith('-')) return null;
 	return Util.stringToSeconds(text);
-}
+};
 Connector.getRemainingTime = () => {
 	const text = Util.getTextFromSelectors(Connector.durationSelector);
 	if (!text || !text?.startsWith('-')) return null;
 	return Util.stringToSeconds(text);
-}
+};
 
 Connector.pauseButtonSelector = `${oldPauseButtonSelector}, ${newPauseButtonSelector}`;
 
