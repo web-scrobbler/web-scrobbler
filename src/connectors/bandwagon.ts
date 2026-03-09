@@ -9,11 +9,11 @@ const stripPrefixAndTrim = (prefix: string) => (str: string) => {
 };
 
 if (document.querySelector('#main>[id*="track-"]')) {
+	// track page
 	Connector.getUniqueID = () => {
 		return document.URL.substring(window.origin.indexOf('://') + 3);
 	};
 
-	// track page
 	Connector.playerSelector = ':has(>#media-controls)';
 
 	Connector.trackArtSelector = '#track-icon';
