@@ -1254,12 +1254,6 @@ export default <ConnectorMeta[]>[
 		id: 'rtbf',
 	},
 	{
-		label: 'TuneTrack',
-		matches: ['*://tunetrack.net/*'],
-		js: 'tunetrack.js',
-		id: 'tunetrack',
-	},
-	{
 		label: 'Musify',
 		matches: ['*://*.musify.club/*'],
 		js: 'musify.js',
