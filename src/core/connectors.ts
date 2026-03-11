@@ -1134,12 +1134,6 @@ export default <ConnectorMeta[]>[
 		id: 'thecurrent',
 	},
 	{
-		label: 'pan y rosas discos',
-		matches: ['*://www.panyrosasdiscos.net/*'],
-		js: 'panyrosasdiscos.js',
-		id: 'panyrosasdiscos',
-	},
-	{
 		label: 'GRRIF',
 		matches: ['*://*.grrif.ch/*'],
 		js: 'grrif.js',
