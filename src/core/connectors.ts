@@ -161,12 +161,6 @@ export default <ConnectorMeta[]>[
 		id: 'rpfm',
 	},
 	{
-		label: 'Douban.FM',
-		matches: ['*://douban.fm/*', '*://fm.douban.fm/*'],
-		js: 'douban.fm.js',
-		id: 'douban.fm',
-	},
-	{
 		label: 'Focus@Will',
 		matches: ['*://www.focusatwill.com/*'],
 		js: 'focusatwill.js',
