@@ -1332,12 +1332,6 @@ export default <ConnectorMeta[]>[
 		id: 'truckersfm',
 	},
 	{
-		id: 'winampify',
-		label: 'Winampify',
-		js: 'winampify.js',
-		matches: ['*://winampify.io/*'],
-	},
-	{
 		label: 'detektor.fm',
 		matches: ['*://detektor.fm/*'],
 		js: 'detektorfm.js',
