@@ -1110,12 +1110,6 @@ export default <ConnectorMeta[]>[
 		id: 'gds',
 	},
 	{
-		label: 'Wynk Music',
-		matches: ['*://wynk.in/music*'],
-		js: 'wynk.js',
-		id: 'wynk',
-	},
-	{
 		label: 'RadioJavan',
 		matches: ['*://play.radiojavan.com/*'],
 		js: 'radiojavan.js',
