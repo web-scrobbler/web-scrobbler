@@ -1158,10 +1158,10 @@ export default <ConnectorMeta[]>[
 		id: 'mideastunes',
 	},
 	{
-		label: 'Český Rozhlas',
-		matches: ['*://prehravac.rozhlas.cz/*'],
-		js: 'rozhlas.js',
-		id: 'rozhlas',
+		label: 'mujRozhlas',
+		matches: ['*://www.mujrozhlas.cz/*'],
+		js: 'mujrozhlas.js',
+		id: 'mujrozhlas',
 	},
 	{
 		label: 'blocSonic',
