@@ -1350,12 +1350,6 @@ export default <ConnectorMeta[]>[
 		id: 'radio7lv',
 	},
 	{
-		label: 'TOWER RECORDS MUSIC',
-		matches: ['*://music.tower.jp/*'],
-		js: 'towerrecordsmusic.js',
-		id: 'towerrecordsmusic',
-	},
-	{
 		label: 'Eggs',
 		matches: ['*://eggs.mu/*'],
 		js: 'eggs.js',
