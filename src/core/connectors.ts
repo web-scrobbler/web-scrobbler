@@ -1194,12 +1194,6 @@ export default <ConnectorMeta[]>[
 		id: 'smoothfm',
 	},
 	{
-		label: 'Vodafone.fm',
-		matches: ['*://vodafone.fm/*'],
-		js: 'vodafone.fm.js',
-		id: 'vodafonefm',
-	},
-	{
 		label: 'Relisten.net',
 		matches: ['*://relisten.net/*'],
 		js: 'relisten.js',
