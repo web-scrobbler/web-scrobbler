@@ -1092,12 +1092,6 @@ export default <ConnectorMeta[]>[
 		id: 'apple-music',
 	},
 	{
-		label: 'Primephonic',
-		matches: ['*://play.primephonic.com/*'],
-		js: 'primephonic.js',
-		id: 'primephonic',
-	},
-	{
 		label: 'Watch2Gether',
 		matches: ['*://w2g.tv/*'],
 		js: 'watch2gether.js',
