@@ -839,12 +839,6 @@ export default <ConnectorMeta[]>[
 		id: 'rainwave',
 	},
 	{
-		label: 'Retro Synthwave',
-		matches: ['*://www.retro-synthwave.com/*'],
-		js: 'retro-synthwave.js',
-		id: 'retro-synthwave',
-	},
-	{
 		label: 'Радиоволна.нет',
 		matches: ['*://radiovolna.net/*'],
 		js: 'radiovolna.js',
