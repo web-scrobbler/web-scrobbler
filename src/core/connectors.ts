@@ -44,13 +44,6 @@ export default <ConnectorMeta[]>[
 		id: 'bandcamp',
 	},
 	{
-		label: 'BNDCMPR',
-		matches: ['*://bndcmpr.co/*'],
-		js: 'bndcmpr.js',
-		id: 'bndcmpr',
-		allFrames: true,
-	},
-	{
 		label: 'Buy Music Club',
 		matches: ['*://www.buymusic.club/*'],
 		js: 'buymusicclub.js',
