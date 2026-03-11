@@ -698,12 +698,6 @@ export default <ConnectorMeta[]>[
 		id: 'planetradio',
 	},
 	{
-		label: 'Webradio.de',
-		matches: ['*://www.webradio.de/*'],
-		js: 'radioplayer.js',
-		id: 'webradio.de',
-	},
-	{
 		label: 'The Breeze',
 		matches: ['*://www.thebreeze.com/*/radioplayer/*'],
 		js: 'radioplayer.js',
