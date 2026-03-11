@@ -155,12 +155,6 @@ export default <ConnectorMeta[]>[
 		id: 'nova',
 	},
 	{
-		label: 'Radioplus',
-		matches: ['*://www.radioplus.be/*', '*://radioplus.be/*'],
-		js: 'radioplus.js',
-		id: 'radioplus',
-	},
-	{
 		label: 'Радио Premium',
 		matches: ['*://rpfm.ru/*'],
 		js: 'rpfm.js',
