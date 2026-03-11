@@ -845,12 +845,6 @@ export default <ConnectorMeta[]>[
 		id: 'radiovolna',
 	},
 	{
-		label: 'Feedbands',
-		matches: ['*://feedbands.com/*'],
-		js: 'feedbands.js',
-		id: 'feedbands',
-	},
-	{
 		label: 'Taazi',
 		matches: ['*://taazi.com/*'],
 		js: 'taazi.js',
