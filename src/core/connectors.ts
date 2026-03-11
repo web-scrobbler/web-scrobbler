@@ -698,12 +698,6 @@ export default <ConnectorMeta[]>[
 		id: 'planetradio',
 	},
 	{
-		label: 'Roxx Radio',
-		matches: ['*://roxx.gr/radio/*'],
-		js: 'roxx.js',
-		id: 'roxx',
-	},
-	{
 		label: 'ListenOnRepeat',
 		matches: ['*://listenonrepeat.com/*'],
 		js: 'listenonrepeat.js',
