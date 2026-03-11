@@ -689,12 +689,6 @@ export default <ConnectorMeta[]>[
 		id: 'radiojazzfm',
 	},
 	{
-		label: 'WO Streaming',
-		matches: ['*://*player.wostreaming.net/*'],
-		js: 'wostreaming.js',
-		id: 'wostreaming',
-	},
-	{
 		label: 'Listen Live',
 		matches: ['*://player.listenlive.co/*'],
 		js: 'listenlive.js',
