@@ -698,12 +698,6 @@ export default <ConnectorMeta[]>[
 		id: 'planetradio',
 	},
 	{
-		label: 'The Breeze',
-		matches: ['*://www.thebreeze.com/*/radioplayer/*'],
-		js: 'radioplayer.js',
-		id: 'thebreeze',
-	},
-	{
 		label: 'RadioPlayer',
 		matches: [
 			'*://ukradioplayer.*/*',
