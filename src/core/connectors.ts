@@ -1356,12 +1356,6 @@ export default <ConnectorMeta[]>[
 		id: 'eggs',
 	},
 	{
-		label: 'Jamstash',
-		matches: ['*://jamstash.com/*'],
-		js: 'jamstash.js',
-		id: 'jamstash',
-	},
-	{
 		label: 'SubFire',
 		matches: ['*://p.subfireplayer.net/*'],
 		js: 'subfire.js',
