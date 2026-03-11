@@ -747,12 +747,6 @@ export default <ConnectorMeta[]>[
 		id: 'qq-video',
 	},
 	{
-		label: 'Naver',
-		matches: ['*://playerui.music.naver.com/*'],
-		js: 'naver.js',
-		id: 'naver',
-	},
-	{
 		label: 'Soribada',
 		matches: ['*://www.soribada.com/*'],
 		js: 'soribada.js',
