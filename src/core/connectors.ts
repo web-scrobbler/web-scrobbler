@@ -457,12 +457,6 @@ export default <ConnectorMeta[]>[
 		id: 'beatport',
 	},
 	{
-		label: 'Beeline Music',
-		matches: ['*://music.beeline.ru/*'],
-		js: 'beeline-music.js',
-		id: 'beeline-music',
-	},
-	{
 		label: 'wavo',
 		matches: ['*://wavo.me/*'],
 		js: 'wavo.js',
