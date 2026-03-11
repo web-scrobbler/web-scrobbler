@@ -772,12 +772,6 @@ export default <ConnectorMeta[]>[
 		id: 'npr',
 	},
 	{
-		label: 'Streamsquid',
-		matches: ['*://streamsquid.com/*'],
-		js: 'streamsquid.js',
-		id: 'streamsquid',
-	},
-	{
 		label: 'Streemlion',
 		matches: ['*://listen.streemlion.com/*'],
 		js: 'streemlion.js',
