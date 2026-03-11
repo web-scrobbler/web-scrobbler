@@ -126,12 +126,6 @@ export default <ConnectorMeta[]>[
 		hasNativeScrobbler: true,
 	},
 	{
-		label: 'plug.dj',
-		matches: ['*://plug.dj/*'],
-		js: 'plug.dj.js',
-		id: 'plug.dj',
-	},
-	{
 		label: 'Dandelion Radio',
 		matches: ['*://www.dandelionradio.com/player.htm'],
 		js: 'dandelionradio.js',
