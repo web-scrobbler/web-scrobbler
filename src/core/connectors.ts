@@ -2232,12 +2232,6 @@ export default <ConnectorMeta[]>[
 		id: 'basspistol',
 	},
 	{
-		label: 'RadioFreeFedi',
-		matches: ['*://radiofreefedi.net/*'],
-		js: 'radiofreefedi.js',
-		id: 'radiofreefedi',
-	},
-	{
 		label: 'MyTuner',
 		matches: ['*://mytuner-radio.com/*'],
 		js: 'mytuner.js',
