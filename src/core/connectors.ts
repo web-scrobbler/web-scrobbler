@@ -319,12 +319,6 @@ export default <ConnectorMeta[]>[
 		id: 'jazzandrain',
 	},
 	{
-		label: 'EpicMusicTime',
-		matches: ['*://*.epicmusictime.com/*'],
-		js: 'jazzandrain.js',
-		id: 'epicmusictime',
-	},
-	{
 		label: 'AccuJazz',
 		matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
 		js: 'accujazz.js',
