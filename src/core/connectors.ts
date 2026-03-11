@@ -101,12 +101,6 @@ export default <ConnectorMeta[]>[
 		id: 'vk',
 	},
 	{
-		label: 'Megalyrics',
-		matches: ['*://megalyrics.ru/*'],
-		js: 'megalyrics.js',
-		id: 'megalyrics',
-	},
-	{
 		label: 'iHeartRadio',
 		matches: ['*://*.iheart.com/*'],
 		js: 'iheart.js',
