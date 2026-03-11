@@ -319,12 +319,6 @@ export default <ConnectorMeta[]>[
 		id: 'jazzandrain',
 	},
 	{
-		label: 'AccuJazz',
-		matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
-		js: 'accujazz.js',
-		id: 'accujazz',
-	},
-	{
 		label: 'AccuRadio',
 		matches: ['*://www.accuradio.com/*'],
 		js: 'accuradio.js',
