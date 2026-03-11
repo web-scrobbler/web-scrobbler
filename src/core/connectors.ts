@@ -132,12 +132,6 @@ export default <ConnectorMeta[]>[
 		id: 'dandelionradio',
 	},
 	{
-		label: 'HillyDilly',
-		matches: ['*://www.hillydilly.com/*'],
-		js: 'hillydilly.js',
-		id: 'hillydilly',
-	},
-	{
 		label: '8tracks',
 		matches: ['*://8tracks.com/*'],
 		js: '8tracks.js',
