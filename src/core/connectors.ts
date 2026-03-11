@@ -488,12 +488,6 @@ export default <ConnectorMeta[]>[
 		id: 'youradio',
 	},
 	{
-		label: 'GPMusic',
-		matches: ['*://player.gpmusic.co/*'],
-		js: 'gpmusic.js',
-		id: 'gpmusic',
-	},
-	{
 		label: 'Nightwave Plaza',
 		matches: ['*://plaza.one/*'],
 		js: 'plaza.js',
