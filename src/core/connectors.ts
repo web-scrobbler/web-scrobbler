@@ -1555,12 +1555,6 @@ export default <ConnectorMeta[]>[
 		id: 'eulerbeats',
 	},
 	{
-		label: 'FilmMusic.io',
-		matches: ['*://*.filmmusic.io/*'],
-		js: 'filmmusic.io.js',
-		id: 'filmmusic.io',
-	},
-	{
 		label: 'X-Team Radio',
 		matches: ['*://radio.x-team.com/*'],
 		js: 'xteam-radio.js',
