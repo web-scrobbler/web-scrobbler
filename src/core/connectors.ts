@@ -1212,13 +1212,6 @@ export default <ConnectorMeta[]>[
 		id: 'chillhop-radio',
 	},
 	{
-		label: 'DatPiff',
-		matches: ['*://www.datpiff.com/player/*'],
-		js: 'datpiff.js',
-		id: 'datpiff',
-		allFrames: true,
-	},
-	{
 		label: 'Shuffle',
 		matches: ['*://shuffle.one/play*'],
 		js: 'shuffleone.js',
