@@ -953,12 +953,6 @@ export default <ConnectorMeta[]>[
 		id: 'letsloop',
 	},
 	{
-		label: 'Mideast Tunes',
-		matches: ['*://mideastunes.com/*', '*://map.mideastunes.com/*'],
-		js: 'mideastunes.js',
-		id: 'mideastunes',
-	},
-	{
 		label: 'Český Rozhlas',
 		matches: ['*://prehravac.rozhlas.cz/*'],
 		js: 'rozhlas.js',
