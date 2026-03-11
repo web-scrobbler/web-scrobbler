@@ -319,12 +319,6 @@ export default <ConnectorMeta[]>[
 		id: 'jazzandrain',
 	},
 	{
-		label: 'RelaxingBeats',
-		matches: ['*://*.relaxingbeats.com/*'],
-		js: 'jazzandrain.js',
-		id: 'relaxingbeats',
-	},
-	{
 		label: 'EpicMusicTime',
 		matches: ['*://*.epicmusictime.com/*'],
 		js: 'jazzandrain.js',
