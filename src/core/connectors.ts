@@ -698,12 +698,6 @@ export default <ConnectorMeta[]>[
 		id: 'planetradio',
 	},
 	{
-		label: 'Duckburg Radio',
-		matches: ['*://*.radio-mb.com/*'],
-		js: 'radio-mb.js',
-		id: 'radio-mb',
-	},
-	{
 		label: 'Webradio.de',
 		matches: ['*://www.webradio.de/*'],
 		js: 'radioplayer.js',
