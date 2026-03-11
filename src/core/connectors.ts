@@ -512,12 +512,6 @@ export default <ConnectorMeta[]>[
 		id: 'openfm',
 	},
 	{
-		label: 'Playmoss',
-		matches: ['*://playmoss.com/*'],
-		js: 'playmoss.js',
-		id: 'playmoss',
-	},
-	{
 		label: 'Apidog',
 		matches: ['*://apidog.ru/*'],
 		js: 'apidog.js',
