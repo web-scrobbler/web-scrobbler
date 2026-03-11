@@ -1807,12 +1807,6 @@ export default <ConnectorMeta[]>[
 		id: 'cpr',
 	},
 	{
-		label: 'Indie 102.3',
-		matches: ['*://indie.cpr.org/'],
-		js: 'cpr-indie.js',
-		id: 'cpr-indie',
-	},
-	{
 		label: 'WXPN',
 		matches: ['*://xpn.org/*'],
 		js: 'xpn.js',
