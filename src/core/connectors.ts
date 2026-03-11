@@ -1874,12 +1874,6 @@ export default <ConnectorMeta[]>[
 		id: 'dr-lyd',
 	},
 	{
-		label: 'lulu.fm',
-		matches: ['*://*lulu.fm/*'],
-		js: 'lulu.fm.js',
-		id: 'lulufm',
-	},
-	{
 		label: 'ROCK ANTENNE',
 		matches: ['*://*rockantenne.*/webradio/*'],
 		js: 'rockantenne.js',
