@@ -845,12 +845,6 @@ export default <ConnectorMeta[]>[
 		id: 'radiovolna',
 	},
 	{
-		label: 'Patari',
-		matches: ['*://patari.pk/*'],
-		js: 'patari.js',
-		id: 'patari',
-	},
-	{
 		label: 'pCloud',
 		matches: ['*://my.pcloud.com/*'],
 		js: 'pcloud.js',
