@@ -1886,12 +1886,6 @@ export default <ConnectorMeta[]>[
 		id: 'copyparty',
 	},
 	{
-		label: 'Fungjai',
-		matches: ['*://*.fungjai.com/*'],
-		js: 'fungjai.js',
-		id: 'fungjai',
-	},
-	{
 		label: 'Radio Caprice',
 		matches: ['*://radcap.ru/*'],
 		js: 'radcap.js',
