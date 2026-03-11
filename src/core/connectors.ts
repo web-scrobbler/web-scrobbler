@@ -922,6 +922,12 @@ export default <ConnectorMeta[]>[
 		id: 'naver',
 	},
 	{
+		label: 'Naver Vibe',
+		matches: ['*://vibe.naver.com/*'],
+		js: 'naver-vibe.js',
+		id: 'naver-vibe',
+	},
+	{
 		label: 'Soribada',
 		matches: ['*://www.soribada.com/*'],
 		js: 'soribada.js',
