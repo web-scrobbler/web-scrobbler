@@ -304,12 +304,6 @@ export default <ConnectorMeta[]>[
 		id: 'hypem',
 	},
 	{
-		label: 'Radionomy',
-		matches: ['*://www.radionomy.com/*'],
-		js: 'radionomy.js',
-		id: 'radionomy',
-	},
-	{
 		label: 'J1 Radio',
 		matches: [
 			'*://www.j1fm.tokyo/player/*',
