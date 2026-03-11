@@ -457,12 +457,6 @@ export default <ConnectorMeta[]>[
 		id: 'beatport',
 	},
 	{
-		label: 'wavo',
-		matches: ['*://wavo.me/*'],
-		js: 'wavo.js',
-		id: 'wavo',
-	},
-	{
 		label: 'FluxFM Berlin',
 		matches: ['*://www.fluxfm.de/*'],
 		js: 'fluxfm.js',
