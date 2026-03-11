@@ -1290,12 +1290,6 @@ export default <ConnectorMeta[]>[
 		id: 'jqbx',
 	},
 	{
-		label: 'music.jsososo.com',
-		matches: ['*://y.jsososo.com/*', '*://music.jsososo.com/*'],
-		js: 'jsososo.js',
-		id: 'jsososo',
-	},
-	{
 		label: 'Supla',
 		matches: ['*://*.supla.fi/*'],
 		js: 'supla.js',
