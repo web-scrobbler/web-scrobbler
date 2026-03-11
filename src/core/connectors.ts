@@ -665,12 +665,6 @@ export default <ConnectorMeta[]>[
 		id: 'animebits',
 	},
 	{
-		label: 'Fair Price Music',
-		matches: ['*://www.fairpricemusic.com/*'],
-		js: 'fairpricemusic.js',
-		id: 'fairpricemusic',
-	},
-	{
 		label: 'Radio ULTRA',
 		matches: ['*://player.radioultra.ru/*'],
 		js: 'radioultra.js',
