@@ -1200,6 +1200,12 @@ export default <ConnectorMeta[]>[
 		id: 'upbeatradio',
 	},
 	{
+		label: 'Chillhop',
+		matches: ['*://chillhop.com/*'],
+		js: 'chillhop.js',
+		id: 'chillhop',
+	},
+	{
 		label: 'Chillhop Radio',
 		matches: ['*://app.chillhop.com/*'],
 		js: 'chillhop-radio.js',
