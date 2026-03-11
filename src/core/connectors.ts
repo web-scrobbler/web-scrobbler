@@ -1585,12 +1585,6 @@ export default <ConnectorMeta[]>[
 		id: 'thrilljockey',
 	},
 	{
-		label: 'Radio Horizonte',
-		matches: ['*://horizonte.cl/*'],
-		js: 'mediastream.js',
-		id: 'horizontecl',
-	},
-	{
 		label: 'Sonar FM',
 		matches: ['*://sonarfm.cl/*'],
 		js: 'mediastream.js',
