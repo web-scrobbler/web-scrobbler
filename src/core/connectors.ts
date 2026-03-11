@@ -1693,12 +1693,6 @@ export default <ConnectorMeta[]>[
 		id: 'intergalactic.fm',
 	},
 	{
-		label: 'Radio Cuca',
-		matches: ['*://*radiocuca.es/*'],
-		js: 'radiocuca.js',
-		id: 'radiocuca',
-	},
-	{
 		label: 'Irama Nusantara',
 		matches: ['*://*.iramanusantara.org/*'],
 		js: 'iramanusantara.js',
