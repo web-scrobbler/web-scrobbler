@@ -1968,12 +1968,6 @@ export default <ConnectorMeta[]>[
 		id: 'hearthis-at',
 	},
 	{
-		label: 'Blend',
-		matches: ['*://blend.io/*'],
-		js: 'blend.js',
-		id: 'blend',
-	},
-	{
 		label: 'Radio Italia',
 		matches: ['*://www.radioitalia.it/*'],
 		js: 'radio-italia.js',
