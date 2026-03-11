@@ -512,12 +512,6 @@ export default <ConnectorMeta[]>[
 		id: 'openfm',
 	},
 	{
-		label: 'Apidog',
-		matches: ['*://apidog.ru/*'],
-		js: 'apidog.js',
-		id: 'apidog',
-	},
-	{
 		label: 'Pinguin Radio',
 		matches: ['*://pinguinradio.com/*'],
 		js: 'pinguinradio.js',
