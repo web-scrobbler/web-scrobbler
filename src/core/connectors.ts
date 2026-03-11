@@ -331,12 +331,6 @@ export default <ConnectorMeta[]>[
 		id: 'imusic.am',
 	},
 	{
-		label: 'Earbits',
-		matches: ['*://www.earbits.com/*'],
-		js: 'earbits.js',
-		id: 'earbits',
-	},
-	{
 		label: 'Player.fm',
 		matches: ['*://player.fm/*'],
 		js: 'player.fm.js',
