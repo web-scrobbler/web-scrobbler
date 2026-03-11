@@ -396,12 +396,6 @@ export default <ConnectorMeta[]>[
 		id: 'kodi',
 	},
 	{
-		label: 'Superplayer',
-		matches: ['*://www.superplayer.fm/*'],
-		js: 'superplayer.js',
-		id: 'superplayer',
-	},
-	{
 		label: 'RMFON',
 		matches: ['*://www.rmfon.pl/*'],
 		js: 'rmfon.js',
