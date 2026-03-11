@@ -1,6 +1,6 @@
 export {};
 
-const SEPARATOR = ': ';
+const SEPARATOR = ':';
 
 Connector.playerSelector = '#footerPlayer';
 
@@ -11,7 +11,7 @@ Connector.getArtistTrack = () => {
 	const artistTrack = Util.getTextFromSelectors(
 		Connector.artistTrackSelector,
 	);
-	return Util.splitArtistTrack(artistTrack, [SEPARATOR as any]);
+	return Util.splitArtistTrack(artistTrack, [SEPARATOR]);
 };
 
 Connector.pauseButtonSelector =
