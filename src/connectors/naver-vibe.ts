@@ -15,21 +15,23 @@ Connector.getTimeInfo = () => {
 
 	let duration;
 	if (currentTime) {
-		const bar_style = Util.getAttrFromSelectors(
+		const barStyle = Util.getAttrFromSelectors(
 			'#player .bar_progress .bar_play',
 			'style',
 		);
-		if (bar_style) {
+		if (barStyle) {
 			const width = 'width:';
-			const width_idx = bar_style.indexOf(width);
-			const progress_percent = bar_style
+			const widthIdx = barStyle.indexOf(width);
+			const progressPercent = barStyle
 				.substring(
-					width_idx + width.length,
-					bar_style.indexOf('#', width_idx + width.length),
+					widthIdx + width.length,
+					barStyle.indexOf('#', widthIdx + width.length),
 				)
 				.trim();
-			duration = currentTime / (+progress_percent / 100);
-			if (isNaN(duration)) duration = undefined;
+			duration = currentTime / (+progressPercent / 100);
+			if (isNaN(duration)) {
+				duration = undefined;
+			}
 		}
 	}
 
