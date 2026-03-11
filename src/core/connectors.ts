@@ -1152,12 +1152,6 @@ export default <ConnectorMeta[]>[
 		id: 'jango',
 	},
 	{
-		label: 'PlayIrish',
-		matches: ['*://*.playirish.ie/*'],
-		js: 'playirish.js',
-		id: 'playirish',
-	},
-	{
 		label: 'Radio Record',
 		matches: ['*://www.radiorecord.ru/*'],
 		js: 'radiorecord.js',
