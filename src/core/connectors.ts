@@ -494,12 +494,6 @@ export default <ConnectorMeta[]>[
 		id: 'plaza',
 	},
 	{
-		label: 'Retrowave',
-		matches: ['*://retrowave.ru/*'],
-		js: 'retrowave.js',
-		id: 'retrowave',
-	},
-	{
 		label: 'Genie',
 		matches: ['*://www.genie.co.kr/player/fPlayer*'],
 		js: 'genie.js',
