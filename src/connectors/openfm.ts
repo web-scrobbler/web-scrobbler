@@ -1,4 +1,4 @@
-export {};
+export { };
 
 Connector.playerSelector = '#player-controlbar';
 
@@ -27,6 +27,6 @@ Connector.currentTimeSelector = `${Connector.playerSelector} span[data-current-t
 Connector.durationSelector = `${Connector.currentTimeSelector}~span`;
 
 Connector.pauseButtonSelector = [
-	`${Connector.playerSelector} button[name="play"][style*="\e822"]`, // stop button
-	`${Connector.playerSelector} button[name="play"][style*="\e813"]`, // pause button
+	`${Connector.playerSelector} button[name="play"][style*="e822"]`, // stop button
+	`${Connector.playerSelector} button[name="play"][style*="e813"]`, // pause button
 ];
