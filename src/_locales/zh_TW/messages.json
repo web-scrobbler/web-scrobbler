@@ -408,7 +408,7 @@
         "description": "Option label"
     },
     "optionsConnectors": {
-        "message": "Connectors",
+        "message": "Connector",
         "description": "'Connectors' section"
     },
     "optionsEnableDisableHint": {
