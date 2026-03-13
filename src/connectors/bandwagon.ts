@@ -4,7 +4,9 @@ Connector.pauseButtonSelector = 'button.media-Play';
 Connector.pauseButtonSelector = 'button.media-Pause';
 
 const stripPrefixAndTrim = (prefix: string) => (str: string) => {
-	if (str.startsWith(prefix)) str = str.substring(prefix.length);
+	if (str.startsWith(prefix)) {
+		return str.substring(prefix.length).trim();
+	}
 	return str.trim();
 };
 
@@ -73,7 +75,9 @@ if (document.querySelector('#main>[id*="track-"]')) {
 			'#album-tracks .playing>div:last-child a',
 			'href',
 		);
-		if (!trackPath) return null;
+		if (!trackPath) {
+			return null;
+		}
 		const domain = window.origin.substring(
 			window.origin.indexOf('://') + 3,
 		);
