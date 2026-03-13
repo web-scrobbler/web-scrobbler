@@ -1,10 +1,10 @@
-export {};
+export { };
 
 Connector.playerSelector = '[data-testid*="tracks"]';
 
 function playingTrackElement() {
 	const tracks = document.querySelectorAll(
-		Connector.playerSelector + ' li~li',
+		`${Connector.playerSelector}  li~li`,
 	);
 	return Array.from(tracks).find((elem) =>
 		elem.textContent.toLowerCase().includes('now playing'),
