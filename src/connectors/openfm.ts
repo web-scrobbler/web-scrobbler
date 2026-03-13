@@ -1,4 +1,4 @@
-export { };
+export {};
 
 Connector.playerSelector = '#player-controlbar';
 
