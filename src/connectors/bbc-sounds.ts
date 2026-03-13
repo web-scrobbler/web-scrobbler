@@ -1,4 +1,4 @@
-export { };
+export {};
 
 Connector.playerSelector = '[data-testid*="tracks"]';
 
