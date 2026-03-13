@@ -1,10 +1,10 @@
 export {};
 
-Connector.playerSelector = '[data-testid="rail-aod_tracks"]';
+Connector.playerSelector = '[data-testid*="tracks"]';
 
 function playingTrackElement() {
 	const tracks = document.querySelectorAll(
-		'[data-testid="rail-aod_tracks"] li~li',
+		Connector.playerSelector + ' li~li',
 	);
 	return Array.from(tracks).find((elem) =>
 		elem.textContent.toLowerCase().includes('now playing'),
