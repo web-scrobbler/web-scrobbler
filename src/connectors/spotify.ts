@@ -35,12 +35,16 @@ Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
 
 Connector.getDuration = () => {
 	const text = Util.getTextFromSelectors(Connector.durationSelector);
-	if (text?.startsWith('-')) return null;
+	if (text?.startsWith('-')) {
+		return null;
+	}
 	return Util.stringToSeconds(text);
 };
 Connector.getRemainingTime = () => {
 	const text = Util.getTextFromSelectors(Connector.durationSelector);
-	if (!text || !text?.startsWith('-')) return null;
+	if (!text || !text?.startsWith('-')) {
+		return null;
+	}
 	return Util.stringToSeconds(text);
 };
 
