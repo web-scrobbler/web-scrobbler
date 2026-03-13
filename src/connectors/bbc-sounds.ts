@@ -1,15 +1,19 @@
-export { };
+export {};
 
 Connector.playerSelector = '[data-testid="rail-aod_tracks"]';
 
 function playingTrackElement() {
-	const tracks = document.querySelectorAll('[data-testid="rail-aod_tracks"] li~li');
-	return Array.from(tracks).find(elem => elem.textContent.toLowerCase().includes('now playing'));
+	const tracks = document.querySelectorAll(
+		'[data-testid="rail-aod_tracks"] li~li',
+	);
+	return Array.from(tracks).find((elem) =>
+		elem.textContent.toLowerCase().includes('now playing'),
+	);
 }
 
 Connector.isPlaying = () => {
 	return !!playingTrackElement();
-}
+};
 
 Connector.getArtistTrack = () => {
 	const trackElement = playingTrackElement();
