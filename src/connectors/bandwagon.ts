@@ -1,6 +1,5 @@
 export {};
 
-Connector.pauseButtonSelector = 'button.media-Play';
 Connector.pauseButtonSelector = 'button.media-Pause';
 
 const stripPrefixAndTrim = (prefix: string) => (str: string) => {
@@ -56,7 +55,6 @@ if (document.querySelector('#main>[id*="track-"]')) {
 	// album page
 	Connector.playerSelector = ['#media-controls', '#album-tracks'];
 
-	// is this correct? it's the album artwork, not the track artwork...
 	Connector.trackArtSelector = '#album-icon';
 
 	const filter = MetadataFilter.createFilter({
