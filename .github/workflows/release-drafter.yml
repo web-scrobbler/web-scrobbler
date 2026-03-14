@@ -4,15 +4,12 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    types: [opened, reopened, synchronize]
-  pull_request_target:
-    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: write
 
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
