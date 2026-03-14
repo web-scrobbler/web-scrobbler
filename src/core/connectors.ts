@@ -724,7 +724,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Nashville BoomBox',
-		matches: ['*://boombox.library.nashville.org/*'],
+		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'nashville-library-boombox',
 	},
