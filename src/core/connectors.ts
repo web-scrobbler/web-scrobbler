@@ -1533,7 +1533,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'abc.net.au',
-		matches: ['*://www.abc.net.au/*/listen-live/*'],
+		matches: ['*://www.abc.net.au/*/*live*/*'],
 		js: 'abc.net.au.js',
 		id: 'abcnetau',
 	},
