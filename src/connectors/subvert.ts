@@ -1,5 +1,5 @@
 export {};
-// https://github.com/web-scrobbler/web-scrobbler/blob/master/src/core/content/connector.ts
+
 const player = '[class*=globalPlayerContainer]';
 const artistSelector = `${player} .globalPlayerCoverImage > div:nth-child(2) > a:nth-child(2)`;
 const trackSelector = `${player} .globalPlayerCoverImage > div:nth-child(2) > a:nth-child(1)`;
