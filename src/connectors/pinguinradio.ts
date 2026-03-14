@@ -1,28 +1,11 @@
 export {};
 
-const trackInfoSelector = '.stream-title';
-const playButtonSelector = '.playbutton .material-icons';
+Connector.playerSelector = 'app-audiofooter';
 
-Connector.playerSelector = '.audio-player';
+const trackInfoSelector = `${Connector.playerSelector} :has(>a>span)`;
 
-Connector.getArtistTrack = () => {
-	const trackInfoElement = document.querySelector(trackInfoSelector);
-	if (!trackInfoElement) {
-		return null;
-	}
+Connector.trackSelector = `${trackInfoSelector} :not(a)>span`;
 
-	const [trackElement, , artistElement] = trackInfoElement.childNodes;
-	return {
-		artist: artistElement && artistElement.textContent,
-		track: trackElement && trackElement.textContent,
-	};
-};
+Connector.artistSelector = `${trackInfoSelector}>a>span`;
 
-Connector.isPlaying = () => {
-	const playButton = document.querySelector(playButtonSelector);
-	if (playButton) {
-		return playButton.textContent?.includes('pause');
-	}
-
-	return true;
-};
+Connector.useTabAudibleApi();
