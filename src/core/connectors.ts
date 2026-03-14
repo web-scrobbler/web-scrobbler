@@ -2350,7 +2350,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'radio.de',
-		matches: ['*://www.radio.de/*'],
+		matches: ['*://www.radio.de/*', '*://www.radio.net/*'],
 		js: 'radio.de.js',
 		id: 'radiode',
 	},
