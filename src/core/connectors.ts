@@ -766,7 +766,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Monstercat',
-		matches: ['*://www.monstercat.com/*'],
+		matches: ['*://www.monstercat.com/*', '*://player.monstercat.com/*'],
 		js: 'monstercat.js',
 		id: 'monstercat',
 	},
