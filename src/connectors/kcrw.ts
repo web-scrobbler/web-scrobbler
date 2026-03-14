@@ -8,55 +8,91 @@ const filter = MetadataFilter.createFilter({
 		MetadataFilter.removeCleanExplicit,
 	],
 });
-// we are using fuzzy matching for the classes in this connector because I think they are generated at run time and thus can potentially change on each build. This would make the only consistent part the suffix of the class name, ex: "AudioPlayer_audioController".
+
+// We use fuzzy class matching (class*=) throughout this connector because the
+// class names are CSS modules with build-time hashes (e.g. "AudioPlayer_audioController__3dl_S").
+// Only the prefix before the hash is stable across builds.
 Connector.playerSelector = '[class*="AudioPlayer_audioController"]';
 
 Connector.getTrackInfo = () => {
-	// Tracklist on this page are paginated. When the page is initially loaded this will click the button and it keep clicking "Show More" on each play cycle until all tracks are displayed and the "Show More" button is no longer present. This is necessary because as the tracks play there will be a possiblity that the currently playing track is not in the DOM and thus the connector won't be able to get the track info.
-	const showMoreButton = document.querySelector<HTMLElement>(
+	// --- Show More pagination ---
+	// Both page types paginate their tracklist. We click "Show More" on each
+	// poll cycle until it disappears, ensuring the playing track is in the DOM.
+
+	// EmbeddedTracklist pages (e.g. /shows/.../stories/... episode pages):
+	// Show More button has a unique EmbeddedTracklist_pagingShowMore class.
+	const embeddedShowMore = document.querySelector<HTMLElement>(
 		'[class*="EmbeddedTracklist_pagingShowMore"]',
 	);
+
+	// Eclectic24 tracklist page has a Show More button as of right now but we don't need to worry about it because the currently playing track is always in the DOM. If that changes in the future, we can add a selector for it here.
+	const showMoreButton = embeddedShowMore;
 	if (showMoreButton) {
 		showMoreButton.click();
 		return null;
 	}
-	// .shows/... page(s), ex: https://www.kcrw.com/shows/francesca-harding/stories/a-playlist-of-high-energy-indie-delectable-disco-and-groovy-ethio-jazz
-	// the tracklist shows the currently playing track with an SVG playing indicator inside its prefix element
-	const playingItem = document.querySelector(
+
+	// --- EmbeddedTracklist pages (e.g. /shows/.../stories/... episode pages) ---
+	// The currently playing item has an SVG playing indicator inside its prefix element.
+	const embeddedPlayingItem = document.querySelector(
 		'[class*="EmbeddedTracklist_tracklistItem"]:has([class*="Tracklist_prefix"] svg)',
 	);
 
-	Util.debugLog(`playingItem: ${playingItem}`);
-	Util.debugLog(`playingItem innerHTML: ${playingItem?.innerHTML}`);
+	if (embeddedPlayingItem) {
+		const trackEl = embeddedPlayingItem.querySelector(
+			'[class*="Tracklist_trackTitle"]',
+		);
+		const artistEl = embeddedPlayingItem.querySelector(
+			'[class*="Tracklist_artistLabel"]',
+		);
+		const trackText =
+			(trackEl as HTMLElement | null)?.innerText?.trim() ?? null;
+		const artistText =
+			(artistEl as HTMLElement | null)?.innerText?.trim() ?? null;
 
-	if (!playingItem) {
-		return null;
+		Util.debugLog(`[EmbeddedTracklist] trackText: ${trackText}`);
+		Util.debugLog(`[EmbeddedTracklist] artistText: ${artistText}`);
+
+		// There may need to be some sort of check here for BREAK if/when it is
+		// possible to support scrobbling from the player.
+		// ex. if (trackText === "BREAK" || artistText === "BREAK") return null;
+		if (!trackText) {
+			return null;
+		}
+
+		return { artist: artistText, track: trackText };
 	}
 
-	const trackEl = playingItem.querySelector(
-		'[class*="Tracklist_trackTitle"]',
+	// --- Tracklist pages (e.g. /music/eclectic24-7) ---
+	// The currently playing item is marked with a "Now Playing" eyebrow paragraph.
+	// Artist is in a dedicated Tracklist_artistLabel span (not the full info div).
+	const tracklistPlayingItem = document.querySelector(
+		'[class*="Tracklist_tracklistItem"]:has(p.eyebrow)',
 	);
-	const artistEl = playingItem.querySelector('[class*="Tracklist_info"]');
-	const trackText =
-		(trackEl as HTMLElement | null)?.innerText?.trim() ?? null;
-	const artistText =
-		(artistEl as HTMLElement | null)?.innerText?.trim() ?? null;
 
-	Util.debugLog(`trackText: ${trackText}`);
-	Util.debugLog(`artistText: ${artistText}`);
+	if (tracklistPlayingItem) {
+		const trackEl = tracklistPlayingItem.querySelector(
+			'[class*="Tracklist_trackTitle"]',
+		);
+		const artistEl = tracklistPlayingItem.querySelector(
+			'[class*="Tracklist_artistLabel"]',
+		);
+		const trackText =
+			(trackEl as HTMLElement | null)?.innerText?.trim() ?? null;
+		const artistText =
+			(artistEl as HTMLElement | null)?.innerText?.trim() ?? null;
 
-	// There may need to be some sort of check here for BREAK if/when it is possible to suppport scrobbling from player.
-	// ex. if (trackText === "BREAK" || artistText === "BREAK") {
-	//     return null;
-	// }
-	if (!trackText) {
-		return null;
+		Util.debugLog(`[Tracklist] trackText: ${trackText}`);
+		Util.debugLog(`[Tracklist] artistText: ${artistText}`);
+
+		if (!trackText) {
+			return null;
+		}
+
+		return { artist: artistText, track: trackText };
 	}
 
-	return {
-		artist: artistText,
-		track: trackText,
-	};
+	return null;
 };
 
 Connector.isPlaying = () => {
