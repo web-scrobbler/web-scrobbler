@@ -36,7 +36,7 @@ jobs:
           VERSION: ${{ env.EXT_VERSION }}
 
       - name: Publish release on GitHub
-        uses: test-room-7/action-publish-release-drafts@v0
-        with:
-          github-token: ${{ secrets.BOT_PAT }}
-          tag-name: ${{ env.EXT_VERSION }}
+        run: gh release edit "${{ env.EXT_VERSION }}" --draft=false
+        env:
+          GH_TOKEN: ${{ secrets.BOT_PAT }}
+          GH_REPO: ${{ github.repository }}
