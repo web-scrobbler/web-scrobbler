@@ -81,7 +81,7 @@ type YoutubeChannelInfo = {
 	musicArtistName: string | null;
 };
 /**
- * caches results of https://youtube.com/channel/${channelId} requests
+ * caches results of https://www.youtube.com/channel/${channelId} requests
  */
 const youtubeChannelCache: {
 	[channelId: string]: CacheValue<YoutubeChannelInfo>;
@@ -106,7 +106,7 @@ type YoutubeWatchInfo = {
 	}[];
 };
 /**
- * caches results of https://youtube.com/watch?v=${videoId} requests
+ * caches results of https://www.youtube.com/watch?v=${videoId} requests
  */
 const youtubeWatchCache: {
 	[videoId: string]: CacheValue<YoutubeWatchInfo>;
@@ -267,41 +267,41 @@ Connector.scrobblingDisallowedReason = () => {
 	return isVideoCategoryAllowed() ? null : 'ForbiddenYouTubeCategory';
 };
 
-Connector.isStateChangeAllowed = () => {
-	// const videoId = getVideoId();
-	// if (!videoId) {
-	// 	return false;
-	// }
+// Connector.isStateChangeAllowed = () => {
+// 	// const videoId = getVideoId();
+// 	// if (!videoId) {
+// 	// 	return false;
+// 	// }
 
-	// wait for requests to finish
-	// const ytMusicCache = youtubeMusicCache[videoId];
-	// if (ytMusicCache && !ytMusicCache.done) {
-	// 	return false;
-	// }
-	// const ytWatchCache = youtubeWatchCache[videoId];
-	// if (ytWatchCache && !ytWatchCache.done) {
-	// 	return false;
-	// }
-	// const ytChannelCache = youtubeChannelCache[videoId];
-	// if (ytChannelCache && !ytChannelCache.done) {
-	// 	return false;
-	// }
+// 	// wait for requests to finish
+// 	// const ytMusicCache = youtubeMusicCache[videoId];
+// 	// if (ytMusicCache && !ytMusicCache.done) {
+// 	// 	return false;
+// 	// }
+// 	// const ytWatchCache = youtubeWatchCache[videoId];
+// 	// if (ytWatchCache && !ytWatchCache.done) {
+// 	// 	return false;
+// 	// }
+// 	// const ytChannelCache = youtubeChannelCache[videoId];
+// 	// if (ytChannelCache && !ytChannelCache.done) {
+// 	// 	return false;
+// 	// }
 
-	// const ytFetchResponse = fetchYoutubeMusic(videoId);
-	// const ytWatchResponse = fetchYoutubeWatch(videoId);
-	// const ytChannelResponse = fetchYoutubeChannel(
-	// 	ytWatchResponse?.done ? ytWatchResponse.channelId : null,
-	// );
-	// if (
-	// 	!(!ytFetchResponse || ytFetchResponse.done) ||
-	// 	!(!ytWatchResponse || ytWatchResponse.done) ||
-	// 	!(!ytChannelResponse || ytChannelResponse.done)
-	// ) {
-	// 	// wait for requests to finish
-	// 	return false;
-	// }
-	return true;
-};
+// 	// const ytFetchResponse = fetchYoutubeMusic(videoId);
+// 	// const ytWatchResponse = fetchYoutubeWatch(videoId);
+// 	// const ytChannelResponse = fetchYoutubeChannel(
+// 	// 	ytWatchResponse?.done ? ytWatchResponse.channelId : null,
+// 	// );
+// 	// if (
+// 	// 	!(!ytFetchResponse || ytFetchResponse.done) ||
+// 	// 	!(!ytWatchResponse || ytWatchResponse.done) ||
+// 	// 	!(!ytChannelResponse || ytChannelResponse.done)
+// 	// ) {
+// 	// 	// wait for requests to finish
+// 	// 	return false;
+// 	// }
+// 	return true;
+// };
 
 Connector.applyFilter(
 	MetadataFilter.createYouTubeFilter().append({
@@ -519,7 +519,7 @@ function fetchYoutubeChannel(
 		done: false,
 	};
 
-	fetch(`https://youtube.com/channel/${channelId}`)
+	fetch(`https://www.youtube.com/channel/${channelId}`)
 		.then((response) => response.text())
 		.then((responseText) => {
 			const data = textJsonUtils.findJson(
@@ -570,7 +570,7 @@ function fetchYoutubeWatch(
 		done: false,
 	};
 
-	fetch(`https://youtube.com/watch?v=${videoId}`)
+	fetch(`https://www.youtube.com/watch?v=${videoId}`)
 		.then((response) => response.text())
 		.then((responseText) => {
 			const playerResponse = textJsonUtils.findJson(
@@ -839,38 +839,39 @@ function getTrackInfoFromYoutubeFetch():
 	let title = ytWatchResponse.title;
 	// let { artist, track } = Util.processYtVideoTitle(ytWatchResponse.title);
 
-	if (hasChapters) {
-		const videoElem = document.querySelector(videoSelector);
-		if (!videoElem) {
-			console.debug('what time is it????');
-			// uhhhh, try again later
-			return {};
-		}
-		let { currentTime, duration, playbackRate } =
-			videoElem as HTMLVideoElement;
-
-		// let artistTrack = Util.processYtVideoTitle(
-		// 	ytWatchResponse.chapters[0].title,
-		// );
-		let i = 0;
-		do {
-			const chapter = ytWatchResponse.chapters[i];
-			if (chapter.time > currentTime) {
-				// console.debug(chapter.time, '>', currentTime);
-				break;
-			}
-			title = chapter.title;
-			// artistTrack = Util.processYtVideoTitle(chapter.title);
-			i++;
-		} while (i < ytWatchResponse.chapters.length);
-		// console.debug('title', title);
-		// if (artistTrack.track) {
-		// 	track = artistTrack.track;
-		// 	if (artistTrack.artist) {
-		// 		artist = artistTrack.artist;
-		// 	}
-		// }
+	if (!hasChapters) {
+		return;
 	}
+
+	const videoElem = document.querySelector(videoSelector);
+	if (!videoElem) {
+		console.debug('what time is it????');
+		// uhhhh, try again later
+		return {};
+	}
+	let { currentTime, duration, playbackRate } = videoElem as HTMLVideoElement;
+
+	// let artistTrack = Util.processYtVideoTitle(
+	// 	ytWatchResponse.chapters[0].title,
+	// );
+	let i = 0;
+	do {
+		const chapter = ytWatchResponse.chapters[i];
+		if (chapter.time > currentTime) {
+			// console.debug(chapter.time, '>', currentTime);
+			break;
+		}
+		title = chapter.title;
+		// artistTrack = Util.processYtVideoTitle(chapter.title);
+		i++;
+	} while (i < ytWatchResponse.chapters.length);
+	// console.debug('title', title);
+	// if (artistTrack.track) {
+	// 	track = artistTrack.track;
+	// 	if (artistTrack.artist) {
+	// 		artist = artistTrack.artist;
+	// 	}
+	// }
 
 	let artistTrack = Util.processYtVideoTitle(title);
 
