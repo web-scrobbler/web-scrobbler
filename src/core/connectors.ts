@@ -1622,6 +1622,12 @@ export default <ConnectorMeta[]>[
 		id: 'radio7lv',
 	},
 	{
+		label: 'Radio Nemiers',
+		matches: ['*://radionemiers.com/*'],
+		js: 'radionemiers.js',
+		id: 'radionemiers',
+	},
+	{
 		label: 'TOWER RECORDS MUSIC',
 		matches: ['*://music.tower.jp/*'],
 		js: 'towerrecordsmusic.js',
