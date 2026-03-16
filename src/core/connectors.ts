@@ -1622,6 +1622,12 @@ export default <ConnectorMeta[]>[
 		id: 'radio7lv',
 	},
 	{
+		label: 'Radio NABA',
+		matches: ['*://naba.lv/*', '*://www.naba.lv/*'],
+		js: 'naba.js',
+		id: 'naba',
+	},
+	{
 		label: 'TOWER RECORDS MUSIC',
 		matches: ['*://music.tower.jp/*'],
 		js: 'towerrecordsmusic.js',
