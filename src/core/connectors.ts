@@ -2777,4 +2777,10 @@ export default <ConnectorMeta[]>[
 		js: 'radiosaw.js',
 		id: 'radiosaw',
 	},
+	{
+		label: 'Radio SWH',
+		matches: ['*://play.radioswh.lv/*'],
+		js: 'radioswh.js',
+		id: 'radioswh',
+	},
 ];
