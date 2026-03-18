@@ -519,16 +519,40 @@
         "message": "Bandcamp özel alan URL'siyle eşleşen URL modelini ekleyin ve değişiklikleri uygulayın.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Özel URL kalıpları hakkında daha fazla bilgiyi <a target='_blank' href='$1'>burada</a> bulabilirsiniz.",
+    "faqAnswer4c1": {
+        "message": "Özel URL kalıpları hakkında daha fazla bilgiyi ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "burada",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": " bulabilirsiniz.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "____ adresine skroplama desteği ekleyecek misiniz?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "İsteğinizle birlikte GitHub'da <a href='$1' target='_blank'>yeni issue</a> açın, size internet sitesi için destek ekleyip ekleyemeyeceğimizi söyleyeceğiz. Ayrıca <a href='$1'>GitHub deposu</a>nu çatallayarak ve bize bir çekme isteği göndererek web sitesi için destek ekleyebilirsiniz.",
+    "faqAnswer5a": {
+        "message": "İsteğinizle birlikte GitHub'da ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "yeni issue",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " açın, size internet sitesi için destek ekleyip ekleyemeyeceğimizi söyleyeceğiz. Ayrıca ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "GitHub deposu",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": "nu çatallayarak ve bize bir çekme isteği göndererek web sitesi için destek ekleyebilirsiniz.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "Hakkında",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Mevcut sürümün değişiklik günlüğüne <a id='latest-release' target='_blank' href='$1'>burada</a> ulaşılabilir. Değişiklik günlüğünün tamamı için lütfen <a target='_blank' href='$2'>bu sayfayı</a> ziyaret edin.",
+    "aboutChangelog1": {
+        "message": "Mevcut sürümün değişiklik günlüğüne ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "burada",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": " ulaşılabilir. Değişiklik günlüğünün tamamı için lütfen ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "bu sayfayı",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": " ziyaret edin.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Katkıda Bulunanlar",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Katkıda bulunanların listesini <a href='$1'>doğrudan GitHub</a>'da bulabilirsiniz.",
+    "contributorsText1": {
+        "message": "Katkıda bulunanların listesini ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "doğrudan GitHub",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": "'da bulabilirsiniz.",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "You are using version $1 of the extension.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Katkıda bulunmak ister misiniz? <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">İnternet sitemiz</a>'de projeye katkıda bulunabileceğiniz tüm yolları görün.",
+    "contributorsContribute1": {
+        "message": "Katkıda bulunmak ister misiniz? ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "İnternet sitemiz",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": "'de projeye katkıda bulunabileceğiniz tüm yolları görün.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

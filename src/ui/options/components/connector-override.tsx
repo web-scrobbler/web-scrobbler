@@ -58,7 +58,7 @@ export default function ConnectorOverrideOptions(props: {
 		<>
 			<h1>{t('optionsSupportedWebsites')}</h1>
 			<p>{t('optionsEnableDisableHint')}</p>
-			<p innerHTML={t('optionsCustomPatternsHint')} />
+			<p>{t('optionsCustomPatternsHint')}</p>
 			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
 					<SettingsOutlined />

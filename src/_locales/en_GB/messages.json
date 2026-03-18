@@ -519,16 +519,40 @@
         "message": "Add URL pattern that matches the Bandcamp custom domain URL and apply the changes.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "You can learn more about the custom URL patterns <a target='_blank' href='$1'>here</a>.",
+    "faqAnswer4c1": {
+        "message": "You can learn more about the custom URL patterns ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "here",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": ".",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Will you add support for scrobbling at ____ ?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Open a <a href='$1' target='_blank'>new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href='$2'>GitHub repository</a> and sending us a pull request.",
+    "faqAnswer5a": {
+        "message": "Open a ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "new issue",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "GitHub repository",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " and sending us a pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "About",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
+    "aboutChangelog1": {
+        "message": "The changelog of current version is available ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "here",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". For the full changelog please visit ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "this page",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Contributors",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "You can find the list of contributors <a href='$1'>right on the GitHub</a>",
+    "contributorsText1": {
+        "message": "You can find the list of contributors ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "right on the GitHub",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": "",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "You are using version $1 of the extension.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+    "contributorsContribute1": {
+        "message": "Want to contribute? See all the ways you can contribute to the project at ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "our website",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

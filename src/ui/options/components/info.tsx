@@ -15,18 +15,44 @@ export default function InfoComponent() {
 		<>
 			<h1>{t('optionsAbout')}</h1>
 			<p>{t('aboutExtensionDesc')}</p>
-			<p
-				innerHTML={t('aboutChangelog', [
-					currentChangelog(),
-					RELEASES_URL,
-				])}
-			></p>
+			<p>
+				{t('aboutChangelog1')}
+				<a
+					id="latest-release"
+					target="_blank"
+					href={currentChangelog()}
+				>
+					{t('aboutChangelog2_latest-release-url')}
+				</a>
+				{t('aboutChangelog3')}
+				<a id="all-releases" target="_blank" href={RELEASES_URL}>
+					{t('aboutChangelog4_all-releases-url')}
+				</a>
+				{t('aboutChangelog5')}
+			</p>
 			<h2>{t('versionTitle')}</h2>
-			<p innerHTML={t('versionText', getExtensionVersion())}></p>
+			<p>{t('versionText', getExtensionVersion())}</p>
 			<h2>{t('contributorsTitle')}</h2>
-			<p innerHTML={t('contributorsText', CONTRIBUTORS_URL)}></p>
+			<p>
+				{t('contributorsText1')}
+				<a id="contributors" href={CONTRIBUTORS_URL}>
+					{t('contributorsText2_contributors-url')}
+				</a>
+				{t('contributorsText3')}
+			</p>
 			// #v-ifdef !VITE_SAFARI
-			<p innerHTML={t('contributorsContribute', CONTRIBUTING_URL)}></p>
+			<p>
+				{t('contributorsContribute1')}
+				<a
+					id="contributing"
+					target="_blank"
+					href={CONTRIBUTING_URL}
+					rel="noopener noreferrer"
+				>
+					{t('contributorsContribute2_contributing-url')}
+				</a>
+				{t('contributorsContribute3')}
+			</p>
 			// #v-endif
 		</>
 	);

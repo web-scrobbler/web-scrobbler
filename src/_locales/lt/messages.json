@@ -519,16 +519,40 @@
         "message": "Pridėkite URL šabloną, atitinkantį „Bandcamp“ pasirinktinio domeno URL, ir pritaikykite pakeitimus.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Galite sužinoti daugiau apie pasirinktinius URL šablonus <a target='_blank' href='$1'>čia</a>.",
+    "faqAnswer4c1": {
+        "message": "Galite sužinoti daugiau apie pasirinktinius URL šablonus ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "čia",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": ".",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Ar pridėsite palaikymą skrobuolinimui ____ ?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Atidarykite <a href='$1' target='_blank'>naują problemą</a> platformoje „GitHub“ su savo prašymu ir mes jums pasakysime, ar galime pridėti svetainės palaikymą, ar ne. Be to, galite pridėti svetainės palaikymą iššakodami <a href='$1'>„GitHub“ saugyklą</a> ir siųsdami mums sujungimo prašymą.",
+    "faqAnswer5a": {
+        "message": "Atidarykite ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "naują problemą",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " platformoje „GitHub“ su savo prašymu ir mes jums pasakysime, ar galime pridėti svetainės palaikymą, ar ne. Be to, galite pridėti svetainės palaikymą iššakodami ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "„GitHub“ saugyklą",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " ir siųsdami mums sujungimo prašymą.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "Apie",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Dabartinės versijos pakeitimų sąrašas pateikiamas <a id='latest-release' target='_blank' href='$1'>čia</a>. Dėl viso pakeitimų sąrašo aplankykite <a target='_blank' href='$2'>šį puslapį</a>.",
+    "aboutChangelog1": {
+        "message": "Dabartinės versijos pakeitimų sąrašas pateikiamas ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "čia",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". Dėl viso pakeitimų sąrašo aplankykite ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "šį puslapį",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Bendradarbiai",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Bendradarbių sąrašą galite rasti <a href='$1'>svetainėje „GitHub“</a>",
+    "contributorsText1": {
+        "message": "Bendradarbių sąrašą galite rasti ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "svetainėje „GitHub“",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": "",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "Naudojate $1 plėtinio versiją.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Norite prisidėti? Žiūrėkite visus būdus, kaip galite prisidėti prie projekto, <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">mūsų svetainėje</a>.",
+    "contributorsContribute1": {
+        "message": "Norite prisidėti? Žiūrėkite visus būdus, kaip galite prisidėti prie projekto, ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "mūsų svetainėje",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

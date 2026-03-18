@@ -519,16 +519,40 @@
         "message": "Adicione um padrão de URL que corresponda ao URL do domínio personalizado do Bandcamp e aplique as alterações.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Clique <a target='_blank' href='$1'>aqui</a> para saber mais sobre padrões personalizados de URL.",
+    "faqAnswer4c1": {
+        "message": "Clique ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "aqui",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": " para saber mais sobre padrões personalizados de URL.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Você pode adicionar suporte ao site ____?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Crie um <a href='$1' target='_blank'>novo issue</a> no GitHub com o seu pedido e informaremos se podemos ou não adicionar suporte ao site em questão. Além disso, você mesmo pode adicionar suporte ao site criando uma bifurcação do <a href='$1'>repositório no GitHub</a> e enviando um pull request.",
+    "faqAnswer5a": {
+        "message": "Crie um ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "novo issue",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " no GitHub com o seu pedido e informaremos se podemos ou não adicionar suporte ao site em questão. Além disso, você mesmo pode adicionar suporte ao site criando uma bifurcação do ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "repositório no GitHub",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " e enviando um pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "Sobre",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "As notas de atualização da versão atual estão disponíveis <a id='latest-release' target='_blank' href='$1'>aqui</a>. Para as notas completas, por favor visite <a target='_blank' href='$2'>esta página.</a>",
+    "aboutChangelog1": {
+        "message": "As notas de atualização da versão atual estão disponíveis ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "aqui",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". Para as notas completas, por favor visite ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "esta página",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Colaboradores",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Você pode encontrar a lista de colaboradores <a href='$1'>diretamente no GitHub</a>",
+    "contributorsText1": {
+        "message": "Você pode encontrar a lista de colaboradores ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "diretamente no GitHub",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": "",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "Você está usando a versão $1 desta extensão.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Quer contribuir? Veja como você pode contribuir com o projeto no <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">nosso site</a>.",
+    "contributorsContribute1": {
+        "message": "Quer contribuir? Veja como você pode contribuir com o projeto no ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "nosso site",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

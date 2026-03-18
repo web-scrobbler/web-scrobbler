@@ -519,16 +519,40 @@
         "message": "Ajoutez le modèle d'URL qui correspond à l'URL du domaine personnalisé Bandcamp et appliquez les changements.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Vous pouvez en apprendre plus concernant les modèles d'URL personnalisés <a target='_blank' href='$1'>ici</a>.",
+    "faqAnswer4c1": {
+        "message": "Vous pouvez en apprendre plus concernant les modèles d'URL personnalisés ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "ici",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": ".",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Allez-vous ajouter le support pour scrobblé sur ____ ?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Ouvrez une <a href='$1' target='_blank'>nouvelle issue</a> sur GitHub avec votre requête et nous vous dirons si nous pouvons ajouter le support pour le site ou non. Vous pouvez aussi ajouter le support du site en forkant le <a href='$1'>repository GitHub</a> et en nous envoyant une pull request.",
+    "faqAnswer5a": {
+        "message": "Ouvrez une ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "nouvelle issue",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " sur GitHub avec votre requête et nous vous dirons si nous pouvons ajouter le support pour le site ou non. Vous pouvez aussi ajouter le support du site en forkant le ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "repository GitHub",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " et en nous envoyant une pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "À propos",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
+    "aboutChangelog1": {
+        "message": "The changelog of current version is available ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "here",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". For the full changelog please visit ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "this page",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Contributeurs",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Vous pouvez trouver la liste des contributeurs <a href='$1'>directement sur le repository GitHub</a>",
+     "contributorsText1": {
+        "message": "Vous pouvez trouver la liste des contributeurs ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "directement sur le repository GitHub",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": "",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "You are using version $1 of the extension.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+    "contributorsContribute1": {
+        "message": "Want to contribute? See all the ways you can contribute to the project at ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "our website",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
