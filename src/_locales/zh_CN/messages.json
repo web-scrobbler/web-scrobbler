@@ -519,16 +519,40 @@
         "message": "添加匹配 Bandcamp 其他域名的网址匹配模板并应用更改。",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "您可以在<a target='_blank' href='$1'>这里</a>进一步了解自定义网址匹配模板。",
+    "faqAnswer4c1": {
+        "message": "您可以在",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "这里",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": "进一步了解自定义网址匹配模板。",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "你会添加对____的追踪支持吗？",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "在 Github 上根据您的需求发布一个<a href='$1' target='_blank'>新问题</a>，我们会告诉您能否添加对网站的支持。您也可以通过派生<a href='$1'>Github 项目</a>并向我们发送拉取请求来添加对网站的支持。",
+    "faqAnswer5a": {
+        "message": "在 Github 上根据您的需求发布一个",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "新问题",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": "，我们会告诉您能否添加对网站的支持。您也可以通过派生",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "Github 项目",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": "并向我们发送拉取请求来添加对网站的支持。",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "关于",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
+    "aboutChangelog1": {
+        "message": "The changelog of current version is available ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "here",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". For the full changelog please visit ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "this page",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "贡献者",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "您可以直接在 <a href='$1'>GitHub</a> 上找到贡献者列表。",
+    "contributorsText1": {
+        "message": "您可以直接在 ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "GitHub",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": " 上找到贡献者列表。",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "You are using version $1 of the extension.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+    "contributorsContribute1": {
+        "message": "Want to contribute? See all the ways you can contribute to the project at ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "our website",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

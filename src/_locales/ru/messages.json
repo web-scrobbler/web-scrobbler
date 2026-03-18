@@ -519,16 +519,40 @@
         "message": "Добавьте шаблон URL, который будет соответствовать нестандартному домену Bandcamp, и примените изменения.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='$1'>здесь</a>.",
+    "faqAnswer4c1": {
+        "message": "Вы можете узнать больше о пользовательских шаблонах URL ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "здесь",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": ".",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Добавите ли вы поддержку ____?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Создайте <a href='$1' target='_blank'>новый багрепорт</a> на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув <a href='$1'>проект на GitHub</a> и отправив нам пулл-реквест.",
+    "faqAnswer5a": {
+        "message": "Создайте ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "новый багрепорт",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "проект на GitHub",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " и отправив нам пулл-реквест.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "О расширении",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='$1'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='$2'>этой странице</a>.",
+    "aboutChangelog1": {
+        "message": "Список изменений текущей версии доступен ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "здесь",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". Полный список изменений вы можете посмотреть на ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "этой странице",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Участники проекта",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Вы можете посмотреть список участников проекта на <a href='$1'>странице проекта</a> на GitHub.",
+    "contributorsText1": {
+        "message": "Вы можете посмотреть список участников проекта на ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "странице проекта",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": " на GitHub.",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "Вы используете версию расширения $1.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Если вы хотите поучаствовать в разработке, вы можете ознакомиться со способами внести вклад в проект <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">на нашем сайте</a>.",
+    "contributorsContribute1": {
+        "message": "Если вы хотите поучаствовать в разработке, вы можете ознакомиться со способами внести вклад в проект ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "на нашем сайте",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

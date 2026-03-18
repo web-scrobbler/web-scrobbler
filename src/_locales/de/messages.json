@@ -519,16 +519,40 @@
         "message": "Erstelle ein URL-Muster, das auf die spezielle Bandcamp-Domain-URL zeigt und übernimm die Änderungen.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "<a target='_blank' href='$1'>Hier</a> kannst mehr über benutzerdefinierte URL-Muster erfahren.",
+    "faqAnswer4c1": {
+        "message": "",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "Hier",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": " kannst mehr über benutzerdefinierte URL-Muster erfahren.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Werdet ihr Unterstützung für das Scrobblen auf ____ hinzufügen?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Eröffne ein <a href='$1' target='_blank'>neues Issue</a> auf Github mit deiner Anfrage und wir werden dir sagen ob wir Unterstützung für die Seite hinzufügen können oder nicht. Außerdem kannst du die Unterstützung für die Webseite selbst hinzufügen indem du das <a href='$1'>Github-Repository</a> forkst und uns einen Pull-Request schickst.",
+    "faqAnswer5a": {
+        "message": "Eröffne ein ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "neues Issue",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " auf Github mit deiner Anfrage und wir werden dir sagen ob wir Unterstützung für die Seite hinzufügen können oder nicht. Außerdem kannst du die Unterstützung für die Webseite selbst hinzufügen indem du das ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "Github-Repository",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " forkst und uns einen Pull-Request schickst.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "Über",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Das Änderungsprotokoll der aktuellen Version ist <a id='latest-release' target='_blank' href='$1'>hier</a> verfügbar. Besuche für das vollständige Änderungsprotokoll <a target='_blank' href='$2'>diese Seite</a>.",
+    "aboutChangelog1": {
+        "message": "Das Änderungsprotokoll der aktuellen Version ist ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "hier",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": " verfügbar. Besuche für das vollständige Änderungsprotokoll ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "diese Seite",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Mitwirkende",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Du kannst die Liste der Mitwirkenden <a href='$1'>direkt auf Github</a> sehen",
+    "contributorsText1": {
+        "message": "Du kannst die Liste der Mitwirkenden ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "direkt auf Github",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": " sehen",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "Du verwendest Version $1 der Erweiterung.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Möchtest du einen Beitrag leisten? Finde alle Möglichkeiten an diesem Projekt mitzuwirken auf <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">unserer Website</a>.",
+    "contributorsContribute1": {
+        "message": "Möchtest du einen Beitrag leisten? Finde alle Möglichkeiten an diesem Projekt mitzuwirken auf ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "unserer Website",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

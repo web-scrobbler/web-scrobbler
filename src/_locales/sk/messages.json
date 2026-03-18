@@ -519,16 +519,40 @@
         "message": "Pridajte URL vzor, ktorý vyhovuje neštandartnej adrese na Bandcamp a uložte zmeny.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "O URL vzoroch sa môžte dozvedieť viacej <a target='_blank' href='$1'>tu</a>.",
+    "faqAnswer4c1": {
+        "message": "O URL vzoroch sa môžte dozvedieť viacej ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "tu",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": ".",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Pridáte podporu pre stránku ____?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Nahláste <a href='$1' target='_blank'>nový problém</a> na GitHube s vašimi požiadavkami a my Vám povieme, či vieme pridať podporu pre stránku. Prípadne môžete prispieť do projektu pridaním podpory pre stránku vytvorením forku <a href='$1'>GitHub repozitára</a> a zaslaním pull requestu.",
+    "faqAnswer5a": {
+        "message": "Nahláste ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "nový problém",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " na GitHube s vašimi požiadavkami a my Vám povieme, či vieme pridať podporu pre stránku. Prípadne môžete prispieť do projektu pridaním podpory pre stránku vytvorením forku ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "GitHub repozitára",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " a zaslaním pull requestu.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "O doplnku",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='$2'>this page</a>.",
+    "aboutChangelog1": {
+        "message": "The changelog of current version is available ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "here",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". For the full changelog please visit ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "this page",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Vývojári",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Úplný zoznam vývojárov môžete nájsť <a href='$1'>priamo na Githube</a>",
+    "contributorsText1": {
+        "message": "Úplný zoznam vývojárov môžete nájsť ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "priamo na Githube",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": "",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "You are using version $1 of the extension.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Want to contribute? See all the ways you can contribute to the project at <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+    "contributorsContribute1": {
+        "message": "Want to contribute? See all the ways you can contribute to the project at ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "our website",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

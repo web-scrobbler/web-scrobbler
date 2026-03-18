@@ -519,16 +519,40 @@
         "message": "加入符合 Bandcamp 中自訂域名的 URL 規則並套用變更。",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "您可以在 <a target='_blank' href='$1'>此處</a> 進一步了解 URL 規則。",
+    "faqAnswer4c1": {
+        "message": "您可以在 ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "此處",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": " 進一步了解 URL 規則。",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "你會新增對 ____ 的支援嗎？",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "在 GitHub 上開啟<a href='$1' target='_blank'>新的 issue</a>，我們會告訴您我們能不能新增對該網站的支援。您也可以自己將 <a href='$1'>GitHub 版本庫</a>進行分支，撰寫支援之後像我們遞交 pull request。",
+    "faqAnswer5a": {
+        "message": "在 GitHub 上開啟",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "新的 issue",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": "，我們會告訴您我們能不能新增對該網站的支援。您也可以自己將 ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "GitHub 版本庫",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": "進行分支，撰寫支援之後像我們遞交 pull request。",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "關於",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "目前版本的更新日誌可 <a id='latest-release' target='_blank' href='$1'>在此</a> 查看。如要查看完整的更新日誌，請查看 <a target='_blank' href='$2'>此頁面</a>。",
+    "aboutChangelog1": {
+        "message": "目前版本的更新日誌可 ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "在此",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": " 查看。如要查看完整的更新日誌，請查看 ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "此頁面",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": "。",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "貢獻者",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "您可以在 <a href='$1'>GitHub</a> 上找到貢獻者列表",
+    "contributorsText1": {
+        "message": "您可以在 ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "GitHub",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": " 上找到貢獻者列表",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "目前使用擴充元件版本為 $1。",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "希望貢獻嗎？請到<a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">我們的網站</a>查看您可以對此專案進行貢獻的方式。",
+    "contributorsContribute1": {
+        "message": "希望貢獻嗎？請到",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "我們的網站",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": "查看您可以對此專案進行貢獻的方式。",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {

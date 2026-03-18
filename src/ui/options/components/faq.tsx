@@ -1,4 +1,4 @@
-import { CUSTOM_URLS_DOCS_URL, ISSUES_URL, t } from '@/util/i18n';
+import { CUSTOM_URLS_DOCS_URL, ISSUES_URL, REPO_URL, t } from '@/util/i18n';
 
 /**
  * Component that shows some frequently asked questions
@@ -29,10 +29,30 @@ export default function FAQ() {
 				<li>{t('faqAnswer4b3')}</li>
 				<li>{t('faqAnswer4b4')}</li>
 			</ol>
-			<p innerHTML={t('faqAnswer4c', CUSTOM_URLS_DOCS_URL)} />
+			<p>
+				{t('faqAnswer4c1')}
+				<a
+					id="docs-custom-urls"
+					target="_blank"
+					href={CUSTOM_URLS_DOCS_URL}
+				>
+					{t('faqAnswer4c2_docs-custom-urls-url')}
+				</a>
+				{t('faqAnswer4c3')}
+			</p>
 
 			<h2>{t('faqQuestion5')}</h2>
-			<p innerHTML={t('faqAnswer5', ISSUES_URL)} />
+			<p>
+				{t('faqAnswer5a')}
+				<a id="gh-issues" target="_blank" href={ISSUES_URL}>
+					{t('faqAnswer5b_issues-url')}
+				</a>
+				{t('faqAnswer5c')}
+				<a id="gh-repo" target="_blank" href={REPO_URL}>
+					{t('faqAnswer5d_repo-url')}
+				</a>
+				{t('faqAnswer5e')}
+			</p>
 
 			<h2>{t('faqQuestion6')}</h2>
 			<p>{t('faqAnswer6')}</p>

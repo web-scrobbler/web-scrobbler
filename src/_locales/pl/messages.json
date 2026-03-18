@@ -519,16 +519,40 @@
         "message": "Dodaj wzorzec URL który odpowiada niestandardowej domenie Bandcampa i zatwierdź zmiany.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='$1'>tutaj</a>.",
+    "faqAnswer4c1": {
+        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL ",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c2_docs-custom-urls-url": {
+        "message": "tutaj",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c3": {
+        "message": ".",
         "description": "Answer #4"
     },
     "faqQuestion5": {
         "message": "Czy dodasz obsługę scrobblowania na stronie ____ ?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
-        "message": "Otwórz na GitHubie <a href='$1' target='_blank'>nowy wniosek</a> ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując <a href='$1'>repozytorium na GitHubie</a> i wysyłając nam pull requesta.",
+    "faqAnswer5a": {
+        "message": "Otwórz na GitHubie ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5b_issues-url": {
+        "message": "nowy wniosek",
+        "description": "Answer #5"
+    },
+    "faqAnswer5c": {
+        "message": " ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując ",
+        "description": "Answer #5"
+    },
+    "faqAnswer5d_repo-url": {
+        "message": "repozytorium na GitHubie",
+        "description": "Answer #5"
+    },
+    "faqAnswer5e": {
+        "message": " i wysyłając nam pull requesta.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -551,8 +575,24 @@
         "message": "O rozszerzeniu",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='$1'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='$2'>stronie projektu</a>.",
+    "aboutChangelog1": {
+        "message": "Lista nowości w obecnej wersji dostępna jest ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog2_latest-release-url": {
+        "message": "tutaj",
+        "description": "'About' section text"
+    },
+    "aboutChangelog3": {
+        "message": ". Pełny wykaz zmian dostępny jest na ",
+        "description": "'About' section text"
+    },
+    "aboutChangelog4_all-releases-url": {
+        "message": "stronie projektu",
+        "description": "'About' section text"
+    },
+    "aboutChangelog5": {
+        "message": ".",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -563,8 +603,16 @@
         "message": "Współtwórcy",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
-        "message": "Możesz znaleźć listę współtwórców <a href='$1'>bezpośrednio na GitHubie</a>",
+    "contributorsText1": {
+        "message": "Możesz znaleźć listę współtwórców ",
+        "description": "'About' section text"
+    },
+    "contributorsText2_contributors-url": {
+        "message": "bezpośrednio na GitHubie",
+        "description": "'About' section text"
+    },
+    "contributorsText3": {
+        "message": "",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -575,8 +623,16 @@
         "message": "Używasz rozszerzenia w wersji $1.",
         "description": "'About' section text"
     },
-    "contributorsContribute": {
-        "message": "Chcesz przyczynić się do rozwoju projektu? Zapoznaj się ze wszystkimi sposobami na jakie jest to możliwe na <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">naszej stronie</a>.",
+    "contributorsContribute1": {
+        "message": "Chcesz przyczynić się do rozwoju projektu? Zapoznaj się ze wszystkimi sposobami na jakie jest to możliwe na ",
+        "description": "'About' section text"
+    },
+    "contributorsContribute2_contributing-url": {
+        "message": "naszej stronie",
+        "description": "'About' section text"
+    },
+    "contributorsContribute3": {
+        "message": ".",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
