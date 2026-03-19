@@ -1,4 +1,5 @@
 import type { ArtistTrackInfo, BaseState } from '@/core/types';
+import { setupConnector, ytMusicCache, ytWatchCache } from './youtube-shared';
 
 export {};
 
@@ -128,10 +129,10 @@ const trackInfoGetters: (() =>
 	| null
 	| undefined
 	| Record<string, never>)[] = [
-	getTrackInfoFromYoutubeFetch,
-	// getTrackInfoFromChapters,
-	// getTrackInfoFromYoutubeMusic,
-	// getTrackInfoFromTitle,
+	// getTrackInfoFromYoutubeFetch,
+	getTrackInfoFromChapters,
+	getTrackInfoFromYoutubeMusic,
+	getTrackInfoFromTitle,
 ];
 
 readConnectorOptions();
@@ -235,6 +236,7 @@ Connector.getUniqueID = () => {
 };
 
 Connector.scrobblingDisallowedReason = () => {
+	console.log('[youtube.ts] scrobblingDisallowedReason..');
 	if (document.querySelector('.ad-showing')) {
 		return 'IsAd';
 	}
@@ -247,20 +249,22 @@ Connector.scrobblingDisallowedReason = () => {
 	if (scrobbleMusicRecognisedOnly) {
 		const videoId = getVideoId();
 
-		const ytMusicResponse = fetchYoutubeMusic(videoId);
+		if (videoId) {
+			const ytMusicResponse = ytMusicCache.get(videoId);
 
-		if (!ytMusicResponse) {
-			return 'Other';
-		}
+			if (ytMusicResponse === null) {
+				return 'Other';
+			}
 
-		if (!ytMusicResponse.done) {
-			// not done loading yet
-			return 'IsLoading';
-		}
+			if (ytMusicResponse === undefined) {
+				// not done loading yet
+				return 'IsLoading';
+			}
 
-		if (!ytMusicResponse.recognisedByYtMusic) {
-			// not recognised!
-			return 'NotOnYouTubeMusic';
+			if (!ytMusicResponse.recognisedByYtMusic) {
+				// not recognised!
+				return 'NotOnYouTubeMusic';
+			}
 		}
 	}
 
@@ -346,26 +350,7 @@ function areChaptersAvailable() {
 	return text;
 }
 
-type VideoData = {
-	video_id?: string;
-	title?: string;
-	author?: string;
-};
-function getVideoData(): VideoData | null {
-	return null;
-	return (
-		(
-			document.querySelector('.html5-video-player') as any
-		)?.getVideoData() ?? null
-	);
-}
-
 function getVideoId() {
-	const videoData = getVideoData();
-	if (videoData?.video_id) {
-		return videoData.video_id;
-	}
-
 	/*
 	 * ytd-watch-flexy element contains ID of a first played video
 	 * if the miniplayer is visible, so we should check
@@ -399,17 +384,17 @@ function getVideoCategory() {
 		return null;
 	}
 
-	const ytWatchResponse = fetchYoutubeWatch(videoId);
+	const ytWatchResponse = ytWatchCache.get(videoId);
 
-	if (!ytWatchResponse) {
+	if (ytWatchResponse === null) {
 		return Category.Unknown;
 	}
 
-	if (!ytWatchResponse.done) {
+	if (ytWatchResponse === undefined) {
 		return Category.Pending;
 	}
 
-	return ytWatchResponse.category;
+	return ytWatchResponse.category ?? Category.Unknown;
 }
 
 const textJsonUtils = {
@@ -499,405 +484,19 @@ async function readConnectorOptions() {
 	}
 }
 
-type FetchResponse<T> = { done: false } | ({ done: true } & T) | null;
-
-function fetchYoutubeChannel(
-	channelId: string | null,
-): FetchResponse<YoutubeChannelInfo> {
-	if (!ytChannelEnabled || typeof channelId !== 'string') {
-		return null;
-	}
-	const cache = youtubeChannelCache[channelId];
-	if (cache) {
-		if (cache.done && !('error' in cache)) {
-			return cache;
-		}
-		return null;
-	}
-	console.debug('fetching youtube channel for id', channelId);
-	youtubeChannelCache[channelId] = {
-		done: false,
-	};
-
-	fetch(`https://www.youtube.com/channel/${channelId}`)
-		.then((response) => response.text())
-		.then((responseText) => {
-			const data = textJsonUtils.findJson(
-				responseText,
-				'ytInitialData = ',
-			);
-			console.debug('data =', data);
-
-			const musicArtistName =
-				data.metadata?.channelMetadataRenderer?.musicArtistName ?? null;
-
-			youtubeChannelCache[channelId] = {
-				done: true,
-				musicArtistName,
-			};
-			console.debug(channelId, '=>', youtubeChannelCache[channelId]);
-			Connector.onStateChanged();
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch youtube channel data for ${channelId}: ${err}`,
-				'warn',
-			);
-			youtubeChannelCache[channelId] = {
-				done: true,
-				error: `${err}`,
-			};
-		});
-
-	return youtubeChannelCache[channelId];
-}
-
-function fetchYoutubeWatch(
-	videoId: string | null,
-): FetchResponse<YoutubeWatchInfo> {
-	if (!ytWatchEnabled || typeof videoId !== 'string') {
-		return null;
-	}
-	const cache = youtubeWatchCache[videoId];
-	if (cache) {
-		if (cache.done && !('error' in cache)) {
-			return cache;
-		}
-		return null;
-	}
-	console.debug('fetching youtube watch for id', videoId);
-	youtubeWatchCache[videoId] = {
-		done: false,
-	};
-
-	fetch(`https://www.youtube.com/watch?v=${videoId}`)
-		.then((response) => response.text())
-		.then((responseText) => {
-			const playerResponse = textJsonUtils.findJson(
-				responseText,
-				'ytInitialPlayerResponse = ',
-			);
-			console.debug('playerResponse =', playerResponse);
-			// (window as any).playerResponse = playerResponse;
-			const data = textJsonUtils.findJson(
-				responseText,
-				'ytInitialData = ',
-			);
-			console.debug('data =', data);
-			// (window as any).data = data;
-
-			const category = textJsonUtils.getFirst(
-				playerResponse,
-				'microformat.playerMicroformatRenderer.category',
-			);
-			/**
-			 * @prop {string}   videoId
-			 * @prop {string}   title
-			 * @prop {string}   lengthSeconds
-			 * @prop {string[]} keywords
-			 * @prop {string}   channelId
-			 * @prop {string}   shortDescription
-			 * @prop {string}   author
-			 */
-			type VideoDetails = {
-				videoId: string;
-				title: string;
-				lengthSeconds: string;
-				keywords: string[];
-				channelId: string;
-				shortDescription: string;
-				author: string;
-			};
-			const videoDetails: VideoDetails = textJsonUtils.getFirst(
-				playerResponse,
-				'videoDetails',
-			);
-
-			const descriptionEngagementPanel = textJsonUtils.getIf(
-				data,
-				'engagementPanels[].engagementPanelSectionListRenderer',
-				(panel) =>
-					panel?.targetId ==
-					'engagement-panel-structured-description',
-			);
-
-			const attributed = textJsonUtils
-				.getAll(
-					descriptionEngagementPanel,
-					'content.structuredDescriptionContentRenderer.items[].horizontalCardListRenderer.cards[].videoAttributeViewModel',
-				)
-				.map((obj) => {
-					const trackArt: string | undefined = textJsonUtils
-						.getAll(obj, 'image.sources[].url')
-						.at(-1);
-					Util.debugLog(trackArt, 'info');
-					return {
-						trackArt: trackArt
-							? /^https?:\/\//.exec(trackArt)
-								? trackArt
-								: `${window.origin}${trackArt}`
-							: undefined,
-						track: obj.title,
-						artist: obj.subtitle,
-						album: textJsonUtils.getFirst(
-							obj,
-							'secondarySubtitle.content',
-						),
-					};
-				});
-
-			const chapterEngagementPanel = textJsonUtils.getIf(
-				data,
-				'engagementPanels[].engagementPanelSectionListRenderer',
-				(panel) =>
-					panel?.targetId ===
-					'engagement-panel-macro-markers-description-chapters',
-			);
-			const chapters = textJsonUtils
-				.getAll(chapterEngagementPanel, [
-					'content.structuredDescriptionContentRenderer.items[].horizontalCardListRenderer.cards[].macroMarkersListItemRenderer',
-					'content.macroMarkersListRenderer.contents[].macroMarkersListItemRenderer',
-				])
-				.map((obj) => {
-					const timeText = textJsonUtils.getIf(
-						obj,
-						['timeDescription.simpleText', 'timeDescription'],
-						(x) => typeof x === 'string',
-					);
-					const title = textJsonUtils.getIf(
-						obj,
-						['title.simpleText', 'title'],
-						(x) => typeof x === 'string',
-					);
-					return {
-						title,
-						time: Util.stringToSeconds(timeText),
-					};
-				});
-
-			youtubeWatchCache[videoId] = {
-				done: true,
-				category,
-
-				title: videoDetails.title,
-				channel: videoDetails.author,
-				channelId: videoDetails.channelId,
-
-				chapters,
-				attributedTrackInfo:
-					attributed.length > 0 ? attributed[0] : undefined,
-			};
-			console.debug(videoId, '=>', youtubeWatchCache[videoId]);
-			Connector.onStateChanged();
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch youtube video data for ${videoId}: ${err}`,
-				'warn',
-			);
-			youtubeWatchCache[videoId] = {
-				done: true,
-				error: `${err}`,
-			};
-		});
-
-	return youtubeWatchCache[videoId];
-}
-
-function fetchYoutubeMusic(
-	videoId: string | null,
-): FetchResponse<YoutubeMusicInfo> {
-	if (!ytMusicEnabled || typeof videoId !== 'string') {
-		return null;
-	}
-	const cache = youtubeMusicCache[videoId];
-	if (cache) {
-		if (cache.done && !('error' in cache)) {
-			return cache;
-		}
-		return null;
-	}
-	console.debug('fetching youtube music for id', videoId);
-	youtubeMusicCache[videoId] = { done: false };
-
-	const body = JSON.stringify({
-		context: {
-			client: {
-				// parameters are needed, you get a 400 if you omit these
-				// specific values are just what I got when doing a request
-				// using firefox
-				clientName: 'WEB_REMIX',
-				clientVersion: '1.20221212.01.00',
-			},
-		},
-		captionParams: {},
-		videoId,
-	});
-
-	fetch('https://music.youtube.com/youtubei/v1/player', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body,
-	})
-		.then((response) => response.json())
-		.then((videoInfo) => {
-			(window as any).videoInfo = videoInfo;
-			const musicVideoType: string | undefined =
-				videoInfo.videoDetails?.musicVideoType;
-
-			const recognisedByYtMusic =
-				musicVideoType?.startsWith('MUSIC_VIDEO_') || false;
-			const currentTrackInfo: { artist?: string; track?: string } = {};
-
-			switch (musicVideoType) {
-				// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
-				// not something youtube music actually knows, so it usually gives
-				// wrong results, so we only return if it is that musicVideoType
-				case 'MUSIC_VIDEO_TYPE_OMV':
-					currentTrackInfo.artist = videoInfo.videoDetails.author;
-					currentTrackInfo.track = videoInfo.videoDetails.title;
-			}
-
-			youtubeMusicCache[videoId] = {
-				done: true,
-				recognisedByYtMusic,
-				currentTrackInfo,
-			};
-			Connector.onStateChanged();
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch youtube music data for ${videoId}: ${err}`,
-				'warn',
-			);
-			youtubeMusicCache[videoId] = {
-				done: true,
-				error: `${err}`,
-			};
-		});
-
-	return youtubeMusicCache[videoId];
-}
-
 Connector.isTrackArtDefault = (trackArt) =>
 	trackArt ===
 	'https://www.gstatic.com/youtube/img/watch/yt_music_channel.jpeg';
-
-function getTrackInfoFromYoutubeFetch():
-	| BaseState
-	| Record<string, never>
-	| undefined {
-	const videoId = getVideoId();
-	const ytWatchResponse = fetchYoutubeWatch(videoId);
-
-	if (!ytWatchResponse) {
-		// disabled or errored
-		return;
-	}
-
-	if (!ytWatchResponse.done) {
-		// still running, lets be patient
-		return {};
-	}
-
-	// order of importance:
-	// 1. chapters (+author)
-	// 2. attributed
-	// 3. title (+author)
-	const hasChapters = ytWatchResponse.chapters?.length !== 0;
-	const hasAttributed = !!ytWatchResponse.attributedTrackInfo;
-
-	// short circuit, if the video is attributed and we take any attribution, and there are no chapters, then just return that info
-	if (!hasChapters && hasAttributed && !useAttributedOnlyForAutoGenerated) {
-		return ytWatchResponse.attributedTrackInfo;
-	}
-
-	let channel = ytWatchResponse.channel;
-	let generatedChannel = false;
-
-	const ytChannelResult = fetchYoutubeChannel(ytWatchResponse.channelId);
-	if (!ytChannelResult) {
-		// disabled or errored
-		// keep going
-	} else {
-		if (!ytChannelResult.done) {
-			// still running, lets be patient
-			return {};
-		}
-		if (ytChannelResult.musicArtistName) {
-			channel = ytChannelResult.musicArtistName;
-			generatedChannel = true;
-		}
-	}
-
-	if (!hasChapters && hasAttributed && generatedChannel) {
-		return ytWatchResponse.attributedTrackInfo;
-	}
-
-	let title = ytWatchResponse.title;
-	// let { artist, track } = Util.processYtVideoTitle(ytWatchResponse.title);
-
-	if (!hasChapters) {
-		return;
-	}
-
-	const videoElem = document.querySelector(videoSelector);
-	if (!videoElem) {
-		console.debug('what time is it????');
-		// uhhhh, try again later
-		return {};
-	}
-	let { currentTime, duration, playbackRate } = videoElem as HTMLVideoElement;
-
-	// let artistTrack = Util.processYtVideoTitle(
-	// 	ytWatchResponse.chapters[0].title,
-	// );
-	let i = 0;
-	do {
-		const chapter = ytWatchResponse.chapters[i];
-		if (chapter.time > currentTime) {
-			// console.debug(chapter.time, '>', currentTime);
-			break;
-		}
-		title = chapter.title;
-		// artistTrack = Util.processYtVideoTitle(chapter.title);
-		i++;
-	} while (i < ytWatchResponse.chapters.length);
-	// console.debug('title', title);
-	// if (artistTrack.track) {
-	// 	track = artistTrack.track;
-	// 	if (artistTrack.artist) {
-	// 		artist = artistTrack.artist;
-	// 	}
-	// }
-
-	let artistTrack = Util.processYtVideoTitle(title);
-
-	if (!artistTrack.track) {
-		artistTrack.track = title;
-	}
-	if (!artistTrack.artist) {
-		artistTrack.artist = channel;
-	}
-
-	return artistTrack;
-}
 
 function getTrackInfoFromYoutubeMusic():
 	| ArtistTrackInfo
 	| Record<string, never>
 	| undefined {
 	const videoId = getVideoId();
-	const ytMusicResponse = fetchYoutubeMusic(videoId);
 
-	if (!ytMusicResponse?.done) {
-		// still running, lets be patient
-		return {};
+	if (videoId) {
+		return ytMusicCache.get(videoId)?.currentTrackInfo;
 	}
-
-	return ytMusicResponse.currentTrackInfo;
 }
 
 function getTrackInfoFromChapters() {
@@ -970,3 +569,5 @@ function isVideoCategoryAllowed() {
 		videoCategory === Category.Unknown
 	);
 }
+
+setupConnector();
