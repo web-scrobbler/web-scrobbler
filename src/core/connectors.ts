@@ -2777,4 +2777,10 @@ export default <ConnectorMeta[]>[
 		js: 'radiosaw.js',
 		id: 'radiosaw',
 	},
+	{
+		label: 'The Lot Radio',
+		matches: ['*://www.thelotradio.com/shows/*'],
+		js: 'thelotradio.js',
+		id: 'thelotradio',
+	},
 ];
