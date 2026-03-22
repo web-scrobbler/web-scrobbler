@@ -69,6 +69,12 @@ export default <ConnectorMeta[]>[
 		id: 'pakartot',
 	},
 	{
+	    label: 'poeba.lu',
+	    matches: ['*://poeba.lu/*'],
+	    js: 'poeba.lu.js',
+	    id: 'poebalu',
+	},
+	{
 		label: 'Deezer',
 		matches: ['*://www.deezer.com/*'],
 		js: 'deezer.js',
