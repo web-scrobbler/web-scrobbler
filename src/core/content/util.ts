@@ -16,13 +16,9 @@ import * as ControllerMode from '@/core/object/controller/controller-mode';
 import type Song from '../object/song';
 import { sendContentMessage } from '@/util/communication';
 
-const BrowserStorage = (async () => {
-	return import('@/core/storage/browser-storage');
-})();
+import * as BrowserStorage from '@/core/storage/browser-storage';
 
-const Options = (async () => {
-	return import('@/core/storage/options');
-})();
+const Options = import('@/core/storage/options');
 
 /**
  * All the separators used by the core and by connectors.
@@ -707,10 +703,9 @@ export async function getOption(
 	connector: string,
 	key: string,
 ): Promise<boolean> {
-	const awaitedStorage = await BrowserStorage;
-	const data = await awaitedStorage
-		.getStorage(awaitedStorage.CONNECTORS_OPTIONS)
-		.get();
+	const data = await BrowserStorage.getStorage(
+		BrowserStorage.CONNECTORS_OPTIONS,
+	).get();
 	if (
 		data &&
 		connector in data &&
