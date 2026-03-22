@@ -16,13 +16,9 @@ import * as ControllerMode from '@/core/object/controller/controller-mode';
 import type Song from '../object/song';
 import { sendContentMessage } from '@/util/communication';
 
-const BrowserStorage = (async () => {
-	return import('@/core/storage/browser-storage');
-})();
+import * as BrowserStorage from '@/core/storage/browser-storage';
 
-const Options = (async () => {
-	return import('@/core/storage/options');
-})();
+const Options = import('@/core/storage/options');
 
 /**
  * All the separators used by the core and by connectors.

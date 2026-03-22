@@ -414,6 +414,4 @@ export async function setAllConnectorsEnabled(state: boolean): Promise<void> {
 	await options.set(data);
 }
 
-setTimeout(() => {
-	void setupDefaultConfigValues().then(cleanupConfigValues);
-}, 0);
+await setupDefaultConfigValues().then(cleanupConfigValues);
