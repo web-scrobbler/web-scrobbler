@@ -765,6 +765,12 @@ export default <ConnectorMeta[]>[
 		id: 'tracksmusiclibrary',
 	},
 	{
+		label: 'Bay Beats',
+		matches: ['*://baybeats.sfpl.org/*'],
+		js: 'musicat.js',
+		id: 'baybeats',
+	},
+	{
 		label: 'Monstercat',
 		matches: ['*://www.monstercat.com/*', '*://player.monstercat.com/*'],
 		js: 'monstercat.js',
