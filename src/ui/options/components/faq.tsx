@@ -33,12 +33,14 @@ export default function FAQ() {
 			<TAnchor
 				messageName="faqAnswer4c"
 				substitutions={CUSTOM_URLS_DOCS_URL}
+				target="_blank"
 			/>
 
 			<h2>{t('faqQuestion5')}</h2>
 			<TAnchor
 				messageName="faqAnswer5"
 				substitutions={[ISSUES_URL, REPO_URL]}
+				target="_blank"
 			/>
 
 			<h2>{t('faqQuestion6')}</h2>

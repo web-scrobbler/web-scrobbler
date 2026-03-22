@@ -28,11 +28,13 @@ export default function InfoComponent() {
 			<TAnchor
 				messageName="contributorsText"
 				substitutions={CONTRIBUTORS_URL}
+				target="_blank"
 			/>
 			// #v-ifdef !VITE_SAFARI
 			<TAnchor
 				messageName="contributorsContribute"
 				substitutions={CONTRIBUTING_URL}
+				target="_blank"
 			/>
 			// #v-endif
 		</>

@@ -69,6 +69,7 @@ export function Anchor(props: {
 	href: string;
 	class?: string;
 	title?: string;
+	target?: '_blank' | '_top' | '_self' | '_parent';
 }) {
 	return (
 		<a
@@ -146,14 +147,25 @@ export function TPopupAnchor(props: Localization): JSXElement {
 	);
 }
 
-export function TAnchor(props: Localization): JSXElement {
+export function TAnchor(
+	props: Localization & {
+		class?: string;
+		target?: '_blank' | '_top' | '_self' | '_parent';
+	},
+): JSXElement {
 	const [res, setRes] = createSignal<(string | [string, string])[]>([]);
 	onMount(() => anchorOnMount(props, setRes));
 	return (
 		<For each={res()}>
 			{(item) => (
 				<Show when={typeof item !== 'string'} fallback={item}>
-					<Anchor href={item[0]}>{item[1]}</Anchor>
+					<Anchor
+						href={item[0]}
+						class={props.class}
+						target={props.target}
+					>
+						{item[1]}
+					</Anchor>
 				</Show>
 			)}
 		</For>
