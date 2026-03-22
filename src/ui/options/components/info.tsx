@@ -1,3 +1,4 @@
+import { TAnchor } from '@/ui/components/util';
 import {
 	currentChangelog,
 	t,
@@ -24,9 +25,17 @@ export default function InfoComponent() {
 			<h2>{t('versionTitle')}</h2>
 			<p innerHTML={t('versionText', getExtensionVersion())}></p>
 			<h2>{t('contributorsTitle')}</h2>
-			<p innerHTML={t('contributorsText', CONTRIBUTORS_URL)}></p>
+			<TAnchor
+				messageName="contributorsText"
+				substitutions={CONTRIBUTORS_URL}
+				target="_blank"
+			/>
 			// #v-ifdef !VITE_SAFARI
-			<p innerHTML={t('contributorsContribute', CONTRIBUTING_URL)}></p>
+			<TAnchor
+				messageName="contributorsContribute"
+				substitutions={CONTRIBUTING_URL}
+				target="_blank"
+			/>
 			// #v-endif
 		</>
 	);

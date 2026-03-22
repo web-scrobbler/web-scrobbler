@@ -1,4 +1,4 @@
-import type { JSXElement } from 'solid-js';
+import type { JSXElement, Setter } from 'solid-js';
 import { For, Show, createSignal, onMount } from 'solid-js';
 import { t } from '../../util/i18n';
 import browser from 'webextension-polyfill';
@@ -64,58 +64,108 @@ export function PopupAnchor(props: {
 	);
 }
 
+export function Anchor(props: {
+	children: JSXElement | string;
+	href: string;
+	class?: string;
+	title?: string;
+	target?: '_blank' | '_top' | '_self' | '_parent';
+}) {
+	return (
+		<a
+			href={props.href}
+			title={props.title}
+			aria-label={props.title}
+			class={props.class}
+		>
+			{props.children}
+		</a>
+	);
+}
+
 /**
  * Regex that finds anchor tag
  */
-const anchorRegex = /<a.*?href="([^"]+)".*?>([^<]+)<\/a>/;
+const anchorRegex = /<a.*?href=("|')((?:(?!\1).)+)\1.*?>([^<]+)<\/a>/;
+type Localization = {
+	messageName: string;
+	substitutions?: string | string[];
+};
+const anchorOnMount = (
+	props: Localization,
+	setRes: Setter<(string | [string, string])[]>,
+) => {
+	let message = t(props.messageName, props.substitutions);
+	const maxIterations = 5;
+	let i = 0;
+	while (message) {
+		// check if we've gone over the max iterations
+		i++;
+		if (i > maxIterations) {
+			break;
+		}
+
+		// get match and break if there is none, inserting remaining message
+		const match = message.match(anchorRegex);
+		if (!match) {
+			// eslint-disable-next-line
+			setRes((prev) => [...prev, message]);
+			break;
+		}
+
+		// get full string, href from capture group 2, and tag content from capture group 3
+		// prettier-ignore
+		const [str, /* delimiter */, href, content] = match;
+
+		// push the content before the anchor, the anchor, and then slice the message to repeat the loop on remaining text.
+		// eslint-disable-next-line
+		setRes((prev) => [
+			...prev,
+			message.slice(0, match.index),
+			[href, content],
+		]);
+		message = message.slice((match.index ?? 0) + str.length);
+	}
+};
 
 /**
  * Gets localized string from locale and turns anchors into popup anchors.
  * Has a maximum iterations count just for safety's sake because while loop with janky code moment.
  */
-export function TPopupAnchor(props: {
-	messageName: string;
-	substitutions?: string | string[];
-}): JSXElement {
+export function TPopupAnchor(props: Localization): JSXElement {
 	const [res, setRes] = createSignal<(string | [string, string])[]>([]);
-	onMount(() => {
-		let message = t(props.messageName, props.substitutions);
-		const maxIterations = 5;
-		let i = 0;
-		while (message) {
-			// check if we've gone over the max iterations
-			i++;
-			if (i > maxIterations) {
-				break;
-			}
-
-			// get match and break if there is none, inserting remaining message
-			const match = message.match(anchorRegex);
-			if (!match) {
-				// eslint-disable-next-line
-				setRes((prev) => [...prev, message]);
-				break;
-			}
-
-			// get full string, href from capture group 1, and tag content from capture group 2
-			const [str, href, content] = match;
-
-			// push the content before the anchor, the anchor, and then slice the message to repeat the loop on remaining text.
-			// eslint-disable-next-line
-			setRes((prev) => [
-				...prev,
-				message.slice(0, match.index),
-				[href, content],
-			]);
-			message = message.slice((match.index ?? 0) + str.length);
-		}
-	});
+	onMount(() => anchorOnMount(props, setRes));
 	// convert the array of strings and tuples into a JSX element
 	return (
 		<For each={res()}>
 			{(item) => (
 				<Show when={typeof item !== 'string'} fallback={item}>
 					<PopupAnchor href={item[0]}>{item[1]}</PopupAnchor>
+				</Show>
+			)}
+		</For>
+	);
+}
+
+export function TAnchor(
+	props: Localization & {
+		class?: string;
+		target?: '_blank' | '_top' | '_self' | '_parent';
+	},
+): JSXElement {
+	const [res, setRes] = createSignal<(string | [string, string])[]>([]);
+	onMount(() => anchorOnMount(props, setRes));
+	return (
+		<For each={res()}>
+			{(item) => (
+				<Show when={typeof item !== 'string'} fallback={item}>
+					<Anchor
+						href={item[0]}
+						class={props.class}
+						target={props.target}
+					>
+						{item[1]}
+					</Anchor>
 				</Show>
 			)}
 		</For>

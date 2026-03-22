@@ -28,6 +28,7 @@ import browser from 'webextension-polyfill';
 import { t } from '@/util/i18n';
 import BlockedChannels from './edit-options/blocked-channels';
 import type { ModalType } from './navigator';
+import { TAnchor } from '@/ui/components/util';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(
@@ -58,7 +59,7 @@ export default function ConnectorOverrideOptions(props: {
 		<>
 			<h1>{t('optionsSupportedWebsites')}</h1>
 			<p>{t('optionsEnableDisableHint')}</p>
-			<p innerHTML={t('optionsCustomPatternsHint')} />
+			<TAnchor messageName="optionsCustomPatternsHint" target="_blank" />
 			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
 					<SettingsOutlined />
