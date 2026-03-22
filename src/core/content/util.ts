@@ -703,10 +703,9 @@ export async function getOption(
 	connector: string,
 	key: string,
 ): Promise<boolean> {
-	const awaitedStorage = await BrowserStorage;
-	const data = await awaitedStorage
-		.getStorage(awaitedStorage.CONNECTORS_OPTIONS)
-		.get();
+	const data = await BrowserStorage.getStorage(
+		BrowserStorage.CONNECTORS_OPTIONS,
+	).get();
 	if (
 		data &&
 		connector in data &&

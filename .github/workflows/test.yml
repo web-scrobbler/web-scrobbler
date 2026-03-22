@@ -1,7 +1,7 @@
 name: Test
 on:
   push:
-    branches: [master, test-ci-fix]
+    branches: [master]
   pull_request:
     types: [opened, synchronize]
 jobs:
@@ -21,82 +21,24 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests 1
-        run: npm run test
-      - name: Run tests 2
-        run: npm run test
-      - name: Run tests 3
-        run: npm run test
-      - name: Run tests 4
-        run: npm run test
-      - name: Run tests 5
-        run: npm run test
-      - name: Run tests 6
-        run: npm run test
-      - name: Run tests 7
-        run: npm run test
-      - name: Run tests 8
-        run: npm run test
-      - name: Run tests 9
-        run: npm run test
-      - name: Run tests 10
-        run: npm run test
-      - name: Run tests 11
-        run: npm run test
-      - name: Run tests 12
-        run: npm run test
-      - name: Run tests 13
-        run: npm run test
-      - name: Run tests 14
-        run: npm run test
-      - name: Run tests 15
-        run: npm run test
-      - name: Run tests 16
-        run: npm run test
-      - name: Run tests 17
-        run: npm run test
-      - name: Run tests 18
-        run: npm run test
-      - name: Run tests 19
-        run: npm run test
-      - name: Run tests 20
-        run: npm run test
-      - name: Run tests 21
-        run: npm run test
-      - name: Run tests 22
-        run: npm run test
-      - name: Run tests 23
-        run: npm run test
-      - name: Run tests 24
-        run: npm run test
-      - name: Run tests 25
-        run: npm run test
-      - name: Run tests 26
-        run: npm run test
-      - name: Run tests 27
-        run: npm run test
-      - name: Run tests 28
-        run: npm run test
-      - name: Run tests 29
-        run: npm run test
-      - name: Run tests 30
+      - name: Run tests
         run: npm run test
 
-  # test_typescript:
-  #   name: Run typescript checks
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout the repository
-  #       uses: actions/checkout@v6
+  test_typescript:
+    name: Run typescript checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
 
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v6
-  #       with:
-  #         node-version-file: '.nvmrc'
-  #         cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
-  #     - name: Install dependencies
-  #       run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-  #     - name: Check for typescript errors
-  #       run: npm run checkts
+      - name: Check for typescript errors
+        run: npm run checkts
