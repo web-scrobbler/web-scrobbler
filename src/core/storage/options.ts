@@ -417,5 +417,5 @@ export async function setAllConnectorsEnabled(state: boolean): Promise<void> {
 // prettier-ignore
 // #v-ifdef VITE_TEST
 await
-// #v-ifdef VITE_TEST
+// #v-endif
 setupDefaultConfigValues().then(cleanupConfigValues);
