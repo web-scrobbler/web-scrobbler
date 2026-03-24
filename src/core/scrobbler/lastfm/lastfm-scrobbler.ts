@@ -15,7 +15,7 @@ import { sendBackgroundMessage } from '@/util/communication';
 export default class LastFmScrobbler extends AudioScrobbler {
 	/** @override */
 	getApiUrl(): string {
-		return 'https://ws.audioscrobbler.com/2.0/';
+		return 'https://last-ing.vercel.app/api/2.0/';
 	}
 
 	/** @override */
