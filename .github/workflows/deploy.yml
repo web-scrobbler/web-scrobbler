@@ -65,13 +65,26 @@ jobs:
           gh release upload ${{ github.event.release.tag_name }} web-scrobbler-firefox.zip --clobber
 
       - name: Publish the extension for Firefox
-        uses: yayuyokitano/firefox-addon@v0.0.6-alpha
+        uses: inverse/firefox-addon@v0.0.7-alpha
         with:
           api_key: ${{ secrets.AMO_ISSUER }}
           api_secret: ${{ secrets.AMO_SECRET }}
           guid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
           xpi_path: web-scrobbler-firefox.zip
           src_path: web-scrobbler-src.zip
+          approval_notes: |
+            # Version ${{ github.event.release.tag_name }} upload
+
+
+            ## Build from source on arm hardware
+
+            This addon depends on pngquant which is required to build from source on arm hardware.
+
+            For this to work you should additionally install build-essential, pkg-config, libimagequant-dev packages on your system.
+
+            ```bash
+            sudo apt install build-essential pkg-config libimagequant-dev
+            ```
 
   deploy-edge:
     name: Deploy Edge extension
