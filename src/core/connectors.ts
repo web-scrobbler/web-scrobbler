@@ -689,6 +689,12 @@ export default <ConnectorMeta[]>[
 		id: 'radiojazzfm',
 	},
 	{
+		label: 'Listen Live',
+		matches: ['*://player.listenlive.co/*'],
+		js: 'listenlive.js',
+		id: 'listenlive',
+	},
+	{
 		label: 'Rayo',
 		matches: [
 			'*://hellorayo.co.uk/*/play/*',
