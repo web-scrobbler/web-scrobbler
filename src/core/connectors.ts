@@ -1849,6 +1849,13 @@ export default <ConnectorMeta[]>[
 		id: 'securenetsystems',
 	},
 	{
+		label: 'WBRU',
+		matches: ['*://www.wbru.com/*'],
+		js: 'radioco.js',
+		id: 'wbru',
+		allFrames: true,
+	},
+	{
 		label: 'uwu radio',
 		matches: ['*://radio.uwu.network/*'],
 		js: 'uwu-radio.js',
