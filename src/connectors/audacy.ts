@@ -45,5 +45,8 @@ Connector.scrobblingDisallowedReason = () => {
 Connector.applyFilter(filter);
 
 function removeDashes(text: string) {
+	if (Connector.isPodcast()) {
+		return text;
+	}
 	return text.replace(/-/g, ' ');
 }
