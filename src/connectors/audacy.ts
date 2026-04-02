@@ -1,5 +1,6 @@
 export {};
 
+const filter = MetadataFilter.createFilter({ artist: removeDashes });
 const audioPlayer = '[aria-label="Audio player"]';
 const buttonFullscreen = 'button[aria-label="Open full-screen player"]';
 
@@ -40,3 +41,9 @@ Connector.scrobblingDisallowedReason = () => {
 
 	return null;
 };
+
+Connector.applyFilter(filter);
+
+function removeDashes(text: string) {
+	return text.replace(/-/g, ' ');
+}
