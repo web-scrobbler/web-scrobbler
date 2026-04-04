@@ -38,6 +38,13 @@ export default <ConnectorMeta[]>[
 		allFrames: true,
 	},
 	{
+		label: 'poeba.lu',
+		matches: ['*://bandcamp.com/EmbeddedPlayer/*'],
+		js: 'poeba.lu.js',
+		id: 'poeba.lu',
+		allFrames: true,
+	},
+	{
 		label: 'Bandcamp',
 		matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/*'],
 		js: 'bandcamp.js',
