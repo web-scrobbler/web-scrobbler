@@ -20,4 +20,4 @@ Connector.currentTimeSelector = '#currenttime';
 Connector.durationSelector = '#totaltime';
 
 Connector.isPlaying = () =>
-	document.querySelector('#player.playing') !== null;
+	Util.hasElementClass(Connector.playerSelector, 'playing');
