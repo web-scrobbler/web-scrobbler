@@ -16,7 +16,7 @@ Connector.getTrackArt = () => {
 	);
 
 	if (trackArtUrl) {
-		return trackArtUrl.replace(/(?<=_)\d{3}(?=\.jpeg)/g, '916'); // larger image filename
+		return trackArtUrl.replace(/(?<=_)\d{3}(?=\.jpeg)/, '916'); // larger image filename
 	}
 
 	return null;
