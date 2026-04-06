@@ -26,6 +26,10 @@ Util.bindListeners(
 );
 Util.bindListeners(['ul li > button'], ['click'], Connector.onStateChanged);
 
+// TODO the last navigated show's playlist remains on the page for some reason, but with display: none
+// :not([style*=display:none])
+// sometimes there's no tracklist: https://www.thelotradio.com/shows/special-guests/2025-08-08-2000
+// look for crying-nicholas-cage.gif
 const nowPlayingSelector = 'ul li > button.text-purple';
 const nowPlayingNextSelector = 'ul li:has(button.text-purple) + li > button';
 Connector.trackSelector = `${nowPlayingSelector} > div > span:nth-of-type(2) > span:first-of-type`;
