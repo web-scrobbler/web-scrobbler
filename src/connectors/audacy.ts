@@ -1,79 +1,52 @@
 export {};
 
-const audioPlayer = 'div[aria-label="Audio player"]';
-const buttonOpenFullscreen = 'button[aria-label="Open full-screen player"]';
-const buttonCloseFullscreen = 'button[aria-label="Close full-screen player"]';
-const fullArtistTrackSelector = `${buttonCloseFullscreen} + div span`;
+const filter = MetadataFilter.createFilter({ artist: removeDashes });
+const audioPlayer = '[aria-label="Audio player"]';
+const buttonFullscreen = 'button[aria-label="Open full-screen player"]';
 
 Connector.playerSelector = '#root'; // player not in DOM until initiated by user
 
-Connector.getArtist = () => {
-	const miniArtistStationText = Util.getTextFromSelectors(
-		`${audioPlayer} ${buttonOpenFullscreen} span:nth-of-type(2)`,
-	);
+Connector.playButtonSelector = `${audioPlayer} button[aria-label=Play]`;
 
-	if (miniArtistStationText !== null) {
-		return miniArtistStationText.split(' • ')[0];
-	}
+Connector.isPodcast = () =>
+	Util.isElementVisible(`${audioPlayer} button[aria-label$="15 seconds"]`);
 
-	if (Util.isElementVisible(fullArtistTrackSelector)) {
-		return (
-			Util.getTextFromSelectors(fullArtistTrackSelector)?.split(
-				' - ',
-			)[1] ?? ''
-		);
-	}
+Connector.trackSelector = `${audioPlayer} ${buttonFullscreen} span:first-of-type`;
 
-	return null;
-};
+Connector.artistSelector = `${audioPlayer} ${buttonFullscreen} span:nth-of-type(2)`;
 
-Connector.getTrack = () => {
-	const miniTrackText = Util.getTextFromSelectors(
-		`${audioPlayer} ${buttonOpenFullscreen} span:first-of-type`,
-	);
+Connector.getArtist = () =>
+	Util.getTextFromSelectors(Connector.artistSelector)?.split(' • ')[0];
 
-	if (miniTrackText !== null) {
-		return miniTrackText;
-	}
+Connector.trackArtSelector = `${audioPlayer} ${buttonFullscreen} img`;
 
-	if (Util.isElementVisible(fullArtistTrackSelector)) {
-		return Util.getTextFromSelectors(fullArtistTrackSelector)?.split(
-			' - ',
-		)[0];
-	}
-
-	return null;
-};
-
-Connector.trackArtSelector = [
-	`${audioPlayer} ${buttonOpenFullscreen} img`,
-	`${buttonCloseFullscreen} + div img`,
-];
-
-Connector.isTrackArtDefault = (url) => url?.includes('base64');
-
-Connector.isPlaying = () => {
-	const buttonSvgTitle =
-		'button:not([aria-label=Like], [aria-label*=thumbs]) svg title';
-	const buttonPlaying = Util.getTextFromSelectors([
-		`${audioPlayer} ${buttonSvgTitle}`,
-		`${buttonCloseFullscreen} + div ${buttonSvgTitle}`,
-	]);
-	return buttonPlaying === 'Pause' || buttonPlaying === 'Stop';
-};
+Connector.isTrackArtDefault = (url) =>
+	url?.includes('radioimg.audacy.com') || url?.startsWith('data:image');
 
 Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist();
 	const track = Connector.getTrack();
 
-	if (!artist || !track) {
-		return 'Other';
-	}
-	if (artist.includes('Audacy') || artist === track) {
+	if (
+		artist === track ||
+		artist?.includes('Audacy') ||
+		(Util.getTextFromSelectors(Connector.artistSelector) === artist &&
+			!Connector.isPodcast())
+	) {
+		if (track?.startsWith('Advertisement')) {
+			return 'IsAd';
+		}
 		return 'FilteredTag';
 	}
-	if (track.startsWith('Advertisement')) {
-		return 'IsAd';
-	}
+
 	return null;
 };
+
+Connector.applyFilter(filter);
+
+function removeDashes(text: string) {
+	if (Connector.isPodcast()) {
+		return text;
+	}
+	return text.replace(/-/g, ' ');
+}
