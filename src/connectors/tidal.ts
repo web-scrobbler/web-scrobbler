@@ -27,7 +27,8 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-const artistSelector = `${Connector.playerSelector} span.artist-link a`;
+const artistSelector = `${Connector.playerSelector} a[data-test="grid-item-detail-text-title-artist"]`;
+const albumArtistSelector = `${artistSelector}:first-child`;
 
 Connector.getArtist = () => {
 	const artistNodes = document.querySelectorAll(artistSelector);
@@ -40,25 +41,8 @@ Connector.albumSelector = [
 ];
 
 Connector.getAlbumArtist = () => {
-	const albumUrlSegments = Util.getAttrFromSelectors(
-		Connector.albumSelector,
-		'href',
-	)?.split('/');
-	const pageUrlSegments = Util.getAttrFromSelectors(
-		'head meta[name="apple-itunes-app"]',
-		'content',
-	)?.split('/');
-	if (
-		'album' === albumUrlSegments?.at(-2) &&
-		'album' === pageUrlSegments?.at(-2) &&
-		albumUrlSegments?.at(-1) === pageUrlSegments?.at(-1)
-	) {
-		const albumArtistNode = document.querySelectorAll(
-			'main div[class^="_detailContainer"] .artist-link a',
-		);
-		return Util.joinArtists(Array.from(albumArtistNode));
-	}
-	return null;
+	const albumArtistNode = document.querySelectorAll(albumArtistSelector);
+	return Util.joinArtists(Array.from(albumArtistNode));
 };
 
 Connector.trackArtSelector = `${Connector.playerSelector} figure[data-test="current-media-imagery"] img`;
