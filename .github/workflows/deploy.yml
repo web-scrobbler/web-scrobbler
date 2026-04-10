@@ -65,7 +65,7 @@ jobs:
           gh release upload ${{ github.event.release.tag_name }} web-scrobbler-firefox.zip --clobber
 
       - name: Publish the extension for Firefox
-        uses: inverse/firefox-addon@v0.0.7-alpha
+        uses: inverse/firefox-addon@v0.0.8-alpha
         with:
           api_key: ${{ secrets.AMO_ISSUER }}
           api_secret: ${{ secrets.AMO_SECRET }}
@@ -101,6 +101,7 @@ jobs:
             Once complete you will find a `web-scrobbler-firefox.zip` file containing the built extension in the root of the repository.
 
             Alternatively, load the unpacked extension located in the `build/firefox` directory.
+          release_notes: ${{ github.event.release.body }}
 
   deploy-edge:
     name: Deploy Edge extension
