@@ -2777,4 +2777,10 @@ export default <ConnectorMeta[]>[
 		js: 'radiosaw.js',
 		id: 'radiosaw',
 	},
+	{
+		label: 'Meloradio',
+		matches: ['*://player.meloradio.pl/*'],
+		js: 'meloradio.js',
+		id: 'meloradio',
+	},
 ];
