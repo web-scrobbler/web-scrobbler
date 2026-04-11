@@ -2796,6 +2796,12 @@ export default <ConnectorMeta[]>[
 		id: 'radiosaw',
 	},
 	{
+		label: 'bandwagon',
+		matches: ['*://bandwagon.fm/*'],
+		js: 'bandwagon.js',
+		id: 'bandwagon',
+	},
+	{
 		label: 'Meloradio',
 		matches: ['*://player.meloradio.pl/*'],
 		js: 'meloradio.js',
