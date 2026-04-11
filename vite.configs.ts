@@ -45,7 +45,7 @@ export const buildBackground: UserConfig = {
 		lib: {
 			entry: resolvePath(root, 'core', 'background', 'main.ts'),
 			name: manifests.common.name,
-			formats: ['iife'],
+			formats: ['es'],
 		},
 		rollupOptions: {
 			output: {
@@ -67,7 +67,7 @@ export const buildContent: UserConfig = {
 		lib: {
 			entry: resolvePath(root, 'core', 'content', 'main.ts'),
 			name: manifests.common.name,
-			formats: ['iife'],
+			formats: ['es'],
 		},
 		rollupOptions: {
 			output: {
