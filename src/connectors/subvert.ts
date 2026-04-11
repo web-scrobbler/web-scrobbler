@@ -21,7 +21,7 @@ Connector.getArtistTrack = () => {
 	if (track) {
 		track = track.split('\n')[0].trim();
 	}
-	let titleParts = document.title.split('–');
+	const titleParts = document.title.split('–');
 	if (!artist && titleParts.length === 3) {
 		artist = titleParts[1].trim();
 	}
@@ -38,12 +38,12 @@ Connector.getTrackArt = () => {
 };
 
 Connector.isPlaying = () => {
-	let svgPlayPause = document.querySelector(
+	const svgPlayPause = document.querySelector(
 		`${Connector.playButtonSelector} svg`,
 	);
-	let height = svgPlayPause?.getAttribute('height');
-	let playingHeight = '32';
-	let pauseHeight = '24';
+	const height = svgPlayPause?.getAttribute('height');
+	const playingHeight = '32';
+	const pauseHeight = '24';
 	if (
 		!svgPlayPause ||
 		!height ||
@@ -53,13 +53,12 @@ Connector.isPlaying = () => {
 	}
 	if (height === playingHeight) {
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 };
 
 Connector.getOriginUrl = () => {
-	let link = document.querySelector(trackSelector) as HTMLAnchorElement;
+	const link = document.querySelector(trackSelector) as HTMLAnchorElement;
 	if (link) {
 		return link.href;
 	}
