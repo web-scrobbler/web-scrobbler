@@ -724,7 +724,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Nashville BoomBox',
-		matches: ['*://boombox.library.nashville.org/*'],
+		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'nashville-library-boombox',
 	},
@@ -763,6 +763,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://tracksmusiclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'tracksmusiclibrary',
+	},
+	{
+		label: 'Bay Beats',
+		matches: ['*://baybeats.sfpl.org/*'],
+		js: 'musicat.js',
+		id: 'baybeats',
 	},
 	{
 		label: 'Monstercat',
@@ -1620,6 +1626,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radio7.lv/*'],
 		js: 'radio7.js',
 		id: 'radio7lv',
+	},
+	{
+		label: 'Radio Nemiers',
+		matches: ['*://radionemiers.com/*'],
+		js: 'radionemiers.js',
+		id: 'radionemiers',
 	},
 	{
 		label: 'TOWER RECORDS MUSIC',
@@ -2782,5 +2794,11 @@ export default <ConnectorMeta[]>[
 		matches: ['*://tv3.lv/starfm/online/*'],
 		js: 'starfm.js',
 		id: 'starfm',
+	},
+	{
+		label: 'Meloradio',
+		matches: ['*://player.meloradio.pl/*'],
+		js: 'meloradio.js',
+		id: 'meloradio',
 	},
 ];
