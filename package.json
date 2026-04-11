@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "3.20.0",
+  "version": "3.21.0",
   "author": "David Šabata <posta@davidsabata.cz>",
   "contributors": [
     "@mountainash (https://mountainash.id.au/)"
@@ -46,7 +46,7 @@
     "@types/imagemin-jpegtran": "5.0.4",
     "@types/node": "24.10.0",
     "@types/react": "19.1.13",
-    "@types/webextension-polyfill": "0.12.3",
+    "@types/webextension-polyfill": "0.12.5",
     "@web-scrobbler/eslint-config": "4.0.0",
     "@web-scrobbler/stylelint-config": "2.0.0",
     "archiver": "7.0.1",

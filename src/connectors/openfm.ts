@@ -1,21 +1,32 @@
 export {};
 
-const openfmFilter = MetadataFilter.createFilter({
-	album: removeYearFromAlbum,
-});
+Connector.playerSelector = '#player-controlbar';
 
-Connector.playerSelector = '#openfm-player';
+Connector.isPodcast = () =>
+	Util.hasElementClass(Connector.playerSelector, 'podcast');
 
-Connector.artistSelector = '#station-view .station-details > h3';
+Connector.artistTrackSelector = `${Connector.playerSelector} .textShortening`;
 
-Connector.trackSelector = '#station-view .station-details > h2';
+Connector.getArtistTrack = () => {
+	if (Connector.isPodcast()) {
+		const artist = Util.getTextFromSelectors(
+			`${Connector.playerSelector} :has(.textShortening)>strong`,
+		);
+		const track = Util.getTextFromSelectors(
+			`${Connector.playerSelector} .textShortening`,
+		);
+		return { artist, track };
+	}
+	return Util.splitArtistTrack(
+		Util.getTextFromSelectors(Connector.artistTrackSelector),
+	);
+};
 
-Connector.albumSelector = '#station-view .station-details > h4';
+Connector.currentTimeSelector = `${Connector.playerSelector} span[data-current-time]`;
 
-Connector.pauseButtonSelector = '.controls-con > .stop-btn';
+Connector.durationSelector = `${Connector.currentTimeSelector}~span`;
 
-Connector.applyFilter(openfmFilter);
-
-function removeYearFromAlbum(text: string) {
-	return text.replace(/ \[\d*\]$/, '');
-}
+Connector.pauseButtonSelector = [
+	`${Connector.playerSelector} button[name="play"][style*="e822"]`, // stop button
+	`${Connector.playerSelector} button[name="play"][style*="e813"]`, // pause button
+];
