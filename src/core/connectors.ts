@@ -38,7 +38,7 @@ export default <ConnectorMeta[]>[
 		allFrames: true,
 	},
 	{
-	        label: 'poeba.lu (embedded bandcamp player only)',
+		label: 'poeba.lu (embedded bandcamp player only)',
 		matches: ['*://bandcamp.com/EmbeddedPlayer/*'],
 		js: 'poeba.lu.js',
 		id: 'poeba.lu',
