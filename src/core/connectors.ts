@@ -1161,7 +1161,7 @@ export default <ConnectorMeta[]>[
 		label: 'mujRozhlas',
 		matches: ['*://www.mujrozhlas.cz/*'],
 		js: 'mujrozhlas.js',
-		id: 'mujrozhlas',
+		id: 'rozhlas',
 	},
 	{
 		label: 'blocSonic',
