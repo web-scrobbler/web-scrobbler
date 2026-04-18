@@ -2819,4 +2819,10 @@ export default <ConnectorMeta[]>[
 		js: 'escradio.js',
 		id: 'escradio',
 	},
+	{
+		label: 'zxART',
+		matches: ['*://zxart.ee/*'],
+		js: 'zxart.js',
+		id: 'zxart',
+	},
 ];
