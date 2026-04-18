@@ -2777,4 +2777,10 @@ export default <ConnectorMeta[]>[
 		js: 'radiosaw.js',
 		id: 'radiosaw',
 	},
+	{
+		label: 'escradio',
+		matches: ['*://www.escradio.com/player/*'],
+		js: 'escradio.js',
+		id: 'escradio',
+	},
 ];
