@@ -6,11 +6,6 @@ Connector.playerSelector = 'zx-player .player-bar';
 // - russian
 // - english
 // - spanish
-Connector.playButtonSelector = [
-	`${Connector.playerSelector} button[aria-label="Играть"]`,
-	`${Connector.playerSelector} button[aria-label="Play"]`,
-	`${Connector.playerSelector} button[aria-label="Reproducir"]`,
-];
 Connector.pauseButtonSelector = [
 	`${Connector.playerSelector} button[aria-label="Пауза"]`,
 	`${Connector.playerSelector} button[aria-label="Pause"]`,
