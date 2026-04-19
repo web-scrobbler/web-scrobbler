@@ -24,9 +24,9 @@ Connector.getArtistTrack = () => {
 	return artistTrack;
 };
 
-Connector.currentTimeSelector = `${playerBar} span:has(+ [data-test=progress-bar-player-control])`;
+Connector.currentTimeSelector = `${playerBar} span:has(~ [data-test=progress-bar-player-control])`;
 
-Connector.durationSelector = `${playerBar} [data-test=progress-bar-player-control] + span`;
+Connector.durationSelector = `${playerBar} [data-test=progress-bar-player-control] ~ span`;
 
 Connector.getTrackArt = () => {
 	const artist = Util.getTextFromSelectors(artistSelector);
@@ -39,10 +39,10 @@ Connector.getTrackArt = () => {
 Connector.isTrackArtDefault = (url) => url?.includes('assets');
 
 Connector.isPlaying = () => {
-	const playButtonSvg = `${controlBar} button[data-test=player-play-button] svg`;
+	const playButtonSvg = `${controlBar} [data-test=player-play-button] svg`;
 	const svgLabel = Util.getAttrFromSelectors(playButtonSvg, 'aria-label');
 
-	if (Util.isElementVisible('[data-test=next-player-button]')) {
+	if (Util.isElementVisible(`${controlBar} [data-test=next-player-button]`)) {
 		return svgLabel === 'Pause'; // podcasts and playlists
 	}
 
