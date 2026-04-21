@@ -6,7 +6,7 @@ const filter = MetadataFilter.createFilter({
 
 Connector.playerSelector = ['#mini-player', '#fullscreen-dialog'];
 
-Connector.artistTrackSelector = `${Connector.playerSelector[0]} [class*="currentlyPlaying"] .nrk-font-footnote`;
+Connector.artistTrackSelector = `${Connector.playerSelector[0]} [class*="_currentlyPlaying"] .nrk-font-footnote`;
 
 Connector.pauseButtonSelector = `${Connector.playerSelector[0]} .nrk-button .nrk-media-pause`;
 
