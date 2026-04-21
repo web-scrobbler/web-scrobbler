@@ -18,7 +18,7 @@ Connector.trackSelector = '#nowplaying .song-title';
 Connector.artistSelector = '#nowplaying .song-artist';
 
 Connector.scrobblingDisallowedReason = () => {
-	if (document.querySelector('#nowplaying')?.textContent.trim()) {
+	if (document.querySelector('#nowplaying')?.textContent.trim() === '') {
 		return 'IsAd';
 	}
 };
