@@ -603,7 +603,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Nashville BoomBox',
-		matches: ['*://boombox.library.nashville.org/*'],
+		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'nashville-library-boombox',
 	},
@@ -644,8 +644,14 @@ export default <ConnectorMeta[]>[
 		id: 'tracksmusiclibrary',
 	},
 	{
+		label: 'Bay Beats',
+		matches: ['*://baybeats.sfpl.org/*'],
+		js: 'musicat.js',
+		id: 'baybeats',
+	},
+	{
 		label: 'Monstercat',
-		matches: ['*://www.monstercat.com/*'],
+		matches: ['*://www.monstercat.com/*', '*://player.monstercat.com/*'],
 		js: 'monstercat.js',
 		id: 'monstercat',
 	},
@@ -751,6 +757,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://v.qq.com/x/*'],
 		js: 'qq-video.js',
 		id: 'qq-video',
+	},
+	{
+		label: 'Naver Vibe',
+		matches: ['*://vibe.naver.com/*'],
+		js: 'naver-vibe.js',
+		id: 'naver-vibe',
 	},
 	{
 		label: 'Soribada',
@@ -1285,7 +1297,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'abc.net.au',
-		matches: ['*://www.abc.net.au/*/listen-live/*'],
+		matches: ['*://www.abc.net.au/*/*live*/*'],
 		js: 'abc.net.au.js',
 		id: 'abcnetau',
 	},
@@ -1354,6 +1366,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radio7.lv/*'],
 		js: 'radio7.js',
 		id: 'radio7lv',
+	},
+	{
+		label: 'Radio Nemiers',
+		matches: ['*://radionemiers.com/*'],
+		js: 'radionemiers.js',
+		id: 'radionemiers',
 	},
 	{
 		label: 'Eggs',
@@ -2036,7 +2054,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'radio.de',
-		matches: ['*://www.radio.de/*'],
+		matches: ['*://www.radio.de/*', '*://www.radio.net/*'],
 		js: 'radio.de.js',
 		id: 'radiode',
 	},
@@ -2412,6 +2430,12 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
+		label: 'Subvert.fm',
+		matches: ['*://subvert.fm/*', '*://*.subvert.fm/*'],
+		js: 'subvert.js',
+		id: 'subvert',
+	},
+	{
 		label: 'Debrid Vault',
 		matches: ['*://debridvault.elfhosted.com/*'],
 		js: 'debridvault.js',
@@ -2450,5 +2474,17 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.radiosaw.de/*'],
 		js: 'radiosaw.js',
 		id: 'radiosaw',
+	},
+	{
+		label: 'bandwagon',
+		matches: ['*://bandwagon.fm/*'],
+		js: 'bandwagon.js',
+		id: 'bandwagon',
+	},
+	{
+		label: 'Meloradio',
+		matches: ['*://player.meloradio.pl/*'],
+		js: 'meloradio.js',
+		id: 'meloradio',
 	},
 ];
