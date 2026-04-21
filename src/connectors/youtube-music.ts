@@ -22,6 +22,16 @@ export {};
 
 const adSelector = '.ytmusic-player-bar.advertisement';
 
+/**
+ * Track title is read from the DOM rather than `mediaSession.metadata.title`
+ * because YouTube Music sets a pre-cleaned title on the MediaSession object
+ * (e.g. strips "(feat. X)"). The DOM element preserves the raw title so
+ * the scrobble matches the canonical track on the scrobbling service.
+ * Artist and album still use MediaSession — they're structured fields and
+ * don't get the same suffix-strip treatment.
+ */
+const titleSelector = '.ytmusic-player-bar .title';
+
 const mediaInfo = {
 	playbackState: 'none',
 	metadata: {
@@ -60,12 +70,14 @@ Connector.getArtistTrack = () => {
 	let artist;
 	let track;
 	const metadata = mediaInfo.metadata;
+	const rawTitle =
+		Util.getTextFromSelectors(titleSelector) || metadata?.title;
 
 	if (metadata?.album) {
 		artist = metadata.artist;
-		track = metadata.title;
+		track = rawTitle;
 	} else {
-		({ artist, track } = Util.processYtVideoTitle(metadata?.title));
+		({ artist, track } = Util.processYtVideoTitle(rawTitle));
 		if (!artist) {
 			artist = metadata?.artist;
 		}
