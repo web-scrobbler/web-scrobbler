@@ -65,7 +65,7 @@ jobs:
           gh release upload ${{ github.event.release.tag_name }} web-scrobbler-firefox.zip --clobber
 
       - name: Publish the extension for Firefox
-        uses: inverse/firefox-addon@v0.0.7-alpha
+        uses: inverse/firefox-addon@v0.0.8-alpha
         with:
           api_key: ${{ secrets.AMO_ISSUER }}
           api_secret: ${{ secrets.AMO_SECRET }}
@@ -73,18 +73,35 @@ jobs:
           xpi_path: web-scrobbler-firefox.zip
           src_path: web-scrobbler-src.zip
           approval_notes: |
-            # Version ${{ github.event.release.tag_name }} upload
+            # Version ${{ github.event.release.tag_name }} release upload
 
+            These notes are used to help with the review process to aid with building the extension from source.
 
-            ## Build from source on arm hardware
+            Make sure you use the correct version of node (see `.nvmrc`). Tools such as `nvm`, or `mise` can be used to easily manage node versions.
 
-            This addon depends on pngquant which is required to build from source on arm hardware.
+            ## Arm hardware additional dependencies
 
-            For this to work you should additionally install build-essential, pkg-config, libimagequant-dev packages on your system.
+            This addon depends on `pngquant` which is required to build from source on arm hardware.
+
+            For this to work you should additionally install `build-essential`, `pkg-config`, `libimagequant-dev` packages on your system.
 
             ```bash
-            sudo apt install build-essential pkg-config libimagequant-dev
+            sudo apt update && sudo apt install build-essential pkg-config libimagequant-dev
             ```
+
+            ## Building the extension
+
+            After this install node dependencies and build the extension:
+
+            ```bash
+            npm ci
+            npm run dist firefox
+            ```
+
+            Once complete you will find a `web-scrobbler-firefox.zip` file containing the built extension in the root of the repository.
+
+            Alternatively, load the unpacked extension located in the `build/firefox` directory.
+          release_notes: ${{ github.event.release.body }}
 
   deploy-edge:
     name: Deploy Edge extension
