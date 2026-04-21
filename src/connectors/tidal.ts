@@ -11,10 +11,7 @@ Connector.pauseButtonSelector = `${Connector.playerSelector} button[data-test="p
 Connector.scrobblingDisallowedReason = () =>
 	Util.queryElements(Connector.playButtonSelector) ? null : 'ElementMissing';
 
-Connector.trackSelector = [
-	'#nowPlaying span[data-test="now-playing-track-title"]',
-	`${Connector.playerSelector} div[data-test="footer-track-title"]`,
-];
+Connector.trackSelector = `${Connector.playerSelector} div[data-test="footer-track-title"]`;
 
 Connector.getUniqueID = () => {
 	const trackUrl = Util.getAttrFromSelectors(
@@ -35,10 +32,7 @@ Connector.getArtist = () => {
 	return Util.joinArtists(Array.from(artistNodes));
 };
 
-Connector.albumSelector = [
-	'#nowPlaying div.react-tabs div[class^="_currentMediaInfoContainer"] div[class^="_creditsCell"] a[href^="/album/"]',
-	`${Connector.playerSelector} a[href^="/album/"]`,
-];
+Connector.albumSelector = `${Connector.playerSelector} a[href^="/album/"]`;
 
 Connector.getAlbumArtist = () => {
 	const albumArtistNode = document.querySelectorAll(albumArtistSelector);
