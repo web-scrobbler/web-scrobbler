@@ -3,7 +3,11 @@ export {};
 const jgPlayer = '.jg-player';
 const jgSong = `${jgPlayer} .jg-song`;
 const filter = MetadataFilter.createFilter({
-	track: [MetadataFilter.removeRemastered, MetadataFilter.removeLive],
+	track: [
+		MetadataFilter.removeLive,
+		MetadataFilter.removeRemastered,
+		MetadataFilter.removeVersion,
+	],
 });
 
 Connector.playerSelector = jgPlayer;
