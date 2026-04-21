@@ -2777,4 +2777,10 @@ export default <ConnectorMeta[]>[
 		js: 'radiosaw.js',
 		id: 'radiosaw',
 	},
+	{
+		label: 'The Indie Beat Television',
+		matches: ['*://tv.theindiebeat.fm/*'],
+		js: 'theindiebeat-owncast.js',
+		id: 'theindiebeat-tv',
+	},
 ];
