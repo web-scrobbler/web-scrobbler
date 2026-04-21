@@ -6,7 +6,7 @@ Connector.isPlaying = () => {
 	const video = document.querySelector('#player video');
 
 	if (!(video instanceof HTMLVideoElement)) {
-		Util.debugLog(`video player not found`, 'error');
+		Util.debugLog('video player not found', 'error');
 		return;
 	}
 
@@ -29,7 +29,7 @@ Connector.getTimeInfo = () => {
 		return null;
 	}
 
-	const { stream_delay, started, duration } = nowplaying.dataset;
+	const { stream_delay: streamDelay, started, duration } = nowplaying.dataset;
 
 	if (!started || !duration) {
 		return null;
@@ -39,7 +39,7 @@ Connector.getTimeInfo = () => {
 	const nowUnixTime = +new Date();
 
 	const currentTime =
-		(nowUnixTime - startedUnixTime) / 1000 - +(stream_delay ?? 0);
+		(nowUnixTime - startedUnixTime) / 1000 - +(streamDelay ?? 0);
 
 	return { currentTime, duration: +duration };
 };
