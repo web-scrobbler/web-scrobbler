@@ -1,29 +1,47 @@
 export {};
 
-Connector.playerSelector = '.jg-player';
+const jgPlayer = '.jg-player';
+const jgSong = `${jgPlayer} .jg-song`;
+const filter = MetadataFilter.createFilter({
+	track: [MetadataFilter.removeRemastered, MetadataFilter.removeLive],
+});
+
+Connector.playerSelector = jgPlayer;
 
 Connector.artistSelector = [
-	'.jg-song .MuiTypography-body2',
-	'.jg-song .MuiTypography-caption',
+	`${jgSong} .MuiTypography-body2`,
+	`${jgSong} .MuiTypography-caption`,
 ];
 
 Connector.trackSelector = [
-	'.jg-song .MuiTypography-h6',
-	'.jg-song .MuiTypography-body1',
+	`${jgSong} .MuiTypography-h6`,
+	`${jgSong} .MuiTypography-body1`,
 ];
 
-Connector.trackArtSelector = '.jg-song .jg-player__album-art__image';
+Connector.trackArtSelector = `${jgSong} .jg-player__album-art__image`;
 
 Connector.isTrackArtDefault = () => {
 	const defaultImages = ['Mix1', 'Mix2', 'Dreams', 'Gems', 'Smooth'];
+
 	return defaultImages.some((image) =>
 		Connector.getTrackArt()?.includes(`${image}.jpg`),
 	);
 };
 
-// station bumpers and other spoken messages play with default images
-Connector.scrobblingDisallowedReason = () =>
-	Connector.isTrackArtDefault() ? 'Other' : null;
+Connector.scrobblingDisallowedReason = () => {
+	const jgRegex = /TJG|Jazz\s?Groove(.org)?/i;
+
+	if (
+		jgRegex.test(Connector.getArtist() ?? Connector.getTrack() ?? '') ||
+		Connector.isTrackArtDefault() // site ads play with default images
+	) {
+		return 'IsAd';
+	}
+
+	return null;
+};
 
 Connector.isPlaying = () =>
-	!Util.hasElementClass(Connector.playerSelector, 'jg-player--paused');
+	!Util.hasElementClass(jgPlayer, 'jg-player--paused');
+
+Connector.applyFilter(filter);
