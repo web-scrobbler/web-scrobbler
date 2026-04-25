@@ -4,11 +4,13 @@ const filter = MetadataFilter.createFilter({
 	artist: cleanUpArtist,
 });
 
-Connector.playerSelector = '.app';
+Connector.playerSelector = ['#mini-player', '#fullscreen-dialog'];
 
-Connector.artistTrackSelector = '[data-test="playingEpisodeDesc"]';
+Connector.artistTrackSelector = `${Connector.playerSelector[0]} [class*="_currentlyPlaying"] .nrk-font-footnote`;
 
-Connector.pauseButtonSelector = '.MiniPlayer button[aria-label="Pause"]';
+Connector.pauseButtonSelector = `${Connector.playerSelector[0]} .nrk-button .nrk-media-pause`;
+
+Connector.trackArtSelector = `${Connector.playerSelector[1]} [class*="_image"] img`;
 
 Connector.applyFilter(filter);
 
