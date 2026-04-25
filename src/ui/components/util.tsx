@@ -1,5 +1,5 @@
-import type { JSXElement, Setter } from 'solid-js';
-import { For, Show, createSignal, onMount } from 'solid-js';
+import type { JSXElement } from 'solid-js';
+import { For, Show, createMemo } from 'solid-js';
 import { t } from '../../util/i18n';
 import browser from 'webextension-polyfill';
 
@@ -77,6 +77,7 @@ export function Anchor(props: {
 			title={props.title}
 			aria-label={props.title}
 			class={props.class}
+			target={props.target}
 		>
 			{props.children}
 		</a>
@@ -86,46 +87,26 @@ export function Anchor(props: {
 /**
  * Regex that finds anchor tag
  */
-const anchorRegex = /<a.*?href=("|')((?:(?!\1).)+)\1.*?>([^<]+)<\/a>/;
+const anchorRegex = /<a.*?href=("|')((?:(?!\1).)+)\1.*?>([^<]+)<\/a>/g;
 type Localization = {
 	messageName: string;
 	substitutions?: string | string[];
 };
-const anchorOnMount = (
-	props: Localization,
-	setRes: Setter<(string | [string, string])[]>,
-) => {
-	let message = t(props.messageName, props.substitutions);
-	const maxIterations = 5;
-	let i = 0;
-	while (message) {
-		// check if we've gone over the max iterations
-		i++;
-		if (i > maxIterations) {
-			break;
-		}
-
-		// get match and break if there is none, inserting remaining message
-		const match = message.match(anchorRegex);
-		if (!match) {
-			// eslint-disable-next-line
-			setRes((prev) => [...prev, message]);
-			break;
-		}
-
-		// get full string, href from capture group 2, and tag content from capture group 3
+const anchorTuples = (props: Localization) => {
+	const message = t(props.messageName, props.substitutions);
+	const matches = message.matchAll(anchorRegex);
+	const segments = [];
+	let previousMatchEnd = 0;
+	for (const match of matches) {
 		// prettier-ignore
 		const [str, /* delimiter */, href, content] = match;
-
-		// push the content before the anchor, the anchor, and then slice the message to repeat the loop on remaining text.
-		// eslint-disable-next-line
-		setRes((prev) => [
-			...prev,
-			message.slice(0, match.index),
-			[href, content],
-		]);
-		message = message.slice((match.index ?? 0) + str.length);
+		segments.push(message.slice(previousMatchEnd, match.index));
+		segments.push([href, content]);
+		previousMatchEnd = match.index + str.length;
 	}
+	segments.push(message.slice(previousMatchEnd));
+
+	return segments;
 };
 
 /**
@@ -133,11 +114,10 @@ const anchorOnMount = (
  * Has a maximum iterations count just for safety's sake because while loop with janky code moment.
  */
 export function TPopupAnchor(props: Localization): JSXElement {
-	const [res, setRes] = createSignal<(string | [string, string])[]>([]);
-	onMount(() => anchorOnMount(props, setRes));
+	const anchorMemo = createMemo(() => anchorTuples(props));
 	// convert the array of strings and tuples into a JSX element
 	return (
-		<For each={res()}>
+		<For each={anchorMemo()}>
 			{(item) => (
 				<Show when={typeof item !== 'string'} fallback={item}>
 					<PopupAnchor href={item[0]}>{item[1]}</PopupAnchor>
@@ -153,10 +133,9 @@ export function TAnchor(
 		target?: '_blank' | '_top' | '_self' | '_parent';
 	},
 ): JSXElement {
-	const [res, setRes] = createSignal<(string | [string, string])[]>([]);
-	onMount(() => anchorOnMount(props, setRes));
+	const anchorMemo = createMemo(() => anchorTuples(props));
 	return (
-		<For each={res()}>
+		<For each={anchorMemo()}>
 			{(item) => (
 				<Show when={typeof item !== 'string'} fallback={item}>
 					<Anchor
