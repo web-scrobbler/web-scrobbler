@@ -1,9 +1,15 @@
 export {};
 
-Connector.playerSelector = '#xraydio-player-st1';
+const playerSelector =
+	'#xraydio-player-st1,#xraydio-player-st2,#xraydio-player-st3';
 
-Connector.pauseButtonSelector = `${Connector.playerSelector} #playBtn.is-playing`;
+Connector.playerSelector = playerSelector;
 
-Connector.artistTrackSelector = `${Connector.playerSelector} #np-text .m-title`;
+Connector.isPlaying = () =>
+	Util.getDataFromSelectors(playerSelector, 'playstate') === 'playing';
 
-Connector.trackArtSelector = `${Connector.playerSelector} #coverArt`;
+Connector.getArtist = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-artist');
+
+Connector.getTrack = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-title');
