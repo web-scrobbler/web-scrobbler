@@ -83,10 +83,10 @@ jobs:
 
             This addon depends on `pngquant` which is required to build from source on arm hardware.
 
-            For this to work you should additionally install `build-essential`, `pkg-config`, `libimagequant-dev` packages on your system.
+            For this to work you should additionally install `build-essential`, `pkg-config`, `libimagequant-dev`, `autoconf`, `automake`, `libpng-dev`, and `libtool` packages on your system.
 
             ```bash
-            sudo apt update && sudo apt install build-essential pkg-config libimagequant-dev
+            sudo apt update && sudo apt install -y build-essential pkg-config libimagequant-dev autoconf automake libpng-dev libtool
             ```
 
             ## Building the extension
