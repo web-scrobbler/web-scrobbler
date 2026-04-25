@@ -2807,4 +2807,10 @@ export default <ConnectorMeta[]>[
 		js: 'meloradio.js',
 		id: 'meloradio',
 	},
+	{
+		label: 'escradio',
+		matches: ['*://www.escradio.com/player/*'],
+		js: 'escradio.js',
+		id: 'escradio',
+	},
 ];
