@@ -2808,6 +2808,12 @@ export default <ConnectorMeta[]>[
 		id: 'meloradio',
 	},
 	{
+		label: 'The Indie Beat Television',
+		matches: ['*://tv.theindiebeat.fm/*'],
+		js: 'theindiebeat-owncast.js',
+		id: 'theindiebeat-tv',
+	},
+	{
 		label: 'escradio',
 		matches: ['*://www.escradio.com/player/*'],
 		js: 'escradio.js',
