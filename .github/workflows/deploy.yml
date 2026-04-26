@@ -73,34 +73,38 @@ jobs:
           xpi_path: web-scrobbler-firefox.zip
           src_path: web-scrobbler-src.zip
           approval_notes: |
-            # Version ${{ github.event.release.tag_name }} release upload
+            # Web Scrobbler Version ${{ github.event.release.tag_name }}
 
-            These notes are used to help with the review process to aid with building the extension from source.
+            Web Scrobbler is an open-source browser extension that helps users automatically track their music listening history (scrobbling) across hundreds of websites and sync it with services like Last.fm, ListenBrainz, and Maloja.
 
-            Make sure you use the correct version of node (see `.nvmrc`). Tools such as `nvm`, or `mise` can be used to easily manage node versions.
+            ## Reproducibility & Build Instructions
 
-            ## Arm hardware additional dependencies
+            To build the extension from source and verify its integrity:
 
-            This addon depends on `pngquant` which is required to build from source on arm hardware.
+            1. **Environment:** Use Node.js (see `.nvmrc` for the exact version).
+            2. **System Dependencies (ARM only):** If building on ARM hardware, `pngquant` is required. Install the following packages:
+               ```bash
+               sudo apt update && sudo apt install -y build-essential pkg-config libimagequant-dev autoconf automake libpng-dev libtool
+               ```
+            3. **Build Steps:**
+               ```bash
+               npm ci
+               npm run dist firefox
+               ```
+            4. **Output:** The built extension will be available as `web-scrobbler-firefox.zip` in the root directory or unpacked in `build/firefox`.
 
-            For this to work you should additionally install `build-essential`, `pkg-config`, `libimagequant-dev`, `autoconf`, `automake`, `libpng-dev`, and `libtool` packages on your system.
+            ## Functional Verification
 
-            ```bash
-            sudo apt update && sudo apt install -y build-essential pkg-config libimagequant-dev autoconf automake libpng-dev libtool
-            ```
-
-            ## Building the extension
-
-            After this install node dependencies and build the extension:
-
-            ```bash
-            npm ci
-            npm run dist firefox
-            ```
-
-            Once complete you will find a `web-scrobbler-firefox.zip` file containing the built extension in the root of the repository.
-
-            Alternatively, load the unpacked extension located in the `build/firefox` directory.
+            1. **Installation:** Load the built extension into Firefox (via `about:debugging`).
+            2. **Setup:**
+               - Click the extension icon and go to **Settings** -> **Accounts**.
+               - Authenticate with a **Last.fm** account (free to create).
+            3. **Testing:**
+               - Navigate to a supported music service (e.g., [YouTube](https://www.youtube.com) or [Spotify Web Player](https://open.spotify.com)).
+               - Play a track.
+               - The extension icon should change to indicate it's active.
+               - Verify that the track appears as "Scrobbling now" on your Last.fm profile.
+            4. **Documentation:** See https://web-scrobbler.com for a list of all supported platforms.
           release_notes: ${{ github.event.release.body }}
 
   deploy-edge:
@@ -132,5 +136,26 @@ jobs:
           client_id: ${{ secrets.EDGE_CLIENT_ID }}
           api_key: ${{ secrets.EDGE_API_KEY }}
           zip: web-scrobbler-chrome.zip # Compatible with Chrome
-          notes: 'Version ${{ env.PACKAGE_VERSION }} upload'
+          notes: |
+            # Web Scrobbler Version ${{ env.PACKAGE_VERSION }}
+
+            Web Scrobbler is an open-source browser extension that helps users automatically track their music listening history (scrobbling) across hundreds of websites and sync it with services like Last.fm, ListenBrainz, and Maloja.
+
+            ## Testing
+
+            To test the extension, please follow these steps:
+
+            1. **Installation:** Load the extension into the browser.
+            2. **Setup:**
+               - Click the extension icon and go to **Settings** -> **Accounts**.
+               - Authenticate with a **Last.fm** account (free to create).
+            3. **Testing:**
+               - Navigate to a supported music service (e.g., https://www.youtube.com or https://bandcamp.com).
+               - Play a track.
+               - The extension icon should change to indicate it's active.
+               - Verify that the track appears as "Scrobbling now" on your Last.fm profile.
+
+            ## More Information
+
+            Check our website for a list of all supported platforms and more information about the extension: https://web-scrobbler.com
           debug: true
