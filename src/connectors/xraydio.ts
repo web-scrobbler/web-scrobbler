@@ -13,3 +13,11 @@ Connector.getArtist = () =>
 
 Connector.getTrack = () =>
 	Util.getDataFromSelectors(playerSelector, 'scrobble-title');
+
+Connector.isPodcast = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-type') === 'podcast';
+
+Connector.scrobblingDisallowedReason = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-type') === 'ad'
+		? 'IsAd'
+		: null;
