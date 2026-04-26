@@ -132,5 +132,26 @@ jobs:
           client_id: ${{ secrets.EDGE_CLIENT_ID }}
           api_key: ${{ secrets.EDGE_API_KEY }}
           zip: web-scrobbler-chrome.zip # Compatible with Chrome
-          notes: 'Version ${{ env.PACKAGE_VERSION }} upload'
+          notes: |
+            # Web Scrobbler Version ${{ env.PACKAGE_VERSION }}
+
+            Web Scrobbler is an open-source browser extension that helps users automatically track their music listening history (scrobbling) across hundreds of websites and sync it with services like Last.fm, ListenBrainz, and Maloja.
+
+            ## Testing
+
+            To test the extension, please follow these steps:
+
+            1. **Installation:** Load the extension into the browser.
+            2. **Setup:**
+               - Click the extension icon and go to **Settings** -> **Accounts**.
+               - Authenticate with a **Last.fm** account (free to create).
+            3. **Testing:**
+               - Navigate to a supported music service (e.g., https://www.youtube.com or https://bandcamp.com).
+               - Play a track.
+               - The extension icon should change to indicate it's active.
+               - Verify that the track appears as "Scrobbling now" on your Last.fm profile.
+
+            ## More Information
+
+            Check our website for a list of all supported platforms and more information about the extension: https://webscrobbler.com
           debug: true
