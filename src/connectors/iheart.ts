@@ -62,12 +62,8 @@ function getArtistTrack() {
 	return { artist, track };
 }
 
-function isArtistTrackValid(artistTrack: ArtistTrackInfo) {
-	if (!artistTrack.track) {
-		return false;
-	}
-
-	return true;
+function isArtistTrackValid(artistTrack: ArtistTrackInfo): boolean {
+	return !!artistTrack.track;
 }
 
 function renewTimeout() {
