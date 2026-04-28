@@ -57,7 +57,7 @@ function getArtistTrack() {
 		trackSelector = `${playerBar} [data-test=subtitle-link]`;
 	}
 
-	const track = Util.getTextFromSelectors(trackSelector);
+	const track = Util.getTextFromSelectors(trackSelector)?.replace('•', '-');
 
 	return { artist, track };
 }
