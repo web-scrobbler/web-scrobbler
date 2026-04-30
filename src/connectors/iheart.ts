@@ -16,7 +16,7 @@ Connector.isPodcast = () =>
 Connector.getArtistTrack = () => {
 	const newArtistTrack = getArtistTrack();
 
-	if (isArtistTrackValid(newArtistTrack)) {
+	if (!Util.isArtistTrackEmpty(newArtistTrack)) {
 		artistTrack = newArtistTrack;
 		renewTimeout();
 	}
@@ -60,10 +60,6 @@ function getArtistTrack() {
 	const track = Util.getTextFromSelectors(trackSelector)?.replace('•', '-');
 
 	return { artist, track };
-}
-
-function isArtistTrackValid(artistTrack: ArtistTrackInfo): boolean {
-	return !!artistTrack.track;
 }
 
 function renewTimeout() {
