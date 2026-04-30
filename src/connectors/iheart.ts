@@ -5,6 +5,13 @@ export {};
 const playerBar = '[data-test=player-container]';
 const controlBar = '[data-test=player-controls]';
 const artistSelector = `${playerBar} [data-test=description-link]`;
+const filter = MetadataFilter.createFilter({
+	track: [
+		MetadataFilter.removeRemastered,
+		MetadataFilter.removeVersion,
+		MetadataFilter.removeLive,
+	],
+});
 let artistTrack: ArtistTrackInfo | null = null;
 let timeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -49,6 +56,8 @@ Connector.isPlaying = () => {
 	return svgLabel === 'Stop';
 };
 
+Connector.applyFilter(filter);
+
 function getArtistTrack() {
 	const artist = Util.getTextFromSelectors(artistSelector);
 	let trackSelector = `${playerBar} [data-test=title-link]`;
@@ -57,7 +66,10 @@ function getArtistTrack() {
 		trackSelector = `${playerBar} [data-test=subtitle-link]`;
 	}
 
-	const track = Util.getTextFromSelectors(trackSelector)?.replace('•', '-');
+	const track = Util.getTextFromSelectors(trackSelector)?.replace(
+		'\u2022',
+		'-',
+	);
 
 	return { artist, track };
 }
