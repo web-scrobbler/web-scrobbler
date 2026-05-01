@@ -114,7 +114,7 @@ export default <ConnectorMeta[]>[
 		id: 'megalyrics',
 	},
 	{
-		label: 'iHeartRadio',
+		label: 'iHeart',
 		matches: ['*://*.iheart.com/*'],
 		js: 'iheart.js',
 		id: 'iheart',
@@ -2825,5 +2825,11 @@ export default <ConnectorMeta[]>[
 		js: 'musicme.js',
 		id: 'musicme',
 		allFrames: true,
+	},
+	{
+		label: 'zxART',
+		matches: ['*://zxart.ee/*'],
+		js: 'zxart.js',
+		id: 'zxart',
 	},
 ];
