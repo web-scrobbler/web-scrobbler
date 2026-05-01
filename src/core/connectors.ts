@@ -1623,7 +1623,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Radio NABA',
-		matches: ['*://naba.lv/*', '*://www.naba.lv/*'],
+		matches: ['*://latvijasradio.lsm.lv/lv/tiesraide/*'],
 		js: 'naba.js',
 		id: 'naba',
 	},
