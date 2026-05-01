@@ -16,7 +16,7 @@ Connector.getArtistTrack = () => {
 
 Connector.albumSelector = '.Player-album';
 
-Connector.trackArtSelector = '.Player-coverImage.image-is-loaded';
+Connector.trackArtSelector = '.Player-coverImage';
 
 Connector.isTrackArtDefault = (url) => url?.includes('canonical');
 
