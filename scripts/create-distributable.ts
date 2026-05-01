@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import colorLog from './log';
-import { releaseTarget } from './util';
+import { isGitRepository, releaseTarget } from './util';
 
 function createSafariDistributable() {
 	colorLog('TODO: Make safari distributable work', 'error');
@@ -49,7 +49,7 @@ export default async function createDistributable() {
 	await archive.finalize();
 	colorLog(`Created distributable for ${releaseTarget}`, 'success');
 
-	if (releaseTarget === 'firefox') {
+	if (releaseTarget === 'firefox' && isGitRepository()) {
 		await createSrcArchive();
 	}
 }

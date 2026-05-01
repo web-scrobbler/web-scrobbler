@@ -114,7 +114,7 @@ export default <ConnectorMeta[]>[
 		id: 'megalyrics',
 	},
 	{
-		label: 'iHeartRadio',
+		label: 'iHeart',
 		matches: ['*://*.iheart.com/*'],
 		js: 'iheart.js',
 		id: 'iheart',
@@ -724,7 +724,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Nashville BoomBox',
-		matches: ['*://boombox.library.nashville.org/*'],
+		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'nashville-library-boombox',
 	},
@@ -763,6 +763,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://tracksmusiclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'tracksmusiclibrary',
+	},
+	{
+		label: 'Bay Beats',
+		matches: ['*://baybeats.sfpl.org/*'],
+		js: 'musicat.js',
+		id: 'baybeats',
 	},
 	{
 		label: 'Monstercat',
@@ -1620,6 +1626,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radio7.lv/*'],
 		js: 'radio7.js',
 		id: 'radio7lv',
+	},
+	{
+		label: 'Radio Nemiers',
+		matches: ['*://radionemiers.com/*'],
+		js: 'radionemiers.js',
+		id: 'radionemiers',
 	},
 	{
 		label: 'TOWER RECORDS MUSIC',
@@ -2738,6 +2750,12 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
+		label: 'Subvert.fm',
+		matches: ['*://subvert.fm/*', '*://*.subvert.fm/*'],
+		js: 'subvert.js',
+		id: 'subvert',
+	},
+	{
 		label: 'Debrid Vault',
 		matches: ['*://debridvault.elfhosted.com/*'],
 		js: 'debridvault.js',
@@ -2782,5 +2800,35 @@ export default <ConnectorMeta[]>[
 		matches: ['*://play.radioswh.lv/*'],
 		js: 'radioswh.js',
 		id: 'radioswh',
+	},
+	{
+		label: 'bandwagon',
+		matches: ['*://bandwagon.fm/*'],
+		js: 'bandwagon.js',
+		id: 'bandwagon',
+	},
+	{
+		label: 'Meloradio',
+		matches: ['*://player.meloradio.pl/*'],
+		js: 'meloradio.js',
+		id: 'meloradio',
+	},
+	{
+		label: 'The Indie Beat Television',
+		matches: ['*://tv.theindiebeat.fm/*'],
+		js: 'theindiebeat-owncast.js',
+		id: 'theindiebeat-tv',
+	},
+	{
+		label: 'escradio',
+		matches: ['*://www.escradio.com/player/*'],
+		js: 'escradio.js',
+		id: 'escradio',
+	},
+	{
+		label: 'zxART',
+		matches: ['*://zxart.ee/*'],
+		js: 'zxart.js',
+		id: 'zxart',
 	},
 ];
