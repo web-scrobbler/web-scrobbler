@@ -2819,4 +2819,11 @@ export default <ConnectorMeta[]>[
 		js: 'escradio.js',
 		id: 'escradio',
 	},
+	{
+		label: 'musicMe',
+		matches: ['*://*.musicme.com/*'],
+		js: 'musicme.js',
+		id: 'musicme',
+		allFrames: true,
+	},
 ];
