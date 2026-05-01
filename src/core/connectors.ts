@@ -114,7 +114,7 @@ export default <ConnectorMeta[]>[
 		id: 'megalyrics',
 	},
 	{
-		label: 'iHeartRadio',
+		label: 'iHeart',
 		matches: ['*://*.iheart.com/*'],
 		js: 'iheart.js',
 		id: 'iheart',
@@ -2750,6 +2750,12 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
+		label: 'Subvert.fm',
+		matches: ['*://subvert.fm/*', '*://*.subvert.fm/*'],
+		js: 'subvert.js',
+		id: 'subvert',
+	},
+	{
 		label: 'Debrid Vault',
 		matches: ['*://debridvault.elfhosted.com/*'],
 		js: 'debridvault.js',
@@ -2796,9 +2802,33 @@ export default <ConnectorMeta[]>[
 		id: 'starfm',
 	},
 	{
+		label: 'bandwagon',
+		matches: ['*://bandwagon.fm/*'],
+		js: 'bandwagon.js',
+		id: 'bandwagon',
+	},
+	{
 		label: 'Meloradio',
 		matches: ['*://player.meloradio.pl/*'],
 		js: 'meloradio.js',
 		id: 'meloradio',
+	},
+	{
+		label: 'The Indie Beat Television',
+		matches: ['*://tv.theindiebeat.fm/*'],
+		js: 'theindiebeat-owncast.js',
+		id: 'theindiebeat-tv',
+	},
+	{
+		label: 'escradio',
+		matches: ['*://www.escradio.com/player/*'],
+		js: 'escradio.js',
+		id: 'escradio',
+	},
+	{
+		label: 'zxART',
+		matches: ['*://zxart.ee/*'],
+		js: 'zxart.js',
+		id: 'zxart',
 	},
 ];

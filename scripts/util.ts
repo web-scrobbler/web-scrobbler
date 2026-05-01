@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import { execFileSync } from 'child_process';
 import { normalizePath } from 'vite';
 
 /**
@@ -51,6 +52,21 @@ export function getBrowser() {
  */
 export function resolvePath(...paths: string[]) {
 	return normalizePath(resolve(...paths));
+}
+
+export function isGitRepository() {
+	try {
+		return (
+			execFileSync('git', ['rev-parse', '--is-inside-work-tree'], {
+				encoding: 'utf8',
+				stdio: ['ignore', 'pipe', 'ignore'],
+			})
+				.trim()
+				.toLowerCase() === 'true'
+		);
+	} catch {
+		return false;
+	}
 }
 
 export const releaseTarget = process.argv.at(-1);
