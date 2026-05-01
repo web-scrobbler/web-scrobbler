@@ -2820,6 +2820,13 @@ export default <ConnectorMeta[]>[
 		id: 'escradio',
 	},
 	{
+		label: 'musicMe',
+		matches: ['*://*.musicme.com/*'],
+		js: 'musicme.js',
+		id: 'musicme',
+		allFrames: true,
+	},
+	{
 		label: 'zxART',
 		matches: ['*://zxart.ee/*'],
 		js: 'zxart.js',
