@@ -34,12 +34,12 @@ Connector.getArtist = () => {
 Connector.albumSelector = `${Connector.playerSelector} a[href^="/album/"]`;
 
 Connector.getAlbum = () => {
-	const {mediaSession} = navigator;
+	const { mediaSession } = navigator;
 	if (mediaSession && mediaSession.metadata) {
 		return mediaSession.metadata.album;
 	}
-	return Util.getTextFromSelectors(Connector.albumSelector)
-}
+	return Util.getTextFromSelectors(Connector.albumSelector);
+};
 
 Connector.getAlbumArtist = () => {
 	const albumUrlSegments = Util.getAttrFromSelectors(
