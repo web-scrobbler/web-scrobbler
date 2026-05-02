@@ -43,7 +43,7 @@ const watchConfig = {
 export const buildBackground: UserConfig = {
 	...common,
 	build: {
-		minify: isProd(),
+		minify: !isDev(),
 		outDir: resolvePath(distRoot(), 'background'),
 		emptyOutDir: true,
 		watch: isDev() ? watchConfig : null,
@@ -52,11 +52,11 @@ export const buildBackground: UserConfig = {
 			name: manifests.common.name,
 			formats: ['es'],
 		},
+		sourcemap: !isProd(),
 		rollupOptions: {
 			output: {
 				entryFileNames: 'main.js',
 				extend: true,
-				sourcemap: !isProd(),
 			},
 		},
 	},
@@ -75,11 +75,11 @@ export const buildContent: UserConfig = {
 			name: manifests.common.name,
 			formats: ['es'],
 		},
+		sourcemap: !isProd(),
 		rollupOptions: {
 			output: {
 				entryFileNames: 'main.js',
 				extend: true,
-				sourcemap: !isProd(),
 			},
 		},
 	},
@@ -93,14 +93,11 @@ export const buildStart: UserConfig = {
 		outDir: distRoot(),
 		emptyOutDir: false,
 		watch: isDev() ? watchConfig : null,
-		sourcemap: isDev(),
+		sourcemap: !isProd(),
 		rollupOptions: {
 			input: {
 				popup: resolvePath(root, 'ui', 'popup', 'index.html'),
 				options: resolvePath(root, 'ui', 'options', 'index.html'),
-			},
-			output: {
-				sourcemap: !isProd(),
 			},
 		},
 	},
