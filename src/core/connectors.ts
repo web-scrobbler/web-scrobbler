@@ -2796,6 +2796,12 @@ export default <ConnectorMeta[]>[
 		id: 'radiosaw',
 	},
 	{
+		label: 'Star FM',
+		matches: ['*://tv3.lv/starfm/online/*'],
+		js: 'starfm.js',
+		id: 'starfm',
+	},
+	{
 		label: 'bandwagon',
 		matches: ['*://bandwagon.fm/*'],
 		js: 'bandwagon.js',
