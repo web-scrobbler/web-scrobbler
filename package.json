@@ -35,7 +35,7 @@
     "@web-scrobbler/metadata-filter": "3.2.0",
     "blueimp-md5": "2.19.0",
     "stylelint": "16.24.0",
-    "vite": "7.1.12",
+    "vite": "7.3.2",
     "webextension-polyfill": "0.12.0"
   },
   "devDependencies": {
@@ -85,7 +85,7 @@
     "extends": "@web-scrobbler/eslint-config/solid",
     "parserOptions": {
       "sourceType": "script",
-      "ecmaVersion": 2020
+      "ecmaVersion": 2022
     }
   },
   "prettier": "prettier-config-web-scrobbler",

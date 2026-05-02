@@ -2802,6 +2802,12 @@ export default <ConnectorMeta[]>[
 		id: 'radioswh',
 	},
 	{
+		label: 'Star FM',
+		matches: ['*://tv3.lv/starfm/online/*'],
+		js: 'starfm.js',
+		id: 'starfm',
+	},
+	{
 		label: 'bandwagon',
 		matches: ['*://bandwagon.fm/*'],
 		js: 'bandwagon.js',
@@ -2824,6 +2830,13 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.escradio.com/player/*'],
 		js: 'escradio.js',
 		id: 'escradio',
+	},
+	{
+		label: 'musicMe',
+		matches: ['*://*.musicme.com/*'],
+		js: 'musicme.js',
+		id: 'musicme',
+		allFrames: true,
 	},
 	{
 		label: 'zxART',

@@ -28,6 +28,13 @@ export function isDev() {
 }
 
 /**
+ * @returns true if prod build, false otherwise.
+ */
+export function isProd() {
+	return releaseType === 'dist';
+}
+
+/**
  * Get folder name corresponding to current build target
  *
  * @param browser - build target
