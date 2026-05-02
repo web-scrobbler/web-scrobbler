@@ -17,13 +17,13 @@ import {
 	enableConnector,
 	disableConnector,
 	disableUntilClosed,
-	updateTabsFromTabList,
 	getCurrentTab,
 	getActiveTabDetails,
 	getCurrentTabId,
 	addToBlocklist,
 	removeFromBlocklist,
 } from './util';
+import { performUpdateAction } from './action';
 import type { ControllerModeStr } from '@/core/object/controller/controller';
 import { isPrioritizedMode } from '@/core/object/controller/controller';
 import type { CloneableSong } from '@/core/object/song';
@@ -50,6 +50,12 @@ import scrobbleService from '../object/scrobble-service';
 import { fetchListenBrainzProfile } from '@/util/util';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
+
+async function updateTabsFromTabList(tabs: ManagerTab[], tabId?: number) {
+	const curTab = await getActiveTabDetails(tabs, tabId);
+	performUpdateAction(curTab);
+	return curTab;
+}
 
 // Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
 browser.runtime.onStartup.addListener(onStartup);

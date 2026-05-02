@@ -27,7 +27,7 @@ import {
 import browser from 'webextension-polyfill';
 import { t } from '@/util/i18n';
 import BlockedChannels from './edit-options/blocked-channels';
-import type { ModalType } from './navigator';
+import type { ModalType } from './modal-type';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(

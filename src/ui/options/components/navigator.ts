@@ -39,17 +39,7 @@ import {
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import ScrobbleCache from './scrobble-cache';
 import AdvancedOptionsComponent from './advanced-settings';
-
-/**
- * Type indicating possible states for modal
- */
-export type ModalType =
-	| 'savedEdits'
-	| 'regexEdits'
-	| 'cacheEdit'
-	| 'blockedTags'
-	| 'blocklist'
-	| '';
+import type { ModalType } from './modal-type';
 
 /**
  * Mutual base button
