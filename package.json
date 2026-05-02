@@ -85,7 +85,7 @@
     "extends": "@web-scrobbler/eslint-config/solid",
     "parserOptions": {
       "sourceType": "script",
-      "ecmaVersion": 2020
+      "ecmaVersion": 2022
     }
   },
   "prettier": "prettier-config-web-scrobbler",

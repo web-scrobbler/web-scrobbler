@@ -4,7 +4,7 @@ import solid from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
-import { isDev, releaseTarget, resolvePath } from 'scripts/util';
+import { isDev, isProd, releaseTarget, resolvePath } from 'scripts/util';
 import minifyImages from 'scripts/minify-images';
 import generateIcons from 'scripts/generate-icons';
 import ConditionalCompile from 'vite-plugin-conditional-compiler';
@@ -35,13 +35,18 @@ function distRoot() {
 	return builds[browser as keyof typeof builds];
 }
 
+const watchConfig = {
+	include: ['src/**'],
+	exclude: ['src/connectors/*'],
+};
+
 export const buildBackground: UserConfig = {
 	...common,
 	build: {
-		minify: !isDev(),
+		minify: isProd(),
 		outDir: resolvePath(distRoot(), 'background'),
 		emptyOutDir: true,
-		watch: isDev() ? {} : null,
+		watch: isDev() ? watchConfig : null,
 		lib: {
 			entry: resolvePath(root, 'core', 'background', 'main.ts'),
 			name: manifests.common.name,
@@ -51,6 +56,7 @@ export const buildBackground: UserConfig = {
 			output: {
 				entryFileNames: 'main.js',
 				extend: true,
+				sourcemap: !isProd(),
 			},
 		},
 	},
@@ -63,7 +69,7 @@ export const buildContent: UserConfig = {
 		minify: !isDev(),
 		outDir: resolvePath(distRoot(), 'content'),
 		emptyOutDir: true,
-		watch: isDev() ? {} : null,
+		watch: isDev() ? watchConfig : null,
 		lib: {
 			entry: resolvePath(root, 'core', 'content', 'main.ts'),
 			name: manifests.common.name,
@@ -73,6 +79,7 @@ export const buildContent: UserConfig = {
 			output: {
 				entryFileNames: 'main.js',
 				extend: true,
+				sourcemap: !isProd(),
 			},
 		},
 	},
@@ -85,14 +92,16 @@ export const buildStart: UserConfig = {
 		minify: !isDev(),
 		outDir: distRoot(),
 		emptyOutDir: false,
-		watch: isDev() ? {} : null,
+		watch: isDev() ? watchConfig : null,
 		sourcemap: isDev(),
 		rollupOptions: {
 			input: {
 				popup: resolvePath(root, 'ui', 'popup', 'index.html'),
 				options: resolvePath(root, 'ui', 'options', 'index.html'),
 			},
-			output: {},
+			output: {
+				sourcemap: !isProd(),
+			},
 		},
 	},
 	plugins: [
@@ -110,7 +119,7 @@ export const buildStart: UserConfig = {
 		}),
 		compileConnectors({
 			isDev: isDev(),
-			watchDirectory: 'src/connectors/*',
+			watchDirectory: 'src/connectors/',
 		}),
 		minifyImages({ isDev: isDev() }),
 	],
