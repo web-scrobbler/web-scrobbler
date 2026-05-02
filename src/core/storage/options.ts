@@ -1,7 +1,6 @@
 import type { ConnectorMeta } from '@/core/connectors';
 import connectors from '@/core/connectors';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import { debugLog } from '../content/util';
 import { DEFAULT_SCROBBLE_PERCENT } from '@/util/util';
 
 const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
@@ -221,7 +220,6 @@ async function cleanupConfigValues() {
 
 		if (!isFound) {
 			delete data[DISABLED_CONNECTORS][connectorId];
-			debugLog(`Remove ${connectorId} from storage`);
 		}
 	}
 }
