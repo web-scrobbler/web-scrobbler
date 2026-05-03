@@ -1,10 +1,10 @@
-import { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
 import type { ChannelInfo } from '@/core/content/util';
-import { ControllerModeStr } from '@/core/object/controller/controller';
-import { ServiceCallResult } from '@/core/object/service-call-result';
-import { CloneableSong } from '@/core/object/song';
-import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
-import { ManagerTab } from '@/core/storage/wrapper';
+import type { ControllerModeStr } from '@/core/object/controller/controller';
+import type { ServiceCallResult } from '@/core/object/service-call-result';
+import type { CloneableSong } from '@/core/object/song';
+import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import type { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 
 /**
@@ -232,18 +232,24 @@ interface BackgroundMessage<K extends keyof BackgroundCommunications> {
 
 export function setupContentListeners(...listeners: ContentListener[]) {
 	browser.runtime.onMessage.addListener(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(message: BackgroundMessage<any>, sender) => {
+		(message: unknown, sender: browser.Runtime.MessageSender) => {
 			let done = false;
 			for (const l of listeners) {
 				// eslint-disable-next-line
 				const response = l((listener) => {
-					if (message.type !== listener.type) {
+					if (
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						(message as BackgroundMessage<any>).type !==
+						listener.type
+					) {
 						return;
 					}
 					done = true;
-					// eslint-disable-next-line
-					return listener.fn(message.payload, sender);
+					return listener.fn(
+						// eslint-disable-next-line
+						(message as BackgroundMessage<any>).payload,
+						sender,
+					);
 				});
 				if (done) {
 					return Promise.resolve(response);
@@ -259,7 +265,6 @@ export async function sendBackgroundMessage<
 	tabId: number,
 	message: BackgroundMessage<K>,
 ): Promise<BackgroundCommunications[K]['response']> {
-	// eslint-disable-next-line
 	return browser.tabs.sendMessage(tabId, message);
 }
 
@@ -300,18 +305,23 @@ interface ContentMessage<K extends keyof ContentCommunications> {
 
 export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 	browser.runtime.onMessage.addListener(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(message: ContentMessage<any>, sender) => {
+		(message: unknown, sender: browser.Runtime.MessageSender) => {
 			let done = false;
 			for (const l of listeners) {
 				// eslint-disable-next-line
 				const response = l((listener) => {
-					if (message.type !== listener.type) {
+					if (
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						(message as ContentMessage<any>).type !== listener.type
+					) {
 						return;
 					}
 					done = true;
-					// eslint-disable-next-line
-					return listener.fn(message.payload, sender);
+					return listener.fn(
+						// eslint-disable-next-line
+						(message as ContentMessage<any>).payload,
+						sender,
+					);
 				});
 				if (done) {
 					return Promise.resolve(response);
@@ -324,7 +334,6 @@ export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 export async function sendContentMessage<K extends keyof ContentCommunications>(
 	message: ContentMessage<K>,
 ): Promise<ContentCommunications[K]['response']> {
-	// eslint-disable-next-line
 	return browser.runtime.sendMessage(message);
 }
 
@@ -365,18 +374,21 @@ interface PopupMessage<K extends keyof PopupCommunications> {
 
 export function setupPopupListeners(...listeners: PopupListener[]) {
 	browser.runtime.onMessage.addListener(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
-		(message: PopupMessage<any>, sender) => {
+		(message: unknown, sender: browser.Runtime.MessageSender) => {
 			let done = false;
 			for (const l of listeners) {
 				// eslint-disable-next-line
 				const response = l((listener) => {
-					if (message.type !== listener.type) {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					if ((message as PopupMessage<any>).type !== listener.type) {
 						return;
 					}
 					done = true;
-					// eslint-disable-next-line
-					return listener.fn(message.payload, sender);
+					return listener.fn(
+						// eslint-disable-next-line
+						(message as PopupMessage<any>).payload,
+						sender,
+					);
 				});
 				if (done) {
 					return Promise.resolve(response);
@@ -389,6 +401,5 @@ export function setupPopupListeners(...listeners: PopupListener[]) {
 export async function sendPopupMessage<K extends keyof PopupCommunications>(
 	message: PopupMessage<K>,
 ): Promise<PopupCommunications[K]['response']> {
-	// eslint-disable-next-line
 	return browser.runtime.sendMessage(message);
 }

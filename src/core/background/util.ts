@@ -1,12 +1,12 @@
 import { getConnectorByUrl } from '@/util/util-connector';
-import { ManagerTab, StateManagement } from '@/core/storage/wrapper';
+import type { ManagerTab, StateManagement } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { isPrioritizedMode } from '@/core/object/controller/controller';
 import { performUpdateAction } from './action';
 import { sendBackgroundMessage } from '@/util/communication';
-import { ConnectorMeta } from '../connectors';
+import type { ConnectorMeta } from '../connectors';
 
 const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 const blocklistStorage = BrowserStorage.getStorage(BrowserStorage.BLOCKLISTS);
@@ -59,7 +59,7 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 			const tab = await browser.tabs.get(entry.tabId);
 			await getConnectorByUrl(tab.url ?? '');
 			return true;
-		} catch (err) {
+		} catch {
 			return false;
 		}
 	});
@@ -171,7 +171,7 @@ async function getTabDetails(tabId: number): Promise<ManagerTab> {
 			song: tabState.song,
 		};
 		return curTab;
-	} catch (err) {
+	} catch {
 		return {
 			tabId,
 			mode: ControllerMode.Unsupported,

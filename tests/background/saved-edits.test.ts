@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import { expect, describe, it, beforeAll } from 'vitest';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
 
 import Song from '@/core/object/song';
-import { SavedEdit } from '@/core/storage/options';
+import type { SavedEdit } from '@/core/storage/options';
 import savedEdits from '@/core/storage/saved-edits';
-import SavedEditsModel from '@/core/storage/saved-edits.model';
+import type SavedEditsModel from '@/core/storage/saved-edits.model';
 
 const editedInfo = {
 	artist: 'ArtistEdited',
@@ -52,14 +54,14 @@ function testSaveEmptySong() {
 	emptySavedEdits();
 	const emptySong = makeNonProcessedSong();
 
-	it('should throw an error while loading info of an empty song', () => {
-		expect(savedEdits.loadSongInfo(emptySong)).rejects.to.deep.equal(
+	it('should throw an error while loading info of an empty song', async () => {
+		await expect(savedEdits.loadSongInfo(emptySong)).rejects.to.deep.equal(
 			new Error('Empty song'),
 		);
 	});
 
-	it('should throw an error while saving an empty song', () => {
-		expect(
+	it('should throw an error while saving an empty song', async () => {
+		await expect(
 			savedEdits.saveSongInfo(emptySong, editedInfo),
 		).rejects.to.deep.equal(new Error('Empty song'));
 	});

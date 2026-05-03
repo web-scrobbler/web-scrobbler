@@ -13,16 +13,12 @@ import type { DebugLogType } from '@/util/util';
 
 import { t } from '@/util/i18n';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
-import Song from '../object/song';
+import type Song from '../object/song';
 import { sendContentMessage } from '@/util/communication';
 
-const BrowserStorage = (async () => {
-	return import('@/core/storage/browser-storage');
-})();
+import * as BrowserStorage from '@/core/storage/browser-storage';
 
-const Options = (async () => {
-	return import('@/core/storage/options');
-})();
+const Options = import('@/core/storage/options');
 
 /**
  * All the separators used by the core and by connectors.
@@ -47,6 +43,7 @@ export type Separator =
 	| '~'
 	| ' | '
 	| '<br/>'
+	| '<br>'
 	| ' by '
 	| ', '
 	| '·'
@@ -100,11 +97,11 @@ export function stringToSeconds(str: string | null | undefined): number {
 		.map((current) => parseInt(current, 10))
 		.reduce((total, current, i) => total + current * Math.pow(60, i));
 
-	return seconds && negativeExpression.test(str) ? -seconds : seconds ?? 0;
+	return seconds && negativeExpression.test(str) ? -seconds : (seconds ?? 0);
 }
 
 /**
- * Find first occurence of possible separator in given string
+ * Find first occurrence of possible separator in given string
  * and return separator's position and size in chars or null.
  * @param str - String containing separator
  * @param separators - Array of separators
@@ -144,6 +141,15 @@ export function joinArtists(artists: Node[]): string | null {
 			return artist.textContent;
 		})
 		.join(ARTIST_SEPARATOR);
+}
+
+/**
+ * Join array of strings into a single string.
+ * @param artists - Array of strings
+ * @returns String joined by separator
+ */
+export function joinArtistStrings(artists: string[]): string {
+	return artists.join(ARTIST_SEPARATOR);
 }
 
 /**
@@ -228,7 +234,7 @@ export function splitTimeInfo(
  * @param str - Any string
  * @param separators - Array of separators
  * @param swap - Swap values
- * @returns Array of strings splitted by separator
+ * @returns Array of strings split by separator
  */
 export function splitString(
 	str: string | null | undefined,
@@ -422,7 +428,7 @@ export function getTextFromSelectors(
  * a first element with the attribute available.
  *
  * @param selectors - Single selector or array of selectors
- * @param attr - Attrubute to get
+ * @param attr - Attribute to get
  * @param defaultValue - Fallback value
  * @returns Text of element, if available, or default value
  */
@@ -675,7 +681,6 @@ export function queryElements(
 	}
 
 	for (const selector of selectors) {
-		// eslint-disable-next-line
 		const elements = document.querySelectorAll(
 			selector,
 		) as NodeListOf<HTMLElement>;
@@ -698,10 +703,9 @@ export async function getOption(
 	connector: string,
 	key: string,
 ): Promise<boolean> {
-	const awaitedStorage = await BrowserStorage;
-	const data = await awaitedStorage
-		.getStorage(awaitedStorage.CONNECTORS_OPTIONS)
-		.get();
+	const data = await BrowserStorage.getStorage(
+		BrowserStorage.CONNECTORS_OPTIONS,
+	).get();
 	if (
 		data &&
 		connector in data &&
@@ -800,7 +804,7 @@ class DebugLogQueue {
 				}
 			}
 			this.isActive = false;
-		} catch (err) {
+		} catch {
 			this.isActive = false;
 		}
 	}
@@ -961,8 +965,8 @@ export function parseYtVideoDescription(
 	} else {
 		[track, artist, ...featArtists] = trackInfo;
 
-		const areFeatArtistPresent = featArtists.some(
-			(artist) => track?.includes(artist),
+		const areFeatArtistPresent = featArtists.some((artist) =>
+			track?.includes(artist),
 		);
 		if (!areFeatArtistPresent) {
 			const featArtistsStr = featArtists.join(ARTIST_SEPARATOR);
@@ -1095,22 +1099,22 @@ type BackgroundResponse<T> =
 export function fetchFromServiceWorker(
 	url: string,
 	type: 'text',
-	init?: RequestInit | undefined,
+	init?: RequestInit,
 ): Promise<BackgroundResponse<string>>;
 export function fetchFromServiceWorker(
 	url: string,
 	type: 'json',
-	init?: RequestInit | undefined,
+	init?: RequestInit,
 ): Promise<BackgroundResponse<unknown>>;
 export function fetchFromServiceWorker(
 	url: string,
 	type: 'html',
-	init?: RequestInit | undefined,
+	init?: RequestInit,
 ): Promise<BackgroundResponse<Document>>;
 export async function fetchFromServiceWorker(
 	url: string,
 	type: 'text' | 'json' | 'html',
-	init?: RequestInit | undefined,
+	init?: RequestInit,
 ) {
 	const res = await sendContentMessage({
 		type: 'fetch',

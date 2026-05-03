@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import { expect, describe, it, beforeAll, afterAll } from 'vitest';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';

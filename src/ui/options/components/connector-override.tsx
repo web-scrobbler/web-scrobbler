@@ -1,9 +1,8 @@
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import * as Options from '@/core/storage/options';
+import type { Accessor, Setter } from 'solid-js';
 import {
-	Accessor,
 	For,
-	Setter,
 	Show,
 	Suspense,
 	createEffect,
@@ -17,7 +16,8 @@ import {
 	DeleteOutlined,
 	AddOutlined,
 } from '@/ui/components/icons';
-import connectors, { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
+import connectors from '@/core/connectors';
 import {
 	Checkbox,
 	ConnectorTripleCheckbox,
@@ -27,7 +27,7 @@ import {
 import browser from 'webextension-polyfill';
 import { t } from '@/util/i18n';
 import BlockedChannels from './edit-options/blocked-channels';
-import { ModalType } from './navigator';
+import type { ModalType } from './navigator';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(
@@ -58,8 +58,7 @@ export default function ConnectorOverrideOptions(props: {
 		<>
 			<h1>{t('optionsSupportedWebsites')}</h1>
 			<p>{t('optionsEnableDisableHint')}</p>
-			{/* eslint-disable-next-line */}
-			<p innerHTML={t('optionsCustomPatternsHint')} />
+			<p>{t('optionsCustomPatternsHint')}</p>
 			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
 					<SettingsOutlined />

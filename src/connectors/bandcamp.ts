@@ -12,21 +12,54 @@ const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 const SEPARATORS: Separator[] = [' - ', ' | '];
 
 /**
- * This filter is applied after all page properties are inititialized.
+ * This filter is applied after all page properties are initialized.
  */
-let bandcampFilter = MetadataFilter.createFilter(
-	MetadataFilter.createFilterSetForFields(
-		['artist', 'track', 'album', 'albumArtist'],
-		MetadataFilter.removeZeroWidth,
-	),
-);
+let bandcampFilter = MetadataFilter.createFilter({
+	artist: MetadataFilter.removeZeroWidth,
+	track: MetadataFilter.removeZeroWidth,
+	album: [MetadataFilter.removeZeroWidth, removePreOrderSuffix],
+	albumArtist: MetadataFilter.removeZeroWidth,
+});
 
-setupConnector();
+if (document.querySelector('main#p-tralbum-page') === null) {
+	setupDesktopConnector();
+} else {
+	setupMobileConnector();
+}
 
-/**
- * Entry point.
- */
-function setupConnector() {
+// Apply the filter at the end to allow extend it in setup functions
+Connector.applyFilter(bandcampFilter);
+
+function setupMobileConnector() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+		}),
+	);
+
+	Connector.playerSelector = '#player';
+
+	Connector.isPlaying = () =>
+		document.querySelector('.playbutton.playing') !== null;
+
+	Connector.artistSelector = '.tralbum-artist';
+
+	Connector.albumArtistSelector = '.tralbum-artist';
+
+	Connector.trackSelector = '.current-track > span:nth-child(2)';
+
+	Connector.albumSelector = '.tralbum-name';
+
+	Connector.durationSelector = '.duration-text';
+
+	Connector.currentTimeSelector = '.progress-text';
+
+	Connector.trackArtSelector = '#tralbum-art-carousel img';
+
+	Connector.getOriginUrl = () => document.location.href.split('?')[0];
+}
+
+function setupDesktopConnector() {
 	initEventListeners();
 	initGenericProperties();
 
@@ -48,14 +81,14 @@ function setupConnector() {
 		Util.debugLog('Init props for feed player');
 
 		initPropertiesForFeedPlayer();
+	} else if (isDiscoverPage()) {
+		Util.debugLog('Init props for discover player');
+		initPropertiesForDiscoverPlayer();
 	} else {
 		Util.debugLog('Init props for home page');
 
 		initPropertiesForHomePage();
 	}
-
-	// Apply the filter at the end to allow extend it in setup functions
-	Connector.applyFilter(bandcampFilter);
 }
 
 /**
@@ -98,6 +131,39 @@ function initGenericProperties() {
 	};
 
 	Connector.getOriginUrl = () => document.location.href.split('?')[0];
+}
+
+function initPropertiesForDiscoverPlayer() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+			album: [removeFromPrefix],
+		}),
+	);
+
+	Connector.playerSelector = '.discover-player';
+
+	Connector.artistSelector = '.player-info a:nth-child(3)';
+
+	Connector.albumSelector = '.player-info a:nth-child(2)';
+
+	Connector.trackSelector = '.player-info p';
+
+	Connector.trackArtSelector = 'img.cover';
+
+	Connector.durationSelector = '.playback-time.total';
+
+	Connector.currentTimeSelector = '.playback-time.current';
+
+	Connector.isPlaying = () => {
+		const playButton = document.querySelector(
+			'.player-top button.play-pause-button',
+		);
+		return (
+			playButton !== null &&
+			playButton.querySelector('svg.pause-circle-outline-icon') !== null
+		);
+	};
 }
 
 // Example: https://northlane.bandcamp.com/album/mesmer
@@ -167,10 +233,6 @@ function initPropertiesForFeedPlayer() {
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
 
 	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
-
-	function removeByPrefix(text: string) {
-		return text.replace('by ', '');
-	}
 }
 
 // Example: https://bandcamp.com/?show=47
@@ -204,7 +266,6 @@ function initPropertiesForHomePage() {
 
 	Connector.getUniqueID = () => {
 		if (document.querySelector('.bcweekly.playing') !== null) {
-			// eslint-disable-next-line
 			const { bcw_data: bandcampWeeklyData } = getData(
 				'#pagedata',
 				'data-blob',
@@ -212,14 +273,12 @@ function initPropertiesForHomePage() {
 			const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
 
 			if (currentShowId && currentShowId in bandcampWeeklyData) {
-				// eslint-disable-next-line
 				const currentShowData = bandcampWeeklyData[currentShowId];
 				const currentTrackIndex = Util.getDataFromSelectors(
 					'.bcweekly-current',
 					'index',
 				);
 
-				// eslint-disable-next-line
 				return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
 			}
 		}
@@ -247,6 +306,11 @@ function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
 }
 
+function isDiscoverPage() {
+	const url = new URL(document.location.href);
+	return url.pathname.startsWith('/discover');
+}
+
 function getTrackNodes() {
 	let trackNodes: NodeListOf<Element> =
 		document.querySelectorAll('thisshouldbeempty');
@@ -268,15 +332,25 @@ function isArtistVarious(artist: string | null, track: string | null) {
 	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
 	 */
 	if (trackNodes.length !== 0) {
-		const artists = [];
-		for (const trackNode of trackNodes) {
-			const trackName = trackNode.textContent;
-			if (!Util.findSeparator(trackName ?? '', SEPARATORS)) {
-				return false;
-			}
-			const { artist } = Util.splitArtistTrack(trackName, SEPARATORS);
-			artists.push(artist);
+		const artists = [...trackNodes]
+			.map((trackNode) => trackNode.textContent)
+			.filter((trackName) =>
+				Util.findSeparator(trackName ?? '', SEPARATORS),
+			)
+			.map(
+				(trackName) =>
+					Util.splitArtistTrack(trackName, SEPARATORS).artist,
+			);
+
+		/*
+		 * We allow one single track without a separator, as sometimes mixed versions
+		 * of a compilation are present that are formatted differently.
+		 * Example: https://leonvynehall.bandcamp.com/album/fabric-presents-leon-vynehall
+		 */
+		if (trackNodes.length - artists.length > 1) {
+			return false;
 		}
+
 		/*
 		 * Return false if every detected artist on the album has a very short name.
 		 * It is probably not artist names but disc sides or some kind of numbers.
@@ -339,9 +413,21 @@ function getData(selector: string, attr: string) {
 	const element = document.querySelector(selector);
 	if (element) {
 		const rawData = element.getAttribute(attr);
-		// eslint-disable-next-line
+
 		return JSON.parse(rawData ?? '');
 	}
 
 	return {};
+}
+
+function removeByPrefix(text: string) {
+	return text.replace('by ', '');
+}
+
+function removeFromPrefix(text: string) {
+	return text.replace('from ', '');
+}
+
+function removePreOrderSuffix(text: string) {
+	return text.replace(/ ?pre-order/i, '');
 }

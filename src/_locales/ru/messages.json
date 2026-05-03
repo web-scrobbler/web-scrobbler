@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Скробблите музыку со всего Интернета!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Настройки Web Scrobbler",
         "description": "Title of options page"
@@ -8,7 +12,7 @@
         "description": "'General' section"
     },
     "optionsPermissionsLabel": {
-        "message": "Вы не предоставили Web Scrobbler разрешения на доступ ко всем сайтам, что означает, что Вам каждый раз нужно нажимать на иконку расширения для начала скробблинга. Нажмите здесь чтобы предоставить разрешения. Примечание: в Safari разрешение не будем автоматически предоставлено, но в следующий раз, при посещении поддерживаемого сайта, Вы сможете нажать \"Всегда разрешать на каждом сайте\" для предоставления разрешения.",
+        "message": "Вы не предоставили Web Scrobbler разрешения на доступ ко всем сайтам, что означает, что Вам каждый раз нужно нажимать на иконку расширения для начала скробблинга. Нажмите здесь чтобы предоставить разрешения. Примечание: в Safari разрешение не будет автоматически предоставлено, но в следующий раз при посещении поддерживаемого сайта Вы сможете нажать \"Всегда разрешать на каждом сайте\" для предоставления разрешения.",
         "description": "Label for permissions button"
     },
     "optionUseNotifications": {
@@ -43,12 +47,48 @@
         "message": "Разрешить приложению скробблить подкасты",
         "description": "Option title"
     },
+    "optionAutoToggleLove": {
+        "message": "Love/unlove tracks through players",
+        "description": "Option label"
+    },
+    "optionAutoToggleLoveTitle": {
+        "message": "When you like or dislike a track on a website, the track will also be loved/unloved in your scrobbler",
+        "description": "Option label"
+    },
     "optionDebugLoggingEnabled": {
         "message": "Включить отладочное логирование",
         "description": "Option label"
     },
     "optionDebugLoggingEnabledTitle": {
         "message": "Позволить расширению логировать отладочную информацию в консоль браузера",
+        "description": "Option title"
+    },
+    "optionsAlbumGuessing": {
+        "message": "Album guessing",
+        "description": "'Album guessing' section"
+    },
+    "optionAlbumGuessingDisabled": {
+        "message": "Disable album guessing",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingDisabledTitle": {
+        "message": "Web Scrobbler will not guess the album title of any track",
+        "description": "Option title"
+    },
+    "optionAlbumGuessingUneditedOnly": {
+        "message": "Only guess album for unedited tracks (default)",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingUneditedOnlyTitle": {
+        "message": "Web Scrobbler will only guess the album title of unedited tracks. Tracks with only bulk edits applied will still have album guessed",
+        "description": "Option title"
+    },
+    "optionAlbumGuessingAllTracks": {
+        "message": "Guess album title for all tracks",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingAllTracksTitle": {
+        "message": "Web Scrobbler will guess the album title of all albumless tracks including edited ones",
         "description": "Option title"
     },
     "optionsScrobbleBehavior": {
@@ -78,6 +118,10 @@
     "optionScrobbleEditedTracksOnlyTitle": {
         "message": "Скробблить только те треки, которые были отредактированы вами",
         "description": "Option title"
+    },
+    "optionsAdvanced": {
+        "message": "Advanced",
+        "description": "'Advanced' section"
     },
     "optionsHidden": {
         "message": "Скрытые",
@@ -147,6 +191,14 @@
         "message": "Тёмная",
         "description": "Option label"
     },
+    "optionThemeHighContrastDark": {
+        "message": "Тёмная контрастная",
+        "description": "Option label"
+    },
+    "optionThemeHighContrastLight": {
+        "message": "Светлая контрастная",
+        "description": "Option label"
+    },
     "optionThemeSystem": {
         "message": "Система",
         "description": "Option label"
@@ -175,6 +227,10 @@
         "message": "Войти",
         "description": "Button label"
     },
+    "accountsUseLocalInstance": {
+        "message": "Use local instance",
+        "description": "Button label"
+    },
     "accountsScrobblerProps": {
         "message": "Свойства",
         "description": "Button label"
@@ -189,6 +245,14 @@
     },
     "accountsUserApiUrlPlaceholder": {
         "message": "Пользовательский API URL",
+        "description": "Input label"
+    },
+    "instanceDomain": {
+        "message": "Instance Domain",
+        "description": "Input label"
+    },
+    "instanceDomainPlaceholder": {
+        "message": "just domain: example.com",
         "description": "Input label"
     },
     "accountsUserToken": {
@@ -214,6 +278,54 @@
     "optionsOptions": {
         "message": "Настройки",
         "description": "'Options' section"
+    },
+    "optionsScrobbleCache": {
+        "message": "Кэш",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSelectAll": {
+        "message": "Выбрать всё",
+        "description": "Select All button label"
+    },
+    "optionsScrobbleCacheUnselectAll": {
+        "message": "Убрать выделение",
+        "description": "Unselect All button label"
+    },
+    "optionsScrobbleCacheSelectScrobbles": {
+        "message": "Select Scrobbles",
+        "description": "Select Scrobbles button label"
+    },
+    "optionsScrobbleCacheScrobbleSelected": {
+        "message": "Scrobble Selected",
+        "description": "Scrobble Selected button label"
+    },
+    "optionsScrobbleCacheEditAll": {
+        "message": "Edit and scrobble all unscrobbled instances of this song",
+        "description": "Label for checkbox to apply cache edit to all unscrobbled instances of the same track in cache."
+    },
+    "optionsScrobbleCacheLoading": {
+        "message": "Загрузка кеша…",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSuccess": {
+        "message": "Successful Scrobbles",
+        "description": "'Scrobble Cache' successful scrobbles section header"
+    },
+    "optionsScrobbleCacheError": {
+        "message": "Errored Scrobbles",
+        "description": "'Scrobble Cache' errored scrobbles section header"
+    },
+    "optionsScrobbleCacheIgnored": {
+        "message": "Ignored Scrobbles",
+        "description": "'Scrobble Cache' ignored scrobbles section header"
+    },
+    "optionsScrobbleCacheDisallowed": {
+        "message": "Disallowed Scrobbles",
+        "description": "'Scrobble Cache' disallowed scrobbles section header"
+    },
+    "optionsScrobbleCacheUnrecognized": {
+        "message": "Unrecognized Scrobbles",
+        "description": "'Scrobble Cache' unrecognized scrobbles section header"
     },
     "optionsEdits": {
         "message": "Правки",
@@ -243,6 +355,30 @@
         "message": "$1 regex/массовых правок",
         "description": "'Regex/Bulk edits' header"
     },
+    "optionsBlockedTags": {
+        "message": "Blocked tags",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedTagsDesc": {
+        "message": "This extension stores blocked artist/album/track tags.",
+        "description": "Description of blocked tags"
+    },
+    "optionsBlockedTagsPopupTitle": {
+        "message": "$1 blocked tags",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedSources": {
+        "message": "Blocked sources",
+        "description": "'Edited tracks' header"
+    },
+    "optionsBlockedSourcesDesc": {
+        "message": "You can block scrobbling from specific sources such as channels on this website.",
+        "description": "Description of blocked sources"
+    },
+    "optionsBlockedSourcesPopupTitle": {
+        "message": "$1 blocked sources",
+        "description": "'Blocked sources' header"
+    },
     "optionsViewEdited": {
         "message": "Посмотреть",
         "description": "Button to view edited tracks"
@@ -254,6 +390,22 @@
     "optionsImportEdited": {
         "message": "Импорт",
         "description": "Button to import edited tracks"
+    },
+    "optionsDelete": {
+        "message": "Delete $1",
+        "description": "Option label"
+    },
+    "optionsEnabled": {
+        "message": "Enabled",
+        "description": "Option label"
+    },
+    "optionsDisabled": {
+        "message": "Disabled",
+        "description": "Option label"
+    },
+    "optionsIndeterminate": {
+        "message": "Same as global option",
+        "description": "Option label"
     },
     "optionsConnectors": {
         "message": "Коннекторы",
@@ -368,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>здесь</a>.",
+        "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='$1'>здесь</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -376,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Создайте <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">новый багрепорт</a> на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув <a href=\"http://github.com/web-scrobbler/web-scrobbler\">проект на GitHub</a> и отправив нам пулл-реквест.",
+        "message": "Создайте <a href='$1' target='_blank'>новый багрепорт</a> на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув <a href='$1'>проект на GitHub</a> и отправив нам пулл-реквест.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -400,11 +552,11 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='$1'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>этой странице</a>.",
+        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='$1'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='$2'>этой странице</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler — это расширение для браузера, созданное для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания с помощью таких сервисов, как Last.fm, Libre.fm и ListenBrainz.",
+        "message": "Web Scrobbler — это расширение для браузера, созданное для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания с помощью таких сервисов, как Last.fm, Libre.fm, ListenBrainz и Pleroma.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -412,20 +564,24 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
+        "message": "Вы можете посмотреть список участников проекта на <a href='$1'>странице проекта</a> на GitHub.",
+        "description": "'About' section text"
+    },
+    "versionTitle": {
+        "message": "Версия",
+        "description": "'Version' header"
+    },
+    "versionText": {
+        "message": "Вы используете версию расширения $1.",
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Если вы хотите поучаствовать в разработке, вы можете ознакомиться со способами внести вклад в проект <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">на нашем сайте</a>.",
+        "message": "Если вы хотите поучаствовать в разработке, вы можете ознакомиться со способами внести вклад в проект <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">на нашем сайте</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
         "message": "Пожертвования",
         "description": "'Show some love' section"
-    },
-    "showSomeLoveFundingCampaign": {
-        "message": "Со временем в нашем багтрекере накопилось большое количество багрепортов. Начиная с середины августа 2023 и до середины марта 2024 один из наших ключевых разработчиков проекта будет доступен для фултайм работы над расширением на пониженной ставке. Если мы соберём $$1,500, то сможем покрыть один месяц фултайм разработки, и так до 9-10 тысяч долларов. Если вы хотите поддержать эту кампанию, чтобы помочь нам разгрести список багрепортов и сделать Web Scrobbler ещё лучше, используйте кнопку ниже. Мы по-прежнему намерены оставить расширение и все его функции бесплатными. Пожалуйста, помогите распространить эту информацию.",
-        "description": "Temporary funding campaign"
     },
     "showSomeLoveText1": {
         "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
@@ -455,6 +611,10 @@
         "message": "Из альбома \"$1\"",
         "description": "Tooltip text"
     },
+    "buttonScrobble": {
+        "message": "Scrobble",
+        "description": "Scrobble button label"
+    },
     "buttonOk": {
         "message": "ОК",
         "description": "OK button label"
@@ -470,6 +630,10 @@
     "buttonClear": {
         "message": "Очистить",
         "description": "Clear button label"
+    },
+    "buttonRemove": {
+        "message": "Удалить",
+        "description": "Remove button label, for removing a single scrobble from the cache"
     },
     "noItemsInCache": {
         "message": "Нет сохранённых данных.",
@@ -488,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Расширение должно быть обновлено для поддержки этого сайта. Вы можете открыть список <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">багрепортов</a> и посмотреть, не сообщил кто-либо о данной проблеме. Если нет, то вы можете создать новый багрепорт с подробным описанием проблемы.",
+        "message": "Расширение должно быть обновлено для поддержки этого сайта. Вы можете открыть список <a href='$1' target='_blank'>багрепортов</a> и посмотреть, не сообщил кто-либо о данной проблеме. Если нет, то вы можете создать новый багрепорт с подробным описанием проблемы.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -496,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Похоже, что-то произошло не так во время скробблинга. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
+        "message": "Похоже, что-то произошло не так во время скробблинга. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href='$1' target='_blank'>сообщите о проблеме</a> на странице проекта на GitHub.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
@@ -515,41 +679,53 @@
         "message": "Эта песня не была заскробблена",
         "description": "The header of 'disallowed' popup"
     },
+    "disallowedDescIsPrivate": {
+        "message": "Эта композиция не скробблится, т.к. помечена приватной её создателем.",
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
+    },
     "disallowedDesc1": {
         "message": "Web Scrobbler определил песню \"$2\" исполнителя \"$1\", но не будет скробблить её.",
-        "description": "The description of 'disallowed' popup on all sites including youtube. $1 is the artist detected. $2 is the track detected"
+        "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
     },
-    "disallowedDescYoutube": {
-        "message": "На Youtube наиболее частыми причинами являются:",
-        "description": "The description of 'disallowed' popup on youtube."
+    "disallowedDescIsAd": {
+        "message": "Web Scrobbler распознал эту композицию как рекламу.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint1": {
-        "message": "При включённой опции \"Скробблить видео только из категории \"Музыка/Развлечения\"\" и воспроизведении видео с другой категории.",
-        "description": "Point 1 in example list on youtube"
+    "disallowedDescForbiddenYouTubeCategory": {
+        "message": "You have disabled scrobbling youtube video categories other than music and/or entertainment, and this video is marked by the uploader as a different category. You can choose to scrobble any video category by disabling both \"Scrobble videos from \"Music\" category\" and \"Scrobble videos from \"Entertainment\" category\" in Web Scrobbler settings.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint2": {
-        "message": "При включённой опции \"Скробблить только те видео, которые распознаны сервисом YouTube Music как музыка\" и воспроизведении песни, не распознанной сервисом YouTube Music как музыка.",
-        "description": "Point 2 in example list on youtube"
+    "disallowedDescForbiddenTag": {
+        "message": "You have disabled scrobbling this artist, album, and/or track. You can re-enable tags in settings, or by hitting \"Scrobble anyway\" and re-enabling the tags in regex editing.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint3": {
-        "message": "Рекламные объявления (даже заблокированные рекламные объявления могут временно показывать это)",
-        "description": "Point 3 in example list on youtube"
+    "disallowedDescForbiddenChannel": {
+        "message": "You have disabled scrobbling this channel. You can re-enable it in connector settings, or by right clicking the extension icon and clicking \"Enable scrobbling from <ID>\".",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2": {
-        "message": "Это потому что коннектор сайта полагает, что это не является песней, чтобы её заскробблить. Некоторыми возможными причинами могут быть:",
-        "description": "The description of 'disallowed' popup on sites except youtube"
+    "disallowedDescNotOnYouTubeMusic": {
+        "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point1": {
-        "message": "Web Scrobbler вероятно определяет это как рекламу.",
-        "description": "Point 1 in example list on sites except youtube"
+    "disallowedDescIsPlayingElsewhere": {
+        "message": "Web Scrobbler полагает, что эта композиция играет с другого устройства и не должна быть заскробблена.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point2": {
-        "message": "Web Scrobbler вероятно определяет, что эта песня воспроизводилась на другом устройстве.",
-        "description": "Point 2 in example list on sites except youtube"
+    "disallowedDescElementMissing": {
+        "message": "The reason is that some element Web Scrobbler relies on is not in the page. This probably means that either you are not playing music, or there is a bug in the connector.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point3": {
-        "message": "Web Scrobbler, по каким то другим причинам, полагает что это не то, что должно быть заскробблено.",
-        "description": "Point 3 in example list on sites except youtube"
+    "disallowedDescFilteredTag": {
+        "message": "Either the artist, album, or track has been filtered by the connector as something that should not be scrobbled. This is not due to any setting you have set in your settings.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescIsLoading": {
+        "message": "Something Web Scrobbler relies on for finding the track details is loading. Please wait a few seconds. If this message persists, please report it, as something is wrong.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescOther": {
+        "message": "For some unknown reason, Web Scrobbler has determined this should not scrobble. This is not related to any setting you have set. If you believe this is an error, please report it.",
+        "description": "The description of 'disallowed' popup."
     },
     "disallowedDesc3": {
         "message": "Web Scrobbler всё ещё должен скробблить музыку с других мест на этом сайте.",
@@ -695,6 +871,30 @@
         "message": "Пропущено",
         "description": "Title of unskip button, should be short for mobile button label"
     },
+    "infoBlockArtist": {
+        "message": "Никогда не скробблить этого исполнителя",
+        "description": "Title of button to block scrobbling artist"
+    },
+    "infoUnblockArtist": {
+        "message": "Скробблить этого исполнителя",
+        "description": "Title of button to unblock scrobbling artist"
+    },
+    "infoBlockAlbum": {
+        "message": "Никогда не скробблить этот альбом",
+        "description": "Title of button to block scrobbling album"
+    },
+    "infoUnblockAlbum": {
+        "message": "Скробблить этот альбом",
+        "description": "Title of button to unblock scrobbling album"
+    },
+    "infoBlockTrack": {
+        "message": "Никогда не скробблить эту композицию",
+        "description": "Title of button to block scrobbling track"
+    },
+    "infoUnblockTrack": {
+        "message": "Скробблить эту композицию",
+        "description": "Title of button to unblock scrobbling track"
+    },
     "infoOpenAlbumArt": {
         "message": "Открыть обложку альбома в новой вкладке",
         "description": "Title of album image"
@@ -723,6 +923,10 @@
         "message": "Заменить на",
         "description": "Label of regex edit replace input"
     },
+    "infoDeleteLabel": {
+        "message": "Удалить",
+        "description": "Label of regex edit delete button"
+    },
     "infoPreviewLabel": {
         "message": "Предпросмотр",
         "description": "Label of regex edit preview output"
@@ -742,6 +946,18 @@
     "infoAlbumArtistLabel": {
         "message": "Исполнитель альбома",
         "description": "Label of album artist input row"
+    },
+    "infoUseRegex": {
+        "message": "Use regex",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchCase": {
+        "message": "Match case",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchWholeTag": {
+        "message": "Match entire tag",
+        "description": "Title of checkbox to toggle bulk edit flag"
     },
     "infoViewArtistPage": {
         "message": "Посмотреть страницу исполнителя: $1",
@@ -770,6 +986,10 @@
     "pageActionPlaying": {
         "message": "Сейчас играет $1",
         "description": "`playing` page action title, also used for infobox"
+    },
+    "pageActionPaused": {
+        "message": "Приостановлено $1",
+        "description": "`paused` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "Заскробблено $1",
@@ -819,12 +1039,28 @@
         "message": "Отключить $1, пока открыта вкладка",
         "description": "Context menu item"
     },
+    "menuDisableChannel": {
+        "message": "Отключить скробблинг с $1",
+        "description": "Context menu item"
+    },
+    "menuEnableChannel": {
+        "message": "Включить скробблинг с $1",
+        "description": "Context menu item"
+    },
     "notificationConnectAccounts": {
         "message": "Подключите ваши аккаунты",
         "description": "Notification title"
     },
     "notificationConnectAccountsText": {
         "message": "Кликните на уведомление, чтобы подключить ваши аккаунты.",
+        "description": "Notification text"
+    },
+    "notificationNativeScrobbler": {
+        "message": "У $1 есть встроенный скробблер",
+        "description": "Notification title, $1 denotes the name of the website."
+    },
+    "notificationNativeScrobblerText": {
+        "message": "Убедитесь, что вы выключили Web Scrobbler или встроенный скробблер",
         "description": "Notification text"
     },
     "notificationAuthError": {
@@ -856,7 +1092,7 @@
         "description": "Hotkey label"
     },
     "infoBoxStateDisallowed": {
-        "message": "Скробблинг не позволен. Кликните на иконке расширения Web Scrobbler для подробностей.",
+        "message": "Скробблинг запрещён. Кликните на иконке расширения Web Scrobbler для подробностей.",
         "description": "Infobox text when an option is disallowing scrobbling"
     },
     "infoBoxStateError": {
@@ -866,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "Композиция не распознана. Кликните на иконке расширения Web Scrobbler, чтобы ввести верные данные.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Скробблите музыку со всего Интернета!",
-        "description": "Description of the extension"
     }
 }

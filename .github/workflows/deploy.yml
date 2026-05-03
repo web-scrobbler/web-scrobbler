@@ -1,9 +1,8 @@
 name: Deploy
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types: [published]
 
 jobs:
   deploy-chrome:
@@ -11,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -24,6 +23,12 @@ jobs:
 
       - name: Create zipball
         run: npm run dist chrome
+
+      - name: Attach extension to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} web-scrobbler-chrome.zip --clobber
 
       - name: Publish the extension for Chrome
         uses: trmcnvn/chrome-addon@v2
@@ -39,10 +44,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -53,24 +58,60 @@ jobs:
       - name: Create zipball
         run: npm run dist firefox
 
+      - name: Attach extension to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} web-scrobbler-firefox.zip --clobber
+
       - name: Publish the extension for Firefox
-        uses: yayuyokitano/firefox-addon@v0.0.6-alpha
+        uses: inverse/firefox-addon@v0.0.8-alpha
         with:
           api_key: ${{ secrets.AMO_ISSUER }}
           api_secret: ${{ secrets.AMO_SECRET }}
           guid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
           xpi_path: web-scrobbler-firefox.zip
           src_path: web-scrobbler-src.zip
+          approval_notes: |
+            # Version ${{ github.event.release.tag_name }} release upload
+
+            These notes are used to help with the review process to aid with building the extension from source.
+
+            Make sure you use the correct version of node (see `.nvmrc`). Tools such as `nvm`, or `mise` can be used to easily manage node versions.
+
+            ## Arm hardware additional dependencies
+
+            This addon depends on `pngquant` which is required to build from source on arm hardware.
+
+            For this to work you should additionally install `build-essential`, `pkg-config`, `libimagequant-dev`, `autoconf`, `automake`, `libpng-dev`, and `libtool` packages on your system.
+
+            ```bash
+            sudo apt update && sudo apt install -y build-essential pkg-config libimagequant-dev autoconf automake libpng-dev libtool
+            ```
+
+            ## Building the extension
+
+            After this install node dependencies and build the extension:
+
+            ```bash
+            npm ci
+            npm run dist firefox
+            ```
+
+            Once complete you will find a `web-scrobbler-firefox.zip` file containing the built extension in the root of the repository.
+
+            Alternatively, load the unpacked extension located in the `build/firefox` directory.
+          release_notes: ${{ github.event.release.body }}
 
   deploy-edge:
     name: Deploy Edge extension
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
@@ -85,12 +126,32 @@ jobs:
         run: echo "PACKAGE_VERSION=$(jq .version package.json -r)" >> $GITHUB_ENV
 
       - name: Publish the extension for Edge
-        uses: inverse/edge-addon@v1.0.9
+        uses: web-scrobbler/edge-addon@v2.0.4
         with:
           product_id: ${{ secrets.EDGE_PRODUCT_ID }}
           client_id: ${{ secrets.EDGE_CLIENT_ID }}
-          client_secret: ${{ secrets.EDGE_CLIENT_SECRET }}
-          access_token_url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
+          api_key: ${{ secrets.EDGE_API_KEY }}
           zip: web-scrobbler-chrome.zip # Compatible with Chrome
-          notes: 'Version ${{ env.PACKAGE_VERSION }} upload'
+          notes: |
+            # Web Scrobbler Version ${{ env.PACKAGE_VERSION }}
+
+            Web Scrobbler is an open-source browser extension that helps users automatically track their music listening history (scrobbling) across hundreds of websites and sync it with services like Last.fm, ListenBrainz, and Maloja.
+
+            ## Testing
+
+            To test the extension, please follow these steps:
+
+            1. **Installation:** Load the extension into the browser.
+            2. **Setup:**
+               - Click the extension icon and go to **Settings** -> **Accounts**.
+               - Authenticate with a **Last.fm** account (free to create).
+            3. **Testing:**
+               - Navigate to a supported music service (e.g., https://www.youtube.com or https://bandcamp.com).
+               - Play a track.
+               - The extension icon should change to indicate it's active.
+               - Verify that the track appears as "Scrobbling now" on your Last.fm profile.
+
+            ## More Information
+
+            Check our website for a list of all supported platforms and more information about the extension: https://webscrobbler.com
           debug: true

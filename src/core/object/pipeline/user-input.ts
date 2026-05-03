@@ -4,7 +4,7 @@
  */
 
 import SavedEdits from '@/core/storage/saved-edits';
-import Song from '@/core/object/song';
+import type Song from '@/core/object/song';
 import { debugLog } from '@/core/content/util';
 
 /**

@@ -2,11 +2,12 @@
  * A model to load/save song info to a storage.
  */
 import MD5 from 'blueimp-md5';
-import Song, { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
+import Song from '@/core/object/song';
 import { CustomStorage } from '@/core/storage/custom-storage';
-import { DataModels } from '@/core/storage/wrapper';
-import { LOCAL_CACHE } from '@/core/storage/browser-storage';
-import { SavedEdit } from '@/core/storage/options';
+import type { DataModels } from '@/core/storage/wrapper';
+import type { LOCAL_CACHE } from '@/core/storage/browser-storage';
+import type { SavedEdit } from '@/core/storage/options';
 
 type K = typeof LOCAL_CACHE;
 type V = DataModels[K];

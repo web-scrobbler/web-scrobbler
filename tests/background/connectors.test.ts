@@ -3,7 +3,8 @@ import path from 'path';
 
 import { expect, assert, describe, it } from 'vitest';
 
-import connectors, { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
+import connectors from '@/core/connectors';
 import * as UrlMatch from '@/util/url-match';
 
 const PROP_TYPES: {
@@ -63,7 +64,7 @@ function testPaths(entry: ConnectorMeta) {
 	);
 	try {
 		fs.statSync(jsPath);
-	} catch (e) {
+	} catch {
 		throw new Error(`File is missing: ${entry.js}`);
 	}
 }

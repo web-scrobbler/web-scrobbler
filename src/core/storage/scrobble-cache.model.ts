@@ -1,6 +1,6 @@
-import { SCROBBLE_CACHE } from './browser-storage';
+import type { SCROBBLE_CACHE } from './browser-storage';
 import { CustomStorage } from './custom-storage';
-import { CacheScrobble, CacheScrobbleData, DataModels } from './wrapper';
+import type { CacheScrobble, CacheScrobbleData, DataModels } from './wrapper';
 
 type K = typeof SCROBBLE_CACHE;
 type V = DataModels[K];

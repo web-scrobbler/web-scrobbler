@@ -14,7 +14,7 @@ async function main() {
 	updateTheme();
 	try {
 		if (
-			window.location.href.startsWith('https://web-scrobbler.com/webhook')
+			window.location.href.startsWith('https://webscrobbler.com/webhook')
 		) {
 			webhookListenForApproval();
 			return;
@@ -56,7 +56,7 @@ async function fetchConnector(): Promise<void> {
 		Util.debugLog(`Successfully loaded ${connector.label} connector`);
 	} catch (err) {
 		Util.debugLog(
-			`An error occured while loading ${connector.label} connector`,
+			`An error occurred while loading ${connector.label} connector`,
 			'error',
 		);
 		throw err;

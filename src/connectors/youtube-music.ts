@@ -22,6 +22,26 @@ export {};
 
 const adSelector = '.ytmusic-player-bar.advertisement';
 
+const mediaInfo = {
+	playbackState: 'none',
+	metadata: {
+		title: '',
+		artist: '',
+		artwork: [{ src: '' }],
+		album: '',
+	},
+};
+
+Connector.onScriptEvent = (event) => {
+	mediaInfo.playbackState = event.data.playbackState as string;
+	mediaInfo.metadata = event.data.metadata as {
+		title: string;
+		artist: string;
+		artwork: { src: string; size: string; type: string }[];
+		album: string;
+	};
+};
+
 Connector.playerSelector = 'ytmusic-player-bar';
 
 Connector.isTrackArtDefault = (url) => {
@@ -29,17 +49,17 @@ Connector.isTrackArtDefault = (url) => {
 	return Boolean(url?.includes('cover_track_default'));
 };
 
-Connector.getAlbum = () => navigator.mediaSession.metadata?.album;
+Connector.getAlbum = () => mediaInfo.metadata?.album;
 
 Connector.getTrackArt = () => {
-	const artworks = navigator.mediaSession.metadata?.artwork;
+	const artworks = mediaInfo.metadata?.artwork;
 	return artworks?.[artworks.length - 1].src;
 };
 
 Connector.getArtistTrack = () => {
 	let artist;
 	let track;
-	const metadata = navigator.mediaSession.metadata;
+	const metadata = mediaInfo.metadata;
 
 	if (metadata?.album) {
 		artist = metadata.artist;
@@ -55,9 +75,13 @@ Connector.getArtistTrack = () => {
 
 Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
-Connector.isPlaying = () => {
-	return navigator.mediaSession.playbackState === 'playing';
-};
+Connector.isPlaying = () => mediaInfo.playbackState === 'playing';
+
+Connector.loveButtonSelector =
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]';
+
+Connector.unloveButtonSelector =
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]';
 
 Connector.getUniqueID = () => {
 	const uniqueId = new URLSearchParams(window.location.search).get('v');
@@ -87,3 +111,5 @@ const youtubeMusicFilter = MetadataFilter.createFilter({
 });
 
 Connector.applyFilter(youtubeMusicFilter);
+
+Connector.injectScript('connectors/youtube-music-dom-inject.js');

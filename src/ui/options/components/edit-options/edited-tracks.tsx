@@ -1,10 +1,11 @@
 import { t } from '@/util/i18n';
-import { For, Setter, createMemo, createResource } from 'solid-js';
-import * as Options from '@/core/storage/options';
+import type { Setter } from 'solid-js';
+import { For, createMemo, createResource } from 'solid-js';
+import type * as Options from '@/core/storage/options';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
-import { ModalType } from '../navigator';
+import type { ModalType } from '../navigator';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 
 const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);

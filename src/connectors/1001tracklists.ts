@@ -33,7 +33,9 @@ Connector.getCurrentTime = () => {
 Connector.getDuration = () => {
 	switch (true) {
 		case cue && nextCue > 0:
-			0 > currentTime - cue && (nextCue += Math.abs(currentTime - cue));
+			if (0 > currentTime - cue) {
+				nextCue += Math.abs(currentTime - cue);
+			}
 			return nextCue - cue;
 		case nextCue > 0:
 			return nextCue;

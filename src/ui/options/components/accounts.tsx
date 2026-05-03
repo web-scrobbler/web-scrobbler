@@ -1,8 +1,6 @@
 import { t } from '@/util/i18n';
-import ScrobbleService, {
-	Scrobbler,
-	ScrobblerLabel,
-} from '@/core/object/scrobble-service';
+import type { Scrobbler, ScrobblerLabel } from '@/core/object/scrobble-service';
+import ScrobbleService from '@/core/object/scrobble-service';
 import {
 	For,
 	Show,

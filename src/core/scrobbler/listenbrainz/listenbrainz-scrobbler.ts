@@ -1,11 +1,12 @@
 'use strict';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
 import * as Util from '@/util/util';
 import { getExtensionVersion } from '@/util/util-browser';
-import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
-import {
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
+import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
+import type {
 	ListenBrainzHTMLReactProps,
 	ListenBrainzParams,
 	ListenBrainzTrackMeta,
@@ -21,8 +22,8 @@ const listenBrainzTokenPage = 'https://listenbrainz.org/settings/';
 const baseUrl = 'https://api.listenbrainz.org/1';
 const apiUrl = `${baseUrl}/submit-listens`;
 export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'> {
-	public userApiUrl!: string;
-	public userToken!: string;
+	declare public userApiUrl: string;
+	declare public userToken: string;
 	public isLocalOnly = false;
 
 	public async getSongInfo(): Promise<Record<string, never>> {
@@ -109,30 +110,30 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		if (!data) {
 			this.debugLog('no data', 'error');
 			await this.signOut();
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		if ('isAuthStarted' in data && data.isAuthStarted) {
 			try {
 				const session = await this.requestSession();
 
-				/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- we need to set session even if not exists */
+				/* eslint-disable @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
 				(data as any).sessionID = session.sessionID;
 				(data as any).sessionName = session.sessionName;
-				/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
+				/* eslint-enable @typescript-eslint/no-explicit-any */
 				delete data.isAuthStarted;
 
 				await this.storage.set(data);
 
 				return session;
-			} catch (err) {
+			} catch {
 				this.debugLog('Failed to get session', 'warn');
 
 				await this.signOut();
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			}
 		} else if (!('sessionID' in data) || !data.sessionID) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		return {
@@ -225,7 +226,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				null,
 				null,
 			);
-		} catch (e) {
+		} catch {
 			// ignore error
 		}
 
@@ -295,18 +296,18 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		try {
 			response = await Util.timeoutPromise(timeout, promise);
 			result = (await response.json()) as T;
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
-			throw ServiceCallResult.ERROR_OTHER;
+			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 
 		switch (response.status) {
 			case 400:
 				this.debugLog('Invalid JSON sent', 'error');
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			case 401:
 				this.debugLog('Invalid Authorization sent', 'error');
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		this.debugLog(JSON.stringify(result, null, 2));
@@ -332,7 +333,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 
 		try {
 			session = await this.fetchSession(listenBrainzTokenPage);
-		} catch (e) {
+		} catch {
 			this.debugLog('request session timeout', 'warn');
 		}
 
@@ -343,7 +344,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			return session;
 		}
 
-		throw ServiceCallResult.ERROR_AUTH;
+		throw new Error(ServiceCallResult.ERROR_AUTH);
 	}
 
 	private async fetchSession(url: string) {

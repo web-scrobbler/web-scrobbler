@@ -1,29 +1,29 @@
-# Privacy policy
+# 隱私權政策
 
-This privacy policy explains what data we collect and store; how we use and disclose this data.
+此隱私權政策解釋了我們蒐集、儲存了什麼資料，以及我們如何利用、公開這些資料。
 
-**Important note**: This document is applicable to Web Scrobbler v2.40.0 and newer.
+**重要提示**：此文件適用於 Web Scobbler 版本 v2.40.0 及以上。
 
-## What data is collected?
+## 哪些資料會被蒐集？
 
-The extension does not collect any of your personal data.
+此擴充功能不會蒐集您的任何個人資料。
 
-## What data is stored by the extension?
+## 此擴充功能儲存了什麼資料？
 
-Your settings and credentials are stored within your browser. The extension stores:
+您的設定及金鑰/憑證僅會儲存於您的瀏覽器。 此擴充功能儲存：
 
- - Your credentials of scrobble services
- - Your personal Web Scrobbler settings
- - Your edited tracks
- - Your custom URL patterns for connectors
- - System information of the extension
+- 您歌曲記錄服務的憑證
+- 您個人的 Web Scrobbler 設定
+- 您編輯的曲目
+- 您為 Connectors 設定的 URL 規則
+- 此擴充功能的系統資訊
 
-Your credentials are used to communicate with scrobble services only.
+您的憑證僅用於與歌曲記錄服務連接。
 
-All data is used by the extension internally; we don't send this data to 3rd-party services.
+所有資料僅在此擴充功能內部使用；我們不會將資料傳送給任何第三方服務。
 
-## Why does the extension access to all websites?
+## 為何此擴充功能需要存取所有網站？
 
-The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
+此擴充功能支援多個可自行架設的服務(如 Finkwhale)，而這些服務可能會有使用者自訂的網址。 擴充功能並不知道這些網址，而這就是為何需要存取所有網站。
 
-Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.
+還有，這樣做也是為了方便使用者。 當擴充功能更新時，使用者就不必允許存取新加入的網站。

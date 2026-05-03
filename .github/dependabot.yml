@@ -8,8 +8,6 @@ updates:
       time: '19:00'
       timezone: Europe/Moscow
     open-pull-requests-limit: 10
-    reviewers:
-      - 'web-scrobbler/maintenance-team'
     labels:
       - dependencies
       - maintenance
@@ -21,8 +19,6 @@ updates:
       day: saturday
       time: '19:00'
       timezone: Europe/Moscow
-    reviewers:
-      - 'web-scrobbler/maintenance-team'
     labels:
       - dependencies
       - maintenance

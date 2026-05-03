@@ -78,7 +78,7 @@ async function fetchAlbumTitle() {
 	);
 
 	// eslint is simply wrong here, this declaration is necessary.
-	// eslint-disable-next-line
+
 	const albumList = albumListDocument.querySelectorAll(
 		'.c-media__image',
 	) as NodeListOf<HTMLImageElement>;

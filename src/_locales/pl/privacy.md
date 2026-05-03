@@ -12,11 +12,11 @@ Rozszerzenie nie zbiera żadnych informacji osobistych.
 
 Twoje ustawienia oraz poświadczenia logowania są przechowywane wewnątrz przeglądarki. Rozszerzenie przechowuje:
 
- - Twoje poświadczenia logowania do usług scrobblera
- - Twoje osobiste ustawienia Web Scrobblera
- - Twoje zmodyfikowane utwory
- - Niestandardowe wzorce adresów wspieranych usług
- - Informacje systemowe rozszerzenia
+- Twoje poświadczenia logowania do usług scrobblera
+- Twoje osobiste ustawienia Web Scrobblera
+- Twoje zmodyfikowane utwory
+- Niestandardowe wzorce adresów wspieranych usług
+- Informacje systemowe rozszerzenia
 
 Twoje poświadczenia logowania są wykorzystywane wyłącznie do komunikacji z usługami scrobblera.
 
@@ -26,4 +26,4 @@ Wszelkie dane są przechowywane w pamięci wewnętrznej rozszerzenia; nie przesy
 
 Rozszerzenie wspiera wiele usług hostowanych samodzielnie (takich jak Funkwhale), których adres internetowy zależny jest od użytkownika. Adresy tych usług nie mogą być z wyprzedzeniem określone wewnątrz rozszerzenia, wymagany jest więc dostęp do wszystkich możliwych adresów.
 
-Zwiększa to również wygodę dla użytkownika, który nie musi udzielać zgód na dostęp do każdej z nowych usług dodawanych w przyszłych aktualizacjach.
+Zwiększa to również wygodę dla użytkownika, Który nie musi udzielać zgód na dostęp do każdej z nowych usług dodawanych w przyszłych aktualizacjach.

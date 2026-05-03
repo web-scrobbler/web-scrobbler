@@ -1,8 +1,8 @@
 import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import browser from 'webextension-polyfill';
-import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
+import type { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
-import { ConnectorMeta } from '../connectors';
+import type { ConnectorMeta } from '../connectors';
 import type { DisallowedReason } from '../object/disallowed-reason';
 import { sendContentMessage } from '@/util/communication';
 
@@ -140,7 +140,11 @@ export default class BaseConnector {
 	 * Styles to apply to the infobox
 	 * this is in camelCase so its fontSize, not font-size
 	 */
-	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
+	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> &
+		Partial<
+			// TODO remove after upstream update: fixes for NTS
+			Record<'box-orient' | '-webkit-line-clamp' | 'text-wrap', string>
+		> = {
 		display: 'flex',
 		gap: '0.5em',
 		alignItems: 'center',
@@ -371,7 +375,7 @@ export default class BaseConnector {
 	 * @returns Check result
 	 */
 	public isTrackArtDefault: (
-		trackArtUrl?: string | null | undefined,
+		trackArtUrl?: string | null,
 	) => boolean | null | undefined = () => false;
 
 	/**
@@ -975,12 +979,7 @@ export default class BaseConnector {
 				let fieldValue = this.currentState[field];
 
 				switch (field) {
-					case 'albumArtist': {
-						if (fieldValue === this.currentState.artist) {
-							fieldValue = this.defaultState[field];
-						}
-					}
-					// eslint-disable-next-line no-fallthrough
+					case 'albumArtist':
 					case 'artist':
 					case 'track':
 					case 'album': {

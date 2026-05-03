@@ -1,4 +1,5 @@
-import { t } from '@/util/i18n';
+import { TAnchor } from '@/ui/components/util';
+import { CUSTOM_URLS_DOCS_URL, ISSUES_URL, REPO_URL, t } from '@/util/i18n';
 
 /**
  * Component that shows some frequently asked questions
@@ -29,12 +30,18 @@ export default function FAQ() {
 				<li>{t('faqAnswer4b3')}</li>
 				<li>{t('faqAnswer4b4')}</li>
 			</ol>
-			{/* eslint-disable-next-line */}
-			<p innerHTML={t('faqAnswer4c')} />
+			<TAnchor
+				messageName="faqAnswer4c"
+				substitutions={CUSTOM_URLS_DOCS_URL}
+				target="_blank"
+			/>
 
 			<h2>{t('faqQuestion5')}</h2>
-			{/* eslint-disable-next-line */}
-			<p innerHTML={t('faqAnswer5')} />
+			<TAnchor
+				messageName="faqAnswer5"
+				substitutions={[ISSUES_URL, REPO_URL]}
+				target="_blank"
+			/>
 
 			<h2>{t('faqQuestion6')}</h2>
 			<p>{t('faqAnswer6')}</p>

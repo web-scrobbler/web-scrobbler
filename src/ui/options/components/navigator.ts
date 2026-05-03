@@ -1,4 +1,4 @@
-import { Component, Setter } from 'solid-js';
+import type { Component, Setter } from 'solid-js';
 import {
 	InfoOutlined,
 	HelpOutlined,

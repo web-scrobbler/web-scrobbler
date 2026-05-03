@@ -1,4 +1,3 @@
-/* eslint-disable */
 import type BaseConnector from '@/core/content/connector';
 
 declare global {
@@ -8,4 +7,3 @@ declare global {
 	var webScrobblerScripts: { [scriptFile: string]: boolean };
 	var STARTER_LOADED: boolean | undefined;
 }
-/* eslint-enable */

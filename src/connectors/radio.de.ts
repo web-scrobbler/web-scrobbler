@@ -1,15 +1,7 @@
 export {};
 
-Connector.playerSelector = 'div.player-nav-holder';
+Connector.playerSelector = '#sticky-player';
 
-Connector.getArtistTrack = () => {
-	const text = Util.getTextFromSelectors('span');
-	const m = text?.match(/(.*?) - (.*?) auf (.*?)/);
-	if (m && m.length === 4) {
-		return { artist: m[1], track: m[2] };
-	}
-	return null;
-};
+Connector.artistTrackSelector = '[data-testid="status-display"]';
 
-Connector.isPlaying = () =>
-	Util.getAttrFromSelectors('.player_playbutton', 'title') !== 'Wiedergabe';
+Connector.pauseButtonSelector = '[data-testid="global-player-pause"]';

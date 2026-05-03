@@ -57,7 +57,7 @@ async function main() {
 					colorLog(err, 'error');
 					colorLog(stdout, 'info');
 					colorLog(stderr, 'error');
-					reject();
+					reject(new Error());
 					return;
 				}
 				colorLog('Successfully compiled safari extension', 'success');

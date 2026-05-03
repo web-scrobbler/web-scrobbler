@@ -1,4 +1,4 @@
-import { t } from '@/util/i18n';
+import { ISSUES_URL, t } from '@/util/i18n';
 import { ErrorOutlined, SettingsOutlined } from '@/ui/components/icons';
 import styles from './popup.module.scss';
 import browser from 'webextension-polyfill';
@@ -14,7 +14,10 @@ export default function Err() {
 			<ErrorOutlined class={styles.bigIcon} />
 			<h1>{t('serviceErrorHeader')}</h1>
 			<p>
-				<TPopupAnchor messageName="serviceErrorDesc" />
+				<TPopupAnchor
+					messageName="serviceErrorDesc"
+					substitutions={ISSUES_URL}
+				/>
 			</p>
 			<PopupAnchor
 				href={browser.runtime.getURL(

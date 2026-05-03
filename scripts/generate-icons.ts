@@ -3,7 +3,7 @@ import { createCanvas, loadImage } from 'canvas';
 import { resolve } from 'path';
 import { getBrowser, releaseTarget, releaseTargets } from './util';
 import colorLog from './log';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 
 /**
  * Get the name of the main icon based on the release target.
@@ -167,7 +167,7 @@ export default function generateIcons(): PluginOption {
 						resolve();
 					});
 				} catch (err) {
-					reject(err);
+					reject(err as Error);
 				}
 			});
 		},

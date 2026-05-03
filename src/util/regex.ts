@@ -1,4 +1,5 @@
-import Song, { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
+import type Song from '@/core/object/song';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 
 /**
@@ -181,7 +182,7 @@ export function searchMatches(
 			stringifyFlags(flags),
 		);
 		return regex.test(text);
-	} catch (err) {
+	} catch {
 		return false;
 	}
 }
@@ -213,7 +214,7 @@ function replaceField(
 			stringifyFlags(flags),
 		);
 		return text.replace(regex, replace);
-	} catch (err) {
+	} catch {
 		return text;
 	}
 }

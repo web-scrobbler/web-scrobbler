@@ -2,10 +2,11 @@ import MD5 from 'blueimp-md5';
 
 import { hideStringInText, timeoutPromise } from '@/util/util';
 import { createQueryString } from '@/util/util-browser';
-import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
+import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import { BaseSong } from '@/core/object/song';
-import {
+import type { BaseSong } from '@/core/object/song';
+import type {
 	AudioScrobblerSessionResponse,
 	AudioScrobblerTrackScrobbleResponse,
 } from '@/core/scrobbler/audio-scrobbler/audio-scrobbler.types';
@@ -61,7 +62,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 				false,
 			);
 			token = responseData.token;
-		} catch (err) {
+		} catch {
 			this.debugLog('Error acquiring a token', 'warn');
 
 			throw new Error('Error acquiring a token');
@@ -70,7 +71,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 		if (!data) {
 			data = { token };
 		}
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- we need to set token even if not exists
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any -- we need to set token even if not exists
 		(data as any).token = token;
 
 		// set token and reset session so we will grab a new one
@@ -100,11 +101,11 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 		const data = await this.storage.get();
 		if (!data) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 		if (!('token' in data)) {
 			if (!('sessionID' in data)) {
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			}
 			return {
 				sessionID: data.sessionID ?? 'undefined',
@@ -124,23 +125,23 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 				delete data.token;
 
-				/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access -- we need to set session even if not exists */
+				/* eslint-disable @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
 				(data as any).sessionID = session.sessionID;
 				(data as any).sessionName = session.sessionName;
-				/* eslint-enable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access */
+				/* eslint-enable @typescript-eslint/no-explicit-any */
 
 				await this.storage.set(data);
 
 				return session;
-			} catch (err) {
+			} catch {
 				this.debugLog('Failed to trade token for session', 'warn');
 
 				await this.signOut();
-				throw ServiceCallResult.ERROR_AUTH;
+				throw new Error(ServiceCallResult.ERROR_AUTH);
 			}
 		}
 
-		/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
+		/* eslint-disable @typescript-eslint/no-explicit-any -- we need to set session even if not exists */
 		return {
 			sessionID: (data as any).sessionID,
 			sessionName: (data as any).sessionName,
@@ -319,8 +320,8 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 		try {
 			response = await timeoutPromise(timeout, promise);
 			responseData = (await response.json()) as T;
-		} catch (e) {
-			throw ServiceCallResult.ERROR_OTHER;
+		} catch {
+			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 
 		const responseStr = JSON.stringify(responseData, null, 2);
@@ -328,7 +329,14 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 		if (!response.ok) {
 			this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
-			throw ServiceCallResult.ERROR_OTHER;
+			if ('error' in responseData && responseData.error === 9) {
+				// Invalid session key - Please re-authenticate
+				await this.signOut();
+				this.debugLog(
+					'error 9 received, triggering signOut so that user grant access again.',
+				);
+			}
+			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 
 		this.debugLog(`${params.method} response:\n${debugMsg}`);
@@ -354,7 +362,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 		const result = this.processResponse(response);
 
 		if (result !== ServiceCallResult.RESULT_OK) {
-			throw ServiceCallResult.ERROR_AUTH;
+			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
 		const sessionName = response.session.name;

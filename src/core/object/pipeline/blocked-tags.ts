@@ -3,7 +3,7 @@
  * tags have been blocklisted by the user.
  */
 
-import Song from '@/core/object/song';
+import type Song from '@/core/object/song';
 import { debugLog } from '@/core/content/util';
 import BlockedTags from '@/core/storage/blocked-tags';
 

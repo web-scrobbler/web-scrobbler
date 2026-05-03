@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Opcje rozszerzenia Web Scrobbler",
         "description": "Title of options page"
@@ -27,12 +31,64 @@
         "message": "Pokaż powiadomienie, jeśli rozszerzenie nie rozpozna automatycznie utworu",
         "description": "Option title"
     },
+    "optionUseInfobox": {
+        "message": "Pokaż infobox",
+        "description": "Option label"
+    },
+    "optionUseInfoboxTitle": {
+        "message": "Pokazuj infobox Web Scrobblera na wspieranych witrynach",
+        "description": "Option title"
+    },
     "optionScrobblePodcasts": {
         "message": "Scrobbluj podcasty",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
         "message": "Scrobbluj odcinki podcastów",
+        "description": "Option title"
+    },
+    "optionAutoToggleLove": {
+        "message": "Ukochuj/odkochuj utwory z poziomu odtwarzacza",
+        "description": "Option label"
+    },
+    "optionAutoToggleLoveTitle": {
+        "message": "Gdy dodasz/usuniesz polubienie utworu z na witrynie, utwór zostanie również ukochany/odkochany na scrobblerze",
+        "description": "Option label"
+    },
+    "optionDebugLoggingEnabled": {
+        "message": "Włącz rejestrowanie informacji debugowania",
+        "description": "Option label"
+    },
+    "optionDebugLoggingEnabledTitle": {
+        "message": "Zezwól rozszerzeniu na rejestrowanie informacji debugowania w konsoli przeglądarki",
+        "description": "Option title"
+    },
+    "optionsAlbumGuessing": {
+        "message": "Zgadywanie albumów",
+        "description": "'Album guessing' section"
+    },
+    "optionAlbumGuessingDisabled": {
+        "message": "Wyłącz zgadywanie albumów",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingDisabledTitle": {
+        "message": "Web Scrobbler nie będzie zgadywał tytułów albumów przy żadnym z utworów",
+        "description": "Option title"
+    },
+    "optionAlbumGuessingUneditedOnly": {
+        "message": "Zgaduj wyłącznie tytuły albumów dla nieedytowanych utworów (domyślnie)",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingUneditedOnlyTitle": {
+        "message": "Web Scrobbler będzie zgadywać tytuły albumów wyłącznie przy utworach, których dane nie zostały edytowane ręcznie. Utwory z zastosowaną wyłącznie edycją zbiorową w dalszym ciągu będą miały odgadywane nazwy albumów.",
+        "description": "Option title"
+    },
+    "optionAlbumGuessingAllTracks": {
+        "message": "Zgaduj tytuły albumów dla wszystkich utworów",
+        "description": "Option label"
+    },
+    "optionAlbumGuessingAllTracksTitle": {
+        "message": "Web Scrobbler będzie zgadywać tytuł albumu dla każdego utworu bez przypisanego tytułu albumu, włączając w to utwory które były edytowane manualnie",
         "description": "Option title"
     },
     "optionsScrobbleBehavior": {
@@ -62,6 +118,10 @@
     "optionScrobbleEditedTracksOnlyTitle": {
         "message": "Scrobbluj utwory wyłącznie, jeżeli ich dane zostały wprowadzone ręcznie",
         "description": "Option title"
+    },
+    "optionsAdvanced": {
+        "message": "Zaawansowane",
+        "description": "'Advanced' section"
     },
     "optionsHidden": {
         "message": "Ukryte",
@@ -131,6 +191,14 @@
         "message": "Ciemny",
         "description": "Option label"
     },
+    "optionThemeHighContrastDark": {
+        "message": "Ciemny o wysokim kontraście",
+        "description": "Option label"
+    },
+    "optionThemeHighContrastLight": {
+        "message": "Jasny o wysokim kontraście",
+        "description": "Option label"
+    },
     "optionThemeSystem": {
         "message": "Systemowy",
         "description": "Option label"
@@ -159,6 +227,10 @@
         "message": "Zaloguj się",
         "description": "Button label"
     },
+    "accountsUseLocalInstance": {
+        "message": "Używaj lokalnej instancji",
+        "description": "Button label"
+    },
     "accountsScrobblerProps": {
         "message": "Właściwości",
         "description": "Button label"
@@ -175,6 +247,14 @@
         "message": "Własny adres URL API.",
         "description": "Input label"
     },
+    "instanceDomain": {
+        "message": "Domena instancji",
+        "description": "Input label"
+    },
+    "instanceDomainPlaceholder": {
+        "message": "sama nazwa domenowa: example.com",
+        "description": "Input label"
+    },
     "accountsUserToken": {
         "message": "Token",
         "description": "Input label"
@@ -183,9 +263,73 @@
         "message": "Własny token",
         "description": "Input label"
     },
+    "accountsApplicationName": {
+        "message": "Nazwa aplikacji",
+        "description": "Input label"
+    },
+    "accountsApplicationNamePlaceholder": {
+        "message": "Etykieta niestandardowego webhooka",
+        "description": "Input label"
+    },
+    "accountsAddWebhook": {
+        "message": "Dodaj Webhooka",
+        "description": "Button label"
+    },
     "optionsOptions": {
         "message": "Opcje",
         "description": "'Options' section"
+    },
+    "optionsScrobbleCache": {
+        "message": "Pamięć podręczna",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSelectAll": {
+        "message": "Zaznacz wszystkie",
+        "description": "Select All button label"
+    },
+    "optionsScrobbleCacheUnselectAll": {
+        "message": "Odznacz wszystkie",
+        "description": "Unselect All button label"
+    },
+    "optionsScrobbleCacheSelectScrobbles": {
+        "message": "Zaznacz Scrobble",
+        "description": "Select Scrobbles button label"
+    },
+    "optionsScrobbleCacheScrobbleSelected": {
+        "message": "Zaznaczone Scrobble",
+        "description": "Scrobble Selected button label"
+    },
+    "optionsScrobbleCacheEditAll": {
+        "message": "Edytuj i przescrobbluj wszystkie nieprzescrobblowane wystąpienia tego utworu",
+        "description": "Label for checkbox to apply cache edit to all unscrobbled instances of the same track in cache."
+    },
+    "optionsScrobbleCacheLoading": {
+        "message": "Ładuję pamięć podręczną scrobbli...",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSuccess": {
+        "message": "Udane Scrobble",
+        "description": "'Scrobble Cache' successful scrobbles section header"
+    },
+    "optionsScrobbleCacheError": {
+        "message": "Błędne Scrobble",
+        "description": "'Scrobble Cache' errored scrobbles section header"
+    },
+    "optionsScrobbleCacheIgnored": {
+        "message": "Ignorowane Scrobble",
+        "description": "'Scrobble Cache' ignored scrobbles section header"
+    },
+    "optionsScrobbleCacheDisallowed": {
+        "message": "Niedozwolone Scrobble",
+        "description": "'Scrobble Cache' disallowed scrobbles section header"
+    },
+    "optionsScrobbleCacheUnrecognized": {
+        "message": "Nierozpoznane Scrobble",
+        "description": "'Scrobble Cache' unrecognized scrobbles section header"
+    },
+    "optionsEdits": {
+        "message": "Edycje",
+        "description": "'Edits' section"
     },
     "optionsEditedTracks": {
         "message": "Ręcznie dopasowane utwory",
@@ -199,6 +343,42 @@
         "message": "Ręcznie dopasowane utwory: $1",
         "description": "'Edited tracks' header"
     },
+    "optionsRegexEdits": {
+        "message": "Wyrażenia regularne/Edycje zbiorcze",
+        "description": "'Regex/Bulk edits' header"
+    },
+    "optionsRegexEditsDesc": {
+        "message": "To rozszerzenie przechowuje wyrażenia regularne/edycje zbiorcze",
+        "description": "Description of regex/bulk edits"
+    },
+    "optionsRegexEditsPopupTitle": {
+        "message": "$1 wyrażeń regularnych/edycji zbiorczych",
+        "description": "'Regex/Bulk edits' header"
+    },
+    "optionsBlockedTags": {
+        "message": "Zablokowane tagi",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedTagsDesc": {
+        "message": "To rozszerzenie przechowuje zablokowane tagi artystów/albumów/utworów",
+        "description": "Description of blocked tags"
+    },
+    "optionsBlockedTagsPopupTitle": {
+        "message": "$1 zablokowanych tagów",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedSources": {
+        "message": "Zablokowane źródła",
+        "description": "'Edited tracks' header"
+    },
+    "optionsBlockedSourcesDesc": {
+        "message": "Możesz zablokować scrobblowanie z konkretnych źródeł, takich jak konkretnych kanałów w tej witrynie",
+        "description": "Description of blocked sources"
+    },
+    "optionsBlockedSourcesPopupTitle": {
+        "message": "$1 zablokowanych źródeł",
+        "description": "'Blocked sources' header"
+    },
     "optionsViewEdited": {
         "message": "Zobacz",
         "description": "Button to view edited tracks"
@@ -210,6 +390,26 @@
     "optionsImportEdited": {
         "message": "Import",
         "description": "Button to import edited tracks"
+    },
+    "optionsDelete": {
+        "message": "Usuń $1",
+        "description": "Option label"
+    },
+    "optionsEnabled": {
+        "message": "Aktywowane",
+        "description": "Option label"
+    },
+    "optionsDisabled": {
+        "message": "Wyłączone",
+        "description": "Option label"
+    },
+    "optionsIndeterminate": {
+        "message": "Tak samo jak w ustawieniu domyślnym",
+        "description": "Option label"
+    },
+    "optionsConnectors": {
+        "message": "Wtyczki usług",
+        "description": "'Connectors' section"
     },
     "optionsEnableDisableHint": {
         "message": "Wybierz usługi do aktywacji/dezaktywacji.",
@@ -320,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>tutaj</a>.",
+        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='$1'>tutaj</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -328,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Otwórz na GitHubie <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nowy wniosek</a> ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repozytorium na GitHubie</a> i wysyłając nam pull requesta.",
+        "message": "Otwórz na GitHubie <a href='$1' target='_blank'>nowy wniosek</a> ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując <a href='$1'>repozytorium na GitHubie</a> i wysyłając nam pull requesta.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -352,11 +552,11 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='#'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>stronie projektu</a>.",
+        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='$1'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='$2'>stronie projektu</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler to rozszerzenie do przeglądarki stworzone dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w takich usługach jak Last.fm, Libre.fm i ListenBrainz.",
+        "message": "Web Scrobbler to rozszerzenie do przeglądarki stworzone dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w takich usługach jak Last.fm, Libre.fm, ListenBrainz czy Pleroma.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -364,7 +564,19 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Możesz znaleźć listę współtwórców <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">bezpośrednio na GitHubie</a>",
+        "message": "Możesz znaleźć listę współtwórców <a href='$1'>bezpośrednio na GitHubie</a>",
+        "description": "'About' section text"
+    },
+    "versionTitle": {
+        "message": "Wersja",
+        "description": "'Version' header"
+    },
+    "versionText": {
+        "message": "Używasz rozszerzenia w wersji $1.",
+        "description": "'About' section text"
+    },
+    "contributorsContribute": {
+        "message": "Chcesz przyczynić się do rozwoju projektu? Zapoznaj się ze wszystkimi sposobami na jakie jest to możliwe na <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">naszej stronie</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -399,6 +611,10 @@
         "message": "Z albumu \"$1\"",
         "description": "Tooltip text"
     },
+    "buttonScrobble": {
+        "message": "Scrobbluj",
+        "description": "Scrobble button label"
+    },
     "buttonOk": {
         "message": "Ok",
         "description": "OK button label"
@@ -414,6 +630,10 @@
     "buttonClear": {
         "message": "Wyczyść",
         "description": "Clear button label"
+    },
+    "buttonRemove": {
+        "message": "Usuń",
+        "description": "Remove button label, for removing a single scrobble from the cache"
     },
     "noItemsInCache": {
         "message": "Brak elementów w pamięci podręcznej.",
@@ -432,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">listę zgłoszonych problemów</a> i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
+        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć <a href='$1' target='_blank'>listę zgłoszonych problemów</a> i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -440,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">wypełnienie zgłoszenia</a> na GitHubie.",
+        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href='$1' target='_blank'>wypełnienie zgłoszenia</a> na GitHubie.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
@@ -455,6 +675,78 @@
         "message": "Otwórz opcje",
         "description": "Button label"
     },
+    "disallowedHeader": {
+        "message": "Ten utwór nie zostanie przescrobblowany",
+        "description": "The header of 'disallowed' popup"
+    },
+    "disallowedDescIsPrivate": {
+        "message": "Ten utwór nie zostanie przescrobblowany, ponieważ został on oznaczony jako prywatny przez swojego twórcę.",
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
+    },
+    "disallowedDesc1": {
+        "message": "Web Scrobbler rozpoznał ten utwór jako \"$2\" autorstwa \"$1\", ale nie przescrobbluje go.",
+        "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
+    },
+    "disallowedDescIsAd": {
+        "message": "Web Scrobbler rozpoznał, że jest to reklama.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescForbiddenYouTubeCategory": {
+        "message": "Wyłączyłeś scrobblowanie filmów na YouTubue z kategorii innych niż muzyka/rozrywka, a film ten został przez swojego twórcę oznaczony jako należący do innej kategorii. Możesz zdecydować się na scrobblowanie utworów ze wszystkich kategorii, wyłączając opcje 'Scrobbluj filmy z kategorii \"Muzyka\"' oraz 'Scrobbluj filmy z kategorii \"Rozrywka\"' w ustawieniach rozszerzenia Web Scrobbler.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescForbiddenTag": {
+        "message": "Wyłączyłeś scrobblowanie tego utworu / utworów z danego albumu / tego wokalisty. Możesz aktywować ponownie scrobbling danych tagów z poziomu ustawień, bądź też wybierając opcję \"Przescrobbluj i tak\" oraz aktywując ponownie wybrane tagi w edycji wyrażeń regularnych.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescForbiddenChannel": {
+        "message": "Wyłączyłeś scrobblowanie z tego kanału. Możesz aktywować je ponownie w ustawieniach usług, bądź też klikając prawym przyciskiem na ikonie rozszerzenia i wybierając \"Aktywuj scrobblowanie z <ID>\".",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescNotOnYouTubeMusic": {
+        "message": "YouTube Music nie rozpoznało tego filmu jako muzyki, a aktywowana została opcja \"Scrobbluj wyłącznie filmy rozpoznane przez YouTube Music jako muzyka\" w ustawieniach.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescIsPlayingElsewhere": {
+        "message": "Web Scrobbler ma wrażenie, że ten utwór odtwarzany jest aktualnie z innego źródła i jako taki nie powinien zostać przescrobblowany.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescElementMissing": {
+        "message": "Jest to spowodowane tym, że któryś z elementów na którym polega Web Scrobbler nie jest dostępny na tej stronie. Zwykle dzieje się tak ponieważ muzyka z jakiegoś powodu nie jest odtwarzana, albo z powodu uszkodzonej integracji z usługą.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescFilteredTag": {
+        "message": "Artysta, album albo konkretny utwór został odfiltrowany przez integrację z usługą jako treść, która nie powinna zostać przescrobblowana. Nie jest to powiązane z żadną z opcji, które włączyłeś w ustawieniach.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescIsLoading": {
+        "message": "Element, na którym Web Scrobbler polega w celu pozyskania szczegółowych informacji o utworze w dalszym ciągu się ładuje - daj temu jeszcze kilka sekund. Jeżeli problem będzie występował w dalszym ciągu i ta wiadomość nie zniknie samoistnie, prosimy o przesłanie zgłoszenia problemu - nie jest to zachowanie oczekiwane.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescOther": {
+        "message": "Z nie do końca precyzyjnie określonego powodu, Web Scrobbler uznał, że nie powinien tego przescrobblować. Nie jest to związane z jakąkolwiek opcją włączoną w ustawieniach. Jeżeli uważasz, że jest to zachowanie błędne - prosimy o przesłanie zgłoszenia problemu.",
+        "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDesc3": {
+        "message": "Web Scrobbler powinien w dalszym ciągu scrobblować muzykę z innych miejsc na tej witrynie.",
+        "description": "The description of 'disallowed' popup on all sites including youtube"
+    },
+    "disallowedButton": {
+        "message": "Przescrobbluj i tak",
+        "description": "Button label"
+    },
+    "ignoredHeader": {
+        "message": "Ten scrobbl został zignorowany",
+        "description": "The header of 'ignored' popup"
+    },
+    "ignoredDesc": {
+        "message": "Web Scrobbler próbował przescrobblować utwór \"$2\" autorstwa \"$1\", ale te tagi zostały zignorowane przez Last.FM.",
+        "description": "The description of 'ignored' popup. $1 is artist name, and $2 is track name"
+    },
+    "ignoredDescReadMore": {
+        "message": "Dowiedz się więcej oraz poproś o dopuszczenie utworu w tym miejscu",
+        "description": "The description of 'ignored' popup, links to support.last.fm thread"
+    },
     "unsupportedWebsiteHeader": {
         "message": "Ta witryna nie jest wspierana",
         "description": "The header of 'unsupported' popup"
@@ -465,6 +757,10 @@
     },
     "unsupportedWebsiteDesc2": {
         "message": "Niektóre ze wspieranych przez rozszerzenie witryn należących do Google (np. Google Play Music, YouTube) mogą być blokowane z powodu polityki zasad rozszerzeń.",
+        "description": "The description of 'unsupported' popup"
+    },
+    "unsupportedWebsiteUpdateNote": {
+        "message": "Jeżeli rozszerzenie zostało niedawno zaktualizowane, witryny mogą wyświetlać się jako niewspierane dopóki nie odświeżysz strony.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {
@@ -483,6 +779,14 @@
         "message": "Nie możesz edytować tego utworu",
         "description": "Title of edit button"
     },
+    "infoEditTitleShort": {
+        "message": "Edytuj",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
+    "infoEditUnableTitleShort": {
+        "message": "Nie można edytować",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
     "infoSwapTitle": {
         "message": "Podmienia wartości pól tytułu i wykonawcy",
         "description": "Title of swap button"
@@ -490,6 +794,26 @@
     "infoSwapUnableTitle": {
         "message": "Nie możesz zamienić pustych informacji o utworze.",
         "description": "Title of swap button"
+    },
+    "infoSwapTitleShort": {
+        "message": "Zamień miejscami tytuł oraz wykonawcę",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
+    "infoSwapUnableTitleShort": {
+        "message": "Nie można zamienić miejscami informacji",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
+    "infoRegexTitle": {
+        "message": "Tryb edycji zbiorowej / wyrażeń regularnych",
+        "description": "Title of regex/bulk edit button"
+    },
+    "infoRegexTitleShort": {
+        "message": "Wyrażenia regularne / Edycja zbiorowa",
+        "description": "Title of regex/bulk edit button, should be short for mobile button label"
+    },
+    "infoEditedWarning": {
+        "message": "Ten utwór był wcześniej edytowany. Utwory edytowane ręcznie nie są dalej przetwarzane przez wyrażenia regularne, także podgląd jaki prezentowany jest w tym miejscu może nie być dokładny.",
+        "description": "Warning message to user if bulk editing on a previously edited track"
     },
     "infoSubmitTitle": {
         "message": "Prześlij zmiany",
@@ -499,6 +823,14 @@
         "message": "Nie możesz przesłać pustych informacji o utworze.",
         "description": "Title of submit button"
     },
+    "infoSubmitTitleShort": {
+        "message": "Wyślij",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
+    "infoSubmitUnableTitleShort": {
+        "message": "Nie można wysłać",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
     "infoRevertTitle": {
         "message": "Odrzuć zmiany",
         "description": "Title of revert button"
@@ -506,6 +838,14 @@
     "infoRevertUnableTitle": {
         "message": "Nie możesz wycofać tego uworu",
         "description": "Title of revert button"
+    },
+    "infoRevertTitleShort": {
+        "message": "Cofnij",
+        "description": "Title of revert button, should be short for mobile button label"
+    },
+    "infoRevertUnableTitleShort": {
+        "message": "Nie można cofnąć",
+        "description": "Title of revert button, should be short for mobile button label"
     },
     "infoSkipTitle": {
         "message": "Nie scrobbluj tego utworu",
@@ -518,6 +858,42 @@
     "infoSkippedTitle": {
         "message": "Pominąłeś ten utwór",
         "description": "Title of unskip button"
+    },
+    "infoSkipTitleShort": {
+        "message": "Pomiń",
+        "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkipUnableTitleShort": {
+        "message": "Nie można pominąć",
+        "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkippedTitleShort": {
+        "message": "Pominięto",
+        "description": "Title of unskip button, should be short for mobile button label"
+    },
+    "infoBlockArtist": {
+        "message": "Nigdy nie scrobbluj tego wykonawcy",
+        "description": "Title of button to block scrobbling artist"
+    },
+    "infoUnblockArtist": {
+        "message": "Scrobbluj tego wykonawcę",
+        "description": "Title of button to unblock scrobbling artist"
+    },
+    "infoBlockAlbum": {
+        "message": "Nigdy nie scrobbluj tego albumu",
+        "description": "Title of button to block scrobbling album"
+    },
+    "infoUnblockAlbum": {
+        "message": "Scrobbluj ten album",
+        "description": "Title of button to unblock scrobbling album"
+    },
+    "infoBlockTrack": {
+        "message": "Nigdy nie scrobbluj tego utworu",
+        "description": "Title of button to block scrobbling track"
+    },
+    "infoUnblockTrack": {
+        "message": "Scrobbluj ten utwór",
+        "description": "Title of button to unblock scrobbling track"
     },
     "infoOpenAlbumArt": {
         "message": "Pokaż okładkę albumu w nowej karcie",
@@ -539,6 +915,50 @@
         "message": "Wykonawca albumu (opcjonalnie)",
         "description": "Placeholder of album artist input"
     },
+    "infoSearchLabel": {
+        "message": "Wyszukaj",
+        "description": "Label of regex edit search input"
+    },
+    "infoReplaceLabel": {
+        "message": "Zamień",
+        "description": "Label of regex edit replace input"
+    },
+    "infoDeleteLabel": {
+        "message": "Usuń",
+        "description": "Label of regex edit delete button"
+    },
+    "infoPreviewLabel": {
+        "message": "Podgląd",
+        "description": "Label of regex edit preview output"
+    },
+    "infoArtistLabel": {
+        "message": "Wykonawca",
+        "description": "Label of artist input row"
+    },
+    "infoTrackLabel": {
+        "message": "Utwór",
+        "description": "Label of track input row"
+    },
+    "infoAlbumLabel": {
+        "message": "Album",
+        "description": "Label of album input row"
+    },
+    "infoAlbumArtistLabel": {
+        "message": "Wykonawca albumu",
+        "description": "Label of album artist input row"
+    },
+    "infoUseRegex": {
+        "message": "Użyj wyrażenia regularnego",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchCase": {
+        "message": "Dopasuj wielkość liter",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchWholeTag": {
+        "message": "Dopasuj całość tagu",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
     "infoViewArtistPage": {
         "message": "Zobacz stronę wykonawcy: $1",
         "description": "Placeholder of album input"
@@ -557,31 +977,35 @@
     },
     "pageActionBase": {
         "message": "Scrobblowanie z tej strony jest możliwe",
-        "description": "`base` page action title"
+        "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
         "message": "Sprawdzanie $1",
-        "description": "`loading` page action title"
+        "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
         "message": "Odtwarzanie $1",
-        "description": "`playing` page action title"
+        "description": "`playing` page action title, also used for infobox"
+    },
+    "pageActionPaused": {
+        "message": "Zapauzowano $1",
+        "description": "`paused` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "Przescrobblowano $1",
-        "description": "`scrobbled` page action title"
+        "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
         "message": "Pominięto $1",
-        "description": "`skipped` page action title"
+        "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
         "message": "Zignorowano $1",
-        "description": "`ignored` page action title"
+        "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
         "message": "Scrobblowanie jest możliwe dla tej strony, ale zostało przez ciebie wyłączone",
-        "description": "`disabled` page action title"
+        "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
         "message": "Utwór nie został rozpoznany. Kliknij, żeby wprowadzić informacje ręcznie.",
@@ -615,12 +1039,28 @@
         "message": "Wyłącz obsługę $1 do zamknięcia karty",
         "description": "Context menu item"
     },
+    "menuDisableChannel": {
+        "message": "Wyłącz scrobbling z $1",
+        "description": "Context menu item"
+    },
+    "menuEnableChannel": {
+        "message": "Aktywuj scrobbling z $1",
+        "description": "Context menu item"
+    },
     "notificationConnectAccounts": {
         "message": "Połącz swoje konta",
         "description": "Notification title"
     },
     "notificationConnectAccountsText": {
         "message": "Kliknij na powiadomienie, aby połączyć swoje konta.",
+        "description": "Notification text"
+    },
+    "notificationNativeScrobbler": {
+        "message": "$1 posiada wbudowany scrobbling!",
+        "description": "Notification title, $1 denotes the name of the website."
+    },
+    "notificationNativeScrobblerText": {
+        "message": "Upewnij się, że zdezaktywowałeś scrobblowanie w Web Scrobblerze albo scrobbling wbudowany w usługę!",
         "description": "Notification text"
     },
     "notificationAuthError": {
@@ -651,8 +1091,16 @@
         "message": "Odkochaj aktualnie odtwarzany utwór",
         "description": "Hotkey label"
     },
-    "extDescription": {
-        "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",
-        "description": "Description of the extension"
+    "infoBoxStateDisallowed": {
+        "message": "Scrobblowanie nie jest dozwolone. Naciśnij ikonę rozszerzenia Web Scrobbler, aby uzyskać więcej informacji.",
+        "description": "Infobox text when an option is disallowing scrobbling"
+    },
+    "infoBoxStateError": {
+        "message": "Wystąpił błąd usługi. Naciśnij ikonę rozszerzenia Web Scrobbler aby uzyskać więcej informacji.",
+        "description": "Infobox text when an error occured"
+    },
+    "infoBoxStateUnknown": {
+        "message": "Utwór nie został rozpoznany. Naciśnij ikonę rozszerzenia Web Scrobbler aby przypisać informacje ręcznie.",
+        "description": "Infobox track is not recognized"
     }
 }

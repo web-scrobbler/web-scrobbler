@@ -1,5 +1,5 @@
 import type { ConnectorMeta } from '@/core/connectors';
-import { State } from '@/core/types';
+import type { State } from '@/core/types';
 import type { DisallowedReason } from './disallowed-reason';
 
 export interface ProcessedSongData {

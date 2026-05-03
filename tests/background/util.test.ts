@@ -4,7 +4,7 @@
 
 import { expect, describe, it } from 'vitest';
 import * as Util from '@/util/util';
-import { TestData } from '#/types/types';
+import type { TestData } from '#/types/types';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
 
@@ -216,7 +216,7 @@ function runTests() {
 
 		describe(description, () => {
 			// TODO: type gymnastics
-			// @ts-ignore type gymnastics required on this one. It works.
+			// @ts-expect-error type gymnastics required on this one. It works.
 			testFunction(func, data);
 		});
 	}
@@ -245,7 +245,7 @@ function testTimeoutPromise() {
 		});
 		try {
 			await Util.timeoutPromise(testTimeout, slowPromise);
-		} catch (err) {
+		} catch {
 			/* Do nothing, it's expected */
 			return;
 		}

@@ -1,9 +1,12 @@
-import { Accessor, For, Setter, Show } from 'solid-js';
-import {
+import type { Accessor, Setter } from 'solid-js';
+import { For, Show } from 'solid-js';
+import type {
 	Navigator,
 	NavigatorNavigationButton,
 	NavigatorButtonGroup,
 	NavigatorButton,
+} from '@/ui/options/components/navigator';
+import {
 	triggerNavigationButton,
 	itemIsSingular,
 } from '@/ui/options/components/navigator';

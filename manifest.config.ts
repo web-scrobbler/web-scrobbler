@@ -1,4 +1,4 @@
-import { Manifest } from 'webextension-polyfill';
+import type { Manifest } from 'webextension-polyfill';
 import pkg from './package.json';
 import { releaseTarget } from './scripts/util';
 
@@ -96,7 +96,14 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 	browser_specific_settings: {
 		gecko: {
 			id: '{799c0914-748b-41df-a25c-22d008f9e83f}',
+			data_collection_permissions: {
+				required: ['browsingActivity', 'websiteContent'],
+			},
 		},
+	},
+
+	content_security_policy: {
+		extension_pages: "script-src 'self';",
 	},
 };
 

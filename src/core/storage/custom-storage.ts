@@ -1,4 +1,5 @@
-import StorageWrapper, { DataModels } from '@/core/storage/wrapper';
+import type { DataModels } from '@/core/storage/wrapper';
+import type StorageWrapper from '@/core/storage/wrapper';
 import { debugLog } from '@/util/util';
 
 /**

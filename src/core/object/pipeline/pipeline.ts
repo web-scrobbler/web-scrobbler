@@ -8,8 +8,8 @@ import * as Normalize from '@/core/object/pipeline/normalize';
 import * as RegexEdits from '@/core/object/pipeline/regex-edits';
 import * as CoverArtArchive from '@/core/object/pipeline/coverartarchive/coverartarchive';
 import * as BlockedTags from '@/core/object/pipeline/blocked-tags';
-import Song from '@/core/object/song';
-import { ConnectorMeta } from '@/core/connectors';
+import type Song from '@/core/object/song';
+import type { ConnectorMeta } from '@/core/connectors';
 
 export default class Pipeline {
 	private song: Song | null = null;

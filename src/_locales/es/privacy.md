@@ -12,11 +12,11 @@ La extensión no recoge ninguno de sus datos personales.
 
 Su configuración y credenciales son almacenadas dentro de su navegador. La extensión guarda:
 
- - Sus credenciales del servicio de 'scrobbling'
- - Su configuración personal de la extensión Web Scrobbler
- - Sus pistas editadas
- - Sus direcciones URL personalizadas para conectores
- - Información de sistema de la extensión
+- Sus credenciales del servicio de 'scrobbling'
+- Su configuración personal de la extensión Web Scrobbler
+- Sus pistas editadas
+- Sus direcciones URL personalizadas para conectores
+- Información de sistema de la extensión
 
 Sus credenciales son empleadas para complicarse con los servicios de scrobble solamente.
 

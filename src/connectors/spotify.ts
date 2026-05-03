@@ -4,12 +4,12 @@ const playerBar = '.Root [data-testid="now-playing-bar"]';
 
 const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
 const oldPlayingPath =
-	'M2.7 1a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7H2.7zm8 0a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7h-2.6z';
-const newPlayingPath =
 	'M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z';
+const newPlayingPath =
+	'M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7z';
 const spotifyConnectSelector = `${playerBar} [aria-live="polite"]`;
-const oldPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] > svg > path[d="${oldPlayingPath}"]`;
-const newPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] > svg > path[d="${newPlayingPath}"]`;
+const oldPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] svg path[d="${oldPlayingPath}"]`;
+const newPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] svg path[d="${newPlayingPath}"]`;
 
 Connector.useMediaSessionApi();
 
@@ -27,11 +27,26 @@ Connector.trackSelector = [
 	`${playerBar} [data-testid="track-info-name"]`,
 ];
 
-Connector.trackArtSelector = '.NavBarFooter .cover-art-image';
+Connector.trackArtSelector = `${playerBar} [data-testid=cover-art-image]`;
 
 Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
 Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
+
+Connector.getDuration = () => {
+	const text = Util.getTextFromSelectors(Connector.durationSelector);
+	if (text?.startsWith('-')) {
+		return null;
+	}
+	return Util.stringToSeconds(text);
+};
+Connector.getRemainingTime = () => {
+	const text = Util.getTextFromSelectors(Connector.durationSelector);
+	if (!text || !text?.startsWith('-')) {
+		return null;
+	}
+	return Util.stringToSeconds(text);
+};
 
 Connector.pauseButtonSelector = `${oldPauseButtonSelector}, ${newPauseButtonSelector}`;
 

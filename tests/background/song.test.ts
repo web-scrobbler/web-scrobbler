@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import { expect, it, describe } from 'vitest';
-import Song, { ParsedSongData, ProcessedSongData } from '@/core/object/song';
-import { State } from '@/core/types';
+import type { ParsedSongData, ProcessedSongData } from '@/core/object/song';
+import Song from '@/core/object/song';
+import type { State } from '@/core/types';
 
 /**
  * Tests for Song object.
@@ -66,7 +69,7 @@ function createSong(
 	const parsedDataCopy: ParsedSongData = {};
 	for (const prop in defaultParsedData) {
 		const typedProp = prop as keyof ParsedSongData;
-		// eslint-disable-next-line
+
 		parsedDataCopy[typedProp] = // @ts-expect-error - it doesnt like this
 			parsedData[typedProp] || defaultParsedData[typedProp];
 	}
