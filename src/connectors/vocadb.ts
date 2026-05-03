@@ -9,12 +9,15 @@ Connector.applyFilter(filter);
 function cleanupArtist(artist: string) {
 	switch (location.hostname) {
 		case 'vocadb.net':
-			return artist.replace(/(?<=feat. ).+$/, function(match: string) {
+			return artist.replace(/(?<=feat. ).+$/, function (match: string) {
 				const feat = match.split(', ');
 				for (let i = 0; i < feat.length; i++) {
 					feat[i] = feat[i]
 						.replace(/\s+\([^()]+\)/g, '')
-						.replace(/(\s(V\d+X?|Append|English|AI|NT|Sugar|Spicy|ROCKS|2S|Standard|II|TALK)\b.*)+$/gi, '')
+						.replace(
+							/(\s(V\d+X?|Append|English|AI|NT|Sugar|Spicy|ROCKS|2S|Standard|II|TALK)\b.*)+$/gi,
+							'',
+						)
 						.replace(/\s(ナチュラル|クール)$/gi, '')
 						.replace(/^(AI|V\d+X?)+\s/gi, '')
 						.replace(/^(VY\d+)V\d+\b/, '$1')
