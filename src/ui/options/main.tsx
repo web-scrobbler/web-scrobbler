@@ -8,10 +8,8 @@ import Sidebar from './sidebar/sidebar';
 import { EditsModal } from './components/edit-options/edited-tracks';
 import Permissions from './components/permissions';
 import { RegexEditsModal } from './components/edit-options/regex-edits';
-import type {
-	ModalType,
-	NavigatorNavigationButton,
-} from './components/navigator';
+import type { NavigatorNavigationButton } from './components/navigator';
+import type { ModalType } from './components/modal-type';
 import {
 	aboutItem,
 	accountItem,

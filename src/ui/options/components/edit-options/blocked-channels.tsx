@@ -5,7 +5,7 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportBlocklist, ImportBlocklist, ViewBlocklist } from './util';
-import type { ModalType } from '../navigator';
+import type { ModalType } from '../modal-type';
 import type { ConnectorMeta } from '@/core/connectors';
 import type { Blocklists } from '@/core/storage/wrapper';
 

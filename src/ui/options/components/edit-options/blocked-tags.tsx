@@ -5,7 +5,7 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
-import type { ModalType } from '../navigator';
+import type { ModalType } from '../modal-type';
 import type { BlockedTags, BlockedTagsReference } from '@/core/storage/wrapper';
 import { Dynamic } from 'solid-js/web';
 

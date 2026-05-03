@@ -18,7 +18,7 @@ import { ExpandMoreOutlined } from '@/ui/components/icons';
 import ClonedSong from '@/core/object/cloned-song';
 import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
-import type { ModalType } from './navigator';
+import type { ModalType } from './modal-type';
 import savedEdits from '@/core/storage/saved-edits';
 import { debugLog } from '@/core/content/util';
 import SavedEditsModel from '@/core/storage/saved-edits.model';

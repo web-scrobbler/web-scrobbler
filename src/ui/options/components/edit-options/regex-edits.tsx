@@ -12,7 +12,7 @@ import {
 import type { FieldType, RegexEdit } from '@/util/regex';
 import { pascalCaseField } from '@/util/regex';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
-import type { ModalType } from '../navigator';
+import type { ModalType } from '../modal-type';
 
 const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
 
