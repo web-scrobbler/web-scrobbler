@@ -17,9 +17,6 @@ import type {
 import type { RegexEdit } from './regex';
 import type { DebugLogType } from '@/core/util/debug';
 
-// Re-export for backward compatibility
-export type { DebugLogType };
-
 /**
  * Module that contains some useful helper functions for background scripts.
  */
