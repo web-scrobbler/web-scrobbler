@@ -2439,6 +2439,24 @@ export default <ConnectorMeta[]>[
 		id: 'scrobbleradio',
 	},
 	{
+		label: 'VocaDB',
+		matches: ['*://vocadb.net/*'],
+		js: 'vocadb.js',
+		id: 'vocadb',
+	},
+	{
+		label: 'UtaiteDB',
+		matches: ['*://utaitedb.net/*'],
+		js: 'vocadb.js',
+		id: 'utaitedb',
+	},
+	{
+		label: 'TouhouDB',
+		matches: ['*://touhoudb.com/*'],
+		js: 'vocadb.js',
+		id: 'touhoudb',
+	},
+	{
 		label: 'weareone.fm',
 		matches: ['*://weareone.fm/*'],
 		js: 'weareone.js',
