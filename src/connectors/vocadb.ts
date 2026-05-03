@@ -10,7 +10,7 @@ function cleanupArtist(artist: string) {
 	switch (location.hostname) {
 		case 'vocadb.net':
 			return artist.replace(/(?<=feat. ).+$/, function(match: string) {
-				let feat = match.split(', ');
+				const feat = match.split(', ');
 				for (let i = 0; i < feat.length; i++) {
 					feat[i] = feat[i]
 						.replace(/\s+\([^()]+\)/g, '')
@@ -44,8 +44,8 @@ Connector.artistSelector = '.css-molfmb';
 Connector.playButtonSelector = '.css-1lc7lii button[title="Play"]';
 
 Connector.getDuration = () => {
-	let store = getPlayQueueStore();
-	let current = store.items[store.currentIndex];
+	const store = getPlayQueueStore();
+	const current = store.items[store.currentIndex];
 	return current.entry.pvs[0].length;
 };
 
