@@ -23,13 +23,19 @@ Your credentials are used to communicate with scrobble services only. Where poss
 
 All data is used by the extension internally; we don't send this data to 3rd-party services.
 
-Settings only are stored with synchronization capability, which means that they are allowed to be synchronized across instances of browsers you are signed into.
+Settings only are stored with synchronization capability, which means that they can be synchronized across browser instances you are signed into.
 
-## Why does the extension access to all websites?
+## Why is the extension asking for access to all websites?
 
-The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
+### Why not ask for a subset of URLs supported by the extension?
 
-Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.
+The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not access these URLs, that's why it is not narrowed down.
+
+Additionally it prevents users being prompted with each update to give access to the newly added connectors' URLs.
+
+### What happens when I don't grant it access to all websites?
+
+The permission can be denied, in which case it will only scrobble in a tab when the extension gets activated by clicking on its icon while on the tab. The grant is per tab and doesn't persist across refreshes, but this might be your desired behaviour.
 
 ## FAQ
 
