@@ -202,7 +202,7 @@ function initPropertiesForSongAndAlbumPlayer() {
 function initPropertiesForCollectionsPlayer() {
 	Connector.artistSelector = '.now-playing .artist span';
 
-	Connector.trackSelector = '.info-progress .title span:nth-child(2)';
+	Connector.trackSelector = '.info-progress .title span:last-child';
 
 	Connector.albumSelector = '.now-playing .title';
 
@@ -317,9 +317,7 @@ function getTrackNodes() {
 	if (isAlbumPage()) {
 		trackNodes = document.querySelectorAll('.track_list .track-title');
 	} else if (isCollectionsPage()) {
-		trackNodes = document.querySelectorAll(
-			'.queue .title span:nth-child(2)',
-		);
+		trackNodes = document.querySelectorAll('.queue .title span:last-child');
 	}
 
 	return trackNodes;
