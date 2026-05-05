@@ -15,7 +15,7 @@ Data is stored within your browser. The extension stores:
  - Your credentials of scrobble services
  - Your personal Web Scrobbler settings
  - Your edited tracks
- - Your scrobbles (deleted after 30 days)
+ - Your scrobbles
  - Your custom URL patterns for connectors
  - System information of the extension
 
@@ -24,6 +24,8 @@ Your credentials are used to communicate with scrobble services only. Where poss
 All data is used by the extension internally; we don't send this data to 3rd-party services.
 
 Settings only are stored with synchronization capability, which means that they can be synchronized across browser instances you are signed into.
+
+Up to 1000 scrobbles (succeeded and failed) are stored to be able to fix up wrong metadata and to mitigate network issues.
 
 ## Why is the extension asking for access to all websites?
 
