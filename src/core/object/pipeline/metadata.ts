@@ -8,12 +8,8 @@ import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import { sendContentMessage } from '@/util/communication';
 import type { Metadata, ProcessedSongData } from '@/core/object/song';
 
-const INFO_TO_COPY: ['duration', 'artist', 'track'] = [
-	'duration',
-	'artist',
-	'track',
-];
-const METADATA_TO_COPY: [
+const INFO_TO_COPY = ['duration', 'artist', 'track'] as const;
+const METADATA_TO_COPY = [
 	'albumMbId',
 	'albumUrl',
 	'artistMbId',
@@ -22,16 +18,7 @@ const METADATA_TO_COPY: [
 	'trackUrl',
 	'trackArtUrl',
 	'userPlayCount',
-] = [
-	'albumMbId',
-	'albumUrl',
-	'artistMbId',
-	'artistUrl',
-	'trackMbId',
-	'trackUrl',
-	'trackArtUrl',
-	'userPlayCount',
-];
+] as const;
 
 /**
  * Load song info using ScrobblerService object.
