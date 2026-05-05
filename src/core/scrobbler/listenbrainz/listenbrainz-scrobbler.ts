@@ -161,15 +161,33 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		const { sessionID } = await this.getSession();
 		const trackMeta = this.makeTrackMetadata(song);
 
-		const params = {
+		const params: ListenBrainzParams = {
 			listen_type: 'playing_now',
 			payload: [
 				{
 					track_metadata: trackMeta,
 				},
 			],
-		} as ListenBrainzParams;
-		return this.sendScrobbleRequest(params, sessionID);
+		};
+
+		const requestUrl = new URL(this.userApiUrl || apiUrl);
+		requestUrl.searchParams.append('return_msid', 'true');
+
+		const result = await this.listenBrainzApi(
+			'POST',
+			requestUrl.toString(),
+			params,
+			sessionID,
+		);
+
+		if (
+			'recording_msid' in result &&
+			typeof result.recording_msid === 'string'
+		) {
+			song.metadata.recordingMsid = result.recording_msid;
+		}
+
+		return this.processResult(result);
 	}
 
 	/** @override */
@@ -212,41 +230,54 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				`Invalid track ${JSON.stringify({ artist, track })}`,
 			);
 		}
-		const lookupRequestParams = new URLSearchParams({
-			recording_name: track,
-			artist_name: artist,
-		});
 
-		let lookupResult: MetadataLookup = {};
+		const loveRequestBody: ListenBrainzParams = {
+			score: isLoved ? 1 : 0,
+		};
 
-		try {
-			lookupResult = await this.listenBrainzApi<MetadataLookup>(
-				'GET',
-				`${baseUrl}/metadata/lookup?${lookupRequestParams.toString()}`,
-				null,
-				null,
-			);
-		} catch {
-			// ignore error
-		}
+		if (song.metadata.recordingMsid) {
+			loveRequestBody.recording_msid = song.metadata.recordingMsid;
+		} else if (song.metadata.track_mbid) {
+			// use last.fm's track_mbid as the recoding_mbid
+			// todo: does listenbrainz accept a track id here as recording_mbid?
+			loveRequestBody.recording_mbid = song.metadata.track_mbid;
+		} else {
+			const lookupRequestParams = new URLSearchParams({
+				recording_name: track,
+				artist_name: artist,
+			});
 
-		this.debugLog(
-			`lookup result: ${JSON.stringify(lookupResult, null, 2)}`,
-		);
+			let lookupResult: MetadataLookup = {};
 
-		if (!lookupResult.recording_mbid) {
+			try {
+				lookupResult = await this.listenBrainzApi<MetadataLookup>(
+					'GET',
+					`${baseUrl}/metadata/lookup?${lookupRequestParams.toString()}`,
+					null,
+					null,
+				);
+			} catch {
+				// ignore error
+			}
+
 			this.debugLog(
-				`Could not lookup metadata for song: ${song.toString()}`,
+				`lookup result: ${JSON.stringify(lookupResult, null, 2)}`,
 			);
-			return {};
+
+			if (!lookupResult.recording_mbid) {
+				this.debugLog(
+					`Could not lookup metadata for song: ${song.toString()}`,
+				);
+				return {};
+			}
+
+			loveRequestBody.recording_mbid = song.metadata.recordingMbid =
+				lookupResult.recording_mbid;
 		}
 
 		// https://listenbrainz.readthedocs.io/en/latest/users/api-usage.html#love-hate-feedback
 		const { sessionID } = await this.getSession();
-		const loveRequestBody = {
-			recording_mbid: lookupResult.recording_mbid,
-			score: isLoved ? 1 : 0,
-		};
+
 		const loveResult = await this.listenBrainzApi(
 			'POST',
 			`${baseUrl}/feedback/recording-feedback`,
@@ -406,6 +437,14 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				music_service_name: song.metadata.label,
 			},
 		};
+
+		if (song.metadata.track_mbid) {
+			trackMeta.additional_info.track_mbid = song.metadata.track_mbid;
+		}
+		if (song.metadata.recordingMbid) {
+			trackMeta.additional_info.recording_mbid =
+				song.metadata.recordingMbid;
+		}
 
 		const album = song.getAlbum();
 		if (album) {

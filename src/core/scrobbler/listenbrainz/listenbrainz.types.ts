@@ -5,37 +5,55 @@ export interface ListenBrainzTrackMeta {
 		submission_client: 'Web Scrobbler';
 		submission_client_version: string;
 		music_service_name: string;
+		music_service?: string; // todo...?
 
 		origin_url?: string;
 		release_artist_name?: string;
-		spotify_id?: string;
 		duration?: number;
+
+		// mbids
+		artist_mbids?: string[];
+		release_group_mbid?: string;
+		release_mbid?: string;
+		recording_mbid?: string;
+		track_mbid?: string;
+		work_mbids?: string[];
+
+		tracknumber?: string;
+		isrc?: string;
+		spotify_id?: string;
+		tags?: string[];
 	};
 
 	release_name?: string;
 }
 
+export interface ListenBrainzPayload {
+	track_metadata: ListenBrainzTrackMeta;
+}
+export interface ListenBrainzScrobblePayload {
+	listened_at: number;
+	track_metadata: ListenBrainzTrackMeta;
+}
+
 export type ListenBrainzParams =
 	| {
 			listen_type: 'playing_now';
-			payload: [
-				{
-					track_metadata: ListenBrainzTrackMeta;
-				},
-			];
+			payload: [ListenBrainzPayload];
 	  }
 	| {
-			listen_type: 'single' | 'import';
-			payload: [
-				{
-					listened_at: number;
-					track_metadata: ListenBrainzTrackMeta;
-				},
-			];
+			listen_type: 'single';
+			payload: [ListenBrainzScrobblePayload];
 	  }
 	| {
-			recording_mbid: string;
-			score: number;
+			listen_type: 'import';
+			payload: ListenBrainzScrobblePayload[];
+	  }
+	| {
+			score: -1 | 0 | 1;
+			// one of the two must be present
+			recording_msid?: string;
+			recording_mbid?: string;
 	  };
 
 export type MetadataLookup = {

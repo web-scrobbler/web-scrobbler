@@ -54,6 +54,12 @@ export type Metadata =
 			trackUrl?: string;
 			userPlayCount?: number;
 			userloved?: boolean;
+			// MusicBrainz Track ID (last.fm & musicbrainz)
+			track_mbid?: string;
+			// MusicBrainz Recording ID (musicbrainz)
+			recordingMbid?: string;
+			// MessyBrainz identifier (for musicbrainz love/hate feedback)
+			recordingMsid?: string;
 	  }
 	| Record<string, never>;
 
