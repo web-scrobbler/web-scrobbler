@@ -1,6 +1,6 @@
 import type { Manifest } from 'webextension-polyfill';
 import pkg from './package.json';
-import { releaseTarget } from './scripts/util';
+import { gitVersion, releaseTarget } from './scripts/util';
 
 /**
  * Common properties between all browsers manifests
@@ -9,7 +9,9 @@ export const common: Manifest.WebExtensionManifest = {
 	manifest_version: 3,
 	name: 'Web Scrobbler',
 	default_locale: 'en',
-	description: '__MSG_extDescription__',
+	description:
+		(releaseTarget !== 'dist' ? gitVersion() : null) ??
+		'__MSG_extDescription__',
 	version: pkg.version,
 
 	permissions: ['storage', 'contextMenus', 'notifications', 'scripting'],
