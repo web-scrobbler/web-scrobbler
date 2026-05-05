@@ -19,6 +19,9 @@ export interface ListenBrainzTrackMeta {
 		track_mbid?: string;
 		work_mbids?: string[];
 
+		// listenbrainz listen msid
+		recording_msid?: string;
+
 		tracknumber?: string;
 		isrc?: string;
 		spotify_id?: string;

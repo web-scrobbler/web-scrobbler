@@ -438,6 +438,11 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			},
 		};
 
+		if (song.metadata.recordingMsId) {
+			trackMeta.additional_info.recording_msid =
+				song.metadata.recordingMsId;
+		}
+
 		if (song.metadata.trackMbId) {
 			trackMeta.additional_info.track_mbid = song.metadata.trackMbId;
 			trackMeta.additional_info.recording_mbid = song.metadata.trackMbId;
