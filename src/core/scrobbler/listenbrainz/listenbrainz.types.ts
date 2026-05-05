@@ -23,6 +23,11 @@ export interface ListenBrainzTrackMeta {
 		isrc?: string;
 		spotify_id?: string;
 		tags?: string[];
+
+		// lastfm_mbids
+		lastfm_artist_mbid?: string;
+		lastfm_release_mbid?: string;
+		lastfm_track_mbid?: string;
 	};
 
 	release_name?: string;

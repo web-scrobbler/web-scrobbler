@@ -6,6 +6,7 @@ import type Song from '@/core/object/song';
 import type { ConnectorMeta } from '@/core/connectors';
 import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import { sendContentMessage } from '@/util/communication';
+import type { Metadata, ProcessedSongData } from '@/core/object/song';
 
 const INFO_TO_COPY: ['duration', 'artist', 'track'] = [
 	'duration',
@@ -13,19 +14,23 @@ const INFO_TO_COPY: ['duration', 'artist', 'track'] = [
 	'track',
 ];
 const METADATA_TO_COPY: [
-	'trackArtUrl',
-	'artistUrl',
-	'trackUrl',
-	'albumUrl',
-	'userPlayCount',
 	'albumMbId',
+	'albumUrl',
+	'artistMbId',
+	'artistUrl',
+	'trackMbId',
+	'trackUrl',
+	'trackArtUrl',
+	'userPlayCount',
 ] = [
-	'trackArtUrl',
-	'artistUrl',
-	'trackUrl',
-	'albumUrl',
-	'userPlayCount',
 	'albumMbId',
+	'albumUrl',
+	'artistMbId',
+	'artistUrl',
+	'trackMbId',
+	'trackUrl',
+	'trackArtUrl',
+	'userPlayCount',
 ];
 
 /**
@@ -55,8 +60,8 @@ export async function process(
 				if (!songInfo[field]) {
 					continue;
 				}
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
-				(song.processed[field] as any) = songInfo[field];
+				(song.processed[field] as ProcessedSongData[typeof field]) =
+					songInfo[field];
 			}
 		}
 
@@ -67,8 +72,10 @@ export async function process(
 		}
 
 		for (const field of METADATA_TO_COPY) {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
-			(song.metadata[field] as any) = songInfo[field];
+			if (field in songInfo && !!songInfo[field]) {
+				(song.metadata[field] as Metadata[typeof field]) =
+					songInfo[field];
+			}
 		}
 	}
 

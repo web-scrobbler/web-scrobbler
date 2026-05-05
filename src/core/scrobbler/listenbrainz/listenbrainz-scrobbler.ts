@@ -184,7 +184,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			'recording_msid' in result &&
 			typeof result.recording_msid === 'string'
 		) {
-			song.metadata.recordingMsid = result.recording_msid;
+			song.metadata.recordingMsId = result.recording_msid;
 		}
 
 		return this.processResult(result);
@@ -235,12 +235,12 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			score: isLoved ? 1 : 0,
 		};
 
-		if (song.metadata.recordingMsid) {
-			loveRequestBody.recording_msid = song.metadata.recordingMsid;
-		} else if (song.metadata.track_mbid) {
+		if (song.metadata.recordingMsId) {
+			loveRequestBody.recording_msid = song.metadata.recordingMsId;
+		} else if (song.metadata.trackMbId) {
 			// use last.fm's track_mbid as the recoding_mbid
 			// todo: does listenbrainz accept a track id here as recording_mbid?
-			loveRequestBody.recording_mbid = song.metadata.track_mbid;
+			loveRequestBody.recording_mbid = song.metadata.trackMbId;
 		} else {
 			const lookupRequestParams = new URLSearchParams({
 				recording_name: track,
@@ -271,7 +271,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				return {};
 			}
 
-			loveRequestBody.recording_mbid = song.metadata.recordingMbid =
+			loveRequestBody.recording_mbid = song.metadata.recordingMbId =
 				lookupResult.recording_mbid;
 		}
 
@@ -433,22 +433,35 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			track_name: song.getTrack() ?? '',
 			additional_info: {
 				submission_client: 'Web Scrobbler',
-				submission_client_version: getExtensionVersion(),
+				submission_client_version: `${getExtensionVersion()}-pull/6014`,
 				music_service_name: song.metadata.label,
 			},
 		};
 
-		if (song.metadata.track_mbid) {
-			trackMeta.additional_info.track_mbid = song.metadata.track_mbid;
-		}
-		if (song.metadata.recordingMbid) {
+		if (song.metadata.trackMbId) {
+			trackMeta.additional_info.track_mbid = song.metadata.trackMbId;
+			trackMeta.additional_info.recording_mbid = song.metadata.trackMbId;
+			trackMeta.additional_info.lastfm_track_mbid =
+				song.metadata.trackMbId;
+		} else if (song.metadata.recordingMbId) {
 			trackMeta.additional_info.recording_mbid =
-				song.metadata.recordingMbid;
+				song.metadata.recordingMbId;
+		}
+
+		if (song.metadata.artistMbId) {
+			trackMeta.additional_info.lastfm_artist_mbid =
+				song.metadata.artistMbId;
 		}
 
 		const album = song.getAlbum();
 		if (album) {
 			trackMeta.release_name = album;
+			if (song.metadata.albumMbId) {
+				trackMeta.additional_info.lastfm_release_mbid =
+					song.metadata.albumMbId;
+				trackMeta.additional_info.release_mbid =
+					song.metadata.albumMbId;
+			}
 		}
 
 		const originUrl = song.getOriginUrl();
