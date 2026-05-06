@@ -745,7 +745,7 @@ export default class BaseConnector {
 	 * Get current state of connector.
 	 * @returns Current state
 	 */
-	private getCurrentState: () => State;
+	public getCurrentState: () => State;
 
 	/**
 	 * Filter changed fields.
