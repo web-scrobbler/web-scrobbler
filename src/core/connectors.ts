@@ -132,6 +132,13 @@ export default <ConnectorMeta[]>[
 		id: 'tubafm',
 	},
 	{
+		label: 'Spotify Embed',
+		matches: ['*://open.spotify.com/embed/*'],
+		js: 'spotify-embed.js',
+		id: 'spotify-embed',
+		allFrames: true,
+	},
+	{
 		label: 'Spotify',
 		matches: ['*://open.spotify.com/*'],
 		js: 'spotify.js',
