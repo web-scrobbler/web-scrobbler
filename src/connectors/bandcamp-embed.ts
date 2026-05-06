@@ -1,24 +1,34 @@
 export {};
 
-/**
- * This connector supports Bandcamp embedded player.
- * Currently used for Bandcamp Daily.
- */
+const filter = MetadataFilter.createFilter({
+	artist: MetadataFilter.replaceSmartQuotes,
+	track: MetadataFilter.replaceSmartQuotes,
+	album: MetadataFilter.replaceSmartQuotes,
+});
 
-Connector.playerSelector = '#p-daily-article';
+Connector.playerSelector = '#player';
 
-Connector.artistSelector = '.player.playing .mpartist';
+Connector.artistSelector = '#artist';
 
-Connector.trackSelector = '.player.playing .mptracktitle';
+Connector.trackSelector = '#currenttitle_title';
 
-Connector.albumSelector = '.player.playing .mptralbum';
+Connector.albumSelector = '#album';
 
-Connector.currentTimeSelector = '.player.playing .mptime > span:first-child';
+Connector.getTrackArt = () => {
+	const trackArtUrl = Util.extractImageUrlFromSelectors('#infolayer .art');
 
-Connector.durationSelector = '.player.playing .mptime > span:last-child';
+	if (trackArtUrl) {
+		return trackArtUrl.replace(/(?<=_)\d{1,2}(?=\.jpg)/, '5'); // larger image
+	}
 
-Connector.trackArtSelector = '.player.playing .mpaa img';
+	return null;
+};
 
-Connector.isPlaying = () => Boolean(document.querySelector('.player.playing'));
+Connector.currentTimeSelector = '#currenttime';
 
-Connector.getOriginUrl = () => Util.getOriginUrl('.player.playing a.buy-now');
+Connector.durationSelector = '#totaltime';
+
+Connector.isPlaying = () =>
+	Util.hasElementClass(Connector.playerSelector, 'playing');
+
+Connector.applyFilter(filter);
