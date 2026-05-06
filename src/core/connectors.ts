@@ -675,9 +675,8 @@ export default <ConnectorMeta[]>[
 		id: 'hoopladigital',
 	},
 	{
-		label: 'MUSICat',
+		label: 'MUSICat', // musicat.co/libraries
 		matches: [
-			// musicat.co/libraries
 			'*://amplify817.org/*',
 			'*://flipside.apl.org/*',
 			'*://capitalcityrecords.ca/*',
