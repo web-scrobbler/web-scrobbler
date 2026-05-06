@@ -35,7 +35,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://daily.bandcamp.com/*'],
 		js: 'bandcamp-daily.js',
 		id: 'bandcamp-daily',
-		allFrames: true,
 	},
 	{
 		label: 'Bandcamp Embed',
