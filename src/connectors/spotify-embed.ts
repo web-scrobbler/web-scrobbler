@@ -3,10 +3,8 @@ export {};
 Connector.playerSelector = '[data-testid=embed-widget-container]';
 
 Connector.getArtist = () => {
-	const tracklistArtistSelector =
-		'li[class*=TracklistRow_isCurrentTrack__] h4';
 	const tracklistArtistElement = document.querySelector(
-		tracklistArtistSelector,
+		'li[class*=TracklistRow_isCurrentTrack__] h4',
 	);
 	const trackArtistElements = document.querySelectorAll(
 		'[class*=_metadataWrapper__] h2 a',
@@ -25,9 +23,19 @@ Connector.getArtist = () => {
 
 Connector.trackSelector = [
 	'li[class*=TracklistRow_isCurrentTrack__] h3',
-	'[class^=TrackWidget_metadataWrapper__] h1',
-	'[class^=EpisodeOrShowWidget_metadataWrapper__] h1',
+	'[class*=_metadataWrapper__] h1',
 ];
+
+Connector.getOriginUrl = () =>
+	Util.getAttrFromSelectors('[class*=_spotifyLogoContainer__] a', 'href');
+
+Connector.getTrackArt = () =>
+	Util.extractUrlFromCssProperty(
+		Util.getAttrFromSelectors('[data-testid=main-page]', 'style'),
+	);
+
+Connector.isTrackArtDefault = () =>
+	Connector.getOriginUrl()?.includes('/playlist/');
 
 Connector.isPodcast = () =>
 	Boolean(
@@ -36,23 +44,13 @@ Connector.isPodcast = () =>
 		),
 	);
 
-Connector.getTrackArt = () =>
-	Util.extractUrlFromCssProperty(
-		Util.getAttrFromSelectors('[data-testid=main-page]', 'style'),
-	);
-
-Connector.isTrackArtDefault = () =>
-	Util.getAttrFromSelectors(
-		'[class*=_spotifyLogoContainer__] a',
-		'href',
-	)?.includes('/playlist/');
-
 Connector.getTrackInfo = () => {
-	const albumSelector = '[class^=TrackListWidget_metadataContainer__] h1 a';
-	const albumArtistSelector =
-		'[class^=TrackListWidget_metadataContainer__] h2 a';
-	const album = Util.getTextFromSelectors(albumSelector);
-	const albumArtist = Util.getTextFromSelectors(albumArtistSelector);
+	const album = Util.getTextFromSelectors(
+		'[class^=TrackListWidget_metadataContainer__] h1 a',
+	);
+	const albumArtist = Util.getTextFromSelectors(
+		'[class^=TrackListWidget_metadataContainer__] h2 a',
+	);
 
 	if (!Connector.isPodcast() && !Connector.isTrackArtDefault()) {
 		return { album, albumArtist };
