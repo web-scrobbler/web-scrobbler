@@ -1,0 +1,26 @@
+export {};
+
+Connector.playerSelector = '#player';
+
+Connector.artistSelector = '#artist';
+
+Connector.trackSelector = '#currenttitle_title';
+
+Connector.albumSelector = '#album';
+
+Connector.getTrackArt = () => {
+	const trackArtUrl = Util.extractImageUrlFromSelectors('#infolayer .art');
+
+	if (trackArtUrl) {
+		return trackArtUrl.replace(/(?<=_)\d{1,2}(?=\.jpg)/, '10'); // larger image
+	}
+
+	return null;
+};
+
+Connector.currentTimeSelector = '#currenttime';
+
+Connector.durationSelector = '#totaltime';
+
+Connector.isPlaying = () =>
+	Util.hasElementClass(Connector.playerSelector, 'playing');
