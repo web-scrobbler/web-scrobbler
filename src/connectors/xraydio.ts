@@ -1,27 +1,23 @@
 export {};
 
-Connector.playerSelector = '#lunaradio';
+const playerSelector =
+	'#xraydio-player-st1,#xraydio-player-st2,#xraydio-player-st3';
 
-Connector.pauseButtonSelector = '.lunaradiopauseicon';
+Connector.playerSelector = playerSelector;
 
-Connector.getArtistTrack = () => {
-	const artistTrack = document.querySelector(
-		'#lunaradio span[style*="font-size: 39px"]',
-	)?.textContent;
+Connector.isPlaying = () =>
+	Util.getDataFromSelectors(playerSelector, 'playstate') === 'playing';
 
-	return artistTrack ? Util.splitArtistTrack(artistTrack) : null;
-};
+Connector.getArtist = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-artist');
 
-Connector.isPlaying = () => {
-	const pauseDiv = document
-		.querySelector('.lunaradiopauseicon')
-		?.closest('div');
+Connector.getTrack = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-title');
 
-	if (!pauseDiv) {
-		return false;
-	}
+Connector.isPodcast = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-type') === 'podcast';
 
-	const opacity = Number.parseFloat(getComputedStyle(pauseDiv).opacity);
-
-	return opacity > 0;
-};
+Connector.scrobblingDisallowedReason = () =>
+	Util.getDataFromSelectors(playerSelector, 'scrobble-type') === 'ad'
+		? 'IsAd'
+		: null;

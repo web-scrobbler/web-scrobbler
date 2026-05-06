@@ -114,7 +114,7 @@ export default <ConnectorMeta[]>[
 		id: 'megalyrics',
 	},
 	{
-		label: 'iHeartRadio',
+		label: 'iHeart',
 		matches: ['*://*.iheart.com/*'],
 		js: 'iheart.js',
 		id: 'iheart',
@@ -724,7 +724,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Nashville BoomBox',
-		matches: ['*://boombox.library.nashville.org/*'],
+		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'nashville-library-boombox',
 	},
@@ -763,6 +763,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://tracksmusiclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'tracksmusiclibrary',
+	},
+	{
+		label: 'Bay Beats',
+		matches: ['*://baybeats.sfpl.org/*'],
+		js: 'musicat.js',
+		id: 'baybeats',
 	},
 	{
 		label: 'Monstercat',
@@ -1164,9 +1170,9 @@ export default <ConnectorMeta[]>[
 		id: 'mideastunes',
 	},
 	{
-		label: 'Český Rozhlas',
-		matches: ['*://prehravac.rozhlas.cz/*'],
-		js: 'rozhlas.js',
+		label: 'mujRozhlas',
+		matches: ['*://www.mujrozhlas.cz/*'],
+		js: 'mujrozhlas.js',
 		id: 'rozhlas',
 	},
 	{
@@ -1620,6 +1626,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radio7.lv/*'],
 		js: 'radio7.js',
 		id: 'radio7lv',
+	},
+	{
+		label: 'Radio Nemiers',
+		matches: ['*://radionemiers.com/*'],
+		js: 'radionemiers.js',
+		id: 'radionemiers',
 	},
 	{
 		label: 'TOWER RECORDS MUSIC',
@@ -2427,6 +2439,24 @@ export default <ConnectorMeta[]>[
 		id: 'scrobbleradio',
 	},
 	{
+		label: 'VocaDB',
+		matches: ['*://vocadb.net/*'],
+		js: 'vocadb.js',
+		id: 'vocadb',
+	},
+	{
+		label: 'UtaiteDB',
+		matches: ['*://utaitedb.net/*'],
+		js: 'vocadb.js',
+		id: 'utaitedb',
+	},
+	{
+		label: 'TouhouDB',
+		matches: ['*://touhoudb.com/*'],
+		js: 'vocadb.js',
+		id: 'touhoudb',
+	},
+	{
 		label: 'weareone.fm',
 		matches: ['*://weareone.fm/*'],
 		js: 'weareone.js',
@@ -2738,6 +2768,12 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
+		label: 'Subvert.fm',
+		matches: ['*://subvert.fm/*', '*://*.subvert.fm/*'],
+		js: 'subvert.js',
+		id: 'subvert',
+	},
+	{
 		label: 'Debrid Vault',
 		matches: ['*://debridvault.elfhosted.com/*'],
 		js: 'debridvault.js',
@@ -2776,6 +2812,49 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.radiosaw.de/*'],
 		js: 'radiosaw.js',
 		id: 'radiosaw',
+	},
+	{
+		label: 'Star FM',
+		matches: ['*://tv3.lv/starfm/online/*'],
+		js: 'starfm.js',
+		id: 'starfm',
+	},
+	{
+		label: 'bandwagon',
+		matches: ['*://bandwagon.fm/*'],
+		js: 'bandwagon.js',
+		id: 'bandwagon',
+	},
+	{
+		label: 'Meloradio',
+		matches: ['*://player.meloradio.pl/*'],
+		js: 'meloradio.js',
+		id: 'meloradio',
+	},
+	{
+		label: 'The Indie Beat Television',
+		matches: ['*://tv.theindiebeat.fm/*'],
+		js: 'theindiebeat-owncast.js',
+		id: 'theindiebeat-tv',
+	},
+	{
+		label: 'escradio',
+		matches: ['*://www.escradio.com/player/*'],
+		js: 'escradio.js',
+		id: 'escradio',
+	},
+	{
+		label: 'musicMe',
+		matches: ['*://*.musicme.com/*'],
+		js: 'musicme.js',
+		id: 'musicme',
+		allFrames: true,
+	},
+	{
+		label: 'zxART',
+		matches: ['*://zxart.ee/*'],
+		js: 'zxart.js',
+		id: 'zxart',
 	},
 	{
 		label: 'The Lot Radio',
