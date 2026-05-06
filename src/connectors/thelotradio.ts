@@ -37,12 +37,7 @@ const missingTracklistSelector = 'img[src^="/images/crying-nicolas-cage.gif"]';
 const showTitleSelector =
 	'header h1:has(+ div div button[aria-label="Save Episode"])';
 function isMissingTracklist() {
-	const elements = Util.queryElements(missingTracklistSelector);
-	return (
-		elements !== undefined &&
-		elements?.length !== undefined &&
-		elements.length > 0
-	);
+	return Util.isElementVisible(missingTracklistSelector);
 }
 
 const notDisplayNone = ':not([style*="display: none"])'; // ignores hidden tracklists from previously navigated shows
@@ -54,17 +49,17 @@ const artistSelector = `${nowPlayingSelector} > div > span:nth-of-type(2) > span
 Connector.getTrack = () => {
 	if (isMissingTracklist()) {
 		return getTextContentFromSelectors(showTitleSelector);
-	} else {
-		return getTextContentFromSelectors(trackSelector);
 	}
+
+	return getTextContentFromSelectors(trackSelector);
 };
 
 Connector.getArtist = () => {
 	if (isMissingTracklist()) {
 		return 'The Lot Radio';
-	} else {
-		return getTextContentFromSelectors(artistSelector);
 	}
+
+	return getTextContentFromSelectors(artistSelector);
 };
 
 const fullDurationSelector = `${headerPlayer} span.hidden.${CSS.escape('xl:inline')}`;
@@ -75,33 +70,39 @@ const fullDurationSelector = `${headerPlayer} span.hidden.${CSS.escape('xl:inlin
 Connector.getDuration = () => {
 	if (isMissingTracklist()) {
 		const fullDuration = Util.queryElements(fullDurationSelector)?.[0];
-		if (!fullDuration) return undefined;
+		if (!fullDuration) {
+			return undefined;
+		}
 		return Util.stringToSeconds(
 			fullDuration?.innerText.replace(' / ', '0'),
 		);
-	} else {
-		const nowPlayingStart = Util.queryElements(
-			`${nowPlayingSelector} > div > span:first-of-type`,
-		)?.[0] as HTMLSpanElement | undefined;
-		if (!nowPlayingStart) return undefined;
-
-		const nextPlayingStart = Util.queryElements(
-			`${nowPlayingNextSelector} > div > span:first-of-type`,
-		)?.[0] as HTMLSpanElement | undefined;
-		let nextTimestamp;
-		if (nextPlayingStart) {
-			nextTimestamp = nextPlayingStart.innerText;
-		} else {
-			const fullDuration = Util.queryElements(fullDurationSelector)?.[0];
-			nextTimestamp = fullDuration?.innerText.replace(' / ', '0');
-		}
-		if (!nextTimestamp) return undefined;
-
-		return (
-			Util.stringToSeconds(nextTimestamp) -
-			Util.stringToSeconds(nowPlayingStart.innerText)
-		);
 	}
+
+	const nowPlayingStart = Util.queryElements(
+		`${nowPlayingSelector} > div > span:first-of-type`,
+	)?.[0] as HTMLSpanElement | undefined;
+	if (!nowPlayingStart) {
+		return undefined;
+	}
+
+	const nextPlayingStart = Util.queryElements(
+		`${nowPlayingNextSelector} > div > span:first-of-type`,
+	)?.[0] as HTMLSpanElement | undefined;
+	let nextTimestamp;
+	if (nextPlayingStart) {
+		nextTimestamp = nextPlayingStart.innerText;
+	} else {
+		const fullDuration = Util.queryElements(fullDurationSelector)?.[0];
+		nextTimestamp = fullDuration?.innerText.replace(' / ', '0');
+	}
+	if (!nextTimestamp) {
+		return undefined;
+	}
+
+	return (
+		Util.stringToSeconds(nextTimestamp) -
+		Util.stringToSeconds(nowPlayingStart.innerText)
+	);
 };
 
 /**
