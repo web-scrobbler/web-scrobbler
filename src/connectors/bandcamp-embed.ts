@@ -18,7 +18,7 @@ Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors('#infolayer .art');
 
 	if (trackArtUrl) {
-		return trackArtUrl.replace(/(?<=_)\d{1,2}(?=\.jpg)/, '5'); // larger image
+		return trackArtUrl.replace(/(?<=_)\d{1,2}(?=\.jpg)/, '16'); // larger image
 	}
 
 	return null;
@@ -27,6 +27,9 @@ Connector.getTrackArt = () => {
 Connector.currentTimeSelector = '#currenttime';
 
 Connector.durationSelector = '#totaltime';
+
+Connector.getOriginUrl = () =>
+	Util.getAttrFromSelectors('#maintextlink', 'href');
 
 Connector.isPlaying = () =>
 	Util.hasElementClass(Connector.playerSelector, 'playing');
