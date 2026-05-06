@@ -1277,23 +1277,10 @@ export default <ConnectorMeta[]>[
 		id: 'funkwhale',
 	},
 	{
-		label: '9128.live',
-		matches: ['*://9128.live/*', '*://embed.radio.co/player/*'],
-		js: 'radioco.js',
-		id: '9128.live',
-		allFrames: true,
-	},
-	{
 		label: 'Radio.co',
 		matches: ['*://embed.radio.co/player/*'],
 		js: 'radioco.js',
 		id: 'radioco',
-	},
-	{
-		label: 'Super45.fm',
-		matches: ['*://super45.fm/'],
-		js: 'radioco.js',
-		id: 'super45fm',
 		allFrames: true,
 	},
 	{
@@ -2161,13 +2148,6 @@ export default <ConnectorMeta[]>[
 		],
 		js: 'securenetsystems.js',
 		id: 'securenetsystems',
-	},
-	{
-		label: 'WBRU',
-		matches: ['*://www.wbru.com/*'],
-		js: 'radioco.js',
-		id: 'wbru',
-		allFrames: true,
 	},
 	{
 		label: 'uwu radio',
