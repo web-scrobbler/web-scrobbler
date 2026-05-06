@@ -38,6 +38,13 @@ export default <ConnectorMeta[]>[
 		allFrames: true,
 	},
 	{
+		label: 'Bandcamp Embed',
+		matches: ['*://*.bandcamp.com/EmbeddedPlayer/*'],
+		js: 'bandcamp-embedded.js',
+		id: 'bandcamp-embedded',
+		allFrames: true,
+	},
+	{
 		label: 'Bandcamp',
 		matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/*'],
 		js: 'bandcamp.js',
