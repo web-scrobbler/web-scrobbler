@@ -26,16 +26,18 @@ Connector.trackSelector = [
 	'[class*=_metadataWrapper__] h1',
 ];
 
-Connector.getOriginUrl = () =>
-	Util.getAttrFromSelectors('[class*=_spotifyLogoContainer__] a', 'href');
-
 Connector.getTrackArt = () =>
 	Util.extractUrlFromCssProperty(
 		Util.getAttrFromSelectors('[data-testid=main-page]', 'style'),
 	);
 
 Connector.isTrackArtDefault = () =>
-	Connector.getOriginUrl()?.includes('/playlist/');
+	Boolean(
+		Util.getAttrFromSelectors(
+			'[class*=_spotifyLogoContainer__] a',
+			'href',
+		)?.includes('/playlist/'),
+	);
 
 Connector.isPodcast = () =>
 	Boolean(
