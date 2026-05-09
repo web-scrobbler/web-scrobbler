@@ -17,6 +17,7 @@ function setupConnector(): void {
 }
 
 function setupOldConnector(): void {
+	Util.debugLog('setting up for Yandex Music old design');
 	const observer = new MutationObserver(() => {
 		const el = document.querySelector('.track.track_type_player');
 		if (el) {
@@ -95,150 +96,67 @@ function setupOldConnector(): void {
 // NEW CONNECTOR
 
 function setupNewConnector(): void {
-	Connector.playerSelector =
-		"section[class*='PlayerBarDesktopWithBackgroundProgressBar_root']";
+	Util.debugLog('setting up for Yandex Music new design');
 
-	Connector.getTrack = (): string | null => {
-		const playerContainer = document.querySelector(
-			'section[class*="PlayerBarDesktopWithBackgroundProgressBar_root"]',
-		);
-		if (!playerContainer) {
-			return null;
+	// this accommodates both desktop and mobile player.
+	// during fullscreen the bar still exists underneath
+	const playerSelector = 'section[class*="PlayerBar_root__"]';
+	Connector.playerSelector = playerSelector;
+
+	Connector.getTrack = () => {
+		const titleContainer = `${playerSelector} [class*="Meta_titleContainer__"]`;
+		let title = Util.getTextFromSelectors(
+			`${titleContainer} [class*="Meta_title__"]`,
+		)?.trim();
+		const version = Util.getTextFromSelectors(
+			`${titleContainer} [class*="Meta_version__"]`,
+		)?.trim();
+
+		if (version) {
+			title += ` (${version})`;
 		}
 
-		const titleContainer = playerContainer.querySelector(
-			'div[class*="Meta_titleContainer"]',
-		);
-		if (!titleContainer) {
-			return null;
-		}
-
-		const link = titleContainer.querySelector('a');
-		if (!link) {
-			return null;
-		}
-
-		const titleSpan = link.querySelector('span[class*="Meta_title__"]');
-		if (!titleSpan) {
-			return null;
-		}
-
-		let trackName = titleSpan.textContent?.trim() ?? '';
-
-		const versionSpan = link.nextElementSibling as HTMLElement | null;
-		if (versionSpan && versionSpan.className.includes('Meta_version__')) {
-			const versionText = versionSpan.textContent
-				?.replace(/\u00a0/g, ' ')
-				.trim();
-			if (versionText) {
-				trackName += ` (${versionText})`;
-			}
-		}
-
-		return trackName || null;
+		return title;
 	};
 
-	Connector.getArtist = (): string | null => {
-		const playerContainer = document.querySelector(
-			'section[class*="PlayerBarDesktopWithBackgroundProgressBar_root"]',
+	Connector.getArtist = () => {
+		return Util.getTextFromSelectors(
+			`${playerSelector} [class*="Meta_artists__"]`,
 		);
-		if (!playerContainer) {
-			return null;
-		}
-
-		const artistContainer = playerContainer.querySelector(
-			'div[class*="SeparatedArtists_root"]',
-		);
-		if (!artistContainer) {
-			return null;
-		}
-
-		const links = artistContainer.querySelectorAll('a');
-		const artists: string[] = [];
-
-		links.forEach((a) => {
-			const span = a.querySelector('span[class*="Meta_artistCaption"]');
-			if (span?.textContent?.trim()) {
-				artists.push(span.textContent.trim());
-			}
-		});
-
-		return artists.length ? artists.join(', ') : null;
 	};
 
-	Connector.getTrackArt = (): string | null => {
-		const trackArtImage: HTMLImageElement | undefined = [
-			'img[class*="PlayerBarMobile_cover"]',
-			'img[class*="PlayerBarDesktopWithBackgroundProgressBar_cover"]',
-			'img[class*="FullscreenPlayerDesktopPoster_cover"]',
-		]
-			.map((cover) => document.querySelector<HTMLImageElement>(cover))
-			.find((cover) => cover !== null);
+	Connector.getTrackArt = () => {
+		const url = Util.extractImageUrlFromSelectors('img[class*="_cover__"]');
 
-		if (trackArtImage === undefined) {
-			return null;
-		}
-
-		const url = new URL(
-			trackArtImage.src,
-			window.location.origin,
-		).toString();
-
-		return url.replace(/\d+x\d+/, '800x800');
+		return url?.replace(/\d+x\d+$/g, '800x800');
 	};
 
 	Connector.getCurrentTime = (): number | null => {
-		const el = document.querySelector('[class*="Timecode_root_start"]');
-		const parts = el?.textContent?.trim().split(':');
-		if (!parts || parts.length !== 2) {
-			return null;
-		}
-
-		const minutes = parseInt(parts[0], 10);
-		const seconds = parseInt(parts[1], 10);
-		if (isNaN(minutes) || isNaN(seconds)) {
-			return null;
-		}
-
-		return minutes * 60 + seconds;
+		const timeStr = Util.getAttrFromSelectors(
+			`${playerSelector} input[class*=_slider__]`,
+			'value',
+		);
+		return timeStr ? parseFloat(timeStr) : null;
 	};
 
 	Connector.getDuration = (): number | null => {
-		const el = document.querySelector('[class*="Timecode_root_end"]');
-		const parts = el?.textContent?.trim().split(':');
-		if (!parts || parts.length !== 2) {
-			return null;
-		}
-
-		const minutes = parseInt(parts[0], 10);
-		const seconds = parseInt(parts[1], 10);
-		if (isNaN(minutes) || isNaN(seconds)) {
-			return null;
-		}
-
-		return minutes * 60 + seconds;
+		const durStr = Util.getAttrFromSelectors(
+			`${playerSelector} input[class*=_slider__]`,
+			'max',
+		);
+		return durStr ? parseFloat(durStr) : null;
 	};
 
-	Connector.isPlaying = (): boolean => {
-		const buttons = Array.from(
-			document.querySelectorAll('button'),
-		) as HTMLElement[];
-		for (const btn of buttons) {
-			if (
-				Array.from(btn.classList).some((c) =>
-					c.includes('BaseSonataControlsDesktop_sonataButton'),
-				)
-			) {
-				const label = btn.getAttribute('aria-label');
-				if (label === 'Пауза') {
-					return true;
-				}
-				if (label === 'Воспроизведение') {
-					return false;
-				}
-			}
-		}
-		return false;
+	Connector.isPlaying = () => {
+		const playPauseButtonSelectors = [
+			`${playerSelector} button[class*="BaseSonataControlsDesktop_sonataButton__"] svg[class*="BaseSonataControlsDesktop_playButtonIcon__"] use`,
+			`${playerSelector} button[class*="SonataControls_root__"] svg use`,
+		];
+
+		return Util.getAttrFromSelectors(
+			playPauseButtonSelectors,
+			'xlink:href',
+		)?.includes('pause');
 	};
 
 	Connector.onStateChanged();
