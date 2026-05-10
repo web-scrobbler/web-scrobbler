@@ -1,12 +1,17 @@
 export {};
 
+// playerbar is only added when audio is played, but (hopefully?) never removed
 Connector.playerSelector = '[class*=playbar--]';
+
 Connector.trackSelector = '[class*=trackDetails--] [class*=title--]';
 Connector.artistSelector = '[class*=trackDetails--] [class*=artist--]';
+
+// progressBar-- or progressWaveform--
 Connector.currentTimeSelector =
-	'[class*=progressBar--] [class*=timing--]:first-child';
-Connector.durationSelector =
-	'[class*=progressBar--] [class*=timing--]:last-child';
+	'[class*=progress] [class*=timing--]:first-child';
+Connector.pauseButtonSelector = '[class*=progress][class*=active--]';
+Connector.durationSelector = '[class*=progress] [class*=timing--]:last-child';
+
 Connector.scrobblingDisallowedReason = () => {
 	const trackOrArtist = Util.queryElements([
 		Connector.trackSelector as string,
@@ -19,6 +24,5 @@ Connector.scrobblingDisallowedReason = () => {
 	return null;
 };
 Connector.trackArtSelector = '[class*=playbar--] [class*=thumbnail--] img';
-Connector.pauseButtonSelector = '[class*=progressBar--][class*=active--]';
 Connector.unloveButtonSelector =
 	'[class*=playbar--] button [aria-label="HeartFilled"]';

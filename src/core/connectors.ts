@@ -2858,7 +2858,11 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'pixabay',
-		matches: ['*://pixabay.com/music/*'],
+		matches: [
+			'*://pixabay.com/music/*',
+			'*://pixabay.com/playlists/*',
+			'*://pixabay.com/accounts/playlists/*',
+		],
 		js: 'pixabay.js',
 		id: 'pixabay',
 	},
