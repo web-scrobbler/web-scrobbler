@@ -11,18 +11,6 @@ Connector.currentTimeSelector =
 	'[class*=progress] [class*=timing--]:first-child';
 Connector.pauseButtonSelector = '[class*=progress][class*=active--]';
 Connector.durationSelector = '[class*=progress] [class*=timing--]:last-child';
-
-Connector.scrobblingDisallowedReason = () => {
-	const trackOrArtist = Util.queryElements([
-		Connector.trackSelector as string,
-		Connector.artistSelector as string,
-	]);
-	if (trackOrArtist === null) {
-		// mobile UI doesn't show track and artist
-		return 'ElementMissing';
-	}
-	return null;
-};
 Connector.trackArtSelector = '[class*=playbar--] [class*=thumbnail--] img';
 Connector.unloveButtonSelector =
 	'[class*=playbar--] button [aria-label="HeartFilled"]';
