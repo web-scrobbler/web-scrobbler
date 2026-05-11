@@ -2860,6 +2860,7 @@ export default <ConnectorMeta[]>[
 		label: 'pixabay',
 		matches: [
 			'*://pixabay.com/music/*',
+			'*://pixabay.com/users/*',
 			'*://pixabay.com/playlists/*',
 			'*://pixabay.com/accounts/playlists/*',
 		],
