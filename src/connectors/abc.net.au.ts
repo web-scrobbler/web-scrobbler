@@ -1,21 +1,15 @@
 export {};
 
-Connector.playerSelector = '#main-content';
+Connector.playerSelector = '[data-component="Container"]';
 
-Connector.artistSelector = [
-	'.playingNow div[class*="songArtist"]',
-	'.view-liveMusicNow .artist',
-];
+const trackSelector = '>a>div>div';
+const artistSelector = '+h3';
+const songInfoSelector = `${Connector.playerSelector} h1:has(${trackSelector}):has(${artistSelector})`;
 
-Connector.trackSelector = ['.playingNow h3', '.view-liveMusicNow .title'];
+Connector.artistSelector = `${songInfoSelector}${artistSelector}`;
 
-Connector.albumSelector = [
-	'.playingNow div[class*="songRelease"]',
-	'.view-liveMusicNow .release',
-];
+Connector.trackSelector = `${songInfoSelector}${trackSelector}`;
 
-Connector.isPlaying = () =>
-	Util.hasElementClass(
-		['#jwplayerDiv', '#radio-player4-player'],
-		'jw-state-playing',
-	);
+Connector.trackArtSelector = `${Connector.playerSelector} img:last-child`;
+
+Connector.pauseButtonSelector = `${Connector.playerSelector} button>svg[data-component="Stop"]`;

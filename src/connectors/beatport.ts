@@ -1,27 +1,24 @@
 export {};
 
 const filter = MetadataFilter.createFilter({ track: removeOriginalMix });
-const playerBar = '.Player__container';
+const playerBar = '#bp-player';
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = `${playerBar} .track-artists`;
+Connector.artistSelector = `${playerBar} a[href^="/artist/"]`;
 
-Connector.trackSelector = `${playerBar} .track-title__primary`;
+Connector.trackSelector = `${playerBar} a[href^="/track/"] [class*="Player-style__TrackName"]`;
 
-Connector.playButtonSelector = `${playerBar} #Player__play-button`;
+Connector.playButtonSelector = `${playerBar} [data-testid="player-control-play_track"]`;
 
-Connector.currentTimeSelector = '.Clock__played';
+Connector.currentTimeSelector = `${playerBar} [data-testid="player-clock-played_time"]`;
 
-Connector.durationSelector = '.Clock__total';
+Connector.durationSelector = `${playerBar} ${Connector.currentTimeSelector}+*`;
 
-Connector.trackArtSelector = '.Player__artwork-2';
+Connector.trackArtSelector = `${playerBar} img.current`;
 
 Connector.getUniqueID = () => {
-	const trackUrl = Util.getAttrFromSelectors(
-		`${playerBar} .track-title a`,
-		'href',
-	);
+	const trackUrl = Util.getAttrFromSelectors(Connector.trackSelector, 'href');
 	return trackUrl?.split('/').at(-1);
 };
 
@@ -29,7 +26,7 @@ Connector.applyFilter(filter);
 
 function removeOriginalMix(track: string) {
 	const remixedBy = Util.getTextFromSelectors(
-		`${playerBar} .track-title__remixed`,
+		`${playerBar} a[href^="/track/"] [class*="Player-style__MixName"]`,
 	);
 	if (remixedBy === 'Original Mix') {
 		return track;

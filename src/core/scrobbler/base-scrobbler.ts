@@ -1,6 +1,6 @@
 'use strict';
 
-import type { DebugLogType } from '@/util/util';
+import type { DebugLogType } from '@/core/util/debug';
 import { debugLog } from '@/util/util';
 import type { BaseSong } from '@/core/object/song';
 import type { ServiceCallResult } from '@/core/object/service-call-result';

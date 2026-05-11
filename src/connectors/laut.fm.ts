@@ -7,7 +7,7 @@ Connector.artistSelector =
 
 Connector.trackSelector = '.player-display__meta .player-display__meta--title';
 
-Connector.pauseButtonSelector = '.fm-player__btn.playbutton--playing';
+Connector.pauseButtonSelector = '.fm-player__btn .btn--icon-playing';
 
 function removeEnclosingQuotes(track: string) {
 	return track.trim().slice(1, -1);

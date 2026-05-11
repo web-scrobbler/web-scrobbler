@@ -1,11 +1,15 @@
 export {};
 
-Connector.playerSelector = '#sp-container';
+Connector.playerSelector = '#bloc-player-audio-container+div';
 
-Connector.pauseButtonSelector = '.spi-pause-alt';
+Connector.pauseButtonSelector = `${Connector.playerSelector} button[aria-label="Click to Play"]`;
 
-Connector.artistTrackSelector = '.sp-title';
+Connector.trackSelector = `${Connector.playerSelector} h2>strong`;
 
-Connector.currentTimeSelector = '.sp-time-position';
+Connector.artistSelector = `${Connector.playerSelector} h2>a`;
 
-Connector.durationSelector = '.sp-length';
+Connector.timeInfoSelector = '[class*=_PlayerTime_]';
+
+Connector.trackArtSelector = `${Connector.playerSelector} img`;
+
+Connector.albumSelector = `${Connector.playerSelector} h3>a`;

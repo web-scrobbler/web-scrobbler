@@ -1,15 +1,15 @@
 export {};
 
-Connector.playerSelector = '.player';
+Connector.playerSelector = '#emusic-player';
 
-Connector.artistSelector = '.track__meta-data a:first-child';
+Connector.artistSelector = '#emusic-player .track-meta-data .in-artist-link';
 
-Connector.trackSelector = '.track__meta-data a:last-child';
+Connector.trackSelector = '#emusic-player .track-meta-data .in-release-link';
 
-Connector.playButtonSelector = '.player__play__button';
+Connector.pauseButtonSelector = '#emusic-player button[title="Pause"]';
 
-Connector.currentTimeSelector = '.track__time.float-left';
+Connector.currentTimeSelector = '#emusic-player .time-stamps .current-time';
 
-Connector.durationSelector = '.track__time.float-right';
+Connector.durationSelector = '#emusic-player .time-stamps .track-duration';
 
-Connector.trackArtSelector = '.player__album__cover .preloadImage';
+Connector.trackArtSelector = '#emusic-player a[href^="/album/"] img';

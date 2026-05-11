@@ -1,8 +1,8 @@
-import { isDev, releaseTarget } from './util';
+import { isDev, isProd, releaseTarget } from './util';
 
 if (isDev()) {
 	process.env.VITE_DEV = 'true';
-} else {
+} else if (isProd()) {
 	process.env.VITE_PROD = 'true';
 }
 

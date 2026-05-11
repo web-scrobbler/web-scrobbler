@@ -10,9 +10,9 @@ Connector.artistSelector = `${playerBar} .artist .text:last-child`;
 
 Connector.albumSelector = `${playerBar} .album .text:last-child`;
 
-Connector.trackArtSelector = `${playerBar} .cover .image`;
+Connector.trackArtSelector = `${playerBar} .cover img`;
 
-Connector.playButtonSelector = `${playerBar} .play-control .play`;
+Connector.pauseButtonSelector = `${playerBar} button.play.pause`;
 
 Connector.currentTimeSelector = `${playerBar} .time .current`;
 

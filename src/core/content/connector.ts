@@ -42,7 +42,7 @@ export default class BaseConnector {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getAlbumArtist` is used.
 	 */
-	public albumArtistSelector: string | null = null;
+	public albumArtistSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing track current time in h:m:s format.
@@ -979,12 +979,7 @@ export default class BaseConnector {
 				let fieldValue = this.currentState[field];
 
 				switch (field) {
-					case 'albumArtist': {
-						if (fieldValue === this.currentState.artist) {
-							fieldValue = this.defaultState[field];
-						}
-					}
-					// eslint-disable-next-line no-fallthrough
+					case 'albumArtist':
 					case 'artist':
 					case 'track':
 					case 'album': {

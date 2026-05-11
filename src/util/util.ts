@@ -15,6 +15,7 @@ import type {
 	Blocklists,
 } from '@/core/storage/wrapper';
 import type { RegexEdit } from './regex';
+import type { DebugLogType } from '@/core/util/debug';
 
 /**
  * Module that contains some useful helper functions for background scripts.
@@ -44,8 +45,6 @@ export const MIN_TRACK_DURATION = 30;
  * Max number of seconds of playback before the track is scrobbled.
  */
 export const MAX_SCROBBLE_TIME = 240;
-
-export type DebugLogType = 'log' | 'error' | 'warn' | 'info';
 
 /**
  * Print debug message.

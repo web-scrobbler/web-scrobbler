@@ -5,7 +5,7 @@ import type * as Options from '@/core/storage/options';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
-import type { ModalType } from '../navigator';
+import type { ModalType } from '../modal-type';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 
 const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);

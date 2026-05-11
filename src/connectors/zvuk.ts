@@ -33,7 +33,6 @@ Connector.getDuration = () => {
 	return currentTime / progressDecimal;
 };
 
-Connector.playButtonSelector =
-	'[class*="ControlButton_containerPrimary"]:nth-child(2)[title="Играть [P]"]';
+Connector.useTabAudibleApi();
 
 Connector.useMediaSessionApi();
