@@ -2856,4 +2856,10 @@ export default <ConnectorMeta[]>[
 		js: 'zxart.js',
 		id: 'zxart',
 	},
+	{
+		label: 'DNA Lounge',
+		matches: ['*://www.dnalounge.com/webcast/video.html'],
+		js: 'dnalounge.js',
+		id: 'dnalounge',
+	},
 ];
