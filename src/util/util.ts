@@ -249,7 +249,7 @@ export function createArtistURL(artist: string | null | undefined): string {
 	if (!artist) {
 		return '';
 	}
-	return `https://www.last.fm/music/${encodeLastFMURIComponent(artist)}`;
+	return `https://www.last.fm/music/+noredirect/${encodeLastFMURIComponent(artist)}`;
 }
 
 /**
@@ -301,7 +301,7 @@ export function createTrackLibraryURL(
 	}
 	return `https://www.last.fm/user/${encodeLastFMURIComponent(
 		username,
-	)}/library/music/${encodeLastFMURIComponent(artist)}/_/${encodeLastFMURIComponent(
+	)}/library/music/+noredirect/${encodeLastFMURIComponent(artist)}/_/${encodeLastFMURIComponent(
 		track,
 	)}`;
 }
