@@ -1,20 +1,13 @@
 export {};
 
-const showNameSelector =
-	'div[class^="style_playbarInfo"] div[data-testid="show-info-title"]';
-
 Connector.playerSelector = '.globalplayer';
-Connector.trackSelector =
-	'div[data-testid="show-info-card"] h1[data-testid="show-info-title"]';
-Connector.artistSelector =
-	'div[data-testid="show-info-card"] h2[data-testid="show-info-subtitle"]';
-Connector.playButtonSelector =
-	'button[data-testid="play-pause-button"][aria-pressed="false"]';
-Connector.trackArtSelector = 'div[class^="style_showInfoCard"] img.current-img';
+
+const playbarSelector = '.globalplayer [data-testid="playbar"]';
+
+Connector.trackSelector = `${playbarSelector} [data-testid="show-info-title"]>:first-child`;
+Connector.artistSelector = `${playbarSelector} [data-testid="show-info-title"]>:last-child`;
+Connector.pauseButtonSelector = `${playbarSelector} button[data-testid="play-pause-button"][aria-pressed="true"]`;
+Connector.trackArtSelector = `${playbarSelector} img`;
 
 Connector.scrobblingDisallowedReason = () =>
-	Connector.getTrack() === getShowName() ? 'FilteredTag' : null;
-
-function getShowName() {
-	return Util.getTextFromSelectors(showNameSelector);
-}
+	Connector.getTrack() === Connector.getArtist() ? 'FilteredTag' : null;
