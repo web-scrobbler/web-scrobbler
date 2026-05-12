@@ -2,8 +2,8 @@ export {};
 
 const playerSelector = '[data-testid=widgetTopClass]';
 const playButtonSelector = `${playerSelector} [data-testid=widget-play-button]`;
-const trackSelector = `${playerSelector} span strong:has(+ span)`;
-const artistSelector = `${trackSelector} + span span:last-of-type`;
+const trackSelector = `${playerSelector} span > strong:has(+ span)`;
+const artistSelector = `${trackSelector} + span > span:last-of-type`;
 
 Connector.playerSelector = playerSelector;
 
@@ -15,7 +15,7 @@ Connector.isPodcast = () => {
 
 Connector.getTrackInfo = () => {
 	const showSelector = `${playButtonSelector} + div > a`;
-	const trackArtSelector = `${playerSelector} [data-testid=widget-cloudcast-image] img`;
+	const trackArtSelector = '[data-testid=widget-cloudcast-image] img';
 	const currentTimeSelector = '[data-testid=widget-current-time]';
 	const remainingTimeSelector = `${currentTimeSelector} ~ span > span`;
 	let artist = Util.getTextFromSelectors(artistSelector);
