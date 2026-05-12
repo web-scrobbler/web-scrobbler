@@ -208,7 +208,7 @@ export function getStorage<K extends StorageNamespace>(
  * @returns StorageWrapper instance
  */
 export function getScrobblerStorage<K extends keyof DataModels>(
-	namespace: StorageNamespace,
+	namespace: K,
 ): StorageWrapper<K> {
 	return getLocalStorage(namespace);
 }
@@ -219,7 +219,7 @@ export function getScrobblerStorage<K extends keyof DataModels>(
  * @returns StorageWrapper instance
  */
 export function getLocalStorage<K extends keyof DataModels>(
-	namespace: StorageNamespace,
+	namespace: K,
 ): StorageWrapper<K> {
 	const storageArea = browser.storage.local;
 	return new StorageWrapper(storageArea, namespace);
@@ -232,7 +232,7 @@ export function getLocalStorage<K extends keyof DataModels>(
  * @returns StorageWrapper instance
  */
 export function getSyncStorage<K extends keyof DataModels>(
-	namespace: StorageNamespace,
+	namespace: K,
 ): StorageWrapper<K> {
 	const storageArea = browser.storage.sync || browser.storage.local;
 	return new StorageWrapper(storageArea, namespace);

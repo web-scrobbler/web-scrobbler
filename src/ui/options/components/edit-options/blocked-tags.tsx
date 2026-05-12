@@ -1,6 +1,6 @@
 import { t } from '@/util/i18n';
-import type { Setter } from 'solid-js';
-import { For, createMemo, createResource } from 'solid-js';
+import type { JSXElement, Setter } from 'solid-js';
+import { For, createMemo, createResource, createSignal } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
@@ -18,6 +18,7 @@ export default function BlockedTagsElement(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
 }) {
+	const [uploadStatus, setUploadStatus] = createSignal<JSXElement>();
 	return (
 		<>
 			<h2>{t('optionsBlockedTags')}</h2>
@@ -32,8 +33,12 @@ export default function BlockedTagsElement(props: {
 					editWrapper={blocklist}
 					filename="blocked-tags.json"
 				/>
-				<ImportEdits editWrapper={blocklist} />
+				<ImportEdits
+					editWrapper={blocklist}
+					setUploadStatus={setUploadStatus}
+				/>
 			</div>
+			{uploadStatus()}
 		</>
 	);
 }

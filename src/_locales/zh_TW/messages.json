@@ -763,6 +763,14 @@
         "message": "如果擴充元件剛更新，網站可能在重新整理之前會顯示為不支援。",
         "description": "The description of 'unsupported' popup"
     },
+    "importSuccess": {
+        "message": "Successfully imported!",
+        "description": "Message that shows when Edits were successfully imported"
+    },
+    "importError": {
+        "message": "While importing an error occurred: $1",
+        "description": "Message that shows when an error occurs when importing Edits"
+    },
     "infoLove": {
         "message": "收藏曲目",
         "description": "Label of love/unlove button"
