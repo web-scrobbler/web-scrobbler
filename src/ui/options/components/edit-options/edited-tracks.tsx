@@ -1,6 +1,6 @@
 import { t } from '@/util/i18n';
-import type { Setter } from 'solid-js';
-import { For, createMemo, createResource } from 'solid-js';
+import type { JSXElement, Setter } from 'solid-js';
+import { For, createMemo, createResource, createSignal } from 'solid-js';
 import type * as Options from '@/core/storage/options';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
@@ -17,6 +17,7 @@ export default function EditedTracks(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
 }) {
+	const [uploadStatus, setUploadStatus] = createSignal<JSXElement>();
 	return (
 		<>
 			<h2>{t('optionsEditedTracks')}</h2>
@@ -35,8 +36,12 @@ export default function EditedTracks(props: {
 					editWrapper={localCache}
 					filename="local-cache.json"
 				/>
-				<ImportEdits editWrapper={localCache} />
+				<ImportEdits
+					editWrapper={localCache}
+					setUploadStatus={setUploadStatus}
+				/>
 			</div>
+			{uploadStatus()}
 		</>
 	);
 }
