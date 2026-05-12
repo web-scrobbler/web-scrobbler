@@ -763,6 +763,14 @@
         "message": "Jei plėtinys neseniai atnaujintas, svetainės gali būti rodomos kaip nepalaikomos, kol atnaujinsite puslapį.",
         "description": "The description of 'unsupported' popup"
     },
+    "importSuccess": {
+        "message": "Successfully imported!",
+        "description": "Message that shows when Edits were successfully imported"
+    },
+    "importError": {
+        "message": "While importing an error occurred: $1",
+        "description": "Message that shows when an error occurs when importing Edits"
+    },
     "infoLove": {
         "message": "Mėgti takelį",
         "description": "Label of love/unlove button"
