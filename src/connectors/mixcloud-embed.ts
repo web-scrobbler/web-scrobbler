@@ -1,16 +1,16 @@
 export {};
 
 const playerSelector = '[data-testid=widgetTopClass]';
-const playButtonSelector = `${playerSelector} [data-testid=widget-play-button]`;
+const playButtonSelector = '[data-testid=widget-play-button]';
 const trackSelector = `${playerSelector} span > strong:has(+ span)`;
 const artistSelector = `${trackSelector} + span > span:last-of-type`;
 
 Connector.playerSelector = playerSelector;
 
 Connector.isPodcast = () => {
-	const playerWrap = document.querySelector(playerSelector);
+	const playerWrapper = document.querySelector(playerSelector);
 
-	return Boolean(playerWrap && playerWrap?.childElementCount < 2);
+	return Boolean(playerWrapper && playerWrapper?.childElementCount < 2);
 };
 
 Connector.getTrackInfo = () => {
