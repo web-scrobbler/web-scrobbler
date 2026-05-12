@@ -269,6 +269,13 @@ export default <ConnectorMeta[]>[
 		id: 'tunein',
 	},
 	{
+		label: 'Mixcloud Embed',
+		matches: ['*://player-widget.mixcloud.com/*'],
+		js: 'mixcloud-embed.js',
+		id: 'mixcloud-embed',
+		allFrames: true,
+	},
+	{
 		label: 'Mixcloud',
 		matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
 		js: 'mixcloud.js',
