@@ -2,6 +2,9 @@ export {};
 
 Connector.playerSelector = '[data-testid=embed-widget-container]';
 
+Connector.pauseButtonSelector =
+	'[class^=PlayButton_buttonWrapper___][aria-label=Pause]';
+
 Connector.getArtist = () => {
 	const tracklistArtistElement = document.querySelector(
 		'li[class*=TracklistRow_isCurrentTrack__] h4',
@@ -65,11 +68,5 @@ Connector.remainingTimeSelector = '[class*=ProgressTimer_actualProgressTime__]';
 
 Connector.durationSelector =
 	'li[class*=TracklistRow_isCurrentTrack__] [class^=TracklistRow_durationCell__]';
-
-Connector.isPlaying = () =>
-	Util.getAttrFromSelectors(
-		'[class^=PlayButton_buttonWrapper___]',
-		'aria-label',
-	) === 'Pause';
 
 Connector.applyFilter(MetadataFilter.createSpotifyFilter());
