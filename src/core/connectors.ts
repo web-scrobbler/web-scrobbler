@@ -270,7 +270,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Mixcloud',
-		matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
+		matches: ['*://*.mixcloud.com/*'],
 		js: 'mixcloud.js',
 		id: 'mixcloud',
 	},
