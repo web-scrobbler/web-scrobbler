@@ -1,59 +1,50 @@
 export {};
 
+const playerSelector = '[data-testid=player-container]';
+const artistSelector = '[class*=styles__Artist-]';
+const trackSelector = '[class*=styles__Track-]';
 const filter = MetadataFilter.createFilter({
 	artist: [removeByPrefix, removeBuySuffix],
 });
 
-Connector.playerSelector = '[data-testid="player-container"]';
+Connector.playerSelector = playerSelector;
 
-Connector.playButtonSelector = '[data-testid="player-play-button-Play"]';
-Connector.pauseButtonSelector = '[data-testid="player-play-button-Pause"]';
+Connector.pauseButtonSelector = '[data-testid=player-play-button-Pause]';
 
-const trackArtSelector = `${Connector.playerSelector} img`;
-
-const trackSelector = '[data-testid="player-show-title"]';
-const artistSelector = `${Connector.trackSelector}+*`;
-
-const currentTimeSelector = '[data-testid="startTime"]';
-const durationSelector = '[data-testid="endTime"]';
+Connector.isPodcast = () =>
+	Boolean(!Util.isElementVisible([artistSelector, trackSelector]));
 
 Connector.getTrackInfo = () => {
-	let artistText = Util.getTextFromSelectors('[class*=styles__Artist-]');
-	let trackText = Util.getTextFromSelectors('[class*=styles__Track-]');
-	let trackArtUrl;
-	let currentTimeValue;
-	let durationValue;
-	let podcastBoolean;
+	const showSelector = '[data-testid=player-show-title]';
+	const trackArtSelector = `${playerSelector} img`;
+	const currentTimeSelector = '[data-testid=startTime]';
+	const durationSelector = '[data-testid=endTime]';
+	let artist = Util.getTextFromSelectors(artistSelector);
+	let track = Util.getTextFromSelectors(trackSelector);
+	let trackArt;
+	let currentTime;
+	let duration;
 
-	if (artistText && trackText) {
-		podcastBoolean = false;
-	} else {
-		artistText = Util.getTextFromSelectors(artistSelector);
-		trackText = Util.getTextFromSelectors(trackSelector);
-		trackArtUrl = Util.extractImageUrlFromSelectors(
-			trackArtSelector,
-		)?.replace(/\/\d+x\d+(?=\/)/g, ''); // larger image path
-		currentTimeValue = Util.getSecondsFromSelectors(currentTimeSelector);
-		durationValue = Util.getSecondsFromSelectors(durationSelector);
-		podcastBoolean = true;
+	if (Connector.isPodcast()) {
+		artist = Util.getTextFromSelectors(`${playerSelector} p span`);
+		track = Util.getTextFromSelectors(showSelector);
+		trackArt = Util.extractImageUrlFromSelectors(trackArtSelector)?.replace(
+			/(?<=\/)\d+x\d+(?=\/)/,
+			'580x580', // larger image
+		);
+		currentTime = Util.getSecondsFromSelectors(currentTimeSelector);
+		duration = Util.getSecondsFromSelectors(durationSelector);
 	}
 
-	return {
-		artist: artistText,
-		track: trackText,
-		trackArt: trackArtUrl,
-		currentTime: currentTimeValue,
-		duration: durationValue ?? 0,
-		isPodcast: podcastBoolean,
-	};
+	return { artist, track, trackArt, currentTime, duration };
 };
 
 Connector.applyFilter(filter);
 
 function removeByPrefix(text: string) {
-	return text.replace(/^by\s/g, '');
+	return text.replace(/^by\s/, '');
 }
 
 function removeBuySuffix(text: string) {
-	return text.replace(/[\u2014-]\sbuy$/gi, '');
+	return text.replace(/[\u2014-]\sbuy$/i, '');
 }
