@@ -2379,10 +2379,10 @@ export default <ConnectorMeta[]>[
 		id: 'fmspins',
 	},
 	{
-		label: 'vk-save',
-		matches: ['*://*.vk-save.com/*'],
-		js: 'vk-save.js',
-		id: 'vk-save',
+		label: 'KissVK',
+		matches: ['*://kissvk.top/*'],
+		js: 'kissvk.js',
+		id: 'kissvk',
 	},
 	{
 		label: 'Radio Student',
