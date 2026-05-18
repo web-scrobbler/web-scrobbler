@@ -28,8 +28,7 @@ Connector.currentTimeSelector = '#currenttime';
 
 Connector.durationSelector = '#totaltime';
 
-Connector.getOriginUrl = () =>
-	Util.getAttrFromSelectors('#maintextlink', 'href');
+Connector.getOriginUrl = () => Util.getOriginUrl('#maintextlink');
 
 Connector.isPlaying = () =>
 	Util.hasElementClass(Connector.playerSelector, 'playing');
