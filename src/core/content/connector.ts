@@ -104,8 +104,6 @@ export default class BaseConnector {
 	 * Selector of a play button element. If the element is not visible,
 	 * the playback is considered to be playing.
 	 *
-	 * Should not be used if Connector#pauseButtonSelector is defined.
-	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
 	 */
@@ -114,8 +112,6 @@ export default class BaseConnector {
 	/**
 	 * Selector of a pause button element. If the element is visible,
 	 * the playback is considered to be playing.
-	 *
-	 * Should not be used if `Connector.playButtonSelector` is defined.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
