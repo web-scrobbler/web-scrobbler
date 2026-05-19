@@ -56,18 +56,38 @@ Connector.getTrackArt = () => {
 	return artworks?.[artworks.length - 1].src;
 };
 
+// BETTER ARTIST PARSER - FIXES MISSING ANCHOR TAGS FOR ARTISTS
+function getCleanArtist(rawArtist: string | undefined): string {
+	if (!rawArtist) return '';
+
+	// trim leading / trailing spaces of an artist name, and replace misc whitespace
+	// 	   (e.g. double spaces) with a single space
+	let artist = rawArtist.trim()
+		.replace(/\s+/g, ' ')
+		.replace(/&nbsp;/g, ' ');
+
+	const splitters = /[,/&]|feat\.?|ft\.?|featuring| x | vs | with | x /i;
+	const parts = artist.split(splitters).map(p => p.trim()).filter(Boolean);
+
+	// only return the first artist
+	return parts[0] || artist;
+}
+
 Connector.getArtistTrack = () => {
 	let artist;
 	let track;
 	const metadata = mediaInfo.metadata;
 
 	if (metadata?.album) {
-		artist = metadata.artist;
+		// use new method to 'clean' the artist data
+		artist = getCleanArtist(metadata.artist);
 		track = metadata.title;
 	} else {
 		({ artist, track } = Util.processYtVideoTitle(metadata?.title));
 		if (!artist) {
-			artist = metadata?.artist;
+			artist = getCleanArtist(metadata?.artist);
+		} else {
+			artist = getCleanArtist(artist);
 		}
 	}
 	return { artist, track };
