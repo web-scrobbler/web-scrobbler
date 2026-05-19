@@ -2208,7 +2208,13 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'ROCK ANTENNE',
-		matches: ['*://*rockantenne.*/webradio/*'],
+		matches: [
+			'*://www.rockantenne.de/*',
+			'*://www.rockantenne.bayern/*',
+			'*://www.rockantenne.hamburg/*',
+			'*://www.rockantenne.nrw/*',
+			'*://www.rockantenne.at/*',
+		],
 		js: 'rockantenne.js',
 		id: 'rockantenne',
 	},
