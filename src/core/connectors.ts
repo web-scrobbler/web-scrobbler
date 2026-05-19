@@ -1810,10 +1810,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Indie88',
-		matches: [
-			'*://indie88.com/lean-stream-player/*',
-			'*://cob.leanplayer.com/CINDFM*',
-		],
+		matches: ['*://www.indie88.com/player/*'],
 		js: 'indie88.js',
 		id: 'indie88',
 	},
