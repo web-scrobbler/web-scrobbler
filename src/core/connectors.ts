@@ -1941,10 +1941,10 @@ export default <ConnectorMeta[]>[
 		id: 'naxosmusiclibrary',
 	},
 	{
-		label: 'Klassik Radio',
-		matches: ['*://*klassikradio.de/*'],
-		js: 'klassikradio.de.js',
-		id: 'klassikradio',
+		label: 'Klassik Radio Plus',
+		matches: ['*://klassikradioplus.de/*'],
+		js: 'klassikradioplus.js',
+		id: 'klassikradioplus',
 	},
 	{
 		label: 'Beetle',
