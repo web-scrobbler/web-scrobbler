@@ -984,7 +984,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Music Walker',
-		matches: ['*://arkanath.com/MusicWalker/*'],
+		matches: ['*://musicwalker.app/*'],
 		js: 'musicwalker.js',
 		id: 'musicwalker',
 	},
