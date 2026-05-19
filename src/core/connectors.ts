@@ -1780,14 +1780,9 @@ export default <ConnectorMeta[]>[
 		id: 'lms',
 	},
 	{
-		label: 'deep-cut.fm',
-		matches: [
-			'*://deepcut.fm/*',
-			'*://turntable.fm/*',
-			'*://deep-cut.fm/*',
-			'*://deepcuts.fm/*',
-		],
-		js: 'deep-cut.fm.js',
+		label: 'deepcut',
+		matches: ['*://deepcut.live/*'],
+		js: 'deepcut.js',
 		id: 'deepcut.fm',
 	},
 	{
