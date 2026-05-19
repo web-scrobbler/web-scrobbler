@@ -1719,7 +1719,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Street Voice',
-		matches: ['*://streetvoice.cn/*', '*://streetvoice.com/*'],
+		matches: ['*://www.streetvoice.cn/*', '*://streetvoice.com/*'],
 		js: 'streetvoice.js',
 		id: 'streetvoice',
 	},
