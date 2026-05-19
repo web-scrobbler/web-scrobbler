@@ -1882,34 +1882,15 @@ export default <ConnectorMeta[]>[
 		id: 'thrilljockey',
 	},
 	{
-		label: 'Radio Horizonte',
-		matches: ['*://horizonte.cl/*'],
+		label: 'MediaStream',
+		matches: [
+			'*://sonarfm.cl/*',
+			'*://playfm.cl/*',
+			'*://player.wkmradio.com/*',
+			'*://www.rockaxis.com/*',
+		],
 		js: 'mediastream.js',
-		id: 'horizontecl',
-	},
-	{
-		label: 'Sonar FM',
-		matches: ['*://sonarfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'sonarfmcl',
-	},
-	{
-		label: 'Play FM',
-		matches: ['*://playfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'playfmcl',
-	},
-	{
-		label: 'WKM Radio',
-		matches: ['*://www.wkmradio.com/*'],
-		js: 'mediastream.js',
-		id: 'wkmradio',
-	},
-	{
-		label: 'Rockaxis',
-		matches: ['*://www.rockaxis.com/*'],
-		js: 'mediastream.js',
-		id: 'rockaxis',
+		id: 'mediastream',
 	},
 	{
 		label: 'Rock&Pop Chile',
