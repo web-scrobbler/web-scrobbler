@@ -98,17 +98,11 @@ function startLayoutObserver(): void {
 	}
 
 	isLayoutObserverStarted = true;
-	let animationFrame = 0;
-	const observer = new MutationObserver(() => {
-		if (animationFrame !== 0) {
-			return;
-		}
-
-		animationFrame = window.requestAnimationFrame(() => {
-			animationFrame = 0;
-			notifyStateChanged();
-		});
-	});
+	// MutationObserver natively batches DOM changes into a single microtask
+	// callback, so an extra requestAnimationFrame coalescing layer is not
+	// needed. Avoiding requestAnimationFrame also keeps the connector working
+	// in background tabs, where browsers freeze RAF callbacks.
+	const observer = new MutationObserver(notifyStateChanged);
 
 	observer.observe(document.body, { childList: true, subtree: true });
 }
@@ -361,17 +355,7 @@ function observeConnectorState(
 			return;
 		}
 
-		let animationFrame = 0;
-		const observer = new MutationObserver(() => {
-			if (animationFrame !== 0) {
-				return;
-			}
-
-			animationFrame = window.requestAnimationFrame(() => {
-				animationFrame = 0;
-				notifyStateChanged();
-			});
-		});
+		const observer = new MutationObserver(notifyStateChanged);
 
 		observer.observe(targetNode, {
 			attributes: true,
@@ -381,10 +365,6 @@ function observeConnectorState(
 
 		stateObservers.set(observerKey, () => {
 			observer.disconnect();
-			if (animationFrame !== 0) {
-				window.cancelAnimationFrame(animationFrame);
-				animationFrame = 0;
-			}
 		});
 	} else {
 		const intervalKey = `${layoutId}:${playerSelector}:interval`;
