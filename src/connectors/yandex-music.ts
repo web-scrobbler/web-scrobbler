@@ -8,7 +8,7 @@ const mobilePlayerSelector = 'section[class*="PlayerBarMobile_root__"]';
 const backgroundProgressPlayerSelector =
 	"section[class*='PlayerBarDesktopWithBackgroundProgressBar_root']";
 const veryOldPlayButtonSelector = '.player-controls__btn_play';
-const stateObserverKeys = new Set<string>();
+const stateObservers = new Map<string, () => void>();
 
 type ConnectorLayout =
 	| 'current-collapsed'
@@ -62,6 +62,7 @@ function ensureConnectorMatchesCurrentLayout(): boolean {
 		return false;
 	}
 
+	disposeStateObservers();
 	activeLayout = nextLayout;
 
 	switch (nextLayout) {
@@ -105,11 +106,7 @@ function startLayoutObserver(): void {
 
 		animationFrame = window.requestAnimationFrame(() => {
 			animationFrame = 0;
-			ensureConnectorMatchesCurrentLayout();
-
-			if (activeLayout !== null) {
-				notifyStateChanged(activeLayout);
-			}
+			notifyStateChanged();
 		});
 	});
 
@@ -118,7 +115,7 @@ function startLayoutObserver(): void {
 
 function setupPlayerBarConnector(
 	playerSelector: string,
-	debugLayout: ConnectorLayout,
+	layoutId: ConnectorLayout,
 ): void {
 	// PlayerBarMobile and PlayerBarDesktopWithBackgroundProgressBar use the
 	// same Meta_* blocks. Always scope reads to the active player root so
@@ -212,7 +209,10 @@ function setupPlayerBarConnector(
 				playPauseButtonSelectors.slice(1),
 				'xlink:href',
 			) ??
-			Util.getAttrFromSelectors(playPauseButtonSelectors.slice(1), 'href');
+			Util.getAttrFromSelectors(
+				playPauseButtonSelectors.slice(1),
+				'href',
+			);
 
 		return useHrefAttr?.includes('pause') ?? false;
 	};
@@ -233,7 +233,7 @@ function setupPlayerBarConnector(
 		return useHrefAttr?.includes('liked') ?? false;
 	};
 
-	observeConnectorState(playerSelector, debugLayout);
+	observeConnectorState(playerSelector, layoutId);
 }
 
 function setupVibeConnector(): void {
@@ -346,22 +346,20 @@ function getVibeArtist(): string | null {
 
 function observeConnectorState(
 	playerSelector: string,
-	debugLayout: string,
+	layoutId: string,
 	observerTarget?: Node,
 ): void {
-	notifyStateChanged(debugLayout);
+	notifyStateChanged();
 
 	const playerNode = document.querySelector(playerSelector);
 	const targetNode = observerTarget ?? playerNode;
 	if (targetNode) {
-		const observerKey = `${debugLayout}:${
+		const observerKey = `${layoutId}:${
 			targetNode === document.body ? 'body' : playerSelector
 		}`;
-		if (stateObserverKeys.has(observerKey)) {
+		if (stateObservers.has(observerKey)) {
 			return;
 		}
-
-		stateObserverKeys.add(observerKey);
 
 		let animationFrame = 0;
 		const observer = new MutationObserver(() => {
@@ -371,7 +369,7 @@ function observeConnectorState(
 
 			animationFrame = window.requestAnimationFrame(() => {
 				animationFrame = 0;
-				notifyStateChanged(debugLayout);
+				notifyStateChanged();
 			});
 		});
 
@@ -380,12 +378,35 @@ function observeConnectorState(
 			childList: true,
 			subtree: true,
 		});
+
+		stateObservers.set(observerKey, () => {
+			observer.disconnect();
+			if (animationFrame !== 0) {
+				window.cancelAnimationFrame(animationFrame);
+				animationFrame = 0;
+			}
+		});
 	} else {
-		setInterval(() => notifyStateChanged(debugLayout), 1000);
+		const intervalKey = `${layoutId}:${playerSelector}:interval`;
+		if (stateObservers.has(intervalKey)) {
+			return;
+		}
+
+		const intervalId = window.setInterval(notifyStateChanged, 1000);
+		stateObservers.set(intervalKey, () => {
+			window.clearInterval(intervalId);
+		});
 	}
 }
 
-function notifyStateChanged(debugLayout: string): void {
+function disposeStateObservers(): void {
+	for (const dispose of stateObservers.values()) {
+		dispose();
+	}
+	stateObservers.clear();
+}
+
+function notifyStateChanged(): void {
 	ensureConnectorMatchesCurrentLayout();
 	Connector.onStateChanged();
 }
@@ -465,4 +486,3 @@ function setupOldConnector(): void {
 		return btn?.classList.contains('player-controls__btn_pause') ?? false;
 	};
 }
-
