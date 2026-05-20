@@ -2,66 +2,131 @@ export {};
 
 const currentCollapsedPlayerSelector =
 	'section[class*="PlayerBar_root__"]:has([class*="Meta_titleContainer__"])';
+const vibePageSelector = 'div[class*="VibePage_meta__"]';
 const vibePlayerSelector = 'section[class*="VibePlayerBar_root__"]';
+const mobilePlayerSelector = 'section[class*="PlayerBarMobile_root__"]';
 const backgroundProgressPlayerSelector =
 	"section[class*='PlayerBarDesktopWithBackgroundProgressBar_root']";
 const veryOldPlayButtonSelector = '.player-controls__btn_play';
+const stateObserverKeys = new Set<string>();
+
+type ConnectorLayout =
+	| 'current-collapsed'
+	| 'vibe'
+	| 'mobile-player'
+	| 'background-progress'
+	| 'very-old';
+
+let activeLayout: ConnectorLayout | null = null;
+let isLayoutObserverStarted = false;
 
 setupConnector();
 
 function setupConnector(): void {
-	const setupKnownConnector = (): boolean => {
-		// The current Yandex.Music DOM can render different player roots
-		// depending on page mode. Check the newest known variants first.
-		if (document.querySelector(currentCollapsedPlayerSelector)) {
-			setupCurrentCollapsedConnector();
-			return true;
-		}
+	ensureConnectorMatchesCurrentLayout();
+	startLayoutObserver();
+}
 
-		if (document.querySelector(vibePlayerSelector)) {
-			setupVibeConnector();
-			return true;
-		}
+function detectConnectorLayout(): ConnectorLayout | null {
+	// The current Yandex.Music DOM can render different player roots
+	// depending on page mode. Check exact roots before the broad
+	// PlayerBar_root fallback, otherwise artist lookup can hit page content.
+	if (document.querySelector(vibePlayerSelector)) {
+		return 'vibe';
+	}
 
-		// This was the "new" design before the latest redesign.
-		// Keep it as a compatibility path for users who may still see it.
-		if (document.querySelector(backgroundProgressPlayerSelector)) {
-			setupBackgroundProgressConnector();
-			return true;
-		}
+	if (document.querySelector(mobilePlayerSelector)) {
+		return 'mobile-player';
+	}
 
-		// This is the very old Yandex.Music player. It is not expected
-		// anymore, but keeping it costs little and preserves compatibility.
-		if (document.querySelector(veryOldPlayButtonSelector)) {
-			setupOldConnector();
-			return true;
-		}
+	if (document.querySelector(backgroundProgressPlayerSelector)) {
+		return 'background-progress';
+	}
 
+	if (document.querySelector(currentCollapsedPlayerSelector)) {
+		return 'current-collapsed';
+	}
+
+	// This is the very old Yandex.Music player. It is not expected
+	// anymore, but keeping it costs little and preserves compatibility.
+	if (document.querySelector(veryOldPlayButtonSelector)) {
+		return 'very-old';
+	}
+
+	return null;
+}
+
+function ensureConnectorMatchesCurrentLayout(): boolean {
+	const nextLayout = detectConnectorLayout();
+	if (nextLayout === null || nextLayout === activeLayout) {
 		return false;
-	};
+	}
 
-	if (setupKnownConnector()) {
+	activeLayout = nextLayout;
+
+	switch (nextLayout) {
+		case 'current-collapsed':
+			setupPlayerBarConnector(
+				currentCollapsedPlayerSelector,
+				'current-collapsed',
+			);
+			break;
+		case 'vibe':
+			setupVibeConnector();
+			break;
+		case 'mobile-player':
+			setupPlayerBarConnector(mobilePlayerSelector, 'mobile-player');
+			break;
+		case 'background-progress':
+			setupPlayerBarConnector(
+				backgroundProgressPlayerSelector,
+				'background-progress',
+			);
+			break;
+		case 'very-old':
+			setupOldConnector();
+			break;
+	}
+
+	return true;
+}
+
+function startLayoutObserver(): void {
+	if (isLayoutObserverStarted) {
 		return;
 	}
 
+	isLayoutObserverStarted = true;
+	let animationFrame = 0;
 	const observer = new MutationObserver(() => {
-		if (setupKnownConnector()) {
-			observer.disconnect();
-			Connector.onStateChanged();
+		if (animationFrame !== 0) {
+			return;
 		}
+
+		animationFrame = window.requestAnimationFrame(() => {
+			animationFrame = 0;
+			ensureConnectorMatchesCurrentLayout();
+
+			if (activeLayout !== null) {
+				notifyStateChanged(activeLayout);
+			}
+		});
 	});
 
 	observer.observe(document.body, { childList: true, subtree: true });
 }
 
-function setupCurrentCollapsedConnector(): void {
-	// This compact player is the newest stable source for normal scrobbling.
-	// It can be hidden by some screens, so every getter still returns null
-	// when the node is temporarily missing.
-	Connector.playerSelector = currentCollapsedPlayerSelector;
+function setupPlayerBarConnector(
+	playerSelector: string,
+	debugLayout: ConnectorLayout,
+): void {
+	// PlayerBarMobile and PlayerBarDesktopWithBackgroundProgressBar use the
+	// same Meta_* blocks. Always scope reads to the active player root so
+	// artist names from the page body are not picked by accident.
+	Connector.playerSelector = playerSelector;
 
 	Connector.getTrack = (): string | null => {
-		const titleContainer = `${currentCollapsedPlayerSelector} [class*="Meta_titleContainer__"]`;
+		const titleContainer = `${playerSelector} [class*="Meta_titleContainer__"]`;
 		let title = Util.getTextFromSelectors(
 			`${titleContainer} [class*="Meta_title__"]`,
 		)?.trim();
@@ -80,17 +145,42 @@ function setupCurrentCollapsedConnector(): void {
 		return title;
 	};
 
-	Connector.artistSelector = `${currentCollapsedPlayerSelector} [class*="Meta_artists__"]`;
+	Connector.getArtist = (): string | null => {
+		const player = document.querySelector(playerSelector);
+		if (!player) {
+			return null;
+		}
+
+		const artistCaptions = player.querySelectorAll<HTMLElement>(
+			'[class*="Meta_artists__"] [class*="Meta_artistCaption__"]',
+		);
+		const artists = Array.from(artistCaptions)
+			.map((artist) => artist.textContent?.trim())
+			.filter(Boolean);
+
+		if (artists.length > 0) {
+			return artists.join(', ');
+		}
+
+		const artistContainer = player.querySelector<HTMLElement>(
+			'[class*="Meta_artists__"]',
+		);
+
+		return artistContainer?.textContent?.trim() || null;
+	};
 
 	Connector.getTrackArt = (): string | null => {
-		const url = Util.extractImageUrlFromSelectors('img[class*="_cover__"]');
+		const img = document.querySelector<HTMLImageElement>(
+			`${playerSelector} img[class*="_cover__"]`,
+		);
+		const url = img?.currentSrc || img?.src;
 
 		return url?.replace(/\d+x\d+$/g, '800x800') ?? null;
 	};
 
 	Connector.getCurrentTime = (): number | null => {
 		const timeStr = Util.getAttrFromSelectors(
-			`${currentCollapsedPlayerSelector} input[class*="_slider__"]`,
+			`${playerSelector} input[class*="_slider__"]`,
 			'value',
 		);
 		return timeStr ? parseFloat(timeStr) : null;
@@ -98,7 +188,7 @@ function setupCurrentCollapsedConnector(): void {
 
 	Connector.getDuration = (): number | null => {
 		const durStr = Util.getAttrFromSelectors(
-			`${currentCollapsedPlayerSelector} input[class*="_slider__"]`,
+			`${playerSelector} input[class*="_slider__"]`,
 			'max',
 		);
 		return durStr ? parseFloat(durStr) : null;
@@ -106,57 +196,78 @@ function setupCurrentCollapsedConnector(): void {
 
 	Connector.isPlaying = (): boolean => {
 		const playPauseButtonSelectors = [
-			`${currentCollapsedPlayerSelector} button[class*="BaseSonataControlsDesktop_sonataButton__"] svg[class*="BaseSonataControlsDesktop_playButtonIcon__"] use`,
-			`${currentCollapsedPlayerSelector} [class*="PlayerBarMobile_infoButtons__"] button:last-child svg use`,
+			`${playerSelector} button[aria-label="Пауза"]`,
+			`${playerSelector} button[class*="BaseSonataControlsDesktop_sonataButton__"] svg[class*="BaseSonataControlsDesktop_playButtonIcon__"] use`,
+			`${playerSelector} [class*="PlayerBarMobile_infoButtons__"] button:last-child svg use`,
 		];
 
 		// xlink:href is deprecated. Read both attributes while Yandex
 		// transitions icons between the old and modern SVG APIs.
+		if (document.querySelector(playPauseButtonSelectors[0])) {
+			return true;
+		}
+
 		const useHrefAttr =
-			Util.getAttrFromSelectors(playPauseButtonSelectors, 'xlink:href') ??
-			Util.getAttrFromSelectors(playPauseButtonSelectors, 'href');
+			Util.getAttrFromSelectors(
+				playPauseButtonSelectors.slice(1),
+				'xlink:href',
+			) ??
+			Util.getAttrFromSelectors(playPauseButtonSelectors.slice(1), 'href');
 
 		return useHrefAttr?.includes('pause') ?? false;
 	};
 
 	Connector.isLoved = (): boolean => {
-		const loveButtonSelectors = [
-			`${currentCollapsedPlayerSelector} [class*="PlayerBarDesktopWithBackgroundProgressBar_sonata__"] button:first-child svg use`,
-			`${currentCollapsedPlayerSelector} [class*="PlayerBarMobile_infoButtons__"] button:first-child svg use`,
-		];
+		const likeButton = document.querySelector(
+			`${playerSelector} button[aria-label="Нравится"]`,
+		);
+		if (likeButton?.getAttribute('aria-pressed') === 'true') {
+			return true;
+		}
 
-		const useHrefAttr =
-			Util.getAttrFromSelectors(loveButtonSelectors, 'xlink:href') ??
-			Util.getAttrFromSelectors(loveButtonSelectors, 'href');
+		const useHrefAttr = Util.getAttrFromSelectors(
+			`${playerSelector} button[aria-label="Нравится"] svg use`,
+			'xlink:href',
+		);
 
 		return useHrefAttr?.includes('liked') ?? false;
 	};
 
-	observeConnectorState(currentCollapsedPlayerSelector);
+	observeConnectorState(playerSelector, debugLayout);
 }
 
 function setupVibeConnector(): void {
 	Connector.playerSelector = vibePlayerSelector;
 
 	Connector.getTrack = (): string | null => {
-		const title = document
-			.querySelector(
-				`${vibePlayerSelector} [class*="VibePlayerbarMeta_trackNameText"]`,
-			)
-			?.textContent?.trim();
+		const title = getVibeTrackTitle();
+		const artist = getVibeArtist();
+
+		// Before playback starts, Vibe can show a preview title as
+		// "Artist — Track" and does not render SeparatedArtists yet.
+		// Once the artist node appears, the title becomes track-only.
+		if (!artist && title?.includes(' — ')) {
+			return title.split(' — ').slice(1).join(' — ').trim() || null;
+		}
 
 		return title || null;
 	};
 
 	Connector.getArtist = (): string | null => {
-		const artistElement = document.querySelector<HTMLElement>(
-			'[class*="SeparatedArtists_"]',
-		);
-		const artist =
-			artistElement?.getAttribute('title') ??
-			artistElement?.textContent?.trim();
+		const artist = getVibeArtist();
+		if (artist) {
+			return artist;
+		}
 
-		return artist || null;
+		const title = getVibeTrackTitle();
+		if (!title?.includes(' — ')) {
+			return null;
+		}
+
+		// This fallback only covers the idle Vibe preview state.
+		// It avoids returning "Моя волна" as an artist when the real
+		// SeparatedArtists block has not been rendered yet.
+		return title.split(' — ')[0]?.trim() || null;
 	};
 
 	Connector.getTrackArt = (): string | null => {
@@ -205,23 +316,78 @@ function setupVibeConnector(): void {
 		return likeButton?.getAttribute('aria-pressed') === 'true';
 	};
 
-	observeConnectorState(vibePlayerSelector);
+	// Vibe stores artist metadata outside the player section, so observe
+	// the whole document. Yandex can replace the Vibe page block on
+	// Play/Next/Prev, and an observer attached to the old node would miss
+	// the new track metadata.
+	observeConnectorState(vibePageSelector, 'vibe', document.body);
 }
 
-function observeConnectorState(playerSelector: string): void {
-	Connector.onStateChanged();
+function getVibeTrackTitle(): string | null {
+	const title = document
+		.querySelector(
+			`${vibePlayerSelector} [class*="VibePlayerbarMeta_trackNameText"]`,
+		)
+		?.textContent?.trim();
+
+	return title || null;
+}
+
+function getVibeArtist(): string | null {
+	const artistElement = document.querySelector<HTMLElement>(
+		`${vibePageSelector} [class*="VibePage_entityMeta__"] [class*="SeparatedArtists_"]`,
+	);
+	const artist =
+		artistElement?.getAttribute('title') ??
+		artistElement?.textContent?.trim();
+
+	return artist || null;
+}
+
+function observeConnectorState(
+	playerSelector: string,
+	debugLayout: string,
+	observerTarget?: Node,
+): void {
+	notifyStateChanged(debugLayout);
 
 	const playerNode = document.querySelector(playerSelector);
-	if (playerNode) {
-		const observer = new MutationObserver(() => Connector.onStateChanged());
-		observer.observe(playerNode, {
+	const targetNode = observerTarget ?? playerNode;
+	if (targetNode) {
+		const observerKey = `${debugLayout}:${
+			targetNode === document.body ? 'body' : playerSelector
+		}`;
+		if (stateObserverKeys.has(observerKey)) {
+			return;
+		}
+
+		stateObserverKeys.add(observerKey);
+
+		let animationFrame = 0;
+		const observer = new MutationObserver(() => {
+			if (animationFrame !== 0) {
+				return;
+			}
+
+			animationFrame = window.requestAnimationFrame(() => {
+				animationFrame = 0;
+				notifyStateChanged(debugLayout);
+			});
+		});
+
+		observer.observe(targetNode, {
 			attributes: true,
 			childList: true,
 			subtree: true,
 		});
 	} else {
-		setInterval(() => Connector.onStateChanged(), 1000);
+		setInterval(() => notifyStateChanged(debugLayout), 1000);
 	}
+}
+
+function notifyStateChanged(debugLayout: string): void {
+	ensureConnectorMatchesCurrentLayout();
+	Connector.onStateChanged();
 }
 
 function setupOldConnector(): void {
@@ -300,153 +466,3 @@ function setupOldConnector(): void {
 	};
 }
 
-// BACKGROUND PROGRESS CONNECTOR
-
-function setupBackgroundProgressConnector(): void {
-	Connector.playerSelector = backgroundProgressPlayerSelector;
-
-	Connector.getTrack = (): string | null => {
-		const playerContainer = document.querySelector(
-			backgroundProgressPlayerSelector,
-		);
-		if (!playerContainer) {
-			return null;
-		}
-
-		const titleContainer = playerContainer.querySelector(
-			'div[class*="Meta_titleContainer"]',
-		);
-		if (!titleContainer) {
-			return null;
-		}
-
-		const link = titleContainer.querySelector('a');
-		if (!link) {
-			return null;
-		}
-
-		const titleSpan = link.querySelector('span[class*="Meta_title__"]');
-		if (!titleSpan) {
-			return null;
-		}
-
-		let trackName = titleSpan.textContent?.trim() ?? '';
-
-		const versionSpan = link.nextElementSibling as HTMLElement | null;
-		if (versionSpan && versionSpan.className.includes('Meta_version__')) {
-			const versionText = versionSpan.textContent
-				?.replace(/\u00a0/g, ' ')
-				.trim();
-			if (versionText) {
-				trackName += ` (${versionText})`;
-			}
-		}
-
-		return trackName || null;
-	};
-
-	Connector.getArtist = (): string | null => {
-		const playerContainer = document.querySelector(
-			backgroundProgressPlayerSelector,
-		);
-		if (!playerContainer) {
-			return null;
-		}
-
-		const artistContainer = playerContainer.querySelector(
-			'div[class*="SeparatedArtists_root"]',
-		);
-		if (!artistContainer) {
-			return null;
-		}
-
-		const links = artistContainer.querySelectorAll('a');
-		const artists: string[] = [];
-
-		links.forEach((a) => {
-			const span = a.querySelector('span[class*="Meta_artistCaption"]');
-			if (span?.textContent?.trim()) {
-				artists.push(span.textContent.trim());
-			}
-		});
-
-		return artists.length ? artists.join(', ') : null;
-	};
-
-	Connector.getTrackArt = (): string | null => {
-		const trackArtImage: HTMLImageElement | undefined = [
-			'img[class*="PlayerBarMobile_cover"]',
-			'img[class*="PlayerBarDesktopWithBackgroundProgressBar_cover"]',
-			'img[class*="FullscreenPlayerDesktopPoster_cover"]',
-		]
-			.map((cover) => document.querySelector<HTMLImageElement>(cover))
-			.find((cover) => cover !== null);
-
-		if (trackArtImage === undefined) {
-			return null;
-		}
-
-		const url = new URL(
-			trackArtImage.src,
-			window.location.origin,
-		).toString();
-
-		return url.replace(/\d+x\d+/, '800x800');
-	};
-
-	Connector.getCurrentTime = (): number | null => {
-		const el = document.querySelector('[class*="Timecode_root_start"]');
-		const parts = el?.textContent?.trim().split(':');
-		if (!parts || parts.length !== 2) {
-			return null;
-		}
-
-		const minutes = parseInt(parts[0], 10);
-		const seconds = parseInt(parts[1], 10);
-		if (isNaN(minutes) || isNaN(seconds)) {
-			return null;
-		}
-
-		return minutes * 60 + seconds;
-	};
-
-	Connector.getDuration = (): number | null => {
-		const el = document.querySelector('[class*="Timecode_root_end"]');
-		const parts = el?.textContent?.trim().split(':');
-		if (!parts || parts.length !== 2) {
-			return null;
-		}
-
-		const minutes = parseInt(parts[0], 10);
-		const seconds = parseInt(parts[1], 10);
-		if (isNaN(minutes) || isNaN(seconds)) {
-			return null;
-		}
-
-		return minutes * 60 + seconds;
-	};
-
-	Connector.isPlaying = (): boolean => {
-		const buttons = Array.from(
-			document.querySelectorAll('button'),
-		) as HTMLElement[];
-		for (const btn of buttons) {
-			if (
-				Array.from(btn.classList).some((c) =>
-					c.includes('BaseSonataControlsDesktop_sonataButton'),
-				)
-			) {
-				const label = btn.getAttribute('aria-label');
-				if (label === 'Пауза') {
-					return true;
-				}
-				if (label === 'Воспроизведение') {
-					return false;
-				}
-			}
-		}
-		return false;
-	};
-
-	observeConnectorState(backgroundProgressPlayerSelector);
-}
