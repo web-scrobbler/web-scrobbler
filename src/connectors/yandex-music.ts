@@ -1,18 +1,226 @@
 export {};
 
+const currentCollapsedPlayerSelector =
+	'section[class*="PlayerBar_root__"]:has([class*="Meta_titleContainer__"])';
+const vibePlayerSelector = 'section[class*="VibePlayerBar_root__"]';
+const backgroundProgressPlayerSelector =
+	"section[class*='PlayerBarDesktopWithBackgroundProgressBar_root']";
+const veryOldPlayButtonSelector = '.player-controls__btn_play';
+
 setupConnector();
 
 function setupConnector(): void {
-	const body = document.querySelector('body');
-	const isNewDesign =
-		body?.classList.contains('ym-font-music') &&
-		(body.classList.contains('ym-dark-theme') ||
-			body.classList.contains('ym-light-theme'));
+	const setupKnownConnector = (): boolean => {
+		// The current Yandex.Music DOM can render different player roots
+		// depending on page mode. Check the newest known variants first.
+		if (document.querySelector(currentCollapsedPlayerSelector)) {
+			setupCurrentCollapsedConnector();
+			return true;
+		}
 
-	if (isNewDesign) {
-		setupNewConnector();
+		if (document.querySelector(vibePlayerSelector)) {
+			setupVibeConnector();
+			return true;
+		}
+
+		// This was the "new" design before the latest redesign.
+		// Keep it as a compatibility path for users who may still see it.
+		if (document.querySelector(backgroundProgressPlayerSelector)) {
+			setupBackgroundProgressConnector();
+			return true;
+		}
+
+		// This is the very old Yandex.Music player. It is not expected
+		// anymore, but keeping it costs little and preserves compatibility.
+		if (document.querySelector(veryOldPlayButtonSelector)) {
+			setupOldConnector();
+			return true;
+		}
+
+		return false;
+	};
+
+	if (setupKnownConnector()) {
+		return;
+	}
+
+	const observer = new MutationObserver(() => {
+		if (setupKnownConnector()) {
+			observer.disconnect();
+			Connector.onStateChanged();
+		}
+	});
+
+	observer.observe(document.body, { childList: true, subtree: true });
+}
+
+function setupCurrentCollapsedConnector(): void {
+	// This compact player is the newest stable source for normal scrobbling.
+	// It can be hidden by some screens, so every getter still returns null
+	// when the node is temporarily missing.
+	Connector.playerSelector = currentCollapsedPlayerSelector;
+
+	Connector.getTrack = (): string | null => {
+		const titleContainer = `${currentCollapsedPlayerSelector} [class*="Meta_titleContainer__"]`;
+		let title = Util.getTextFromSelectors(
+			`${titleContainer} [class*="Meta_title__"]`,
+		)?.trim();
+		const version = Util.getTextFromSelectors(
+			`${titleContainer} [class*="Meta_version__"]`,
+		)?.trim();
+
+		if (!title) {
+			return null;
+		}
+
+		if (version) {
+			title += ` (${version})`;
+		}
+
+		return title;
+	};
+
+	Connector.artistSelector = `${currentCollapsedPlayerSelector} [class*="Meta_artists__"]`;
+
+	Connector.getTrackArt = (): string | null => {
+		const url = Util.extractImageUrlFromSelectors('img[class*="_cover__"]');
+
+		return url?.replace(/\d+x\d+$/g, '800x800') ?? null;
+	};
+
+	Connector.getCurrentTime = (): number | null => {
+		const timeStr = Util.getAttrFromSelectors(
+			`${currentCollapsedPlayerSelector} input[class*="_slider__"]`,
+			'value',
+		);
+		return timeStr ? parseFloat(timeStr) : null;
+	};
+
+	Connector.getDuration = (): number | null => {
+		const durStr = Util.getAttrFromSelectors(
+			`${currentCollapsedPlayerSelector} input[class*="_slider__"]`,
+			'max',
+		);
+		return durStr ? parseFloat(durStr) : null;
+	};
+
+	Connector.isPlaying = (): boolean => {
+		const playPauseButtonSelectors = [
+			`${currentCollapsedPlayerSelector} button[class*="BaseSonataControlsDesktop_sonataButton__"] svg[class*="BaseSonataControlsDesktop_playButtonIcon__"] use`,
+			`${currentCollapsedPlayerSelector} [class*="PlayerBarMobile_infoButtons__"] button:last-child svg use`,
+		];
+
+		// xlink:href is deprecated. Read both attributes while Yandex
+		// transitions icons between the old and modern SVG APIs.
+		const useHrefAttr =
+			Util.getAttrFromSelectors(playPauseButtonSelectors, 'xlink:href') ??
+			Util.getAttrFromSelectors(playPauseButtonSelectors, 'href');
+
+		return useHrefAttr?.includes('pause') ?? false;
+	};
+
+	Connector.isLoved = (): boolean => {
+		const loveButtonSelectors = [
+			`${currentCollapsedPlayerSelector} [class*="PlayerBarDesktopWithBackgroundProgressBar_sonata__"] button:first-child svg use`,
+			`${currentCollapsedPlayerSelector} [class*="PlayerBarMobile_infoButtons__"] button:first-child svg use`,
+		];
+
+		const useHrefAttr =
+			Util.getAttrFromSelectors(loveButtonSelectors, 'xlink:href') ??
+			Util.getAttrFromSelectors(loveButtonSelectors, 'href');
+
+		return useHrefAttr?.includes('liked') ?? false;
+	};
+
+	observeConnectorState(currentCollapsedPlayerSelector);
+}
+
+function setupVibeConnector(): void {
+	Connector.playerSelector = vibePlayerSelector;
+
+	Connector.getTrack = (): string | null => {
+		const title = document
+			.querySelector(
+				`${vibePlayerSelector} [class*="VibePlayerbarMeta_trackNameText"]`,
+			)
+			?.textContent?.trim();
+
+		return title || null;
+	};
+
+	Connector.getArtist = (): string | null => {
+		const artistElement = document.querySelector<HTMLElement>(
+			'[class*="SeparatedArtists_"]',
+		);
+		const artist =
+			artistElement?.getAttribute('title') ??
+			artistElement?.textContent?.trim();
+
+		return artist || null;
+	};
+
+	Connector.getTrackArt = (): string | null => {
+		const img = document.querySelector<HTMLImageElement>(
+			`${vibePlayerSelector} img[class*="AlbumCover_cover__"]`,
+		);
+		const src = img?.currentSrc || img?.src;
+		if (!src) {
+			return null;
+		}
+
+		return new URL(src, window.location.origin)
+			.toString()
+			.replace(/\d+x\d+$/, '800x800');
+	};
+
+	Connector.getCurrentTime = (): number | null => {
+		const timeStr = Util.getAttrFromSelectors(
+			`${vibePlayerSelector} input[class*="VibePlayerbarMeta_slider__"]`,
+			'value',
+		);
+		return timeStr ? parseFloat(timeStr) : null;
+	};
+
+	Connector.getDuration = (): number | null => {
+		const durStr = Util.getAttrFromSelectors(
+			`${vibePlayerSelector} input[class*="VibePlayerbarMeta_slider__"]`,
+			'max',
+		);
+		return durStr ? parseFloat(durStr) : null;
+	};
+
+	Connector.isPlaying = (): boolean => {
+		const pauseButton = document.querySelector(
+			`${vibePlayerSelector} button[aria-label="Пауза"]`,
+		);
+
+		return pauseButton !== null;
+	};
+
+	Connector.isLoved = (): boolean => {
+		const likeButton = document.querySelector(
+			`${vibePlayerSelector} button[aria-label="Нравится"], ${vibePlayerSelector} button[aria-label="Не нравится"]`,
+		);
+
+		return likeButton?.getAttribute('aria-pressed') === 'true';
+	};
+
+	observeConnectorState(vibePlayerSelector);
+}
+
+function observeConnectorState(playerSelector: string): void {
+	Connector.onStateChanged();
+
+	const playerNode = document.querySelector(playerSelector);
+	if (playerNode) {
+		const observer = new MutationObserver(() => Connector.onStateChanged());
+		observer.observe(playerNode, {
+			attributes: true,
+			childList: true,
+			subtree: true,
+		});
 	} else {
-		setupOldConnector();
+		setInterval(() => Connector.onStateChanged(), 1000);
 	}
 }
 
@@ -92,15 +300,14 @@ function setupOldConnector(): void {
 	};
 }
 
-// NEW CONNECTOR
+// BACKGROUND PROGRESS CONNECTOR
 
-function setupNewConnector(): void {
-	Connector.playerSelector =
-		"section[class*='PlayerBarDesktopWithBackgroundProgressBar_root']";
+function setupBackgroundProgressConnector(): void {
+	Connector.playerSelector = backgroundProgressPlayerSelector;
 
 	Connector.getTrack = (): string | null => {
 		const playerContainer = document.querySelector(
-			'section[class*="PlayerBarDesktopWithBackgroundProgressBar_root"]',
+			backgroundProgressPlayerSelector,
 		);
 		if (!playerContainer) {
 			return null;
@@ -140,7 +347,7 @@ function setupNewConnector(): void {
 
 	Connector.getArtist = (): string | null => {
 		const playerContainer = document.querySelector(
-			'section[class*="PlayerBarDesktopWithBackgroundProgressBar_root"]',
+			backgroundProgressPlayerSelector,
 		);
 		if (!playerContainer) {
 			return null;
@@ -241,16 +448,5 @@ function setupNewConnector(): void {
 		return false;
 	};
 
-	Connector.onStateChanged();
-
-	const playerNode = document.querySelector(Connector.playerSelector);
-	if (playerNode) {
-		const observer = new MutationObserver(() => Connector.onStateChanged());
-		observer.observe(playerNode, { childList: true, subtree: true });
-	} else {
-		console.warn(
-			'[Yandex Connector] Плеер не найден — используем fallback через setInterval',
-		);
-		setInterval(() => Connector.onStateChanged(), 1000);
-	}
+	observeConnectorState(backgroundProgressPlayerSelector);
 }
