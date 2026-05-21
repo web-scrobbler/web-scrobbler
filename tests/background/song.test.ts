@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { expect, it, describe } from 'vitest';
+import { expect, it, describe } from '@jest/globals';
 import type { ParsedSongData, ProcessedSongData } from '@/core/object/song';
 import Song from '@/core/object/song';
 import type { State } from '@/core/types';
@@ -106,7 +106,7 @@ function testParsedFields() {
 		const actualValue = valuesMap[typedKey];
 
 		it(`should return parsed ${key} value`, () => {
-			expect(expectedValue).to.be.equal(actualValue);
+			expect(expectedValue).toBe(actualValue);
 		});
 	}
 }
@@ -129,7 +129,7 @@ function testProcessedFields() {
 		const actualValue = valuesMap[typedKey];
 
 		it(`should return processed ${key} value`, () => {
-			expect(expectedValue).to.be.equal(actualValue);
+			expect(expectedValue).toBe(actualValue);
 		});
 	}
 }
@@ -140,7 +140,7 @@ function testGetDuration() {
 
 	it('should return processed duration if no parsed duration', () => {
 		const song = createSong({}, { duration: processedDuration });
-		expect(song.getDuration()).equals(processedDuration);
+		expect(song.getDuration()).toBe(processedDuration);
 	});
 
 	it('should return parsed duration if no processed duration', () => {
@@ -148,12 +148,12 @@ function testGetDuration() {
 			{ duration: parsedDuration },
 			{ duration: processedDuration },
 		);
-		expect(song.getDuration()).equals(parsedDuration);
+		expect(song.getDuration()).toBe(parsedDuration);
 	});
 
 	it('should return parsed duration if processed duration available', () => {
 		const song = createSong({ duration: parsedDuration }, {});
-		expect(song.getDuration()).equals(parsedDuration);
+		expect(song.getDuration()).toBe(parsedDuration);
 	});
 }
 
@@ -165,59 +165,59 @@ function testGetTrackArt() {
 	const song2 = createSong({});
 
 	it('should return parsed track art', () => {
-		expect(song1.getTrackArt()).equals(parsedTrackArt);
+		expect(song1.getTrackArt()).toBe(parsedTrackArt);
 	});
 
 	it('should return null if track art is missing', () => {
-		expect(song2.getTrackArt()).to.be.null;
+		expect(song2.getTrackArt()).toBeNull();
 	});
 
 	it('should return parsed track art if processed track art exists', () => {
 		const song = createSong({ trackArt: parsedTrackArt });
 		song.metadata.trackArtUrl = processedTrackArt;
-		expect(song.getTrackArt()).equals(parsedTrackArt);
+		expect(song.getTrackArt()).toBe(parsedTrackArt);
 	});
 
 	it('should return processed track art if parsed track art is missing', () => {
 		const song = createSong({});
 		song.metadata.trackArtUrl = processedTrackArt;
-		expect(song.getTrackArt()).equals(processedTrackArt);
+		expect(song.getTrackArt()).toBe(processedTrackArt);
 	});
 }
 
 function testStaticFields() {
 	it('should be an array', () => {
-		expect(Song.BASE_FIELDS).to.be.an('array').that.is.not.empty;
+		expect(Song.BASE_FIELDS).toBeInstanceOf(Array);
 	});
 
 	it('should be an array', () => {
-		expect(Song.USER_FIELDS).to.be.an('array').that.is.not.empty;
+		expect(Song.USER_FIELDS).toBeInstanceOf(Array);
 	});
 }
 
 function testIsValid() {
 	it('should be not valid by default', () => {
 		const song = createSong({});
-		expect(song.isValid()).to.be.false;
+		expect(song.isValid()).toBe(false);
 	});
 
 	it('should be valid if it is corrected', () => {
 		const song = createSong({});
 		song.flags.isCorrectedByUser = true;
-		expect(song.isValid()).to.be.true;
+		expect(song.isValid()).toBe(true);
 	});
 
 	it('should be valid if it is marked as valid', () => {
 		const song = createSong({});
 		song.flags.isValid = true;
-		expect(song.isValid()).to.be.true;
+		expect(song.isValid()).toBe(true);
 	});
 }
 
 function testToString() {
 	it('should be not valid by default', () => {
 		const song = createSong({});
-		expect(song.toString()).to.be.a('string');
+		expect(typeof song.toString()).toBe('string');
 	});
 }
 
@@ -226,7 +226,7 @@ function testSetLoveStatus() {
 		const song = createSong({});
 		song.setLoveStatus(true);
 
-		expect(song.metadata.userloved).to.be.true;
+		expect(song.metadata.userloved).toBe(true);
 	});
 
 	it('should return false if one of services set it to false', () => {
@@ -234,7 +234,7 @@ function testSetLoveStatus() {
 		song.setLoveStatus(true);
 		song.setLoveStatus(false);
 
-		expect(song.metadata.userloved).to.be.false;
+		expect(song.metadata.userloved).toBe(false);
 	});
 
 	it('should return false if one of services set it to false', () => {
@@ -242,7 +242,7 @@ function testSetLoveStatus() {
 		song.setLoveStatus(false);
 		song.setLoveStatus(true);
 
-		expect(song.metadata.userloved).to.be.false;
+		expect(song.metadata.userloved).toBe(false);
 	});
 
 	it('should return proper value if `force` param is used', () => {
@@ -250,7 +250,7 @@ function testSetLoveStatus() {
 		song.setLoveStatus(false);
 		song.setLoveStatus(true, true);
 
-		expect(song.metadata.userloved).to.be.true;
+		expect(song.metadata.userloved).toBe(true);
 	});
 }
 
@@ -261,13 +261,13 @@ function testResetData() {
 		song.flags.isCorrectedByUser = true;
 		song.metadata.notificationId = '123';
 
-		expect(song.flags.isCorrectedByUser).to.be.true;
-		expect(song.metadata.notificationId).equals('123');
+		expect(song.flags.isCorrectedByUser).toBe(true);
+		expect(song.metadata.notificationId).toBe('123');
 
 		song.resetData();
 
-		expect(song.flags.isCorrectedByUser).to.be.false;
-		expect(song.metadata.notificationId).to.be.undefined;
+		expect(song.flags.isCorrectedByUser).toBe(false);
+		expect(song.metadata.notificationId).toBeUndefined();
 	});
 }
 
@@ -288,7 +288,7 @@ function testResetInfo() {
 		const actualValue = valuesMap[typedKey];
 
 		it(`should return processed ${key} value`, () => {
-			expect(expectedValue).to.be.equal(actualValue);
+			expect(expectedValue).toBe(actualValue);
 		});
 	}
 }
@@ -307,7 +307,7 @@ function testGetCloneableData() {
 				| 'processed'
 				| 'flags'
 				| 'metadata';
-			expect(copy[typedField]).to.be.deep.equal(song[typedField]);
+			expect(copy[typedField]).toEqual(song[typedField]);
 		}
 	});
 }
@@ -326,11 +326,11 @@ function testEquals() {
 	});
 
 	it('should equal itself if unique ID is available', () => {
-		expect(songWithUniqueId.equals(songWithUniqueId)).to.be.true;
+		expect(songWithUniqueId.equals(songWithUniqueId)).toBe(true);
 	});
 
 	it('should equal itself if unique ID is not available', () => {
-		expect(songWithNoUniqueId.equals(songWithNoUniqueId)).to.be.true;
+		expect(songWithNoUniqueId.equals(songWithNoUniqueId)).toBe(true);
 	});
 
 	it('should equal another song with the same uniqueId', () => {
@@ -340,7 +340,7 @@ function testEquals() {
 			album: 'Album',
 			uniqueID: 'uniqueId1',
 		});
-		expect(songWithUniqueId.equals(sameSong)).to.be.true;
+		expect(songWithUniqueId.equals(sameSong)).toBe(true);
 	});
 
 	it('should equal another song with the same info', () => {
@@ -349,7 +349,7 @@ function testEquals() {
 			track: 'Title',
 			album: 'Album',
 		});
-		expect(songWithNoUniqueId.equals(sameSong)).to.be.true;
+		expect(songWithNoUniqueId.equals(sameSong)).toBe(true);
 	});
 
 	it('should not equal song with no unique ID', () => {
@@ -358,7 +358,7 @@ function testEquals() {
 			track: 'Title',
 			album: 'Album',
 		});
-		expect(songWithUniqueId.equals(differentSong)).to.be.false;
+		expect(songWithUniqueId.equals(differentSong)).toBe(false);
 	});
 
 	it('should not equal song with the different uniqueId', () => {
@@ -368,7 +368,7 @@ function testEquals() {
 			album: 'Album',
 			uniqueID: 'uniqueId2',
 		});
-		expect(songWithUniqueId.equals(differentSong)).to.be.false;
+		expect(songWithUniqueId.equals(differentSong)).toBe(false);
 	});
 
 	it('should equal another song with the different info', () => {
@@ -377,17 +377,17 @@ function testEquals() {
 			track: 'Title 2',
 			album: 'Album 2',
 		});
-		expect(songWithNoUniqueId.equals(differentSong)).to.be.false;
+		expect(songWithNoUniqueId.equals(differentSong)).toBe(false);
 	});
 
 	it('should not equal null value', () => {
 		// @ts-expect-error we are explicitly testing bad format here
-		expect(songWithUniqueId.equals(null)).to.be.false;
+		expect(songWithUniqueId.equals(null)).toBe(false);
 	});
 
 	it('should not equal non-song object', () => {
 		// @ts-expect-error we are explicitly testing bad format here
-		expect(songWithUniqueId.equals(23)).to.be.false;
+		expect(songWithUniqueId.equals(23)).toBe(false);
 	});
 }
 
@@ -403,13 +403,13 @@ function testIsEmpty() {
 		];
 
 		for (const song of songs) {
-			expect(song.isEmpty()).to.be.true;
+			expect(song.isEmpty()).toBe(true);
 		}
 	});
 
 	it('should return false if song has metadata', () => {
 		const song = createSong(PARSED_DATA);
-		expect(song.isEmpty()).to.be.false;
+		expect(song.isEmpty()).toBe(false);
 	});
 }
 
@@ -422,7 +422,7 @@ function testGetUniqueId() {
 			album: 'Album',
 			uniqueID: uniqueId,
 		});
-		expect(song.getUniqueId()).to.be.equal(uniqueId);
+		expect(song.getUniqueId()).toBe(uniqueId);
 	});
 
 	it('should not return unique ID if song has no parsed unique ID', () => {
@@ -431,23 +431,23 @@ function testGetUniqueId() {
 			track: 'Title',
 			album: 'Album',
 		});
-		expect(song.getUniqueId()).to.be.null;
+		expect(song.getUniqueId()).toBeNull();
 	});
 
 	it('should not return unique ID if song is empty', () => {
 		const song = createSong({});
-		expect(song.getUniqueId()).to.be.null;
+		expect(song.getUniqueId()).toBeNull();
 	});
 }
 
 function testGetArtistTrackString() {
 	it('should return `Artist - Track` string if song has metadata', () => {
 		const song = createSong({ artist: 'Artist', track: 'Track' });
-		expect(song.getArtistTrackString()).to.be.equal('Artist — Track');
+		expect(song.getArtistTrackString()).toBe('Artist — Track');
 	});
 	it('should return null value if song is empty', () => {
 		const song = createSong({ artist: null, track: null });
-		expect(song.getArtistTrackString()).to.be.null;
+		expect(song.getArtistTrackString()).toBeNull();
 	});
 }
 

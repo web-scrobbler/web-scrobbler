@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { expect, describe, it, beforeAll, afterAll } from 'vitest';
+import { expect, describe, it, beforeAll, afterAll } from '@jest/globals';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
 import * as CustomPatterns from '@/core/storage/custom-patterns';
@@ -20,7 +20,7 @@ function runTests() {
 
 		it('should return null before patterns have been configured', async () => {
 			const data = await CustomPatterns.getAllPatterns();
-			expect(data).to.be.null;
+			expect(data).toBeNull();
 		});
 
 		it('should set patterns for connector', async () => {
@@ -30,13 +30,13 @@ function runTests() {
 			};
 			await CustomPatterns.setPatterns('connector', patterns);
 			const data = await CustomPatterns.getAllPatterns();
-			expect(expectedData).to.deep.equal(data);
+			expect(expectedData).toEqual(data);
 		});
 
 		it('should clear custom patterns', async () => {
 			await CustomPatterns.resetPatterns('connector');
 			const data = await CustomPatterns.getAllPatterns();
-			expect(data).to.deep.equal({});
+			expect(data).toEqual({});
 		});
 	});
 }

@@ -7,7 +7,8 @@
 import '#/mocks/webextension-polyfill';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import type StorageWrapper from '@/core/storage/wrapper';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from '@jest/globals';
+import { getType } from '@jest/get-type';
 
 /**
  * Test storage object.
@@ -21,7 +22,7 @@ function testStorage<K extends BrowserStorage.StorageNamespace>(
 	describe(`${type} storage`, () => {
 		it('should return empty object', async () => {
 			const data = await storage.get();
-			expect(data).to.be.null;
+			expect(data).toBeNull();
 		});
 
 		it('should set key value', async () => {
@@ -30,7 +31,7 @@ function testStorage<K extends BrowserStorage.StorageNamespace>(
 			await storage.set(newData);
 
 			const data = await storage.get();
-			expect(newData).to.be.deep.equal(data);
+			expect(newData).toEqual(data);
 		});
 
 		it('should update storage', async () => {
@@ -39,13 +40,13 @@ function testStorage<K extends BrowserStorage.StorageNamespace>(
 			// @ts-expect-error lazy about constructing a valid data model
 			await storage.update(dataToAdd);
 			const data = await storage.get();
-			expect(newData).to.deep.equal(data);
+			expect(newData).toEqual(data);
 		});
 
 		it('should clear storage', async () => {
 			await storage.clear();
 			const data = await storage.get();
-			expect(data).to.be.null;
+			expect(data).toBeNull();
 		});
 	});
 }
@@ -76,24 +77,24 @@ function runTests() {
 function testBrowserStorage() {
 	it('should return local storage', () => {
 		const storage = BrowserStorage.getScrobblerStorage('LastFM');
-		expect(storage).to.be.an('object');
+		expect(getType(storage)).toBe('object');
 	});
 
 	it('should return local storage', () => {
 		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
-		expect(storage).to.be.an('object');
+		expect(getType(storage)).toBe('object');
 	});
 
 	it('should return sync storage', () => {
 		const storage = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
-		expect(storage).to.be.an('object');
+		expect(getType(storage)).toBe('object');
 	});
 
 	it('should throw error for unknown storage', () => {
 		expect(() => {
 			// @ts-expect-error actually fails typechecking on top of it
 			return BrowserStorage.getStorage('unknown-storage123');
-		}).to.throw();
+		}).toThrow();
 	});
 }
 

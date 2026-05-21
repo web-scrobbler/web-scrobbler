@@ -2,7 +2,7 @@
  * Tests for 'util' (background) module.
  */
 
-import { expect, describe, it } from 'vitest';
+import { expect, describe, it } from '@jest/globals';
 import * as Util from '@/util/util';
 import type { TestData } from '#/types/types';
 
@@ -232,7 +232,7 @@ function testDebugLog() {
 			Util.debugLog('Test', 'invalid_type123');
 		}
 
-		expect(callInvalidDebugLog).to.throw();
+		expect(callInvalidDebugLog).toThrow();
 	});
 }
 
@@ -288,7 +288,7 @@ function testFunction(
 
 		const actual = boundFunc(...args);
 		it(description, () => {
-			expect(actual).to.be.equal(expected);
+			expect(actual).toBe(expected);
 		});
 	}
 }
