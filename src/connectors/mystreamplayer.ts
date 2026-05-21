@@ -2,6 +2,7 @@ export {};
 
 const filter = MetadataFilter.createFilter({
 	track: [
+		MetadataFilter.removeCleanExplicit,
 		MetadataFilter.removeRemastered,
 		MetadataFilter.removeVersion,
 		MetadataFilter.removeLive,
@@ -22,6 +23,10 @@ Connector.getArtist = () => {
 	return null;
 };
 
-Connector.isPlaying = () => Util.hasElementClass('#playbtn', 'jp-stopx');
+Connector.isPlaying = () =>
+	Boolean(
+		Util.getTextFromSelectors('#current-time')?.match(/\d+:\d+/) &&
+			Util.hasElementClass('#playbtn', 'jp-stopx'),
+	);
 
 Connector.applyFilter(filter);
