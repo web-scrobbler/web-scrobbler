@@ -2180,12 +2180,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.mystreamplayer.com/*'],
 		js: 'mystreamplayer.js',
 		id: 'mystreamplayer',
-	},
-	{
-		label: 'BagelRadio',
-		matches: ['*://*.bagelradio.com/*'],
-		js: 'mystreamplayer.js',
-		id: 'bagelradio',
 		allFrames: true,
 	},
 	{
