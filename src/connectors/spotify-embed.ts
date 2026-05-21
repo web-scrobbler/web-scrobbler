@@ -14,7 +14,7 @@ Connector.getArtist = () => {
 	);
 
 	if (tracklistArtistElement) {
-		return tracklistArtistElement?.lastChild?.textContent;
+		return tracklistArtistElement.lastChild?.textContent;
 	}
 
 	if (trackArtistElements) {
