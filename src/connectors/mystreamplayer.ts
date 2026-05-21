@@ -29,4 +29,15 @@ Connector.isPlaying = () =>
 			Util.hasElementClass('#playbtn', 'jp-stopx'),
 	);
 
+Connector.scrobblingDisallowedReason = () => {
+	if (
+		(!Connector.getArtist() && !Connector.getTrack()) ||
+		Connector.getTrack() === 'THIS STATION WILL CONTINUE AFTER THIS BREAK'
+	) {
+		return 'IsAd';
+	}
+
+	return null;
+};
+
 Connector.applyFilter(filter);
