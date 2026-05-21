@@ -1,5 +1,5 @@
 import type { TestData } from '#/types/types';
-import { expect, it, describe } from 'vitest';
+import { expect, it, describe } from '@jest/globals';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
 webextensionPolyfill.reset();
@@ -1113,7 +1113,7 @@ function testFunction(
 
 		const actual = boundFunc(...args);
 		it(description, () => {
-			expect(actual).to.be.deep.equal(expected);
+			expect(actual).toEqual(expected);
 		});
 	}
 }

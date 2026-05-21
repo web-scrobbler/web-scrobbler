@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { expect, describe, it, beforeAll } from 'vitest';
+import { expect, describe, it, beforeAll } from '@jest/globals';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
 
@@ -55,7 +55,7 @@ function testSaveEmptySong() {
 	const emptySong = makeNonProcessedSong();
 
 	it('should throw an error while loading info of an empty song', async () => {
-		await expect(savedEdits.loadSongInfo(emptySong)).rejects.to.deep.equal(
+		await expect(savedEdits.loadSongInfo(emptySong)).rejects.toEqual(
 			new Error('Empty song'),
 		);
 	});
@@ -63,7 +63,7 @@ function testSaveEmptySong() {
 	it('should throw an error while saving an empty song', async () => {
 		await expect(
 			savedEdits.saveSongInfo(emptySong, editedInfo),
-		).rejects.to.deep.equal(new Error('Empty song'));
+		).rejects.toEqual(new Error('Empty song'));
 	});
 }
 
@@ -90,7 +90,7 @@ function testLoadNoSavedSong() {
 
 	it('should not load not saved song', async () => {
 		const songInfo = await savedEdits.loadSongInfo(song);
-		expect(songInfo).to.be.false;
+		expect(songInfo).toBe(false);
 	});
 }
 
@@ -217,13 +217,13 @@ async function expectSongInfoLoaded(
 	const { artist, album, track, albumArtist } = song.processed;
 	const loadedInfo = { artist, album, track, albumArtist };
 
-	expect(isLoaded).to.be.true;
-	expect(loadedInfo).to.be.deep.equal(editedInfo);
+	expect(isLoaded).toBe(true);
+	expect(loadedInfo).toEqual(editedInfo);
 }
 
 async function expectSongInfoNotLoaded(model: SavedEditsModel, song: Song) {
 	const songInfo = await model.loadSongInfo(song);
-	expect(songInfo).be.false;
+	expect(songInfo).toBe(false);
 }
 
 function makeSavedEdits(

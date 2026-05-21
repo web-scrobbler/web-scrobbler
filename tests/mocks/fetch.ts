@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { jest } from '@jest/globals';
 
 const createFetchResponse = (data: unknown) => ({
 	json: () => Promise.resolve(data),
@@ -35,7 +35,7 @@ const responses = {
 
 class FetchMocker {
 	constructor() {
-		(global.fetch as unknown) = vi.fn((input: string) => {
+		(global.fetch as unknown) = jest.fn((input: string) => {
 			if (!(input in responses)) {
 				throw new Error(`${input} not mocked`);
 			}

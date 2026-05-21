@@ -2,7 +2,7 @@
  * Tests for 'url-match' module.
  */
 
-import { expect, describe, it } from 'vitest';
+import { expect, describe, it } from '@jest/globals';
 import * as UrlMatch from '@/util/url-match';
 
 const URL_MATCH_DATA = [
@@ -106,7 +106,7 @@ function runTests() {
 			for (const url of urls) {
 				it(`${description}: ${url}`, () => {
 					const actual = UrlMatch.test(url, pattern as string);
-					expect(expected).to.be.equal(actual);
+					expect(expected).toBe(actual);
 				});
 			}
 		});

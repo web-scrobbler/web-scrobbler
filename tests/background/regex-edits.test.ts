@@ -12,7 +12,7 @@ import type { RegexEdit } from '@/util/regex';
 import { getProcessedFields, getProcessedFieldsNoRegex } from '@/util/regex';
 import { getConnectorById } from '@/util/util-connector';
 import { randomBytes } from 'crypto';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 
 // ensure polyfill is loaded;
 fetchPolyfill;
@@ -34,10 +34,7 @@ describe('Should edit Regex', () => {
 			search: singleRemover.search,
 			replace: singleRemover.replace,
 		});
-		expect(await regexEdits.getData()).to.deep.equal([
-			epRemover,
-			singleRemover,
-		]);
+		expect(await regexEdits.getData()).toEqual([epRemover, singleRemover]);
 	});
 
 	it('Should delete edits from storage', async () => {
@@ -54,7 +51,7 @@ describe('Should edit Regex', () => {
 			replace: fuminnikkiFixer.replace,
 		});
 		await regexEdits.deleteRegexEdit(1);
-		expect(await regexEdits.getData()).to.deep.equal([
+		expect(await regexEdits.getData()).toEqual([
 			epRemover,
 			fuminnikkiFixer,
 		]);
@@ -67,9 +64,7 @@ describe('Should edit Regex', () => {
 		});
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			processedFuminnikkiSongWithEP,
-		);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSongWithEP);
 	});
 
 	it("Should apply edit to song's album", async () => {
@@ -79,7 +74,7 @@ describe('Should edit Regex', () => {
 		});
 		const song = new Song(correctFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSong);
 	});
 
 	it("Should apply edit to song's artist and album", async () => {
@@ -93,7 +88,7 @@ describe('Should edit Regex', () => {
 		});
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSong);
 	});
 
 	it("Should apply only the most recent edit to song's artist only once", async () => {
@@ -108,10 +103,10 @@ describe('Should edit Regex', () => {
 
 		const song = new Song(correctFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(song.getTrack()).to.equal('Re:start');
-		expect(song.getArtist()).to.equal('フミンニッキ2');
-		expect(song.getAlbum()).to.equal(null);
-		expect(song.getAlbumArtist()).to.equal(null);
+		expect(song.getTrack()).toBe('Re:start');
+		expect(song.getArtist()).toBe('フミンニッキ2');
+		expect(song.getAlbum()).toBe(null);
+		expect(song.getAlbumArtist()).toBe(null);
 	});
 
 	it('Should apply edit to track that does not exist', async () => {
@@ -124,10 +119,10 @@ describe('Should edit Regex', () => {
 		const track = randomBytes(32).toString('hex');
 		const song = new Song({ artist, track }, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(song.getTrack()).to.equal(track);
-		expect(song.getArtist()).to.equal(`${artist}1`);
-		expect(song.getAlbum()).to.equal(null);
-		expect(song.getAlbumArtist()).to.equal(null);
+		expect(song.getTrack()).toBe(track);
+		expect(song.getArtist()).toBe(`${artist}1`);
+		expect(song.getAlbum()).toBe(null);
+		expect(song.getAlbumArtist()).toBe(null);
 	});
 
 	it('Should have non-regex edits saved for preview', async () => {
@@ -142,8 +137,8 @@ describe('Should edit Regex', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
-		expect(getProcessedFieldsNoRegex(song)).to.deep.equal({
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSong);
+		expect(getProcessedFieldsNoRegex(song)).toEqual({
 			track: 'Re:start',
 			artist: 'Fuminnikki',
 			album: 'Re:start - EP',
@@ -161,7 +156,7 @@ describe('Should edit Regex', () => {
 		savedEdits.saveSongInfo(song, processedFuminnikkiSong as SavedEdit);
 		await pipeline.process(song, youtubeConnector);
 
-		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSong);
 	});
 });
 
@@ -180,9 +175,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			wrongProcessedFuminnikkiSong,
-		);
+		expect(getProcessedFields(song)).toEqual(wrongProcessedFuminnikkiSong);
 	});
 
 	it('Should apply regex edit with wrong casing if edit is case insensitive', async () => {
@@ -194,9 +187,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			processedFuminnikkiSongWithEP,
-		);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSongWithEP);
 	});
 
 	it('Should not apply non-regex edit with wrong casing if edit is not case insensitive', async () => {
@@ -208,9 +199,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			wrongProcessedFuminnikkiSong,
-		);
+		expect(getProcessedFields(song)).toEqual(wrongProcessedFuminnikkiSong);
 	});
 
 	it('Should apply non-regex edit with wrong casing if edit is case insensitive', async () => {
@@ -223,9 +212,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			processedFuminnikkiSongWithEP,
-		);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSongWithEP);
 	});
 
 	it('Should apply global regex edit when it covers entire string', async () => {
@@ -237,9 +224,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			processedFuminnikkiSongWithEP,
-		);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSongWithEP);
 	});
 
 	it('Should apply global non-regex edit when it covers entire string', async () => {
@@ -252,9 +237,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			processedFuminnikkiSongWithEP,
-		);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSongWithEP);
 	});
 
 	it('Should not apply global-reliant regex edit when global is not enabled', async () => {
@@ -265,9 +248,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			wrongProcessedFuminnikkiSong,
-		);
+		expect(getProcessedFields(song)).toEqual(wrongProcessedFuminnikkiSong);
 	});
 
 	it('Should not apply global-reliant non-regex edit when global is not enabled', async () => {
@@ -279,9 +260,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			wrongProcessedFuminnikkiSong,
-		);
+		expect(getProcessedFields(song)).toEqual(wrongProcessedFuminnikkiSong);
 	});
 
 	it('Should apply global-reliant regex edit when global is enabled', async () => {
@@ -293,7 +272,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
+		expect(getProcessedFields(song)).toEqual(
 			processedPartialFuminnikkiSong,
 		);
 	});
@@ -308,7 +287,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
+		expect(getProcessedFields(song)).toEqual(
 			processedPartialFuminnikkiSong,
 		);
 	});
@@ -322,9 +301,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			wrongProcessedFuminnikkiSong,
-		);
+		expect(getProcessedFields(song)).toEqual(wrongProcessedFuminnikkiSong);
 	});
 
 	it('Should not apply global non-regex edit with wrong casing if case insensitive is off', async () => {
@@ -337,9 +314,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			wrongProcessedFuminnikkiSong,
-		);
+		expect(getProcessedFields(song)).toEqual(wrongProcessedFuminnikkiSong);
 	});
 
 	it('Should apply global regex edit with wrong casing if case insensitive is on', async () => {
@@ -352,7 +327,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
+		expect(getProcessedFields(song)).toEqual(
 			processedPartialFuminnikkiSong,
 		);
 	});
@@ -368,7 +343,7 @@ describe('Should handle bulk edit flags', () => {
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
+		expect(getProcessedFields(song)).toEqual(
 			processedPartialFuminnikkiSong,
 		);
 	});
@@ -381,9 +356,7 @@ describe('Should handle bulk edit flags', () => {
 		});
 		const song = new Song(correctFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(getProcessedFields(song)).to.deep.equal(
-			processedFuminnikkiSongWithEP,
-		);
+		expect(getProcessedFields(song)).toEqual(processedFuminnikkiSongWithEP);
 	});
 });
 

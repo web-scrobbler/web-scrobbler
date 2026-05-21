@@ -1,21 +1,14 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
-import { expect, assert, describe, it } from 'vitest';
+import { expect, describe, it } from '@jest/globals';
+import { getType } from '@jest/get-type';
 
 import type { ConnectorMeta } from '@/core/connectors';
 import connectors from '@/core/connectors';
 import * as UrlMatch from '@/util/url-match';
 
-const PROP_TYPES: {
-	usesBlocklist: 'boolean';
-	hasNativeScrobbler: 'boolean';
-	allFrames: 'boolean';
-	matches: 'array';
-	label: 'string';
-	js: 'string';
-	id: 'string';
-} = {
+const PROP_TYPES = {
 	usesBlocklist: 'boolean',
 	hasNativeScrobbler: 'boolean',
 	allFrames: 'boolean',
@@ -23,20 +16,20 @@ const PROP_TYPES: {
 	label: 'string',
 	js: 'string',
 	id: 'string',
-};
-const REQUIRED_PROPS: ['label', 'js', 'id'] = ['label', 'js', 'id'];
+} as const;
+const REQUIRED_PROPS = ['label', 'js', 'id'] as const;
 
 function testProps(entry: ConnectorMeta) {
 	for (const prop of REQUIRED_PROPS) {
-		assert(entry[prop], `Missing property: ${prop}`);
+		expect(entry[prop]).toBeTruthy();
 	}
 
 	for (const _prop in entry) {
 		const prop = _prop as keyof ConnectorMeta;
 		const type = PROP_TYPES[prop];
 
-		assert(type, `Missing property: ${prop}`);
-		expect(entry[prop]).to.be.a(type);
+		expect(type).toBeTruthy();
+		expect(getType(entry[prop])).toEqual(type);
 	}
 }
 
@@ -45,10 +38,10 @@ function testMatches(entry: ConnectorMeta) {
 		return;
 	}
 
-	assert(entry.matches.length !== 0, 'Property is empty: matches');
+	expect(entry.matches.length !== 0).toBeTruthy();
 
 	for (const m of entry.matches) {
-		assert(UrlMatch.createPattern(m), `URL pattern is invalid: ${m}`);
+		expect(UrlMatch.createPattern(m)).toBeTruthy();
 	}
 }
 
@@ -70,13 +63,10 @@ function testPaths(entry: ConnectorMeta) {
 }
 
 function testUniqueness(entry: ConnectorMeta) {
-	for (const connector of connectors) {
-		if (connector.label === entry.label) {
-			continue;
-		}
-
-		assert(entry.id !== connector.id, `Id is not unique: ${entry.label}`);
-	}
+	const firstConnectorWithId = connectors.find(
+		(connector) => connector.id === entry.id,
+	);
+	expect(firstConnectorWithId).toEqual(entry);
 }
 
 function runTests() {

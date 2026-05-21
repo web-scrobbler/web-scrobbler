@@ -1,5 +1,5 @@
 import type { CloneableSong } from '@/core/object/song';
-import { vi } from 'vitest';
+import { jest } from '@jest/globals';
 
 /**
  * StorageArea object stub.
@@ -62,7 +62,7 @@ const browser = {
 
 class WebextensionPolyfillMocker {
 	constructor() {
-		vi.mock('webextension-polyfill', () => ({
+		jest.mock('webextension-polyfill', () => ({
 			default: browser,
 		}));
 	}

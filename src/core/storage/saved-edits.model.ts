@@ -1,13 +1,15 @@
 /**
  * A model to load/save song info to a storage.
  */
-import MD5 from 'blueimp-md5';
 import type { BaseSong } from '@/core/object/song';
 import Song from '@/core/object/song';
 import { CustomStorage } from '@/core/storage/custom-storage';
 import type { DataModels } from '@/core/storage/wrapper';
 import type { LOCAL_CACHE } from '@/core/storage/browser-storage';
 import type { SavedEdit } from '@/core/storage/options';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const MD5 = require('blueimp-md5');
 
 type K = typeof LOCAL_CACHE;
 type V = DataModels[K];
