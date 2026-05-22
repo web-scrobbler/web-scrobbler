@@ -21,6 +21,16 @@ export {};
  */
 
 const adSelector = '.ytmusic-player-bar.advertisement';
+let scrobbleAllArtists = false;
+
+// read option to enable / disable scrobbling by first artist
+async function readConnectorOptions() {
+	if (await Util.getOption('youtube-music', 'scrobbleAllArtists')) {
+		scrobbleAllArtists = true;
+	}
+}
+
+void readConnectorOptions();
 
 const mediaInfo = {
 	playbackState: 'none',
@@ -62,12 +72,22 @@ function getCleanArtist(rawArtist: string | undefined): string {
 
 	// trim leading / trailing spaces of an artist name, and replace misc whitespace
 	// 	   (e.g. double spaces) with a single space
-	let artist = rawArtist.trim()
+	const artist = rawArtist
+		.trim()
 		.replace(/\s+/g, ' ')
 		.replace(/&nbsp;/g, ' ');
 
+	// return early if scrobbling only first artist
+	if (scrobbleAllArtists) {
+		return artist;
+	}
+
+	// continue with splitting artist string at common splitters
 	const splitters = /[,/&]|feat\.?|ft\.?|featuring| x | vs | with | x /i;
-	const parts = artist.split(splitters).map(p => p.trim()).filter(Boolean);
+	const parts = artist
+		.split(splitters)
+		.map((p) => p.trim())
+		.filter(Boolean);
 
 	// only return the first artist
 	return parts[0] || artist;
