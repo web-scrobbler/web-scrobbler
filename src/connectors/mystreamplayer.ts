@@ -30,9 +30,7 @@ Connector.isPlaying = () =>
 	);
 
 Connector.scrobblingDisallowedReason = () => {
-	if (
-		Connector.getTrack() === 'THIS STATION WILL CONTINUE AFTER THIS BREAK'
-	) {
+	if (Connector.getTrack()?.match(/After This (Break|Message)/i)) {
 		return 'IsAd';
 	}
 
