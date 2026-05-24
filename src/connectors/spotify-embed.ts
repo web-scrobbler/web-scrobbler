@@ -39,7 +39,7 @@ Connector.isTrackArtDefault = () =>
 		Util.getAttrFromSelectors(
 			'[class*=_spotifyLogoContainer__] a',
 			'href',
-		)?.includes('/playlist/'),
+		)?.match(/\/artist|playlist\//),
 	);
 
 Connector.isPodcast = () =>
