@@ -11,7 +11,7 @@ function trimTrailingSeparator(text: string) {
 const playerDisplay = '#NowPlaying button > span';
 const timeDiv = `${playerDisplay} > div:last-child`;
 
-Connector.playerSelector = '#NowPlaying';
+Connector.playerSelector = 'div:has(> #NowPlaying)';
 
 Connector.pauseButtonSelector = '#NowPlaying button';
 
