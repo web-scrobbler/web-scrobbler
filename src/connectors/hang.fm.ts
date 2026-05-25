@@ -1,7 +1,7 @@
 export {};
 
 const playerDisplay = '#NowPlaying button > span';
-const timeDiv = '${playerDisplay} > div:last-child';
+const timeDiv = `${playerDisplay} > div:last-child`;
 
 Connector.playerSelector = '#NowPlaying';
 
