@@ -2856,4 +2856,10 @@ export default <ConnectorMeta[]>[
 		js: 'zxart.js',
 		id: 'zxart',
 	},
+	{
+		label: 'Hangout FM',
+		matches: ['*://hang.fm/*'],
+		js: 'hang.fm.js',
+		id: 'hangfm',
+	},
 ];
