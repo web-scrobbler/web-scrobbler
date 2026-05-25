@@ -16,7 +16,9 @@ Connector.playerSelector = 'div:has(> #NowPlaying)';
 Connector.pauseButtonSelector = '#NowPlaying button';
 
 Connector.getArtistTrack = () => {
-	const elems = Util.queryElements(`${playerDisplay} > div:first-child > span:first-child`);
+	const elems = Util.queryElements(
+		`${playerDisplay} > div:first-child > span:first-child`,
+	);
 
 	if (!elems) {
 		return null;
