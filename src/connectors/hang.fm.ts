@@ -11,3 +11,6 @@ Connector.artistTrackSelector = `${playerDisplay} > div:first-child > span:first
 
 Connector.currentTimeSelector = `${timeDiv} > div:first-child`;
 Connector.durationTimeSelector = `${timeDiv} > div:last-child`;
+
+Connector.loveButtonSelector = 'button img[alt="Approve"]:not([src*="pressed"])'
+Connector.unloveButtonSelector = 'button img[alt="Approve"][src*="pressed"]'
