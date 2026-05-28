@@ -21,12 +21,17 @@ export {};
  */
 
 const adSelector = '.ytmusic-player-bar.advertisement';
+
 let scrobbleAllArtists = false;
+let ignoreDeviceTransferMetadata = true;
 
 // read option to enable / disable scrobbling by first artist
 async function readConnectorOptions() {
 	if (await Util.getOption('youtube-music', 'scrobbleAllArtists')) {
 		scrobbleAllArtists = true;
+	}
+	if (await Util.getOption('youtube-music', 'ignoreDeviceTransferMetadata')) {
+		ignoreDeviceTransferMetadata = true;
 	}
 }
 
@@ -77,6 +82,21 @@ function getCleanArtist(rawArtist: string | undefined): string {
 		.replace(/\s+/g, ' ')
 		.replace(/&nbsp;/g, ' ');
 
+	if (ignoreDeviceTransferMetadata) {
+		// reject invalid YTM device transfer metadata
+		const invalidArtistPatterns = [
+			/^from your .* device$/i,
+			/^casting$/i,
+			/^connecting$/i,
+			/^youtube music$/i,
+		];
+		for (const pattern of invalidArtistPatterns) {
+			if (pattern.test(artist)) {
+				return '';
+			}
+		}
+	}
+
 	// return early if scrobbling only first artist
 	if (scrobbleAllArtists) {
 		return artist;
@@ -110,6 +130,14 @@ Connector.getArtistTrack = () => {
 			artist = getCleanArtist(artist);
 		}
 	}
+
+	if (ignoreDeviceTransferMetadata) {
+		// prevent temporary invalid metadata states
+		if (!artist || !track) {
+			return null;
+		}
+	}
+
 	return { artist, track };
 };
 

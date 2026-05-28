@@ -141,6 +141,7 @@ export interface ConnectorOptions {
 	};
 	'youtube-music': {
 		scrobbleAllArtists: boolean;
+		ignoreDeviceTransferMetadata: boolean;
 	};
 }
 
@@ -156,6 +157,7 @@ const DEFAULT_CONNECTOR_OPTIONS: ConnectorOptions = {
 	},
 	'youtube-music': {
 		scrobbleAllArtists: true,
+		ignoreDeviceTransferMetadata: true,
 	},
 };
 

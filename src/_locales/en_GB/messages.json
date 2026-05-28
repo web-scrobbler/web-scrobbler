@@ -176,7 +176,19 @@
         "description": "Option title"
     },
     "optionYtMusicAllArtistsDesc": {
-        "message": "When enabled, the connector will scrobble the complete artist metadata instead of only the first artist.",
+        "message": "When enabled, scrobbles the complete artist metadata instead of only the first artist.",
+        "description": "Option description"
+    },
+    "optionYtMusicIgnoreDeviceTransfer": {
+        "message": "Ignore the YouTube Music device Transfer Metadata",
+        "description": "Option label"
+    },
+    "optionYtMusicIgnoreDeviceTransferTitle": {
+        "message": "Ignore YouTube Music transfer metadata",
+        "description": "Option title"
+    },
+    "optionYtMusicIgnoreDeviceTransferDesc": {
+        "message": "Will ignore device transfer metadata such as \"Scrobbling from your _ device\".",
         "description": "Option description"
     },
     "optionYtMusicRecognisedOnly": {
