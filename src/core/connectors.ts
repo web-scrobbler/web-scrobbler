@@ -2864,6 +2864,12 @@ export default <ConnectorMeta[]>[
 		id: 'zxart',
 	},
 	{
+		label: 'The Lot Radio',
+		matches: ['*://www.thelotradio.com/shows/*'],
+		js: 'thelotradio.js',
+		id: 'thelotradio',
+	},
+	{
 		label: 'pixabay',
 		matches: [
 			'*://pixabay.com/music/*',
