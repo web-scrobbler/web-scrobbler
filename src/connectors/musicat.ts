@@ -1,6 +1,6 @@
 export {};
 
-// MUSICat platform used by several local libraries: https://musicat.co/libraries
+// MUSICat platform used by several regional libraries: https://musicat.co/libraries
 
 Connector.playerSelector = '#player-wrapper';
 
@@ -26,8 +26,19 @@ Connector.getTrackArt = () => {
 	);
 
 	if (trackArtUrl) {
-		return trackArtUrl.replace(/(?<=scale_width=)\d+/g, '540'); // larger image filename
+		return trackArtUrl.replace(/(?<=scale_width=)\d+/, '540'); // larger image
 	}
 
 	return null;
+};
+
+Connector.isStateChangeAllowed = () => {
+	// get unique site name from logo at top of every page
+	const siteName = Util.getAttrFromSelectors('#logo img', 'alt');
+
+	if (siteName) {
+		Connector.meta.label = siteName;
+	}
+
+	return true;
 };
