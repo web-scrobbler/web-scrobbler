@@ -132,6 +132,13 @@ export default <ConnectorMeta[]>[
 		id: 'tubafm',
 	},
 	{
+		label: 'Spotify Embed',
+		matches: ['*://open.spotify.com/embed/*'],
+		js: 'spotify-embed.js',
+		id: 'spotify-embed',
+		allFrames: true,
+	},
+	{
 		label: 'Spotify',
 		matches: ['*://open.spotify.com/*'],
 		js: 'spotify.js',
@@ -2768,8 +2775,8 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
-		label: 'Subvert.fm',
-		matches: ['*://subvert.fm/*', '*://*.subvert.fm/*'],
+		label: 'Subvert',
+		matches: ['*://*.subvert.fm/*'],
 		js: 'subvert.js',
 		id: 'subvert',
 	},
@@ -2861,5 +2868,22 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.dnalounge.com/webcast/video.html'],
 		js: 'dnalounge.js',
 		id: 'dnalounge',
+	},
+	{
+		label: 'The Lot Radio',
+		matches: ['*://www.thelotradio.com/shows/*'],
+		js: 'thelotradio.js',
+		id: 'thelotradio',
+	},
+	{
+		label: 'pixabay',
+		matches: [
+			'*://pixabay.com/music/*',
+			'*://pixabay.com/users/*',
+			'*://pixabay.com/playlists/*',
+			'*://pixabay.com/accounts/playlists/*',
+		],
+		js: 'pixabay.js',
+		id: 'pixabay',
 	},
 ];
