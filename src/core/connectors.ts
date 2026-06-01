@@ -2768,8 +2768,8 @@ export default <ConnectorMeta[]>[
 		id: 'teleplay',
 	},
 	{
-		label: 'Subvert.fm',
-		matches: ['*://subvert.fm/*', '*://*.subvert.fm/*'],
+		label: 'Subvert',
+		matches: ['*://*.subvert.fm/*'],
 		js: 'subvert.js',
 		id: 'subvert',
 	},
