@@ -2856,4 +2856,15 @@ export default <ConnectorMeta[]>[
 		js: 'zxart.js',
 		id: 'zxart',
 	},
+	{
+		label: 'pixabay',
+		matches: [
+			'*://pixabay.com/music/*',
+			'*://pixabay.com/users/*',
+			'*://pixabay.com/playlists/*',
+			'*://pixabay.com/accounts/playlists/*',
+		],
+		js: 'pixabay.js',
+		id: 'pixabay',
+	},
 ];
