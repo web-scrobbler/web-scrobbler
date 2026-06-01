@@ -42,7 +42,7 @@ export default class BaseConnector {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getAlbumArtist` is used.
 	 */
-	public albumArtistSelector: string | null = null;
+	public albumArtistSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing track current time in h:m:s format.
