@@ -2864,6 +2864,12 @@ export default <ConnectorMeta[]>[
 		id: 'zxart',
 	},
 	{
+		label: 'DNA Lounge',
+		matches: ['*://www.dnalounge.com/webcast/video.html'],
+		js: 'dnalounge.js',
+		id: 'dnalounge',
+	},
+	{
 		label: 'The Lot Radio',
 		matches: ['*://www.thelotradio.com/shows/*'],
 		js: 'thelotradio.js',
