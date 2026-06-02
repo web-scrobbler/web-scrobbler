@@ -1,24 +1,31 @@
 export {};
 
-/**
- * This connector supports Bandcamp embedded player.
- * Currently used for Bandcamp Daily.
- */
+const nowPlaying = '#p-now-playing';
 
 Connector.playerSelector = '#p-daily-article';
 
-Connector.artistSelector = '.player.playing .mpartist';
+Connector.artistSelector = `${nowPlaying} .albumtitle > span`;
 
-Connector.trackSelector = '.player.playing .mptracktitle';
+Connector.trackSelector = `${nowPlaying} .trackname > span:last-of-type`;
 
-Connector.albumSelector = '.player.playing .mptralbum';
+Connector.albumSelector = `${nowPlaying} .albumtitle > b`;
 
-Connector.currentTimeSelector = '.player.playing .mptime > span:first-child';
+Connector.getTrackArt = () => {
+	const trackArtUrl = Util.extractImageUrlFromSelectors(
+		`${nowPlaying} .art-text > img`,
+	);
 
-Connector.durationSelector = '.player.playing .mptime > span:last-child';
+	if (trackArtUrl) {
+		return trackArtUrl.replace(/(?<=_)\d{1,2}(?=\.jpg)/, '16'); // larger image
+	}
 
-Connector.trackArtSelector = '.player.playing .mpaa img';
+	return null;
+};
 
-Connector.isPlaying = () => Boolean(document.querySelector('.player.playing'));
+Connector.currentTimeSelector =
+	'.mplayer.playing .mptime [data-bind$=positionStr]';
 
-Connector.getOriginUrl = () => Util.getOriginUrl('.player.playing a.buy-now');
+Connector.durationSelector =
+	'.mplayer.playing .mptime [data-bind$=durationStr]';
+
+Connector.isPlaying = () => Util.hasElementClass('.mplayer', 'playing');
