@@ -1,6 +1,11 @@
 export {};
 
 const nowPlaying = '#p-now-playing';
+const filter = MetadataFilter.createFilter({
+	artist: MetadataFilter.replaceSmartQuotes,
+	track: MetadataFilter.replaceSmartQuotes,
+	album: MetadataFilter.replaceSmartQuotes,
+});
 
 Connector.playerSelector = '#p-daily-article';
 
@@ -29,3 +34,5 @@ Connector.durationSelector =
 	'.mplayer.playing .mptime [data-bind$=durationStr]';
 
 Connector.isPlaying = () => Util.hasElementClass('.mplayer', 'playing');
+
+Connector.applyFilter(filter);
