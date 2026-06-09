@@ -1,5 +1,14 @@
 export {};
 
+const playAriaLabels = new Set([
+	'Воспроизведение',
+	'Playback',
+	'Ijro',
+	'Ойнату',
+]);
+
+const pauseAriaLabels = new Set(['Пауза', 'Pause', 'Pauza', 'Үзіліс']);
+
 setupConnector();
 
 function setupConnector(): void {
@@ -230,10 +239,14 @@ function setupNewConnector(): void {
 				)
 			) {
 				const label = btn.getAttribute('aria-label');
-				if (label === 'Пауза') {
+
+				if (!label) {
+					return false;
+				}
+				if (pauseAriaLabels.has(label)) {
 					return true;
 				}
-				if (label === 'Воспроизведение') {
+				if (playAriaLabels.has(label)) {
 					return false;
 				}
 			}
