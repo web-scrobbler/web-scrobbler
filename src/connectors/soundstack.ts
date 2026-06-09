@@ -6,6 +6,7 @@ const filter = MetadataFilter.createFilter({
 		MetadataFilter.removeRemastered,
 		MetadataFilter.removeVersion,
 		MetadataFilter.removeLive,
+		removeHotNewPrefix,
 	],
 });
 
@@ -38,3 +39,7 @@ Connector.scrobblingDisallowedReason = () => {
 };
 
 Connector.applyFilter(filter);
+
+function removeHotNewPrefix(track: string) {
+	return track.replace(/^(Hot|new)-/, '');
+}
