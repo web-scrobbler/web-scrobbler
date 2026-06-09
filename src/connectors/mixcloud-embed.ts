@@ -7,11 +7,8 @@ const artistSelector = `${trackSelector} + span > span:last-of-type`;
 
 Connector.playerSelector = playerSelector;
 
-Connector.isPodcast = () => {
-	const playerWrapper = document.querySelector(playerSelector);
-
-	return Boolean(playerWrapper && playerWrapper?.childElementCount < 2);
-};
+Connector.isPodcast = () =>
+	Boolean(!Util.isElementVisible([artistSelector, trackSelector]));
 
 Connector.getTrackInfo = () => {
 	const showSelector = `${playButtonSelector} + div > a`;
@@ -48,11 +45,3 @@ Connector.isPlaying = () =>
 			'backgroundPosition: -18.75rem', // pause icon sprite position
 		),
 	);
-
-Connector.isStateChangeAllowed = () => {
-	if (!Connector.isPodcast()) {
-		return Boolean(Util.isElementVisible([artistSelector, trackSelector]));
-	}
-
-	return true;
-};
