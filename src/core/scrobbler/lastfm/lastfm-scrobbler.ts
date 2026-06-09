@@ -128,9 +128,11 @@ export default class LastFmScrobbler extends AudioScrobbler {
 
 		songInfo.artist = artistInfo.name;
 		songInfo.artistUrl = artistInfo.url;
+		songInfo.artistMbId = artistInfo.mbid;
 
 		songInfo.track = trackInfo.name;
 		songInfo.trackUrl = trackInfo.url;
+		songInfo.trackMbId = trackInfo.mbid;
 
 		songInfo.duration = parseInt(trackInfo.duration) / 1000 || null;
 
