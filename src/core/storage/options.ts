@@ -139,6 +139,10 @@ export interface ConnectorOptions {
 		scrobbleMusicRecognisedOnly: boolean;
 		enableGetTrackInfoFromYtMusic: boolean;
 	};
+	'youtube-music': {
+		scrobbleAllArtists: boolean;
+		ignoreDeviceTransferMetadata: boolean;
+	};
 }
 
 /**
@@ -150,6 +154,10 @@ const DEFAULT_CONNECTOR_OPTIONS: ConnectorOptions = {
 		scrobbleEntertainmentOnly: false,
 		scrobbleMusicRecognisedOnly: false,
 		enableGetTrackInfoFromYtMusic: false,
+	},
+	'youtube-music': {
+		scrobbleAllArtists: true,
+		ignoreDeviceTransferMetadata: true,
 	},
 };
 

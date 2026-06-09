@@ -58,6 +58,28 @@ export default function ConnectorOptionsList() {
 				/>
 				<li class={styles.muted}>{t('optionYtDesc')}</li>
 			</ul>
+			<h2>YouTube Music</h2>
+			<ul class={styles.optionList}>
+				<ConnectorOptionEntry
+					options={options}
+					setOptions={setOptions}
+					connectorOptions={connectorOptions}
+					i18ntitle="optionYtMusicAllArtistsTitle"
+					i18nlabel="optionYtMusicAllArtists"
+					connector="youtube-music"
+					key="scrobbleAllArtists"
+				/>
+				<ConnectorOptionEntry
+					options={options}
+					setOptions={setOptions}
+					connectorOptions={connectorOptions}
+					i18ntitle="optionYtMusicIgnoreDeviceTransferTitle"
+					i18nlabel="optionYtMusicIgnoreDeviceTransfer"
+					connector="youtube-music"
+					key="ignoreDeviceTransferMetadata"
+				/>
+				<li class={styles.muted}>{t('optionYtMusicAllArtistsDesc')}</li>
+			</ul>
 		</>
 	);
 }
