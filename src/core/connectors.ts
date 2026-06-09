@@ -1641,6 +1641,12 @@ export default <ConnectorMeta[]>[
 		id: 'radio7lv',
 	},
 	{
+		label: 'Radio NABA',
+		matches: ['*://latvijasradio.lsm.lv/lv/tiesraide/*'],
+		js: 'naba.js',
+		id: 'naba',
+	},
+	{
 		label: 'Radio Nemiers',
 		matches: ['*://radionemiers.com/*'],
 		js: 'radionemiers.js',
