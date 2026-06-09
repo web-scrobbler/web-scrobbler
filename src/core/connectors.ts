@@ -1007,12 +1007,6 @@ export default <ConnectorMeta[]>[
 		id: 'musicoin',
 	},
 	{
-		label: '181.fm',
-		matches: ['*://player.181fm.com/*'],
-		js: '181.fm.js',
-		id: '181.fm',
-	},
-	{
 		label: 'Phish.in',
 		matches: ['*://phish.in/*'],
 		js: 'phish.in.js',
@@ -1833,6 +1827,18 @@ export default <ConnectorMeta[]>[
 		id: 'queup',
 	},
 	{
+		label: 'SoundStack',
+		matches: [
+			'*://*.mystreamplayer.com/*',
+			'*://player.gotradio.com/*',
+			'*://player.live365.com/*',
+			'*://player.181fm.com/*',
+		],
+		js: 'soundstack.js',
+		id: 'soundstack',
+		allFrames: true,
+	},
+	{
 		label: 'Live 365',
 		matches: ['*://*.live365.com/*'],
 		js: 'live365.js',
@@ -2139,12 +2145,6 @@ export default <ConnectorMeta[]>[
 		id: 'friskyfm',
 	},
 	{
-		label: 'GotRadio',
-		matches: ['*://player.gotradio.com/*'],
-		js: 'gotradio.js',
-		id: 'gotradio',
-	},
-	{
 		label: 'LightningStream',
 		matches: [
 			'*://*.lightningstream.com/Player*',
@@ -2174,13 +2174,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radio.uwu.network/*'],
 		js: 'uwu-radio.js',
 		id: 'uwu-radio',
-	},
-	{
-		label: 'MyStreamPlayer',
-		matches: ['*://*.mystreamplayer.com/*'],
-		js: 'mystreamplayer.js',
-		id: 'mystreamplayer',
-		allFrames: true,
 	},
 	{
 		label: 'Amazing Radio',
