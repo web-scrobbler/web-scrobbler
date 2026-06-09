@@ -1,8 +1,8 @@
 export {};
 
 const playerSelector = '[data-testid=player-container]';
-const artistSelector = '[class*=styles__Artist-]';
-const trackSelector = '[class*=styles__Track-]';
+const artistSelector = `${playerSelector} p + div > div:last-of-type > div:last-of-type`;
+const trackSelector = `${playerSelector} p + div > div:last-of-type > div:first-of-type`;
 const filter = MetadataFilter.createFilter({
 	artist: [removeByPrefix, removeBuySuffix],
 });
