@@ -659,7 +659,7 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [
 	{
 		description: 'should prioritize dashes over 【】',
 		args: ['Artist -Track-【Official Video】'],
-		expected: { artist: 'Artist ', track: 'Track【Official Video】' },
+		expected: { artist: 'Artist', track: 'Track【Official Video】' },
 	},
 	{
 		description: 'should prioritize other brackets over 【】',
