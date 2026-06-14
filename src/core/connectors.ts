@@ -1783,6 +1783,11 @@ export default <ConnectorMeta[]>[
 		id: 'zvuk',
 	},
 	{
+		label: 'Lyda',
+		js: 'lyda.js',
+		id: 'lyda',
+	},
+	{
 		label: 'Navidrome',
 		js: 'navidrome.js',
 		id: 'navidrome',
