@@ -1784,6 +1784,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Lyda',
+		matches: ['*://lyda.app/*'],
 		js: 'lyda.js',
 		id: 'lyda',
 	},
