@@ -27,7 +27,7 @@ jobs:
           git config user.email "${{ secrets.BOT_EMAIL }}"
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
