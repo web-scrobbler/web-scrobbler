@@ -117,7 +117,7 @@ function titleCase(text: string): string {
 	return text
 		.toLowerCase()
 		.replace(/(^|[\s([/–-])(\p{L})/gu, (_, boundary, letter) => {
-			return `${boundary as string}${(letter as string).toUpperCase()}`;
+			return `${String(boundary)}${String(letter).toUpperCase()}`;
 		});
 }
 
