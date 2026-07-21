@@ -22,6 +22,24 @@ interface TrackEntry {
 }
 
 /**
+ * Separators the tracklist actually uses, in priority order: spaced en-dash
+ * (the site's default), then spaced em-dash and spaced hyphen as fallbacks.
+ *
+ * We deliberately restrict `splitArtistTrack` to these instead of its default
+ * separator set: the defaults include `:`, `|`, `/` and `~`, which would both
+ * mis-split real titles (e.g. an artist containing a colon) and turn incidental
+ * annotation lines like "Recorded at: dublab" into bogus artist/track entries.
+ */
+const TRACKLIST_SEPARATORS = [' \u2013 ', ' \u2014 ', ' - '];
+
+/**
+ * Parsed entries are cached per `.tracklist` element: the tracklist never
+ * changes for a given page, so we only re-parse when the element itself is
+ * swapped (SPA navigation), instead of on every getter call every poll.
+ */
+let entriesCache: { list: HTMLElement; entries: TrackEntry[] } | null = null;
+
+/**
  * Parse the static tracklist embedded in the page body.
  *
  * The site renders each `ARTIST – TRACK` line as a separate text node with the
@@ -34,7 +52,11 @@ interface TrackEntry {
 function getTrackEntries(): TrackEntry[] {
 	const list = document.querySelector<HTMLElement>('.tracklist');
 	if (!list) {
+		entriesCache = null;
 		return [];
+	}
+	if (entriesCache?.list === list) {
+		return entriesCache.entries;
 	}
 
 	const entries: TrackEntry[] = [];
@@ -44,12 +66,16 @@ function getTrackEntries(): TrackEntry[] {
 			continue;
 		}
 
-		const { artist, track } = Util.splitArtistTrack(text);
+		const { artist, track } = Util.splitArtistTrack(
+			text,
+			TRACKLIST_SEPARATORS,
+		);
 		if (artist && track) {
 			entries.push({ artist, track });
 		}
 	}
 
+	entriesCache = { list, entries };
 	return entries;
 }
 
@@ -58,6 +84,17 @@ interface PlaybackState {
 	index: number;
 	currentTime: number;
 	sliceDuration: number;
+}
+
+/**
+ * Normalise a title for tolerant comparison: lower-case and collapse runs of
+ * whitespace to single spaces.
+ *
+ * @param text - Raw title text (may be null/undefined)
+ * @returns Normalised title, or an empty string when there is nothing to compare
+ */
+function normalizeTitle(text: string | null | undefined): string {
+	return (text ?? '').toLowerCase().replace(/\s+/g, ' ').trim();
 }
 
 /**
@@ -78,11 +115,15 @@ function getPlaybackState(): PlaybackState | null {
 
 	// Navigation-mismatch guard: only scrobble when the audio playing in the bar
 	// belongs to the archive currently displayed. `.BarAudio .title` holds the
-	// playing show's title, which is a prefix of the viewed page's document.title.
-	const barTitle = document
-		.querySelector('.BarAudio .title')
-		?.textContent?.trim();
-	if (!barTitle || !document.title.includes(barTitle)) {
+	// playing show's title, which appears within the viewed page's document.title.
+	// Both are compared case- and whitespace-insensitively so that cosmetic
+	// differences (collapsed whitespace, casing) don't defeat the match. A
+	// heavily truncated bar title (e.g. an ellipsis) can still fail to match, in
+	// which case we err on the side of not scrobbling.
+	const barTitle = normalizeTitle(
+		document.querySelector('.BarAudio .title')?.textContent,
+	);
+	if (!barTitle || !normalizeTitle(document.title).includes(barTitle)) {
 		return null;
 	}
 
@@ -106,19 +147,42 @@ function getPlaybackState(): PlaybackState | null {
 }
 
 /**
- * Capitalise the first letter of each word. The source tracklist is all-caps.
- * Word boundaries include whitespace and common bracketing/separator characters
- * but deliberately not apostrophes (so "that's" stays "That's").
+ * Title-case a single whitespace-delimited word. Within a word, boundaries are
+ * the start and common bracketing/separator characters (but not apostrophes, so
+ * "THAT'S" → "That's"). The first letter after each boundary is upper-cased and
+ * the rest lower-cased.
+ *
+ * @param word - Word to title-case (no internal whitespace)
+ * @returns Title-cased word
+ */
+function titleCaseWord(word: string): string {
+	return word
+		.toLowerCase()
+		.replace(/(^|[([/–-])(\p{L})/gu, (_, boundary, letter) => {
+			return `${String(boundary)}${String(letter).toUpperCase()}`;
+		});
+}
+
+/**
+ * Title-case text whose source is predominantly all-caps.
+ *
+ * Only fully upper-cased words are re-cased; any word that already contains a
+ * lower-case letter is left untouched, so entries that arrive already correctly
+ * cased (e.g. "Aphex Twin") are preserved rather than flattened. All-caps
+ * acronyms ("DJ", "MF DOOM", "V.A.") are indistinguishable from ordinary words
+ * in an all-caps source and are unavoidably title-cased ("Dj", "Mf Doom",
+ * "V.a.") — an accepted limitation of casing all-caps input.
  *
  * @param text - Text to title-case
  * @returns Title-cased text
  */
 function titleCase(text: string): string {
-	return text
-		.toLowerCase()
-		.replace(/(^|[\s([/–-])(\p{L})/gu, (_, boundary, letter) => {
-			return `${String(boundary)}${String(letter).toUpperCase()}`;
-		});
+	return text.replace(/\S+/g, (word) => {
+		if (/\p{Ll}/u.test(word)) {
+			return word;
+		}
+		return titleCaseWord(word);
+	});
 }
 
 const filter = MetadataFilter.createFilter({
