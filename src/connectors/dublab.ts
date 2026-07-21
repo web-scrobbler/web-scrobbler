@@ -10,7 +10,10 @@ export {};
  * of tracks roughly once each.
  *
  * There is no `<audio>` element in the DOM; playback state is surfaced in the
- * persistent bottom bar `.BarAudio`.
+ * persistent bottom bar `.BarAudio`, which survives SPA navigation while the mix
+ * keeps playing. While viewing an archive page we cache its parsed tracklist and
+ * slug keyed by the bar title; after navigating away we resolve from that cache
+ * so scrobbling continues against the playing show.
  *
  * Example link to debug and test the connector:
  * https://www.dublab.com/archive/shuta-hasunuma-guest-session-06-18-26
@@ -38,6 +41,13 @@ const TRACKLIST_SEPARATORS = [' \u2013 ', ' \u2014 ', ' - '];
  * swapped (SPA navigation), instead of on every getter call every poll.
  */
 let entriesCache: { list: HTMLElement; entries: TrackEntry[] } | null = null;
+
+/**
+ * Parsed tracklist + archive slug keyed by the normalised `.BarAudio .title`
+ * string. Populated only while viewing the playing show's archive page; cleared
+ * on full page reload (which also stops playback).
+ */
+const showCache = new Map<string, { entries: TrackEntry[]; slug: string }>();
 
 /**
  * Parse the static tracklist embedded in the page body.
@@ -81,9 +91,15 @@ function getTrackEntries(): TrackEntry[] {
 
 interface PlaybackState {
 	entries: TrackEntry[];
+	slug: string;
 	index: number;
 	currentTime: number;
 	sliceDuration: number;
+}
+
+interface ShowSource {
+	entries: TrackEntry[];
+	slug: string;
 }
 
 /**
@@ -98,34 +114,56 @@ function normalizeTitle(text: string | null | undefined): string {
 }
 
 /**
+ * Resolve the tracklist and archive slug for the show currently playing in
+ * `.BarAudio`.
+ *
+ * Live path: while viewing the playing show's archive page, parse the on-screen
+ * `.tracklist`, confirm the bar title appears in `document.title`, cache the
+ * result, and return it.
+ *
+ * Cache path: after SPA navigation away from that page, return the cached entry
+ * keyed by the bar title. The cache is only ever written on the live path, so a
+ * mismatched page can never poison it with the wrong tracklist.
+ *
+ * @returns Parsed tracklist and slug, or null when nothing should be scrobbled.
+ */
+function resolveSource(): ShowSource | null {
+	const barTitle = normalizeTitle(
+		document.querySelector('.BarAudio .title')?.textContent,
+	);
+	if (!barTitle) {
+		return null;
+	}
+
+	const liveEntries = getTrackEntries();
+	if (
+		liveEntries.length > 0 &&
+		normalizeTitle(document.title).includes(barTitle)
+	) {
+		const slug = location.pathname.split('/').filter(Boolean).pop() ?? '';
+		const source = { entries: liveEntries, slug };
+		showCache.set(barTitle, source);
+		return source;
+	}
+
+	return showCache.get(barTitle) ?? null;
+}
+
+/**
  * Compute the currently playing tracklist entry from the evenly-split mix.
  *
- * Returns null (so nothing is scrobbled) when there is no tracklist, when the
- * duration is unknown, or when the audio playing in `.BarAudio` belongs to a
- * different show than the one currently on screen (the persistent player keeps
- * playing across SPA navigation).
+ * Returns null (so nothing is scrobbled) when no tracklist can be resolved, or
+ * when the mix duration is unknown.
  *
  * @returns Current playback state, or null when nothing should be scrobbled.
  */
 function getPlaybackState(): PlaybackState | null {
-	const entries = getTrackEntries();
-	if (entries.length === 0) {
+	const source = resolveSource();
+	if (!source) {
 		return null;
 	}
 
-	// Navigation-mismatch guard: only scrobble when the audio playing in the bar
-	// belongs to the archive currently displayed. `.BarAudio .title` holds the
-	// playing show's title, which appears within the viewed page's document.title.
-	// Both are compared case- and whitespace-insensitively so that cosmetic
-	// differences (collapsed whitespace, casing) don't defeat the match. A
-	// heavily truncated bar title (e.g. an ellipsis) can still fail to match, in
-	// which case we err on the side of not scrobbling.
-	const barTitle = normalizeTitle(
-		document.querySelector('.BarAudio .title')?.textContent,
-	);
-	if (!barTitle || !normalizeTitle(document.title).includes(barTitle)) {
-		return null;
-	}
+	const { entries, slug } = source;
 
 	const timecode =
 		document.querySelector('.BarAudio .timecode')?.textContent?.trim() ??
@@ -143,7 +181,7 @@ function getPlaybackState(): PlaybackState | null {
 		Math.max(0, Math.floor(currentTime / sliceDuration)),
 	);
 
-	return { entries, index, currentTime, sliceDuration };
+	return { entries, slug, index, currentTime, sliceDuration };
 }
 
 /**
@@ -219,8 +257,7 @@ Connector.getUniqueID = () => {
 	if (!state) {
 		return null;
 	}
-	const slug = location.pathname.split('/').filter(Boolean).pop();
-	return `${slug ?? ''}-${state.index}`;
+	return `${state.slug}-${state.index}`;
 };
 
 Connector.isPlaying = () => {
