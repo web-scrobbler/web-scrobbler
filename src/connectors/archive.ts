@@ -66,34 +66,6 @@ Connector.artistSelector = '.item-details-metadata > dl > dd a';
 
 Connector.albumSelector = '.item-title';
 
-Connector.currentTimeSelector = '.jw-text-elapsed';
-
-Connector.durationSelector = '.jw-text-duration';
-
-Connector.isPlaying = () => {
-	const videoElement = document.querySelector('video');
-
-	if (videoElement === null) {
-		return false;
-	}
-
-	return !videoElement.paused;
-};
-
-Connector.getTrack = () => {
-	const tracksElement = document.querySelector('play-av');
-
-	if (tracksElement === null) {
-		return null;
-	}
-
-	const trackElements = tracksElement.shadowRoot
-		? tracksElement.shadowRoot.querySelector('.track.selected .track-title')
-		: null;
-
-	return trackElements ? trackElements.textContent.trim() : null;
-};
-
 Connector.getTrackArt = () => {
 	const theaterElement = document.querySelector('ia-music-theater');
 
@@ -105,3 +77,13 @@ Connector.getTrackArt = () => {
 };
 
 Connector.playerSelector = '#theatre-ia';
+
+Connector.injectScript('connectors/archive-dom-inject.js');
+var state = null;
+Connector.onScriptEvent = (event) => {
+	state = event.data.state;
+	Connector.onStateChanged();
+};
+Connector.isPlaying = () => state?.isPlaying;
+Connector.getDuration = () => state?.getDuration;
+Connector.getTrack = () => state?.getTrack;
