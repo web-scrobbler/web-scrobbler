@@ -34,4 +34,9 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	};
 	jwplayer().on('play', sendData);
 	jwplayer().on('pause', sendData);
+
+	return () => {
+		jwplayer().off('play', sendData);
+		jwplayer().off('pause', sendData);
+	};
 })();
