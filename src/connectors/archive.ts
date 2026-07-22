@@ -79,7 +79,7 @@ Connector.getTrackArt = () => {
 Connector.playerSelector = '#theatre-ia';
 
 Connector.injectScript('connectors/archive-dom-inject.js');
-var state = null;
+let state = null;
 Connector.onScriptEvent = (event) => {
 	state = event.data.state;
 	Connector.onStateChanged();
