@@ -48,10 +48,14 @@ Connector.playButtonSelector = '.css-1lc7lii button[title="Play"]';
 
 Connector.getDuration = () => {
 	const store = getPlayQueueStore();
-	const current = store.items[store.currentIndex];
-	return current.entry.pvs[0].length;
+	const current = store?.items[store.currentIndex];
+	return current?.entry.pvs[0].length;
 };
 
 function getPlayQueueStore() {
+	if (!localStorage.PlayQueueStore) {
+		return null;
+	}
+
 	return JSON.parse(localStorage.PlayQueueStore);
 }
