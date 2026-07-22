@@ -1,7 +1,7 @@
 export {};
 
 /**
- * This script runs in non-isolated environment(youtube music itself)
+ * This script runs in non-isolated environment(internet archive itself)
  * for accessing navigator variables on Firefox
  *
  * * Script is run as an IIFE to ensure variables are scoped, as in the event
@@ -20,16 +20,16 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	const sendData = () => {
 		window.postMessage(
 			{
-				sender: "web-scrobbler",
+				sender: 'web-scrobbler',
 				state: {
-					isPlaying: jwplayer().getState() === "playing",
+					isPlaying: jwplayer().getState() === 'playing',
 					getDuration: jwplayer().getDuration(),
 					getTrack: navigator.mediaSession.metadata?.title
 				}
 			},
-			"*"
+			'*'
 		);
 	};
-	jwplayer().on("play", sendData);
-	jwplayer().on("pause", sendData);
+	jwplayer().on('play', sendData);
+	jwplayer().on('pause', sendData);
 })();
