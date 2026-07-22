@@ -8,6 +8,9 @@ export {};
  *
  * https://archive.org/details/AH003_corwin_trails_-_corwin_trails
  * Full album with numeric prefixes
+ *
+ * https://archive.org/details/gd77-05-08.sbd.hicks.4982.sbeok.shnf
+ * Etree
  */
 
 const numericTrackRegex = /^\d+\w+/;
@@ -38,9 +41,9 @@ function hasAllTracksNumericPrefix() {
 
 Connector.applyFilter(filter);
 
-Connector.albumArtistSelector = '.item-details-metadata > dl > dd a';
+Connector.albumArtistSelector = '[itemprop="creator"]';
 
-Connector.albumSelector = '.item-title';
+Connector.albumSelector = '[itemprop="name"]';
 
 Connector.getTrackArt = () => {
 	const theaterElement = document.querySelector('ia-music-theater');
