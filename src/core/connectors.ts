@@ -2898,4 +2898,10 @@ export default <ConnectorMeta[]>[
 		js: 'pixabay.js',
 		id: 'pixabay',
 	},
+	{
+		label: 'LYL Radio',
+		matches: ['*://lyl.live/*', '*://*.lyl.live/*'],
+		js: 'lyl.js',
+		id: 'lyl',
+	},
 ];
