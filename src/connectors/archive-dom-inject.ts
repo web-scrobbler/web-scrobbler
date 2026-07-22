@@ -26,7 +26,11 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 					getDuration: jwplayer().getDuration(),
 					getTrack: jwplayer().getPlaylistItem().title,
 					getArtist: jwplayer().getPlaylistItem().artist,
-					getPlaylist: jwplayer().getPlaylist(),
+					// .map() is needed for videos with subtitles
+					// DOMException: VTTCue object could not be cloned.
+					getPlaylist: jwplayer()
+						.getPlaylist()
+						.map((playlistItem) => playlistItem.title),
 				},
 			},
 			'*',

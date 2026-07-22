@@ -27,7 +27,7 @@ function hasAllTracksNumericPrefix() {
 
 	let hasAllTracksNumericPrefix = true;
 	for (const track of playlist) {
-		if (!numericTrackRegex.test(track.title.trim() ?? '')) {
+		if (!numericTrackRegex.test(track.trim() ?? '')) {
 			hasAllTracksNumericPrefix = false;
 			break;
 		}
