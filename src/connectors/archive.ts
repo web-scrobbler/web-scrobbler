@@ -58,12 +58,12 @@ Connector.getTrackArt = () => {
 Connector.injectScript('connectors/archive-dom-inject.js');
 
 type State = {
-	isPlaying: boolean | null,
-	getDuration: number | null,
-	getTrack: string | null,
-	getArtist: string | null,
-	getPlaylist: Array<string>,
-}
+	isPlaying: boolean | null;
+	getDuration: number | null;
+	getTrack: string | null;
+	getArtist: string | null;
+	getPlaylist: Array<string>;
+};
 let state: State = {
 	isPlaying: null,
 	getDuration: null,

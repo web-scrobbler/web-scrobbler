@@ -26,9 +26,9 @@ interface JwplayerApi {
 }
 
 type JwplayerPlaylistItem = {
-	title: string,
-	artist: string,
-}
+	title: string;
+	artist: string;
+};
 
 if ('cleanup' in window && typeof window.cleanup === 'function') {
 	(window as unknown as { cleanup: () => void }).cleanup();
