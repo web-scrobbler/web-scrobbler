@@ -12,23 +12,43 @@ export {};
  * @returns a cleanup function that cleans up event listeners and similar for a future overriding script.
  */
 
+interface Window {
+	jwplayer: () => JwplayerApi;
+}
+
+interface JwplayerApi {
+	getState: () => string;
+	getDuration: () => number;
+	getPlaylistItem: () => JwplayerPlaylistItem;
+	getPlaylist: () => Array<JwplayerPlaylistItem>;
+	on: (_: string, __: Function) => void;
+	off: (_: string, __: Function) => void;
+}
+
+type JwplayerPlaylistItem = {
+	title: string,
+	artist: string,
+}
+
 if ('cleanup' in window && typeof window.cleanup === 'function') {
 	(window as unknown as { cleanup: () => void }).cleanup();
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
+	const player = (window as unknown as Window).jwplayer();
+
 	const sendData = () => {
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
 				state: {
-					isPlaying: jwplayer().getState() === 'playing',
-					getDuration: jwplayer().getDuration(),
-					getTrack: jwplayer().getPlaylistItem().title,
-					getArtist: jwplayer().getPlaylistItem().artist,
+					isPlaying: player.getState() === 'playing',
+					getDuration: player.getDuration(),
+					getTrack: player.getPlaylistItem().title,
+					getArtist: player.getPlaylistItem().artist,
 					// .map() is needed for videos with subtitles
 					// DOMException: VTTCue object could not be cloned.
-					getPlaylist: jwplayer()
+					getPlaylist: player
 						.getPlaylist()
 						.map((playlistItem) => playlistItem.title),
 				},
@@ -36,11 +56,11 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			'*',
 		);
 	};
-	jwplayer().on('play', sendData);
-	jwplayer().on('pause', sendData);
+	player.on('play', sendData);
+	player.on('pause', sendData);
 
 	return () => {
-		jwplayer().off('play', sendData);
-		jwplayer().off('pause', sendData);
+		player.off('play', sendData);
+		player.off('pause', sendData);
 	};
 })();
