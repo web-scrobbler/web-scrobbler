@@ -21,8 +21,8 @@ interface JwplayerApi {
 	getDuration: () => number;
 	getPlaylistItem: () => JwplayerPlaylistItem;
 	getPlaylist: () => Array<JwplayerPlaylistItem>;
-	on: (_: string, __: Function) => void;
-	off: (_: string, __: Function) => void;
+	on: (_: string, __: () => void) => void;
+	off: (_: string, __: () => void) => void;
 }
 
 type JwplayerPlaylistItem = {
@@ -35,7 +35,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
-	const player = (window as unknown as Window).jwplayer();
+	let player: JwplayerApi;
 
 	const sendData = () => {
 		window.postMessage(
@@ -56,8 +56,17 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			'*',
 		);
 	};
-	player.on('play', sendData);
-	player.on('pause', sendData);
+
+	// Wait until the player is loaded
+	const timer = setInterval(() => {
+		player = (window as unknown as Window).jwplayer();
+
+		if (player.on) {
+			player.on('play', sendData);
+			player.on('pause', sendData);
+			clearInterval(timer);
+		}
+	}, 2000);
 
 	return () => {
 		player.off('play', sendData);
