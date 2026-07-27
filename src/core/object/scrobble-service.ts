@@ -238,7 +238,9 @@ class ScrobbleService {
 				// Forward result (including errors) to caller
 				try {
 					return await scrobbler.scrobble(
-						await Promise.all(songs.map((s) => scrobbler.applyFilter(s))),
+						await Promise.all(
+							songs.map((s) => scrobbler.applyFilter(s)),
+						),
 						currentlyPlaying,
 					);
 				} catch (result) {
