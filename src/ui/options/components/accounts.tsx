@@ -22,6 +22,11 @@ import {
 import { debugLog } from '@/util/util';
 import { sendContentMessage } from '@/util/communication';
 import { Dynamic } from 'solid-js/web';
+import { Checkbox } from '@/ui/options/components/inputs';
+import * as Options from '@/core/storage/options';
+import * as BrowserStorage from '@/core/storage/browser-storage';
+
+const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 
 /**
  * Properties associated with each scrobbler, and the input type to use for the user to edit them.
@@ -87,10 +92,31 @@ const scrobblerArrayPropertiesMap = {
  * Component that allows the user to sign in and out of their scrobbler accounts
  */
 export default function Accounts() {
+	const [options, setOptions] = createResource(
+		globalOptions.get.bind(globalOptions),
+	);
 	return (
 		<>
 			<h1>{t('optionsAccounts')}</h1>
 			<ScrobblerDisplay label="Last.fm" />
+			<Checkbox
+				title={t('optionFirstArtistOnlyTitle')}
+				label={t('optionFirstArtistOnly')}
+				isChecked={() => (options()?.[Options.LASTEM_FIRST_ARTIST_ONLY] as boolean) ?? false}
+				onInput={(e) => {
+					setOptions.mutate((o) => {
+						if (!o) {
+							return o;
+						}
+						const newOptions = {
+							...o,
+							[Options.LASTEM_FIRST_ARTIST_ONLY]: e.currentTarget.checked,
+						};
+						globalOptions.set(newOptions);
+						return newOptions;
+					});
+				}}
+			/>
 			<ScrobblerDisplay label="Libre.fm" />
 			<ScrobblerDisplay label="ListenBrainz" />
 			<ScrobblerDisplay label="Maloja" />
