@@ -102,7 +102,11 @@ export default function Accounts() {
 			<Checkbox
 				title={t('optionFirstArtistOnlyTitle')}
 				label={t('optionFirstArtistOnly')}
-				isChecked={() => (options()?.[Options.LASTEM_FIRST_ARTIST_ONLY] as boolean) ?? false}
+				isChecked={() =>
+					(options()?.[
+						Options.LASTEM_FIRST_ARTIST_ONLY
+					] as boolean) ?? false
+				}
 				onInput={(e) => {
 					setOptions.mutate((o) => {
 						if (!o) {
@@ -110,7 +114,8 @@ export default function Accounts() {
 						}
 						const newOptions = {
 							...o,
-							[Options.LASTEM_FIRST_ARTIST_ONLY]: e.currentTarget.checked,
+							[Options.LASTEM_FIRST_ARTIST_ONLY]:
+								e.currentTarget.checked,
 						};
 						globalOptions.set(newOptions);
 						return newOptions;
