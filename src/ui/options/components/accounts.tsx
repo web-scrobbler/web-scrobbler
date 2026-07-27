@@ -104,7 +104,7 @@ export default function Accounts() {
 				label={t('optionFirstArtistOnly')}
 				isChecked={() =>
 					(options()?.[
-						Options.LASTEM_FIRST_ARTIST_ONLY
+						Options.LASTFM_FIRST_ARTIST_ONLY
 					] as boolean) ?? false
 				}
 				onInput={(e) => {
@@ -114,7 +114,7 @@ export default function Accounts() {
 						}
 						const newOptions = {
 							...o,
-							[Options.LASTEM_FIRST_ARTIST_ONLY]:
+							[Options.LASTFM_FIRST_ARTIST_ONLY]:
 								e.currentTarget.checked,
 						};
 						globalOptions.set(newOptions);
