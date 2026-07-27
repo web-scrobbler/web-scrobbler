@@ -1,13 +1,13 @@
-import xxhash from 'xxhash-wasm';
+import { createXXHash3, type IHasher } from 'hash-wasm';
 
-/** @internal Lazy-initialized xxhash64 function. Fire-and-forget to avoid import-time crash. */
-let h64Fn: ((input: string) => bigint) | null = null;
-xxhash()
-	.then(({ h64 }) => {
-		h64Fn = h64;
+/** @internal Lazy-initialized XXH3_64 hasher instance. Fire-and-forget to avoid import-time crash. */
+let hasher: IHasher | null = null;
+createXXHash3()
+	.then((h) => {
+		hasher = h;
 	})
 	.catch(() => {
-		/* xxhash unavailable — extract() will skip allowlist checks */
+		/* xxhash3 wasm unavailable — extract() will skip allowlist checks */
 	});
 
 const SEPARATORS: readonly string[] = [
@@ -28,6 +28,18 @@ const SEPARATORS: readonly string[] = [
 	',',
 ];
 
+/**
+ * Compute XXH3_64 hash of a string, returning the result as a bigint.
+ * Uses the synchronous IHasher API after async wasm initialisation.
+ */
+function hashName(instance: IHasher, name: string): bigint {
+	instance.init();
+	instance.update(name);
+	const digest = instance.digest('binary') as Uint8Array;
+	const view = new DataView(digest.buffer, digest.byteOffset, digest.byteLength);
+	return view.getBigUint64(0, true);
+}
+
 export function extract(
 	artistName: string,
 	allowlist: Set<bigint>,
@@ -36,7 +48,7 @@ export function extract(
 		return '';
 	}
 
-	if (h64Fn && allowlist.has(h64Fn(artistName.toLowerCase()))) {
+	if (hasher && allowlist.has(hashName(hasher, artistName.toLowerCase()))) {
 		return artistName;
 	}
 
@@ -52,10 +64,10 @@ export function extract(
 		return artistName;
 	}
 
-	if (h64Fn) {
+	if (hasher) {
 		for (let i = 1; i <= earliestPos; i++) {
 			const prefix = artistName.substring(0, i);
-			if (allowlist.has(h64Fn(prefix.toLowerCase()))) {
+			if (allowlist.has(hashName(hasher, prefix.toLowerCase()))) {
 				return prefix;
 			}
 		}
