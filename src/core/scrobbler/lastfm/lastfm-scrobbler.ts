@@ -8,7 +8,7 @@ import AudioScrobbler from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
 import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import type { LastFmTrackInfo } from '@/core/scrobbler/lastfm/lastfm.types';
 import { sendBackgroundMessage } from '@/util/communication';
-import { getOption, LASTEM_FIRST_ARTIST_ONLY } from '@/core/storage/options';
+import { getOption, LASTFM_FIRST_ARTIST_ONLY } from '@/core/storage/options';
 import { getArtistAllowlist } from './artist-allowlist';
 import { extract } from './first-artist-extractor';
 
@@ -199,7 +199,7 @@ export default class LastFmScrobbler extends AudioScrobbler {
 			return song;
 		}
 
-		const firstArtistOnly = await getOption(LASTEM_FIRST_ARTIST_ONLY);
+		const firstArtistOnly = await getOption(LASTFM_FIRST_ARTIST_ONLY);
 		if (!firstArtistOnly) {
 			return song;
 		}
@@ -211,10 +211,10 @@ export default class LastFmScrobbler extends AudioScrobbler {
 		const firstArtist = extract(originalArtist ?? '', allowlist);
 
 		if (firstArtist && firstArtist !== originalArtist) {
-			song.parsed.artist = firstArtist;
+			song.processed.artist = firstArtist;
 
 			if (originalAlbumArtist === originalArtist) {
-				song.parsed.albumArtist = firstArtist;
+				song.processed.albumArtist = firstArtist;
 			}
 		}
 
