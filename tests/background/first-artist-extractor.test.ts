@@ -56,9 +56,8 @@ vi.mock('@/util/communication', () => ({
 }));
 
 vi.mock('@/core/storage/options', async (importOriginal) => {
-	const actual = await importOriginal<
-		typeof import('@/core/storage/options')
-	>();
+	const actual =
+		await importOriginal<typeof import('@/core/storage/options')>();
 	return {
 		...actual,
 		getOption: mockGetOption,
@@ -240,7 +239,7 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.be.null;
+		expect(result.parsed.artist).to.equal(null);
 		expect(mockGetOption).not.toHaveBeenCalled();
 	});
 
@@ -283,7 +282,10 @@ describe('LastFmScrobbler.applyFilter', () => {
 			'@/core/scrobbler/lastfm/lastfm-scrobbler'
 		);
 		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong('Some Artist', 'Various Artists feat. Someone');
+		const song = new MockSong(
+			'Some Artist',
+			'Various Artists feat. Someone',
+		);
 
 		const result = await scrobbler.applyFilter(song);
 

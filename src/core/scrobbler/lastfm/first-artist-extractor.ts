@@ -36,14 +36,15 @@ function hashName(instance: IHasher, name: string): bigint {
 	instance.init();
 	instance.update(name);
 	const digest = instance.digest('binary') as Uint8Array;
-	const view = new DataView(digest.buffer, digest.byteOffset, digest.byteLength);
+	const view = new DataView(
+		digest.buffer,
+		digest.byteOffset,
+		digest.byteLength,
+	);
 	return view.getBigUint64(0, true);
 }
 
-export function extract(
-	artistName: string,
-	allowlist: Set<bigint>,
-): string {
+export function extract(artistName: string, allowlist: Set<bigint>): string {
 	if (!artistName) {
 		return '';
 	}
