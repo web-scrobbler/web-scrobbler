@@ -26,6 +26,7 @@ export const DEBUG_LOGGING_ENABLED = 'debugLoggingEnabled';
 export const ALBUM_GUESSING_DISABLED = 'albumGuessingDisabled';
 export const ALBUM_GUESSING_UNEDITED_ONLY = 'albumGuessingUneditedOnly';
 export const ALBUM_GUESSING_ALL_TRACKS = 'albumGuessingAllTracks';
+export const LASTEM_FIRST_ARTIST_ONLY = 'lastfmFirstArtistOnly';
 
 export interface GlobalOptions {
 	/**
@@ -99,6 +100,11 @@ export interface GlobalOptions {
 	 * Guess albums for all albumless tracks including edited ones
 	 */
 	[ALBUM_GUESSING_ALL_TRACKS]: boolean;
+
+	/**
+	 * Only scrobble the first artist for tracks with multiple artists on Last.fm.
+	 */
+	[LASTEM_FIRST_ARTIST_ONLY]: boolean;
 }
 
 /**
@@ -118,6 +124,7 @@ const DEFAULT_OPTIONS: GlobalOptions = {
 	[ALBUM_GUESSING_DISABLED]: false,
 	[ALBUM_GUESSING_UNEDITED_ONLY]: true,
 	[ALBUM_GUESSING_ALL_TRACKS]: false,
+	[LASTEM_FIRST_ARTIST_ONLY]: false,
 	[DISABLED_CONNECTORS]: {},
 };
 

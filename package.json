@@ -37,7 +37,8 @@
     "blueimp-md5": "2.19.0",
     "stylelint": "16.24.0",
     "vite": "7.3.2",
-    "webextension-polyfill": "0.12.0"
+    "webextension-polyfill": "0.12.0",
+    "xxhash-wasm": "^1.1.0"
   },
   "devDependencies": {
     "@types/archiver": "6.0.3",
