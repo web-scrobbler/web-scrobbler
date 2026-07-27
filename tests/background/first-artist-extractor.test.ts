@@ -106,6 +106,7 @@ class MockSong extends BaseSong {
 			album: null,
 			duration: null,
 		};
+		this.processed = { ...this.parsed };
 	}
 
 	resetInfo(): void {
@@ -207,7 +208,7 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.equal('Artist1, Artist2');
+		expect(result.processed.artist).to.equal('Artist1, Artist2');
 		expect(mockGetOption).toHaveBeenCalledWith('lastfmFirstArtistOnly');
 		expect(mockGetArtistAllowlist).not.toHaveBeenCalled();
 	});
@@ -224,7 +225,7 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.equal('Artist1');
+		expect(result.processed.artist).to.equal('Artist1');
 		expect(mockGetArtistAllowlist).toHaveBeenCalledOnce();
 	});
 
@@ -239,7 +240,7 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.equal(null);
+		expect(result.processed.artist).to.equal(null);
 		expect(mockGetOption).not.toHaveBeenCalled();
 	});
 
@@ -255,8 +256,8 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.equal('Multi');
-		expect(result.parsed.albumArtist).to.equal('Multi');
+		expect(result.processed.artist).to.equal('Multi');
+		expect(result.processed.albumArtist).to.equal('Multi');
 	});
 
 	it('should keep albumArtist unchanged when it does not match original artist', async () => {
@@ -271,8 +272,8 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.equal('Artist1');
-		expect(result.parsed.albumArtist).to.equal('Different Artist');
+		expect(result.processed.artist).to.equal('Artist1');
+		expect(result.processed.albumArtist).to.equal('Different Artist');
 	});
 
 	it('should normalize "Various Artists" in album artist', async () => {
@@ -304,7 +305,7 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.equal('Tyler, The Creator');
+		expect(result.processed.artist).to.equal('Tyler, The Creator');
 		expect(mockGetArtistAllowlist).toHaveBeenCalledOnce();
 	});
 
@@ -319,6 +320,6 @@ describe('LastFmScrobbler.applyFilter', () => {
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.parsed.artist).to.equal('');
+		expect(result.processed.artist).to.equal('');
 	});
 });
