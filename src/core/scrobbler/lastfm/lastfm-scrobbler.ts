@@ -8,6 +8,9 @@ import AudioScrobbler from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
 import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import type { LastFmTrackInfo } from '@/core/scrobbler/lastfm/lastfm.types';
 import { sendBackgroundMessage } from '@/util/communication';
+import { getOption, LASTEM_FIRST_ARTIST_ONLY } from '@/core/storage/options';
+import { getArtistAllowlist } from './artist-allowlist';
+import { extract } from './first-artist-extractor';
 
 /**
  * Module for all communication with Last.FM
@@ -169,7 +172,17 @@ export default class LastFmScrobbler extends AudioScrobbler {
 		return songInfo as ScrobblerSongInfo;
 	}
 
-	/** @override */
+	/**
+	 * Apply Last.fm-specific song filters before scrobbling.
+	 *
+	 * 1. Normalizes "Various Artists" album artist (Last.fm requirement).
+	 * 2. When `lastfmFirstArtistOnly` is enabled, extracts the first artist
+	 *    from multi-artist tracks using the allowlist-based extractor.
+	 *
+	 * @override
+	 * @param song - Song to filter
+	 * @returns Filtered song
+	 */
 	async applyFilter(song: BaseSong): Promise<BaseSong> {
 		/**
 		 * Last.fm rejects track if album artist contains more then just "Various Artists"
@@ -180,6 +193,29 @@ export default class LastFmScrobbler extends AudioScrobbler {
 			song.parsed.albumArtist = albumArtist.includes('Various Artists')
 				? 'Various Artists'
 				: albumArtist;
+		}
+
+		if (!song.getArtist()) {
+			return song;
+		}
+
+		const firstArtistOnly = await getOption(LASTEM_FIRST_ARTIST_ONLY);
+		if (!firstArtistOnly) {
+			return song;
+		}
+
+		const originalArtist = song.getArtist();
+		const originalAlbumArtist = song.getAlbumArtist();
+
+		const allowlist = await getArtistAllowlist();
+		const firstArtist = extract(originalArtist ?? '', allowlist);
+
+		if (firstArtist && firstArtist !== originalArtist) {
+			song.parsed.artist = firstArtist;
+
+			if (originalAlbumArtist === originalArtist) {
+				song.parsed.albumArtist = firstArtist;
+			}
 		}
 
 		return song;
