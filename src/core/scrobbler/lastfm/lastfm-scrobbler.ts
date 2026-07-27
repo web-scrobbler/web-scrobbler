@@ -170,7 +170,7 @@ export default class LastFmScrobbler extends AudioScrobbler {
 	}
 
 	/** @override */
-	applyFilter(song: BaseSong): BaseSong {
+	async applyFilter(song: BaseSong): Promise<BaseSong> {
 		/**
 		 * Last.fm rejects track if album artist contains more then just "Various Artists"
 		 */
