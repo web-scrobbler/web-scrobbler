@@ -5,7 +5,7 @@ const timeInfoSelector = '.player__track-time-content';
 
 Connector.playerSelector = '.player';
 
-Connector.trackSelector = '.player__track-title';
+Connector.trackSelector = '.player__track-overflow';
 
 Connector.albumSelector = '.player__track-album > a:nth-of-type(2)';
 
