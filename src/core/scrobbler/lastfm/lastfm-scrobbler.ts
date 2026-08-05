@@ -208,7 +208,7 @@ export default class LastFmScrobbler extends AudioScrobbler {
 		const originalAlbumArtist = song.getAlbumArtist();
 
 		const allowlist = await getArtistAllowlist();
-		const firstArtist = extract(originalArtist ?? '', allowlist);
+		const firstArtist = await extract(originalArtist ?? '', allowlist);
 
 		if (firstArtist && firstArtist !== originalArtist) {
 			song.processed.artist = firstArtist;
