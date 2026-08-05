@@ -2,14 +2,11 @@
  * Tests for first-artist-extractor and LastFmScrobbler.applyFilter integration.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 // ---------------------------------------------------------------------------
 // Hoisted mocks (evaluated before imports)
 // ---------------------------------------------------------------------------
-
-const mockGetOption = vi.hoisted(() => vi.fn());
-const mockGetArtistAllowlist = vi.hoisted(() => vi.fn());
 
 vi.mock('hash-wasm');
 
@@ -53,19 +50,6 @@ vi.mock('@/util/communication', () => ({
 	backgroundListener: vi.fn(() => vi.fn()),
 	setupBackgroundListeners: vi.fn(),
 	sendBackgroundMessage: vi.fn(),
-}));
-
-vi.mock('@/core/storage/options', async (importOriginal) => {
-	const actual =
-		await importOriginal<typeof import('@/core/storage/options')>();
-	return {
-		...actual,
-		getOption: mockGetOption,
-	};
-});
-
-vi.mock('@/core/scrobbler/lastfm/artist-allowlist', () => ({
-	getArtistAllowlist: mockGetArtistAllowlist,
 }));
 
 // ---------------------------------------------------------------------------
@@ -216,93 +200,7 @@ describe('extract', () => {
 // ---------------------------------------------------------------------------
 
 describe('LastFmScrobbler.applyFilter', () => {
-	beforeEach(() => {
-		mockGetOption.mockReset();
-		mockGetArtistAllowlist.mockReset();
-	});
-
-	it('should skip extraction when toggle is OFF', async () => {
-		mockGetOption.mockResolvedValue(false);
-
-		const { default: LastFmScrobbler } = await import(
-			'@/core/scrobbler/lastfm/lastfm-scrobbler'
-		);
-		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong('Artist1, Artist2', null);
-
-		const result = await scrobbler.applyFilter(song);
-
-		expect(result.processed.artist).to.equal('Artist1, Artist2');
-		expect(mockGetOption).toHaveBeenCalledWith('lastfmFirstArtistOnly');
-		expect(mockGetArtistAllowlist).not.toHaveBeenCalled();
-	});
-
-	it('should extract first artist when toggle is ON', async () => {
-		mockGetOption.mockResolvedValue(true);
-		mockGetArtistAllowlist.mockResolvedValue(new Set<bigint>());
-
-		const { default: LastFmScrobbler } = await import(
-			'@/core/scrobbler/lastfm/lastfm-scrobbler'
-		);
-		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong('Artist1, Artist2', null);
-
-		const result = await scrobbler.applyFilter(song);
-
-		expect(result.processed.artist).to.equal('Artist1');
-		expect(mockGetArtistAllowlist).toHaveBeenCalledOnce();
-	});
-
-	it('should return song unchanged when artist is null', async () => {
-		mockGetOption.mockResolvedValue(true);
-
-		const { default: LastFmScrobbler } = await import(
-			'@/core/scrobbler/lastfm/lastfm-scrobbler'
-		);
-		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong(null, null);
-
-		const result = await scrobbler.applyFilter(song);
-
-		expect(result.processed.artist).to.equal(null);
-		expect(mockGetOption).not.toHaveBeenCalled();
-	});
-
-	it('should sync albumArtist when it matches original artist', async () => {
-		mockGetOption.mockResolvedValue(true);
-		mockGetArtistAllowlist.mockResolvedValue(new Set<bigint>());
-
-		const { default: LastFmScrobbler } = await import(
-			'@/core/scrobbler/lastfm/lastfm-scrobbler'
-		);
-		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong('Multi, Artist', 'Multi, Artist');
-
-		const result = await scrobbler.applyFilter(song);
-
-		expect(result.processed.artist).to.equal('Multi');
-		expect(result.processed.albumArtist).to.equal('Multi');
-	});
-
-	it('should keep albumArtist unchanged when it does not match original artist', async () => {
-		mockGetOption.mockResolvedValue(true);
-		mockGetArtistAllowlist.mockResolvedValue(new Set<bigint>());
-
-		const { default: LastFmScrobbler } = await import(
-			'@/core/scrobbler/lastfm/lastfm-scrobbler'
-		);
-		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong('Artist1, Artist2', 'Different Artist');
-
-		const result = await scrobbler.applyFilter(song);
-
-		expect(result.processed.artist).to.equal('Artist1');
-		expect(result.processed.albumArtist).to.equal('Different Artist');
-	});
-
 	it('should normalize "Various Artists" in album artist', async () => {
-		mockGetOption.mockResolvedValue(false);
-
 		const { default: LastFmScrobbler } = await import(
 			'@/core/scrobbler/lastfm/lastfm-scrobbler'
 		);
@@ -317,35 +215,29 @@ describe('LastFmScrobbler.applyFilter', () => {
 		expect(result.parsed.albumArtist).to.equal('Various Artists');
 	});
 
-	it('should not extract when artist is in allowlist', async () => {
-		mockGetOption.mockResolvedValue(true);
-		mockGetArtistAllowlist.mockResolvedValue(
-			new Set([await hashOf('tyler, the creator')]),
-		);
-
+	it('should return the song with artist unchanged (no extraction)', async () => {
 		const { default: LastFmScrobbler } = await import(
 			'@/core/scrobbler/lastfm/lastfm-scrobbler'
 		);
 		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong('Tyler, The Creator', null);
+		const song = new MockSong('Artist1, Artist2', null);
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.processed.artist).to.equal('Tyler, The Creator');
-		expect(mockGetArtistAllowlist).toHaveBeenCalledOnce();
+		expect(result.processed.artist).to.equal('Artist1, Artist2');
+		expect(result.parsed.artist).to.equal('Artist1, Artist2');
 	});
 
-	it('should handle empty string artist without crashing', async () => {
-		mockGetOption.mockResolvedValue(true);
-
+	it('should be a no-op when album artist is absent', async () => {
 		const { default: LastFmScrobbler } = await import(
 			'@/core/scrobbler/lastfm/lastfm-scrobbler'
 		);
 		const scrobbler = new LastFmScrobbler();
-		const song = new MockSong('', null);
+		const song = new MockSong('Some Artist', null);
 
 		const result = await scrobbler.applyFilter(song);
 
-		expect(result.processed.artist).to.equal('');
+		expect(result.parsed.albumArtist).to.equal(null);
+		expect(result.parsed.artist).to.equal('Some Artist');
 	});
 });
