@@ -4,10 +4,6 @@
 
 import { describe, it, expect, vi } from 'vitest';
 
-// ---------------------------------------------------------------------------
-// Hoisted mocks (evaluated before imports)
-// ---------------------------------------------------------------------------
-
 vi.mock('hash-wasm');
 
 vi.mock('webextension-polyfill', () => {
@@ -52,18 +48,10 @@ vi.mock('@/util/communication', () => ({
 	sendBackgroundMessage: vi.fn(),
 }));
 
-// ---------------------------------------------------------------------------
-// Imports
-// ---------------------------------------------------------------------------
-
 import { extract } from '@/core/scrobbler/lastfm/first-artist-extractor';
 import { BaseSong } from '@/core/object/song';
 import type { ParsedSongData, ProcessedSongData } from '@/core/object/song';
 import type { ConnectorMeta } from '@/core/connectors';
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 
 /**
  * Compute the deterministic XXH3_64 digest (as a bigint) of a string using the
@@ -78,10 +66,6 @@ async function hashOf(name: string): Promise<bigint> {
 	const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 	return view.getBigUint64(0, true);
 }
-
-// ---------------------------------------------------------------------------
-// Mock song class for applyFilter tests
-// ---------------------------------------------------------------------------
 
 class MockSong extends BaseSong {
 	public parsed: ParsedSongData;
@@ -119,10 +103,6 @@ class MockSong extends BaseSong {
 		/* no-op */
 	}
 }
-
-// ---------------------------------------------------------------------------
-// Tests: extract()
-// ---------------------------------------------------------------------------
 
 describe('extract', () => {
 	const emptySet = new Set<bigint>();
@@ -194,14 +174,6 @@ describe('extract', () => {
 		expect(result).to.equal('Earth');
 	});
 
-	// ------------------------------------------------------------------
-	// Bug 1: prefix scanning only reaches the EARLIEST separator position,
-	// so allowlisted names containing an internal separator (e.g. the ", "
-	// inside "Tyler, The Creator") are never matched when a later separator
-	// (e.g. " feat. ") is present. These tests must be RED against the
-	// current implementation.
-	// ------------------------------------------------------------------
-
 	it('should return the full allowlisted name when a later "feat." feature follows an internal comma', async () => {
 		const allowlist = new Set([await hashOf('tyler, the creator')]);
 		const result = await extract(
@@ -237,10 +209,6 @@ describe('extract', () => {
 		expect(result).to.equal('Earth, Wind & Fire');
 	});
 });
-
-// ---------------------------------------------------------------------------
-// Tests: LastFmScrobbler.applyFilter()
-// ---------------------------------------------------------------------------
 
 describe('LastFmScrobbler.applyFilter', () => {
 	it('should normalize "Various Artists" in album artist', async () => {
