@@ -52,7 +52,7 @@ async function hashName(name: string): Promise<bigint> {
 	hasher.init();
 	hasher.update(name);
 	const digest = hasher.digest('binary');
-	const bytes = digest instanceof Uint8Array ? digest : new Uint8Array(8);
+	const bytes = digest;
 	const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 	return view.getBigUint64(0, true);
 }

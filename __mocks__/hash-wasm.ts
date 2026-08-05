@@ -34,8 +34,6 @@ interface MockHasher {
 	init: () => MockHasher;
 	update: (data: unknown) => MockHasher;
 	digest: (outputType?: string) => string | Uint8Array;
-	save: () => Uint8Array;
-	load: (state: Uint8Array) => MockHasher;
 	blockSize: number;
 	digestSize: number;
 }
@@ -59,10 +57,6 @@ function createMockHasher(): MockHasher {
 			}
 			return hashToHex(hash);
 		},
-		save: (): Uint8Array => new Uint8Array(8),
-		load(): MockHasher {
-			return this;
-		},
 		blockSize: 512,
 		digestSize: 8,
 	};
@@ -74,14 +68,6 @@ export function createXXHash3(
 	_seedHigh?: number,
 ): Promise<MockHasher> {
 	return Promise.resolve(createMockHasher());
-}
-
-export function xxhash3(
-	_data: string | Buffer | Uint8Array | Uint16Array | Uint32Array,
-	_seedLow?: number,
-	_seedHigh?: number,
-): Promise<string> {
-	return Promise.resolve('0000000000000000');
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 

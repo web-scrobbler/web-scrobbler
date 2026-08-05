@@ -1,7 +1,3 @@
-/**
- * Tests for artist-allowlist module.
- */
-
 import { expect, describe, it, vi, beforeEach } from 'vitest';
 
 vi.mock('webextension-polyfill', () => ({

@@ -1,7 +1,3 @@
-/**
- * Tests for first-artist-extractor and LastFmScrobbler.applyFilter integration.
- */
-
 import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('hash-wasm');
