@@ -193,6 +193,49 @@ describe('extract', () => {
 		const result = await extract('Earth, Wind & Fire', allowlist);
 		expect(result).to.equal('Earth');
 	});
+
+	// ------------------------------------------------------------------
+	// Bug 1: prefix scanning only reaches the EARLIEST separator position,
+	// so allowlisted names containing an internal separator (e.g. the ", "
+	// inside "Tyler, The Creator") are never matched when a later separator
+	// (e.g. " feat. ") is present. These tests must be RED against the
+	// current implementation.
+	// ------------------------------------------------------------------
+
+	it('should return the full allowlisted name when a later "feat." feature follows an internal comma', async () => {
+		const allowlist = new Set([await hashOf('tyler, the creator')]);
+		const result = await extract(
+			'Tyler, The Creator feat. Frank Ocean',
+			allowlist,
+		);
+		expect(result).to.equal('Tyler, The Creator');
+	});
+
+	it('should return the allowlisted name when followed by "feat."', async () => {
+		const allowlist = new Set([await hashOf('green day')]);
+		const result = await extract('Green Day feat. X', allowlist);
+		expect(result).to.equal('Green Day');
+	});
+
+	it('should return the allowlisted name when followed by " & "', async () => {
+		const allowlist = new Set([await hashOf('linkin park')]);
+		const result = await extract('Linkin Park & Jay-Z', allowlist);
+		expect(result).to.equal('Linkin Park');
+	});
+
+	it('should return first artist truncated at the earliest separator for an empty allowlist', async () => {
+		const result = await extract('A, B feat. C', emptySet);
+		expect(result).to.equal('A');
+	});
+
+	it('should pick the longest allowlisted boundary prefix when multiple separators are present', async () => {
+		const allowlist = new Set([await hashOf('earth, wind & fire')]);
+		const result = await extract(
+			'Earth, Wind & Fire, Wind & Fire',
+			allowlist,
+		);
+		expect(result).to.equal('Earth, Wind & Fire');
+	});
 });
 
 // ---------------------------------------------------------------------------
