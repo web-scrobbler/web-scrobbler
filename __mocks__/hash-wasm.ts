@@ -2,8 +2,33 @@
  * Mock for hash-wasm (Vitest auto-mock).
  *
  * Provides mock createXXHash3() and xxhash3() functions for testing.
- * The mock hasher returns zero-filled 8-byte digests.
+ * The mock hasher accumulates update() input and computes a deterministic
+ * FNV-1a 64-bit digest, so different inputs produce different hashes.
  */
+
+const FNV_OFFSET_BASIS = 0xcbf29ce484222325n;
+const FNV_PRIME = 0x100000001b3n;
+const MASK_64 = 0xffffffffffffffffn;
+
+function fnv1a64(input: string): bigint {
+	let hash = FNV_OFFSET_BASIS;
+	for (let i = 0; i < input.length; i++) {
+		hash ^= BigInt(input.charCodeAt(i));
+		hash = (hash * FNV_PRIME) & MASK_64;
+	}
+	return hash;
+}
+
+function hashToBytes(hash: bigint): Uint8Array {
+	const bytes = new Uint8Array(8);
+	const view = new DataView(bytes.buffer);
+	view.setBigUint64(0, hash, true);
+	return bytes;
+}
+
+function hashToHex(hash: bigint): string {
+	return hash.toString(16).padStart(16, '0');
+}
 
 interface MockHasher {
 	init: () => MockHasher;
@@ -16,19 +41,23 @@ interface MockHasher {
 }
 
 function createMockHasher(): MockHasher {
+	let input = '';
+
 	return {
 		init(): MockHasher {
+			input = '';
 			return this;
 		},
-		update(): MockHasher {
+		update(data: unknown): MockHasher {
+			input += String(data);
 			return this;
 		},
 		digest(outputType?: string): string | Uint8Array {
-			const bytes = new Uint8Array(8);
+			const hash = fnv1a64(input);
 			if (outputType === 'binary') {
-				return bytes;
+				return hashToBytes(hash);
 			}
-			return '0000000000000000';
+			return hashToHex(hash);
 		},
 		save: (): Uint8Array => new Uint8Array(8),
 		load(): MockHasher {
