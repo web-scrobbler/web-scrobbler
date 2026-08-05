@@ -81,9 +81,6 @@ describe('first-artist-extractor with real hash-wasm and real .bin data', () => 
 		expect(result).to.be.equal('Artist1');
 	});
 
-	// Bug 1: the allowlisted name "Tyler, The Creator" contains an internal
-	// ", " separator, and the prefix scan stops at that earliest separator,
-	// never reaching the full allowlisted name. RED against current code.
 	it('should return the full allowlisted name when a later "feat." feature follows an internal comma', async () => {
 		const result = await extract(
 			'Tyler, The Creator feat. Frank Ocean',

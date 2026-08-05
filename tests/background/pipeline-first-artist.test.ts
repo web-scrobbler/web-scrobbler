@@ -24,10 +24,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 webextensionPolyfill;
 fetchPolyfill;
 
-// ---------------------------------------------------------------------------
-// Hoisted mocks (evaluated before imports)
-// ---------------------------------------------------------------------------
-
 const mockGetOption = vi.hoisted(() => vi.fn());
 const mockGetArtistAllowlist = vi.hoisted(() => vi.fn());
 
@@ -84,10 +80,6 @@ vi.mock('@/core/object/pipeline/first-artist', async (importOriginal) => {
 	};
 });
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 interface MockSongOptions {
 	artist?: string | null;
 	albumArtist?: string | null;
@@ -113,10 +105,6 @@ function createSong(options: MockSongOptions = {}): Song {
 	} as unknown as Song;
 	return song;
 }
-
-// ---------------------------------------------------------------------------
-// Tests: process()
-// ---------------------------------------------------------------------------
 
 describe('first-artist pipeline process', () => {
 	beforeEach(() => {
@@ -232,10 +220,6 @@ describe('first-artist pipeline process', () => {
 		expect(song.processed.artist).to.equal('');
 	});
 });
-
-// ---------------------------------------------------------------------------
-// Tests: Pipeline integration (processor order)
-// ---------------------------------------------------------------------------
 
 describe('Pipeline integration', () => {
 	it('should place the first-artist processor after Metadata and before BlockedTags', () => {

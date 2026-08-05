@@ -3,14 +3,6 @@
 /**
  * Tests for the "first artist" override applied to the `getSongInfo` query
  * fired by the Metadata pipeline stage.
- *
- * Bug 2: the Last.fm song-info query (which fills `metadata.userPlayCount`,
- * shown as the scrobble count in the popup) is sent by the Metadata stage
- * BEFORE the FirstArtist stage runs, so it queries with the FULL multi-artist
- * name (e.g. `Dawid Podsiadło, P.T. Adamczyk`) instead of the first artist
- * (`Dawid Podsiadło`). The fix overrides the cloneable song's processed artist
- * with `getFirstArtistForSong` before sending. These tests are RED against the
- * current implementation.
  */
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
@@ -25,10 +17,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 // ensure polyfills are loaded;
 webextensionPolyfill;
 fetchPolyfill;
-
-// ---------------------------------------------------------------------------
-// Hoisted mocks (evaluated before imports)
-// ---------------------------------------------------------------------------
 
 const mockGetOption = vi.hoisted(() => vi.fn());
 const mockGetArtistAllowlist = vi.hoisted(() => vi.fn());
@@ -80,10 +68,6 @@ vi.mock('@/core/scrobbler/lastfm/first-artist-extractor', () => ({
 vi.mock('@/util/communication', () => ({
 	sendContentMessage: mockSendContentMessage,
 }));
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 
 interface MockSongOptions {
 	artist?: string | null;
@@ -147,10 +131,6 @@ function getSentArtist(): string | null {
 	};
 	return payload.payload.song.processed?.artist ?? null;
 }
-
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
 
 describe('metadata first-artist query override', () => {
 	beforeEach(() => {
