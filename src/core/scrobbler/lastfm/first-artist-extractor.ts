@@ -85,24 +85,38 @@ export async function extract(
 		return artistName;
 	}
 
-	let earliestPos = -1;
+	// Collect candidate end positions: every separator start in the string.
+	const candidateEnds = new Set<number>();
 	for (const sep of SEPARATORS) {
-		const pos = artistName.indexOf(sep);
-		if (pos !== -1 && (earliestPos === -1 || pos < earliestPos)) {
-			earliestPos = pos;
+		let from = 0;
+		while (true) {
+			const pos = artistName.indexOf(sep, from);
+			if (pos === -1) {
+				break;
+			}
+			candidateEnds.add(pos);
+			from = pos + 1;
 		}
 	}
 
-	if (earliestPos === -1) {
+	if (candidateEnds.size === 0) {
 		return artistName;
 	}
 
+	const earliestPos = Math.min(...candidateEnds);
+
 	if (hasher) {
-		for (let i = 1; i <= earliestPos; i++) {
-			const prefix = artistName.substring(0, i);
+		let best: string | null = null;
+		for (const pos of candidateEnds) {
+			const prefix = artistName.substring(0, pos);
 			if (allowlist.has(hashName(hasher, prefix.toLowerCase()))) {
-				return prefix;
+				if (best === null || prefix.length > best.length) {
+					best = prefix;
+				}
 			}
+		}
+		if (best !== null) {
+			return best;
 		}
 	}
 
