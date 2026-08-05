@@ -8,22 +8,13 @@ let artistAllowlistCache: Set<bigint> | null = null;
 let loadingPromise: Promise<void> | null = null;
 
 /**
- * Get URL for the bundled binary hash file.
- *
- * @returns Absolute URL to the static data file
- */
-function getAllowlistUrl(): string {
-	return browser.runtime.getURL('static-data/musicbrainz_artist_hashes.bin');
-}
-
-/**
  * Load the artist allowlist from the bundled binary hash file.
  * The file is a flat sequence of 64-bit little-endian bigint values.
  *
  * @returns Set of 64-bit artist name hashes
  */
 export async function loadArtistAllowlist(): Promise<Set<bigint>> {
-	const url = getAllowlistUrl();
+	const url = browser.runtime.getURL('static-data/musicbrainz_artist_hashes.bin');
 
 	let response: Response;
 	try {

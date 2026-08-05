@@ -8,15 +8,13 @@ async function getHasher(): Promise<IHasher | null> {
 	if (hasherInit) {
 		return hasherInit;
 	}
-	hasherInit = createXXHash3()
-		.then((h) => h)
-		.catch(() => {
-			debugLog(
-				'XXH3 WASM init failed, skipping allowlist checks',
-				'warn',
-			);
-			return null;
-		});
+	hasherInit = createXXHash3().catch(() => {
+		debugLog(
+			'XXH3 WASM init failed, skipping allowlist checks',
+			'warn',
+		);
+		return null;
+	});
 	return hasherInit;
 }
 
