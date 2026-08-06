@@ -133,24 +133,29 @@ describe('extract', () => {
 		expect(result).to.equal('Artist1');
 	});
 
-	it('should return first artist for "vs." separated input', async () => {
+	it('should return full name for "vs." separated input', async () => {
 		const result = await extract('Artist1 vs. Artist2', emptySet);
-		expect(result).to.equal('Artist1');
+		expect(result).to.equal('Artist1 vs. Artist2');
 	});
 
-	it('should return first artist for "x" separated input', async () => {
+	it('should return full name for "x" separated input', async () => {
 		const result = await extract('Artist1 x Artist2', emptySet);
-		expect(result).to.equal('Artist1');
+		expect(result).to.equal('Artist1 x Artist2');
 	});
 
-	it('should return first artist for "•" separated input', async () => {
+	it('should return the full name for the "Moji x Sboy" artist', async () => {
+		const result = await extract('Moji x Sboy', emptySet);
+		expect(result).to.equal('Moji x Sboy');
+	});
+
+	it('should return full name for "•" separated input', async () => {
 		const result = await extract('Artist1 • Artist2', emptySet);
-		expect(result).to.equal('Artist1');
+		expect(result).to.equal('Artist1 • Artist2');
 	});
 
-	it('should handle comma without space separator', async () => {
+	it('should return full name for bare comma input', async () => {
 		const result = await extract('A,B', emptySet);
-		expect(result).to.equal('A');
+		expect(result).to.equal('A,B');
 	});
 
 	it('should handle non-ASCII characters', async () => {
