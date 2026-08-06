@@ -47,10 +47,10 @@ vi.mock('hash-wasm');
  * The real options module must not be loaded: its import chain pulls in
  * `@/core/util/debug`, which calls `getOption` at module load, which would
  * race with the module's own initialization. A pure stub is sufficient, as
- * the stage under test only reads `LASTFM_FIRST_ARTIST_ONLY` via `getOption`.
+ * the stage under test only reads `FIRST_ARTIST_ONLY` via `getOption`.
  */
 vi.mock('@/core/storage/options', () => ({
-	LASTFM_FIRST_ARTIST_ONLY: 'lastfmFirstArtistOnly',
+	FIRST_ARTIST_ONLY: 'firstArtistOnly',
 	// Read at import time by `@/core/util/debug`; value must simply be falsy.
 	DEBUG_LOGGING_ENABLED: 'debugLoggingEnabled',
 	getOption: mockGetOption,
@@ -135,7 +135,7 @@ describe('first-artist pipeline process', () => {
 		await FirstArtist.process(song);
 
 		expect(mockGetOption).toHaveBeenCalledWith(
-			Options.LASTFM_FIRST_ARTIST_ONLY,
+			Options.FIRST_ARTIST_ONLY,
 		);
 		expect(mockGetArtistAllowlist).not.toHaveBeenCalled();
 		expect(mockExtract).not.toHaveBeenCalled();
