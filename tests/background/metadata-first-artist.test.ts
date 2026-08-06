@@ -43,7 +43,7 @@ const mockSendContentMessage = vi.hoisted(() => vi.fn());
 vi.mock('hash-wasm');
 
 vi.mock('@/core/storage/options', () => ({
-	LASTFM_FIRST_ARTIST_ONLY: 'lastfmFirstArtistOnly',
+	FIRST_ARTIST_ONLY: 'firstArtistOnly',
 	FORCE_RECOGNIZE: 'forceRecognize',
 	SCROBBLE_EDITED_TRACKS_ONLY: 'scrobbleEditedTracksOnly',
 	ALBUM_GUESSING_DISABLED: 'albumGuessingDisabled',

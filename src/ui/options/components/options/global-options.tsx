@@ -80,7 +80,7 @@ export default function GlobalOptionsList(props: {
 					globalOptions={globalOptions}
 					i18ntitle="optionFirstArtistOnlyTitle"
 					i18nlabel="optionFirstArtistOnly"
-					key={Options.LASTFM_FIRST_ARTIST_ONLY}
+					key={Options.FIRST_ARTIST_ONLY}
 				/>
 			</ul>
 		</>
