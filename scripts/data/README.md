@@ -60,6 +60,16 @@ extractor splits on, and `load_substrings()` asserts the invariant
 violated, so no name carrying a separator can ever be missed by the allowlist
 filter.
 
+**Behavioral consequence of the separator set**: separators are deliberate,
+conservative multi-artist markers (`", "`, `" & "`, `" / "`, `" feat. "`,
+`" ft. "`, `" with "`). Classes such as `" vs. "`, `" x "`, `" + "`,
+`" featuring "`, `" presents "`, `" pres. "`, `" prod. "`, `" • "`, and a bare
+`","` are intentionally *not* separators, so names carrying them are **never**
+truncated by the first-artist feature — even when they are not in the allowlist
+(the full credit name is kept, which is the benign default behavior). This is
+deliberate; `" x "` collaborations in particular cannot both be split correctly
+and allowlisted under the old code. Do not add `" x "` back as a separator.
+
 ## Usage
 
 ```bash
