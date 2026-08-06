@@ -16,8 +16,11 @@ import { extract } from '@/core/scrobbler/lastfm/first-artist-extractor';
 /** Expected XXH3_64 of 'tyler, the creator' (lowercase, seed 0). */
 const TYLER_HASH = BigInt('0xd007c5b82458cb43');
 
+/** Expected XXH3_64 of 'moji x sboy' (lowercase, seed 0). */
+const MOJI_HASH = BigInt('0x9415c07a420799c1');
+
 /** Expected number of hashes in the bundled .bin file. */
-const EXPECTED_HASH_COUNT = 124571;
+const EXPECTED_HASH_COUNT = 125135;
 
 /**
  * Load the bundled artist hash file from disk and parse it into a Set of
@@ -74,6 +77,15 @@ describe('first-artist-extractor with real hash-wasm and real .bin data', () => 
 	it('should return the full allowlisted name without truncation', async () => {
 		const result = await extract('Tyler, The Creator', allowlist);
 		expect(result).to.be.equal('Tyler, The Creator');
+	});
+
+	it('should return the full name for the allowlisted "Moji x Sboy" artist', async () => {
+		const digest = await hashName('moji x sboy');
+		expect(digest).to.be.equal(MOJI_HASH);
+		expect(allowlist.has(digest)).to.be.equal(true);
+
+		const result = await extract('Moji x Sboy', allowlist);
+		expect(result).to.be.equal('Moji x Sboy');
 	});
 
 	it('should still truncate non-allowlisted multi-artist names', async () => {
