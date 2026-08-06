@@ -5,6 +5,13 @@ This tool rebuilds ``musicbrainz_artist_hashes.bin``, a compact binary
 allowlist of artist names that Web Scrobbler treats as multi-artist
 collaborations (that is, names that join several artists together).
 
+The delimiter substrings are not hard-coded here: they are read from
+``src/core/scrobbler/lastfm/separators.json``, the single source of truth
+shared with the TypeScript first-artist extractor. That file also carries
+the separators the extractor splits on, and this tool asserts the invariant
+that every separator is present among the substrings, so no name carrying a
+separator can ever be missed by the allowlist filter.
+
 The allowlist is assembled from two upstream data sources:
 
 * the MusicBrainz artist JSONL dump (``mbdump/artist``), from which only
@@ -23,94 +30,57 @@ import json
 
 import xxhash
 
-# Delimiter fragments that mark a name as a multi-artist collaboration.
-# Grouped by script for readability; only membership matters, not order.
-SUBSTRINGS = (
-    # ASCII punctuation combinations.
-    ", ",
-    ";",
-    " & ",
-    " / ",
-    ", at ",
-    ", ne-",
-    # Latin-script conjunctions (space-delimited).
-    " and ",
-    " en ",
-    " və ",
-    " dan ",
-    " i ",
-    " a ",
-    " og ",
-    " und ",
-    " ja ",
-    " y ",
-    " eta ",
-    " et ",
-    " e ",
-    " na ",
-    " un ",
-    " ir ",
-    " és ",
-    " va ",
-    " dhe ",
-    " și ",
-    " in ",
-    " och ",
-    " và ",
-    " ve ",
-    # CJK / ideographic.
-    "、",
-    "＆",
-    "和",
-    "及",
-    # Arabic / Persian.
-    "، ",
-    " و ",
-    " اور ",
-    "، و ",
-    # Indic scripts.
-    " र ",
-    " आणि ",
-    " और ",
-    " আৰু ",
-    " এবং ",
-    " ਅਤੇ ",
-    " અને ",
-    ", ଓ ",
-    " மற்றும் ",
-    " మరియు ",
-    ", ಮತ್ತು ",
-    " എന്നിവ",
-    ", සහ ",
-    # Southeast Asian scripts.
-    " และ",
-    " ແລະ ",
-    "နှင့် ",
-    " និង ",
-    # Other scripts.
-    "፣ ",
-    " и ",
-    " жана ",
-    " και ",
-    " և ",
-    " ו-",
-    " და ",
-    " እና ",
-    " 및 ",
-)
+
+def load_substrings(path: str) -> tuple[str, ...]:
+    """Load and validate the shared multi-artist delimiter substrings.
+
+    Reads the single source of truth ``separators.json``, flattens the
+    script-grouped ``substrings`` object into a tuple, and asserts the
+    invariant that every separator is also a substring. A violation means a
+    delimiter the extractor splits on could never reach the allowlist, so
+    the tool refuses to generate anything.
+
+    :param path: Path to the separators JSON file
+    :returns: Flattened tuple of delimiter substrings
+    """
+    with open(path, "r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    separators = data["separators"]
+    substrings = tuple(
+        fragment for group in data["substrings"].values() for fragment in group
+    )
+
+    missing = [sep for sep in separators if sep not in substrings]
+    if missing:
+        raise ValueError(
+            "separators.json violates the invariant separators ⊆ substrings; "
+            f"missing from substrings: {missing}"
+        )
+
+    return substrings
 
 
-def has_delimiter(name: str) -> bool:
-    """Return True when *name* contains a known multi-artist delimiter."""
-    return any(fragment in name for fragment in SUBSTRINGS)
+def has_delimiter(name: str, substrings: tuple[str, ...]) -> bool:
+    """Return True when *name* contains a known multi-artist delimiter.
+
+    :param name: Artist name to test
+    :param substrings: Delimiter substrings loaded from the separators JSON
+    :returns: True when any substring occurs in *name*
+    """
+    return any(fragment in name for fragment in substrings)
 
 
-def collect_jsonl_names(path: str) -> set[str]:
+def collect_jsonl_names(path: str, substrings: tuple[str, ...]) -> set[str]:
     """Collect delimiter-bearing lowercased names from the MB artist dump.
 
     Each JSONL line is a MusicBrainz artist record. Names are gathered from
     the artist's own ``name`` field, from every alias ``name``, and from the
     ``source-credit`` / ``target-credit`` of every relation.
+
+    :param path: Path to the MusicBrainz artist JSONL dump
+    :param substrings: Delimiter substrings loaded from the separators JSON
+    :returns: Set of lowercased delimiter-bearing names
     """
     names = set()
     with open(path, "r", encoding="utf-8") as handle:
@@ -131,17 +101,21 @@ def collect_jsonl_names(path: str) -> set[str]:
                 candidates.append(relation.get("target-credit"))
 
             for candidate in candidates:
-                if candidate and has_delimiter(candidate):
+                if candidate and has_delimiter(candidate, substrings):
                     names.add(candidate.lower())
     return names
 
 
-def collect_csv_names(path: str) -> set[str]:
+def collect_csv_names(path: str, substrings: tuple[str, ...]) -> set[str]:
     """Collect single-MBID delimiter-bearing lowercased aliases from the CSV.
 
     Only rows whose ``artist_mbids`` is non-empty and free of commas are
     considered; their ``artist_credit_name`` is kept when it carries a
     delimiter.
+
+    :param path: Path to the canonical artist-alias CSV
+    :param substrings: Delimiter substrings loaded from the separators JSON
+    :returns: Set of lowercased delimiter-bearing alias names
     """
     names = set()
     with open(path, "r", encoding="utf-8", newline="") as handle:
@@ -151,7 +125,7 @@ def collect_csv_names(path: str) -> set[str]:
             if not mbids or "," in mbids:
                 continue
             credit = row.get("artist_credit_name")
-            if credit and has_delimiter(credit):
+            if credit and has_delimiter(credit, substrings):
                 names.add(credit.lower())
     return names
 
@@ -164,6 +138,11 @@ def main():
         "--output",
         required=True,
         help="path to the output .bin file",
+    )
+    parser.add_argument(
+        "--separators-json",
+        required=True,
+        help="path to the shared separators.json (single source of truth)",
     )
     parser.add_argument(
         "--musicbrainz-jsonl",
@@ -182,8 +161,10 @@ def main():
     )
     args = parser.parse_args()
 
-    jsonl_names = collect_jsonl_names(args.musicbrainz_jsonl)
-    csv_names = collect_csv_names(args.artists_csv)
+    substrings = load_substrings(args.separators_json)
+
+    jsonl_names = collect_jsonl_names(args.musicbrainz_jsonl, substrings)
+    csv_names = collect_csv_names(args.artists_csv, substrings)
 
     # Names that only the CSV contributes, beyond what the JSONL dump has.
     only_in_csv = csv_names - jsonl_names
