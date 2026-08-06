@@ -8,28 +8,17 @@
  */
 import { createXXHash3, type IHasher } from 'hash-wasm';
 import { debugLog } from '@/util/util';
+import separatorsData from './separators.json';
 
 /**
  * Separators that delimit a first artist from the rest of a name.
  * Each occurrence of a separator marks a candidate split position.
+ *
+ * Single source of truth shared with the Python allowlist generator:
+ * `separators.json` also carries the substrings the generator filters on,
+ * with the invariant that every separator is one of those substrings.
  */
-const SEPARATORS = [
-	', ',
-	' & ',
-	' / ',
-	' feat. ',
-	' ft. ',
-	' vs. ',
-	' + ',
-	' with ',
-	' featuring ',
-	' presents ',
-	' pres. ',
-	' prod. ',
-	' x ',
-	' • ',
-	',',
-];
+export const SEPARATORS = separatorsData.separators;
 
 /** Cached lazy initialisation of the shared XXH3_64 hasher. */
 let hasherInit: Promise<IHasher | null> | null = null;
