@@ -9,7 +9,7 @@ import type Song from '@/core/object/song';
 
 /**
  * Extract the first artist from the song's artist field when the
- * `LASTFM_FIRST_ARTIST_ONLY` option is enabled, keeping the full artist
+ * `FIRST_ARTIST_ONLY` option is enabled, keeping the full artist
  * name if it is present in the allowlist.
  *
  * Returns `null` when the song is corrected by the user, has no artist,
@@ -31,7 +31,7 @@ export async function getFirstArtistForSong(
 	}
 
 	const firstArtistOnly = await Options.getOption(
-		Options.LASTFM_FIRST_ARTIST_ONLY,
+		Options.FIRST_ARTIST_ONLY,
 	);
 	if (!firstArtistOnly) {
 		return null;
