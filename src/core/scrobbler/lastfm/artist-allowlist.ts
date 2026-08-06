@@ -14,7 +14,9 @@ let loadingPromise: Promise<void> | null = null;
  * @returns Set of 64-bit artist name hashes
  */
 export async function loadArtistAllowlist(): Promise<Set<bigint>> {
-	const url = browser.runtime.getURL('static-data/musicbrainz_artist_hashes.bin');
+	const url = browser.runtime.getURL(
+		'static-data/musicbrainz_artist_hashes.bin',
+	);
 
 	let response: Response;
 	try {
