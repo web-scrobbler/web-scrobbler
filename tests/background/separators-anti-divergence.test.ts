@@ -11,8 +11,9 @@ import separatorsData from '@/core/scrobbler/lastfm/separators.json';
  * otherwise a valid multi-artist name never reaches the allowlist and gets
  * truncated by the extractor's fallback.
  *
- * These tests are the RED state of the fix: the `separators ⊆ substrings`
- * invariant does not hold yet and the corresponding assertions fail.
+ * These tests guard the `separators ⊆ substrings` invariant going forward:
+ * if the list of separators ever decouples from the substrings the generator
+ * filters on, the assertions fail loudly on both the TS and Python sides.
  */
 describe('separators anti-divergence', () => {
 	describe('a. TS SEPARATORS == JSON separators', () => {
@@ -25,9 +26,10 @@ describe('separators anti-divergence', () => {
 		it('should keep every JSON separator present in the flattened substrings', () => {
 			const substrings = Object.values(separatorsData.substrings).flat();
 			for (const separator of separatorsData.separators) {
-				expect(substrings, `missing "${separator}" in substrings`).to.include(
-					separator,
-				);
+				expect(
+					substrings,
+					`missing "${separator}" in substrings`,
+				).to.include(separator);
 			}
 		});
 	});
@@ -36,9 +38,10 @@ describe('separators anti-divergence', () => {
 		it('should keep every TS separator present in the flattened substrings', () => {
 			const substrings = Object.values(separatorsData.substrings).flat();
 			for (const separator of SEPARATORS) {
-				expect(substrings, `missing "${separator}" in substrings`).to.include(
-					separator,
-				);
+				expect(
+					substrings,
+					`missing "${separator}" in substrings`,
+				).to.include(separator);
 			}
 		});
 	});
