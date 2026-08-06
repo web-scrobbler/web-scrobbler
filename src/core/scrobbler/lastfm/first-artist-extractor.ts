@@ -1,24 +1,19 @@
+/**
+ * Extracts the first artist from a multi-artist name.
+ *
+ * When the whole artist name (lowercased) is present in the allowlist it is
+ * returned unchanged. Otherwise the name is split on a fixed set of
+ * separators; the earliest split position yields the truncated first artist,
+ * unless a longer prefix ending at a later split position is allowlisted.
+ */
 import { createXXHash3, type IHasher } from 'hash-wasm';
 import { debugLog } from '@/util/util';
 
-/** @internal Lazy-init promise for XXH3_64 hasher. */
-let hasherInit: Promise<IHasher | null> | null = null;
-
-async function getHasher(): Promise<IHasher | null> {
-	if (hasherInit) {
-		return hasherInit;
-	}
-	hasherInit = createXXHash3().catch(() => {
-		debugLog(
-			'XXH3 WASM init failed, skipping allowlist checks',
-			'warn',
-		);
-		return null;
-	});
-	return hasherInit;
-}
-
-const SEPARATORS: readonly string[] = [
+/**
+ * Separators that delimit a first artist from the rest of a name.
+ * Each occurrence of a separator marks a candidate split position.
+ */
+const SEPARATORS = [
 	', ',
 	' & ',
 	' / ',
@@ -36,35 +31,55 @@ const SEPARATORS: readonly string[] = [
 	',',
 ];
 
+/** Cached lazy initialisation of the shared XXH3_64 hasher. */
+let hasherInit: Promise<IHasher | null> | null = null;
+
 /**
- * Compute XXH3_64 hash of a string, returning the result as a bigint.
- * Uses the synchronous IHasher API after async wasm initialisation.
+ * Return the shared XXH3_64 hasher, initialising it once on first use.
+ *
+ * Fails gracefully: when the WASM module cannot be initialised, a warning is
+ * logged and `null` is returned so callers degrade to plain truncation.
+ *
+ * @returns The hasher instance, or `null` when WASM initialisation failed
+ */
+function getHasher(): Promise<IHasher | null> {
+	if (hasherInit === null) {
+		hasherInit = createXXHash3().catch(() => {
+			debugLog('Failed to initialise the XXH3_64 hasher', 'warn');
+			return null;
+		});
+	}
+	return hasherInit;
+}
+
+/**
+ * Compute the XXH3_64 digest of a name as a little-endian unsigned 64-bit
+ * bigint using the shared hasher instance.
+ *
+ * @param instance - Shared hasher instance
+ * @param name - Name to hash
+ * @returns 64-bit digest interpreted as a little-endian bigint
  */
 function hashName(instance: IHasher, name: string): bigint {
 	instance.init();
 	instance.update(name);
-	const digest = instance.digest('binary');
-	const bytes = digest instanceof Uint8Array ? digest : new Uint8Array(8);
+	const bytes = instance.digest('binary');
 	const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
 	return view.getBigUint64(0, true);
 }
 
 /**
- * Extract the first artist name from a multi-artist string using separator
- * detection, with an allowlist-based hasher for known multi-word artist names.
+ * Extract the first artist from a multi-artist name.
  *
- * When the allowlist is non-empty, the function first checks whether the full
- * artist name matches a known hash. If not, it finds the earliest separator
- * and checks each prefix against the allowlist. If no match is found, the
- * artist name is truncated at the earliest separator.
+ * When the whole name (lowercased) is allowlisted it is returned unchanged.
+ * Otherwise the name is scanned for every separator and all split positions
+ * are collected; the earliest split position is used to truncate the name,
+ * unless a longer prefix ending at a later split position is allowlisted, in
+ * which case that longer prefix is returned.
  *
- * Graceful degradation: if the XXH3 WASM module fails to initialise, the
- * allowlist checks are silently skipped and only separator-based extraction
- * is performed.
- *
- * @param artistName - Full artist name string to process
- * @param allowlist - Set of XXH3_64 hashes of known multi-word artist names
- * @returns Extracted first artist name, or empty string if input is falsy
+ * @param artistName - Artist name to process
+ * @param allowlist - Set of XXH3_64 digests of known full artist names
+ * @returns The first artist, or the full name when no separator applies
  */
 export async function extract(
 	artistName: string,
@@ -74,47 +89,48 @@ export async function extract(
 		return '';
 	}
 
+	// Only initialise the hasher when an allowlist can actually be consulted.
 	let hasher: IHasher | null = null;
 	if (allowlist.size > 0) {
 		hasher = await getHasher();
 	}
 
+	// Whole-name match: the name (as-is, ignoring case) is allowlisted.
 	if (hasher && allowlist.has(hashName(hasher, artistName.toLowerCase()))) {
 		return artistName;
 	}
 
-	// Collect candidate end positions: every separator start in the string.
-	const candidateEnds = new Set<number>();
+	// Collect every candidate split position for all separators.
+	const candidates = new Set<number>();
 	for (const sep of SEPARATORS) {
-		let from = 0;
-		while (true) {
-			const pos = artistName.indexOf(sep, from);
-			if (pos === -1) {
-				break;
-			}
-			candidateEnds.add(pos);
-			from = pos + 1;
+		let pos = artistName.indexOf(sep);
+		while (pos !== -1) {
+			candidates.add(pos);
+			pos = artistName.indexOf(sep, pos + sep.length);
 		}
 	}
 
-	if (candidateEnds.size === 0) {
+	if (candidates.size === 0) {
 		return artistName;
 	}
 
-	const earliestPos = Math.min(...candidateEnds);
+	const earliestPos = Math.min(...candidates);
 
 	if (hasher) {
-		let best: string | null = null;
-		for (const pos of candidateEnds) {
+		// Prefer the longest prefix ending at a split position that is
+		// allowlisted, so allowlisted names containing internal separators
+		// are preserved.
+		let longest: string | null = null;
+		for (const pos of candidates) {
 			const prefix = artistName.substring(0, pos);
 			if (allowlist.has(hashName(hasher, prefix.toLowerCase()))) {
-				if (best === null || prefix.length > best.length) {
-					best = prefix;
+				if (longest === null || prefix.length > longest.length) {
+					longest = prefix;
 				}
 			}
 		}
-		if (best !== null) {
-			return best;
+		if (longest !== null) {
+			return longest;
 		}
 	}
 
