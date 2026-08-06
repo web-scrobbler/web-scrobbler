@@ -59,7 +59,8 @@ The output `.bin` file is a raw binary sequence of:
 - **Deduplicated** (duplicate names from multiple sources are hashed once)
 - **Lowercased** before hashing
 
-This matches the format used by pano-scrobbler's allowlist.
+The `.bin` file is the ground truth consumed by the extension at
+`src/static-data/musicbrainz_artist_hashes.bin`.
 
 ## How It Works
 
@@ -72,8 +73,3 @@ This matches the format used by pano-scrobbler's allowlist.
 4. **Hash** — compute `xxhash.xxh3_64()` of each lowercased name.
 5. **Sort and write** — output sorted hashes as raw binary.
 
-## Source
-
-Adapted from pano-scrobbler:
-
-<https://github.com/kawaiiDango/pano-scrobbler/blob/3cf8216cbb1fd95b26e8de2352f5f579a597a962/py-scripts/collect-musicbrainz-artist-names.py>
