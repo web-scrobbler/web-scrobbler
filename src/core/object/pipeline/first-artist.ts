@@ -30,9 +30,7 @@ export async function getFirstArtistForSong(
 		return null;
 	}
 
-	const firstArtistOnly = await Options.getOption(
-		Options.FIRST_ARTIST_ONLY,
-	);
+	const firstArtistOnly = await Options.getOption(Options.FIRST_ARTIST_ONLY);
 	if (!firstArtistOnly) {
 		return null;
 	}
