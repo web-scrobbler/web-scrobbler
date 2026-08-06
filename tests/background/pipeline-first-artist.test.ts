@@ -134,9 +134,7 @@ describe('first-artist pipeline process', () => {
 
 		await FirstArtist.process(song);
 
-		expect(mockGetOption).toHaveBeenCalledWith(
-			Options.FIRST_ARTIST_ONLY,
-		);
+		expect(mockGetOption).toHaveBeenCalledWith(Options.FIRST_ARTIST_ONLY);
 		expect(mockGetArtistAllowlist).not.toHaveBeenCalled();
 		expect(mockExtract).not.toHaveBeenCalled();
 		expect(song.processed.artist).to.equal('Artist1, Artist2');
