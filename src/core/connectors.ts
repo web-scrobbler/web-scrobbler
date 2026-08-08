@@ -312,6 +312,12 @@ export default <ConnectorMeta[]>[
 		id: 'odnoklassniki',
 	},
 	{
+		label: 'Outra Hora',
+		matches: ['*://radio.outrahora.com/*', '*://radio.outrahora.com'],
+		js: 'outrahora.js',
+		id: 'outrahora',
+	},
+	{
 		label: 'Overcast',
 		matches: ['*://overcast.fm/*'],
 		js: 'overcast.js',
