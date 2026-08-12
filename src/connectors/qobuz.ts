@@ -3,7 +3,7 @@ export {};
 const artistSelector = '.player__track-album [href*=artist]';
 const timeInfoSelector = '.player__track-time-content';
 
-Connector.playerSelector = '.player';
+Connector.playerSelector = '.ui-responsive-window';
 
 Connector.trackSelector = '.player__track-title';
 
