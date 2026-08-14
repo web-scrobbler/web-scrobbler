@@ -87,6 +87,12 @@ export default <ConnectorMeta[]>[
 		id: 'soundcloud',
 	},
 	{
+		label: 'SoundScout',
+		matches: ['*://www.soundscout.com/*'],
+		js: 'soundscout.js',
+		id: 'soundscout',
+	},
+	{
 		label: 'Amazon Music',
 		matches: [
 			'*://music.amazon.*/*',
