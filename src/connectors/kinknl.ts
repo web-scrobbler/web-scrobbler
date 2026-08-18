@@ -1,22 +1,25 @@
 export {};
 
-Connector.playerSelector = '[class^=PopupPlayer_popupPlayer__player__]';
+Connector.playerSelector = ':has(>button>svg)';
 
-Connector.artistTrackSelector = '[class^=PlayerTriton_playerTriton__title__]';
+Connector.artistSelector = `${Connector.playerSelector} p:nth-child(2)`;
+Connector.trackSelector = `${Connector.playerSelector} p:nth-child(3)`;
+
+const playPauseButtonSelector = `${Connector.playerSelector}>button>svg`;
 
 Connector.isPlaying = () => {
-	return (
-		!Util.isElementVisible(
-			'[class*=PlayerTriton_playerTriton--loading__]',
-		) &&
-		Util.getAttrFromSelectors(
-			'[class^=PlayerTriton_playerTriton__left__] svg path',
-			'd',
-		) === 'M.08.192h28v28h-28z'
-	);
+	const playPauseButton = document.querySelector(playPauseButtonSelector);
+	if (playPauseButton?.querySelector(':scope>rect+rect')) {
+		return true;
+	}
+	if (playPauseButton?.querySelector(':scope>polygon')) {
+		return false;
+	}
+	return null;
 };
 
 Connector.scrobblingDisallowedReason = () =>
-	Connector.getArtistTrack()?.artist?.startsWith('KINK')
-		? 'FilteredTag'
-		: null;
+	Connector.getArtist()?.startsWith('KINK') ? 'FilteredTag' : null;
+
+Connector.loveButtonSelector = `${Connector.playerSelector} div>button[class~=bg-color-1]:first-child`;
+Connector.unloveButtonSelector = `${Connector.playerSelector} div>button[class~=bg-color-9]:first-child`;

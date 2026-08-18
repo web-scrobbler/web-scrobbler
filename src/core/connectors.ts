@@ -33,6 +33,12 @@ export default <ConnectorMeta[]>[
 	{
 		label: 'Bandcamp Daily',
 		matches: ['*://daily.bandcamp.com/*'],
+		js: 'bandcamp-daily.js',
+		id: 'bandcamp-daily',
+	},
+	{
+		label: 'Bandcamp Embed',
+		matches: ['*://*.bandcamp.com/EmbeddedPlayer/*'],
 		js: 'bandcamp-embed.js',
 		id: 'bandcamp-embed',
 		allFrames: true,
@@ -114,7 +120,7 @@ export default <ConnectorMeta[]>[
 		id: 'megalyrics',
 	},
 	{
-		label: 'iHeartRadio',
+		label: 'iHeart',
 		matches: ['*://*.iheart.com/*'],
 		js: 'iheart.js',
 		id: 'iheart',
@@ -130,6 +136,13 @@ export default <ConnectorMeta[]>[
 		matches: ['*://fm.tuba.pl/*'],
 		js: 'tubafm.js',
 		id: 'tubafm',
+	},
+	{
+		label: 'Spotify Embed',
+		matches: ['*://open.spotify.com/embed/*'],
+		js: 'spotify-embed.js',
+		id: 'spotify-embed',
+		allFrames: true,
 	},
 	{
 		label: 'Spotify',
@@ -216,6 +229,12 @@ export default <ConnectorMeta[]>[
 		id: 'subphonic',
 	},
 	{
+		label: 'Nextcloud music',
+		matches: ['*://*/apps/music/*'],
+		js: 'nextcloud-music.js',
+		id: 'nextcloud-music',
+	},
+	{
 		label: 'Digitally Imported',
 		matches: ['*://www.di.fm/*'],
 		js: 'radiotunes.js',
@@ -264,7 +283,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Mixcloud',
-		matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
+		matches: ['*://*.mixcloud.com/*'],
 		js: 'mixcloud.js',
 		id: 'mixcloud',
 	},
@@ -512,7 +531,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Reddit Music Player',
-		matches: ['*://reddit.musicplayer.io/'],
+		matches: ['*://musicplayer.io/'],
 		js: 'redditmusicplayer.js',
 		id: 'redditmusicplayer',
 	},
@@ -718,7 +737,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Nashville BoomBox',
-		matches: ['*://boombox.library.nashville.org/*'],
+		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
 		js: 'musicat.js',
 		id: 'nashville-library-boombox',
 	},
@@ -759,8 +778,14 @@ export default <ConnectorMeta[]>[
 		id: 'tracksmusiclibrary',
 	},
 	{
+		label: 'Bay Beats',
+		matches: ['*://baybeats.sfpl.org/*'],
+		js: 'musicat.js',
+		id: 'baybeats',
+	},
+	{
 		label: 'Monstercat',
-		matches: ['*://www.monstercat.com/*'],
+		matches: ['*://www.monstercat.com/*', '*://player.monstercat.com/*'],
 		js: 'monstercat.js',
 		id: 'monstercat',
 	},
@@ -914,6 +939,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://playerui.music.naver.com/*'],
 		js: 'naver.js',
 		id: 'naver',
+	},
+	{
+		label: 'Naver Vibe',
+		matches: ['*://vibe.naver.com/*'],
+		js: 'naver-vibe.js',
+		id: 'naver-vibe',
 	},
 	{
 		label: 'Soribada',
@@ -1135,7 +1166,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Radiooooo',
-		matches: ['*://radiooooo.com/*', '*://mobile.radiooooo.com/*'],
+		matches: ['*://app.radiooooo.com/*', '*://mobile.radiooooo.com/*'],
 		js: 'radiooooo.js',
 		id: 'radiooooo',
 	},
@@ -1152,9 +1183,9 @@ export default <ConnectorMeta[]>[
 		id: 'mideastunes',
 	},
 	{
-		label: 'Český Rozhlas',
-		matches: ['*://prehravac.rozhlas.cz/*'],
-		js: 'rozhlas.js',
+		label: 'mujRozhlas',
+		matches: ['*://www.mujrozhlas.cz/*'],
+		js: 'mujrozhlas.js',
 		id: 'rozhlas',
 	},
 	{
@@ -1441,6 +1472,12 @@ export default <ConnectorMeta[]>[
 		id: 'chillhop',
 	},
 	{
+		label: 'Chillhop Radio',
+		matches: ['*://app.chillhop.com/*'],
+		js: 'chillhop-radio.js',
+		id: 'chillhop-radio',
+	},
+	{
 		label: 'DatPiff',
 		matches: ['*://www.datpiff.com/player/*'],
 		js: 'datpiff.js',
@@ -1521,7 +1558,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'abc.net.au',
-		matches: ['*://www.abc.net.au/*/listen-live/*'],
+		matches: ['*://www.abc.net.au/*/*live*/*'],
 		js: 'abc.net.au.js',
 		id: 'abcnetau',
 	},
@@ -1545,7 +1582,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'swr3',
-		matches: ['*://www.swr3.de/*'],
+		matches: ['*://www.swr3.de/*', '*://www.swr.de/*'],
 		js: 'swr3.js',
 		id: 'swr3',
 	},
@@ -1602,6 +1639,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radio7.lv/*'],
 		js: 'radio7.js',
 		id: 'radio7lv',
+	},
+	{
+		label: 'Radio Nemiers',
+		matches: ['*://radionemiers.com/*'],
+		js: 'radionemiers.js',
+		id: 'radionemiers',
 	},
 	{
 		label: 'TOWER RECORDS MUSIC',
@@ -2178,7 +2221,13 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'ROCK ANTENNE',
-		matches: ['*://*rockantenne.*/webradio/*'],
+		matches: [
+			'*://www.rockantenne.de/*',
+			'*://www.rockantenne.bayern/*',
+			'*://www.rockantenne.hamburg/*',
+			'*://www.rockantenne.nrw/*',
+			'*://www.rockantenne.at/*',
+		],
 		js: 'rockantenne.js',
 		id: 'rockantenne',
 	},
@@ -2338,7 +2387,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'radio.de',
-		matches: ['*://www.radio.de/*'],
+		matches: ['*://www.radio.de/*', '*://www.radio.net/*'],
 		js: 'radio.de.js',
 		id: 'radiode',
 	},
@@ -2407,6 +2456,24 @@ export default <ConnectorMeta[]>[
 		matches: ['*://scrobblerad.io/*'],
 		js: 'scrobbleradio.js',
 		id: 'scrobbleradio',
+	},
+	{
+		label: 'VocaDB',
+		matches: ['*://vocadb.net/*'],
+		js: 'vocadb.js',
+		id: 'vocadb',
+	},
+	{
+		label: 'UtaiteDB',
+		matches: ['*://utaitedb.net/*'],
+		js: 'vocadb.js',
+		id: 'utaitedb',
+	},
+	{
+		label: 'TouhouDB',
+		matches: ['*://touhoudb.com/*'],
+		js: 'vocadb.js',
+		id: 'touhoudb',
 	},
 	{
 		label: 'weareone.fm',
@@ -2679,6 +2746,12 @@ export default <ConnectorMeta[]>[
 		id: 'feishin',
 	},
 	{
+		label: 'Ampwall',
+		matches: ['*://ampwall.com/*'],
+		js: 'ampwall.js',
+		id: 'ampwall',
+	},
+	{
 		label: 'WQXR',
 		matches: ['*://www.wqxr.org/*'],
 		js: 'wqxr.js',
@@ -2686,8 +2759,155 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Monochrome',
-		matches: ['*://monochrome.prigoana.com/*', '*://monochrome.tf/*'],
+		matches: [
+			'*://monochrome.prigoana.com/*',
+			'*://monochrome.tf/*',
+			'*://monochrome.samidy.com/*',
+			'*://monochrome-back.pages.dev/*',
+		],
 		js: 'monochrome.js',
 		id: 'monochrome',
+	},
+	{
+		label: 'WeeklyBeats',
+		matches: ['*://weeklybeats.com/*'],
+		js: 'weeklybeats.js',
+		id: 'weeklybeats',
+	},
+	{
+		label: 'XRaydio',
+		matches: ['*://xraydio.net/*'],
+		js: 'xraydio.js',
+		id: 'xraydio',
+	},
+	{
+		label: 'Cytu.be',
+		matches: ['*://cytu.be/r/*'],
+		js: 'cytu-be.js',
+		id: 'cytu-be',
+	},
+	{
+		label: 'Telegram Audio Player',
+		matches: ['*://teleplay.rv7.nl/*'],
+		js: 'teleplay.js',
+		id: 'teleplay',
+	},
+	{
+		label: 'Subvert',
+		matches: ['*://*.subvert.fm/*'],
+		js: 'subvert.js',
+		id: 'subvert',
+	},
+	{
+		label: 'Debrid Vault',
+		matches: ['*://debridvault.elfhosted.com/*'],
+		js: 'debridvault.js',
+		id: 'debridvault',
+	},
+	{
+		label: 'Radio Swiss Classic',
+		matches: [
+			'*://www.radioswissclassic.ch/*',
+			'*://www.radioswissjazz.ch/*',
+			'*://www.radioswisspop.ch/*',
+		],
+		js: 'radioswissclassic.js',
+		id: 'radioswissclassic',
+	},
+	{
+		label: 'Rockserwis.fm',
+		matches: ['*://rockserwis.fm/*'],
+		js: 'rockserwis.fm.js',
+		id: 'rockserwis.fm',
+	},
+	{
+		label: 'Bossa Jazz Brasil',
+		matches: ['*://bossajazzbrasil.com/ouca-on-line/*'],
+		js: 'bossajazzbrazil.js',
+		id: 'bossajazzbrazil',
+	},
+	{
+		label: 'Kiss rádio',
+		matches: ['*://www.kiss.cz/online/*'],
+		js: 'kiss.js',
+		id: 'kiss',
+	},
+	{
+		label: 'Radio SAW',
+		matches: ['*://www.radiosaw.de/*'],
+		js: 'radiosaw.js',
+		id: 'radiosaw',
+	},
+	{
+		label: 'Star FM',
+		matches: ['*://tv3.lv/starfm/online/*'],
+		js: 'starfm.js',
+		id: 'starfm',
+	},
+	{
+		label: 'bandwagon',
+		matches: ['*://bandwagon.fm/*'],
+		js: 'bandwagon.js',
+		id: 'bandwagon',
+	},
+	{
+		label: 'Meloradio',
+		matches: ['*://player.meloradio.pl/*'],
+		js: 'meloradio.js',
+		id: 'meloradio',
+	},
+	{
+		label: 'The Indie Beat Television',
+		matches: ['*://tv.theindiebeat.fm/*'],
+		js: 'theindiebeat-owncast.js',
+		id: 'theindiebeat-tv',
+	},
+	{
+		label: 'escradio',
+		matches: ['*://www.escradio.com/player/*'],
+		js: 'escradio.js',
+		id: 'escradio',
+	},
+	{
+		label: 'musicMe',
+		matches: ['*://*.musicme.com/*'],
+		js: 'musicme.js',
+		id: 'musicme',
+		allFrames: true,
+	},
+	{
+		label: 'zxART',
+		matches: ['*://zxart.ee/*'],
+		js: 'zxart.js',
+		id: 'zxart',
+	},
+	{
+		label: 'DNA Lounge',
+		matches: ['*://www.dnalounge.com/webcast/video.html'],
+		js: 'dnalounge.js',
+		id: 'dnalounge',
+	},
+	{
+		label: 'The Lot Radio',
+		matches: ['*://www.thelotradio.com/shows/*'],
+		js: 'thelotradio.js',
+		id: 'thelotradio',
+	},
+	{
+		label: 'pixabay',
+		matches: [
+			'*://pixabay.com/music/*',
+			'*://pixabay.com/users/*',
+			'*://pixabay.com/playlists/*',
+			'*://pixabay.com/accounts/playlists/*',
+		],
+		js: 'pixabay.js',
+		id: 'pixabay',
+	},
+	{
+		label: 'WPGU',
+		matches: ['*://wpgu.com/*'],
+		js: 'wpgu.js',
+		id: 'wpgu',
 	},
 ];

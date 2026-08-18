@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Faça scrobble de músicas por toda a internet!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Opções do Web Scrobbler",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Apagar $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Ativado",
@@ -516,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Clique <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>aqui</a> para saber mais sobre padrões personalizados de URL.",
+        "message": "Clique <a target='_blank' href='$1'>aqui</a> para saber mais sobre padrões personalizados de URL.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -524,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Crie um <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">novo issue</a> no GitHub com o seu pedido e informaremos se podemos ou não adicionar suporte ao site em questão. Além disso, você mesmo pode adicionar suporte ao site criando uma bifurcação do <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repositório no GitHub</a> e enviando um pull request.",
+        "message": "Crie um <a href='$1' target='_blank'>novo issue</a> no GitHub com o seu pedido e informaremos se podemos ou não adicionar suporte ao site em questão. Além disso, você mesmo pode adicionar suporte ao site criando uma bifurcação do <a href='$1'>repositório no GitHub</a> e enviando um pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -548,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "As notas de atualização da versão atual estão disponíveis <a id='latest-release' target='_blank' href='$1'>aqui</a>. Para as notas completas, por favor visite <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>esta página.</a>",
+        "message": "As notas de atualização da versão atual estão disponíveis <a id='latest-release' target='_blank' href='$1'>aqui</a>. Para as notas completas, por favor visite <a target='_blank' href='$2'>esta página.</a>",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -560,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Você pode encontrar a lista de colaboradores <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">diretamente no GitHub</a>",
+        "message": "Você pode encontrar a lista de colaboradores <a href='$1'>diretamente no GitHub</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -572,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Quer contribuir? Veja como você pode contribuir com o projeto no <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">nosso site</a>.",
+        "message": "Quer contribuir? Veja como você pode contribuir com o projeto no <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">nosso site</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -648,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "O código do conector para este site específico precisa ser atualizado. Você pode acessar a <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">lista de issues no GitHub</a> e ver se o problema já foi relatado. Caso contrário, você pode criar um novo issue descrevendo o problema, o comportamento esperado e o que está acontecendo.",
+        "message": "O código do conector para este site específico precisa ser atualizado. Você pode acessar a <a href='$1' target='_blank'>lista de issues no GitHub</a> e ver se o problema já foi relatado. Caso contrário, você pode criar um novo issue descrevendo o problema, o comportamento esperado e o que está acontecendo.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -656,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Parece que algo deu errado ao efetuar o scrobble da música. Por favor, abra a página de opções e tente autenticar novamente com os serviços. Caso o problema persista, crie um <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">novo issue</a> na página do projeto no GitHub.",
+        "message": "Parece que algo deu errado ao efetuar o scrobble da música. Por favor, abra a página de opções e tente autenticar novamente com os serviços. Caso o problema persista, crie um <a href='$1' target='_blank'>novo issue</a> na página do projeto no GitHub.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "O scrobble da música não está sendo feito, pois foi marcada como privada pelo dono.",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "O Web Scrobbler detectou a música \"$2\" por \"$1\", mas não irá fazer o scrobble dela.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "A música não foi reconhecida. Clique no ícone da extensão do Web Scrobbler para corrigir as informações.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Faça scrobble de músicas por toda a internet!",
-        "description": "Description of the extension"
     }
 }

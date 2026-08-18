@@ -1,4 +1,8 @@
 {
+    "extDescription": {
+        "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",
+        "description": "Description of the extension"
+    },
     "optionsTitle": {
         "message": "Opcje rozszerzenia Web Scrobbler",
         "description": "Title of options page"
@@ -389,7 +393,7 @@
     },
     "optionsDelete": {
         "message": "Usuń $1",
-        "description": ""
+        "description": "Option label"
     },
     "optionsEnabled": {
         "message": "Aktywowane",
@@ -516,7 +520,7 @@
         "description": "Answer #4"
     },
     "faqAnswer4c": {
-        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>tutaj</a>.",
+        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='$1'>tutaj</a>.",
         "description": "Answer #4"
     },
     "faqQuestion5": {
@@ -524,7 +528,7 @@
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Otwórz na GitHubie <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nowy wniosek</a> ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repozytorium na GitHubie</a> i wysyłając nam pull requesta.",
+        "message": "Otwórz na GitHubie <a href='$1' target='_blank'>nowy wniosek</a> ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując <a href='$1'>repozytorium na GitHubie</a> i wysyłając nam pull requesta.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -548,7 +552,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='$1'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>stronie projektu</a>.",
+        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='$1'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='$2'>stronie projektu</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -560,7 +564,7 @@
         "description": "'Contributors' header"
     },
     "contributorsText": {
-        "message": "Możesz znaleźć listę współtwórców <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">bezpośrednio na GitHubie</a>",
+        "message": "Możesz znaleźć listę współtwórców <a href='$1'>bezpośrednio na GitHubie</a>",
         "description": "'About' section text"
     },
     "versionTitle": {
@@ -572,7 +576,7 @@
         "description": "'About' section text"
     },
     "contributorsContribute": {
-        "message": "Chcesz przyczynić się do rozwoju projektu? Zapoznaj się ze wszystkimi sposobami na jakie jest to możliwe na <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">naszej stronie</a>.",
+        "message": "Chcesz przyczynić się do rozwoju projektu? Zapoznaj się ze wszystkimi sposobami na jakie jest to możliwe na <a href='$1' target=\"_blank\" rel=\"noopener noreferrer\">naszej stronie</a>.",
         "description": "'About' section text"
     },
     "showSomeLoveTitle": {
@@ -648,7 +652,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">listę zgłoszonych problemów</a> i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
+        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć <a href='$1' target='_blank'>listę zgłoszonych problemów</a> i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -656,7 +660,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">wypełnienie zgłoszenia</a> na GitHubie.",
+        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href='$1' target='_blank'>wypełnienie zgłoszenia</a> na GitHubie.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {
@@ -677,7 +681,7 @@
     },
     "disallowedDescIsPrivate": {
         "message": "Ten utwór nie zostanie przescrobblowany, ponieważ został on oznaczony jako prywatny przez swojego twórcę.",
-        "description": ""
+        "description": "The description of 'disallowed' popup when a song that is marked as private is being played."
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler rozpoznał ten utwór jako \"$2\" autorstwa \"$1\", ale nie przescrobbluje go.",
@@ -1098,9 +1102,5 @@
     "infoBoxStateUnknown": {
         "message": "Utwór nie został rozpoznany. Naciśnij ikonę rozszerzenia Web Scrobbler aby przypisać informacje ręcznie.",
         "description": "Infobox track is not recognized"
-    },
-    "extDescription": {
-        "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",
-        "description": "Description of the extension"
     }
 }

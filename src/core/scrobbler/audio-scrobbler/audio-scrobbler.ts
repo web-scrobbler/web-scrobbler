@@ -329,6 +329,13 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 		if (!response.ok) {
 			this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
+			if ('error' in responseData && responseData.error === 9) {
+				// Invalid session key - Please re-authenticate
+				await this.signOut();
+				this.debugLog(
+					'error 9 received, triggering signOut so that user grant access again.',
+				);
+			}
 			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 

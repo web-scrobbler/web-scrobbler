@@ -12,11 +12,11 @@ Cette extension ne collecte aucun de vos données personnel.
 
 Vos paramètres et identifiants sont stockés dans votre navigateur. L'extension stock :
 
- - Vos identifiants des services de scrobble
- - Vos paramètres personnels de Web Scrobbler
- - Vos titres édités
- - Vos modèles d'URL personnalisés pour les connecteurs
- - Informations sur le système de l'extension
+- Vos identifiants des services de scrobble
+- Vos paramètres personnels de Web Scrobbler
+- Vos titres édités
+- Vos modèles d'URL personnalisés pour les connecteurs
+- Informations sur le système de l'extension
 
 Vos identifiants sont uniquement utilisés pour communiquer avec les service de scrobble
 
