@@ -1,10 +1,10 @@
 export {};
 Connector.isPlaying = () => {
-const playPauseButton = document.querySelector(
-'[class*="livestream_playPauseButton"]',
-);
+	const playPauseButton = document.querySelector(
+		'[class*="livestream_playPauseButton"]',
+	);
 
-return playPauseButton?.className.includes('livestream_playing') ?? false;
+	return playPauseButton?.className.includes('livestream_playing') ?? null;
 };
 
 Connector.playerSelector = 'body';
