@@ -22,6 +22,21 @@ export {};
 
 const adSelector = '.ytmusic-player-bar.advertisement';
 
+let scrobbleAllArtists = false;
+let ignoreDeviceTransferMetadata = true;
+
+// read option to enable / disable scrobbling by first artist
+async function readConnectorOptions() {
+	if (await Util.getOption('youtube-music', 'scrobbleAllArtists')) {
+		scrobbleAllArtists = true;
+	}
+	if (await Util.getOption('youtube-music', 'ignoreDeviceTransferMetadata')) {
+		ignoreDeviceTransferMetadata = true;
+	}
+}
+
+void readConnectorOptions();
+
 const mediaInfo = {
 	playbackState: 'none',
 	metadata: {
@@ -56,20 +71,73 @@ Connector.getTrackArt = () => {
 	return artworks?.[artworks.length - 1].src;
 };
 
+// BETTER ARTIST PARSER - FIXES MISSING ANCHOR TAGS FOR ARTISTS
+function getCleanArtist(rawArtist: string | undefined): string {
+	if (!rawArtist) return '';
+
+	// trim leading / trailing spaces of an artist name, and replace misc whitespace
+	// 	   (e.g. double spaces) with a single space
+	const artist = rawArtist
+		.trim()
+		.replace(/\s+/g, ' ')
+		.replace(/&nbsp;/g, ' ');
+
+	if (ignoreDeviceTransferMetadata) {
+		// reject invalid YTM device transfer metadata
+		const invalidArtistPatterns = [
+			/^from your .* device$/i,
+			/^casting$/i,
+			/^connecting$/i,
+			/^youtube music$/i,
+		];
+		for (const pattern of invalidArtistPatterns) {
+			if (pattern.test(artist)) {
+				return '';
+			}
+		}
+	}
+
+	// return early if scrobbling only first artist
+	if (scrobbleAllArtists) {
+		return artist;
+	}
+
+	// continue with splitting artist string at common splitters
+	const splitters = /[,/&]|feat\.?|ft\.?|featuring| x | vs | with | x /i;
+	const parts = artist
+		.split(splitters)
+		.map((p) => p.trim())
+		.filter(Boolean);
+
+	// only return the first artist
+	return parts[0] || artist;
+}
+
 Connector.getArtistTrack = () => {
 	let artist;
 	let track;
 	const metadata = mediaInfo.metadata;
 
 	if (metadata?.album) {
-		artist = metadata.artist;
+		// use new method to 'clean' the artist data
+		artist = getCleanArtist(metadata.artist);
 		track = metadata.title;
 	} else {
 		({ artist, track } = Util.processYtVideoTitle(metadata?.title));
 		if (!artist) {
-			artist = metadata?.artist;
+			artist = getCleanArtist(metadata?.artist);
+		} else {
+			artist = getCleanArtist(artist);
 		}
 	}
+
+	if (ignoreDeviceTransferMetadata) {
+		// prevent temporary invalid metadata states
+		if (!artist || !track) {
+			return null;
+		}
+	}
+
 	return { artist, track };
 };
 
