@@ -81,6 +81,12 @@ export default <ConnectorMeta[]>[
 		id: 'deezer',
 	},
 	{
+		label: 'WEFUNK Radio',
+		matches: ['*://session.wefunkradio.com/*', '*://www.wefunkradio.com/*'],
+		js: 'wefunkradio.js',
+		id: 'wefunkradio',
+	},
+	{
 		label: 'SoundCloud',
 		matches: ['*://soundcloud.com/*', '*://m.soundcloud.com/*'],
 		js: 'soundcloud.js',
