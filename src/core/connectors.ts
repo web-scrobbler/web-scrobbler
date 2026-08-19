@@ -2906,7 +2906,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'SoundScout',
-		matches: ['*://www.soundscout.com/*'],
+		matches: ['*://www.soundscout.com/player/*'],
 		js: 'soundscout.js',
 		id: 'soundscout',
 	},
