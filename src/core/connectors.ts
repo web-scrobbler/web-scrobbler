@@ -688,100 +688,42 @@ export default <ConnectorMeta[]>[
 		id: 'hoopladigital',
 	},
 	{
-		label: 'Amplify 817',
-		matches: ['*://amplify817.org/*'],
+		label: 'MUSICat', // musicat.co/libraries
+		matches: [
+			'*://capitalcityrecords.ca/*', // EDMONTON PUBLIC LIBRARY
+			'*://amplify817.org/*', // FORT WORTH PUBLIC LIBRARY
+			'*://playback.spl.org/*', // THE SEATTLE PUBLIC LIBRARY
+			'*://hum.slcpl.org/*', // SALT LAKE CITY PUBLIC LIBRARY
+			'*://hclib.musicat.co/*', // HENNEPIN COUNTY LIBRARY
+			'*://atxlibrary.musicat.co/*', // AUSTIN PUBLIC LIBRARY
+			'*://librarymusicproject.com/*', // MULTNOMAH COUNTY LIBRARY
+			'*://stacks.carnegielibrary.org/*', // CARNEGIE LIBRARY of PITTSBURGH
+			'*://tracksmusiclibrary.org/*', // CHAPEL HILL PUBLIC LIBRARY
+			'*://flipside.apl.org/*', // APPLETON PUBLIC LIBRARY
+			'*://qcbeats.org/*', // DAVENPORT PUBLIC LIBRARY
+			'*://boombox.nashvillepubliclibrary.org/*', // NASHVILLE PUBLIC LIBRARY
+			'*://thebeathartford.co/*', // HARTFORD PUBLIC LIBRARY
+			'*://records.lilaccitylocal.com/*', // SPOKANE PUBLIC LIBRARY
+			'*://baybeats.sfpl.org/*', // SAN FRANCISCO PUBLIC LIBRARY
+			'*://vibes.kdl.org/*', // KENT DISTRICT LIBRARY
+			'*://blast.hmcpl.org/*', // HUNTSVILLE-MADISON COUNTY PUBLIC LIBRARY
+			'*://music.lplks.org/*', // LAWRENCE PUBLIC LIBRARY
+			'*://memphis.musicat.co/*', // MEMPHIS PUBLIC LIBRARIES
+			'*://sawdustcitysounds.org/*', // L.E. PHILLIPS MEMORIAL PUBLIC LIBRARY
+			'*://crescentcitysounds.org/*', // NEW ORLEANS PUBLIC LIBRARY
+			'*://waves.tadl.org/*', // TRAVERSE AREA PUBLIC LIBARY
+			'*://smllogjam.org/*', // SHREVE MEMORIAL LIBRARY
+			'*://pimadesertstreams.org/*', // PIMA COUNTY PUBLIC LIBRARY
+			'*://redstickrhythms.org/*', // EAST BATON ROUGE PARISH LIBRARY
+		],
 		js: 'musicat.js',
-		id: 'amplify817',
-	},
-	{
-		label: 'Capital City Records',
-		matches: ['*://capitalcityrecords.ca/*'],
-		js: 'musicat.js',
-		id: 'capitalcityrecords',
-	},
-	{
-		label: 'Electric Lady Bird',
-		matches: ['*://atxlibrary.musicat.co/*'],
-		js: 'musicat.js',
-		id: 'musicat-atxlibrary',
-	},
-	{
-		label: 'FlipSide',
-		matches: ['*://flipside.apl.org/*'],
-		js: 'musicat.js',
-		id: 'apl-flipside',
-	},
-	{
-		label: 'HUM (Hear Utah Music)',
-		matches: ['*://hum.slcpl.org/*'],
-		js: 'musicat.js',
-		id: 'slcpl-hum',
-	},
-	{
-		label: 'KDL Vibes',
-		matches: ['*://vibes.kdl.org/*'],
-		js: 'musicat.js',
-		id: 'kdl-vibes',
-	},
-	{
-		label: 'Library Music Project',
-		matches: ['*://librarymusicproject.com/*'],
-		js: 'musicat.js',
-		id: 'librarymusicproject',
-	},
-	{
-		label: 'MNspin',
-		matches: ['*://hclib.musicat.co/*'],
-		js: 'musicat.js',
-		id: 'musicat-hclib',
-	},
-	{
-		label: 'Nashville BoomBox',
-		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
-		js: 'musicat.js',
-		id: 'nashville-library-boombox',
-	},
-	{
-		label: 'QC Beats',
-		matches: ['*://qcbeats.org/*'],
-		js: 'musicat.js',
-		id: 'qcbeats',
+		id: 'musicat',
 	},
 	{
 		label: 'Q-Dance',
 		matches: ['*://www.q-dance.com/*'],
 		js: 'q-dance.js',
 		id: 'q-dance',
-	},
-	{
-		label: 'Sawdust City Sounds',
-		matches: ['*://sawdustcitysounds.org/*'],
-		js: 'musicat.js',
-		id: 'sawdustcitysounds',
-	},
-	{
-		label: 'Seattle PlayBack',
-		matches: ['*://playback.spl.org/*'],
-		js: 'musicat.js',
-		id: 'spl-playback',
-	},
-	{
-		label: 'STACKS',
-		matches: ['*://stacks.carnegielibrary.org/*'],
-		js: 'musicat.js',
-		id: 'carnegielibrary-stacks',
-	},
-	{
-		label: 'Tracks Music Library',
-		matches: ['*://tracksmusiclibrary.org/*'],
-		js: 'musicat.js',
-		id: 'tracksmusiclibrary',
-	},
-	{
-		label: 'Bay Beats',
-		matches: ['*://baybeats.sfpl.org/*'],
-		js: 'musicat.js',
-		id: 'baybeats',
 	},
 	{
 		label: 'Monstercat',
