@@ -2873,4 +2873,10 @@ export default <ConnectorMeta[]>[
 		js: 'radyoplyr.js',
 		id: 'radyoplyr',
 	},
+	{
+		label: 'SoundScout',
+		matches: ['*://www.soundscout.com/player/*'],
+		js: 'soundscout.js',
+		id: 'soundscout',
+	},
 ];
