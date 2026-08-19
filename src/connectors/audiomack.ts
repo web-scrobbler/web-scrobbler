@@ -1,12 +1,12 @@
 export {};
 
-Connector.playerSelector = '[class^=_Player_]';
+Connector.playerSelector = '[class^=player_Player]';
 
 Connector.artistSelector = '[class*=_PlayerMetaName_]';
 
 Connector.albumSelector = '[class^=_PlayerWaveformAlbumData_] a';
 
-Connector.playButtonSelector = '[aria-label="Play"]';
+Connector.playButtonSelector = '[aria-label^="Play"]';
 
 Connector.currentTimeSelector =
 	'[class^=_PlayerInteractiveSect_] span:first-child';
@@ -26,7 +26,7 @@ Connector.getTrack = () => {
 
 Connector.getTrackArt = () => {
 	const trackArt = Util.extractImageUrlFromSelectors(
-		'[class^=_PlayerMetaImage_] img',
+		'[class*=_PlayerMetaImage_] img',
 	);
 	if (trackArt && trackArt.includes('?')) {
 		const endIdx = trackArt.indexOf('?');

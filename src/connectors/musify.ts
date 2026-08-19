@@ -1,11 +1,13 @@
 export {};
 
-Connector.playerSelector = '.jp-controls';
+Connector.playerSelector = '[data-widget="player-bar"]';
 
-Connector.artistTrackSelector = '.jp-title';
+Connector.trackArtSelector = '[data-player-role="art"]';
 
-Connector.currentTimeSelector = '.jp-current-time';
+Connector.artistTrackSelector = '[data-player-role="title"]';
 
-Connector.durationSelector = '.jp-duration';
+Connector.currentTimeSelector = '[data-player-role="current-time"]';
 
-Connector.playButtonSelector = '.jp-play';
+Connector.durationSelector = '[data-player-role="duration"]';
+
+Connector.pauseButtonSelector = '[data-player-role="pause"]';

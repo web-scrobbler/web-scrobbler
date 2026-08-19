@@ -9,6 +9,4 @@ Connector.artistSelector = '#composer';
 Connector.playButtonSelector = '#live-play';
 
 Connector.scrobblingDisallowedReason = () =>
-	Util.getTextFromSelectors('.nowplaying-label') === 'Now Playing'
-		? null
-		: 'Other';
+	Util.isElementVisible('#song-info') ? null : 'Other';

@@ -1,12 +1,9 @@
 import browser from 'webextension-polyfill';
 import type { DataModels } from '@/core/storage/wrapper';
 import StorageWrapper from '@/core/storage/wrapper';
-import type CloneableSong from '../object/song';
 
 const LOCAL = 0;
 const SYNC = 1;
-
-export type StorageNamespace = keyof typeof storageTypeMap;
 
 /**
  * This storage contains the connector options values.
@@ -40,7 +37,7 @@ export const CUSTOM_PATTERNS = 'customPatterns';
  * The format of storage data is following:
  * \{
  *     changelog: \{
- *     	   // `ver` is the extention version, e.g. 'v2.15.1'
+ *     	   // `ver` is the extension version, e.g. 'v2.15.1'
  *     	   // `true` means the notification of the version changelog
  *     	   // was displayed.
  *         ver: true,
@@ -182,6 +179,8 @@ const storageTypeMap = {
 	[STATE_MANAGEMENT]: LOCAL,
 	[DISABLED_TABS]: LOCAL,
 };
+
+export type StorageNamespace = keyof typeof storageTypeMap;
 
 /**
  * Return storage by given namespace according storage type map.

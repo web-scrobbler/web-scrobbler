@@ -25,9 +25,10 @@ import {
 	SummaryCheckbox,
 } from './inputs';
 import browser from 'webextension-polyfill';
-import { t } from '@/util/i18n';
+import { CONNECTOR_DEVELOPMENT_URL, t } from '@/util/i18n';
 import BlockedChannels from './edit-options/blocked-channels';
-import type { ModalType } from './navigator';
+import type { ModalType } from './modal-type';
+import { TAnchor } from '@/ui/components/util';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(
@@ -62,8 +63,13 @@ export default function ConnectorOverrideOptions(props: {
 				<h1>{t('optionsSupportedWebsites')}</h1>
 				<p>{t('optionsEnableDisableHint')}</p>
 				<p>{t('optionsCustomPatternsHint')}</p>
-				{/* eslint-disable-next-line */}
-				<p innerHTML={t('optionsConnectorsWelcome')} />
+				<p>
+					<TAnchor
+						messageName="optionsConnectorsWelcome"
+						substitutions={CONNECTOR_DEVELOPMENT_URL}
+						target="_blank"
+					/>
+				</p>
 
 				<div class={styles.filterWrapper}>
 					<input

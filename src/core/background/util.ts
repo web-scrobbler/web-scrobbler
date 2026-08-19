@@ -4,7 +4,6 @@ import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { isPrioritizedMode } from '@/core/object/controller/controller';
-import { performUpdateAction } from './action';
 import { sendBackgroundMessage } from '@/util/communication';
 import type { ConnectorMeta } from '../connectors';
 
@@ -59,7 +58,7 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 			const tab = await browser.tabs.get(entry.tabId);
 			await getConnectorByUrl(tab.url ?? '');
 			return true;
-		} catch (err) {
+		} catch {
 			return false;
 		}
 	});
@@ -111,22 +110,6 @@ export async function setState(data: StateManagement): Promise<void> {
 }
 
 /**
- * Takes a list of tabs and updates the action state based on the first tab that matches a priority group.
- *
- * @param tabs - tabs from state
- * @param tabId - Currently active tab id if known
- * @returns the tab that was used to update the action state
- */
-export async function updateTabsFromTabList(
-	tabs: ManagerTab[],
-	tabId?: number,
-) {
-	const curTab = await getActiveTabDetails(tabs, tabId);
-	performUpdateAction(curTab);
-	return curTab;
-}
-
-/**
  * Takes a list of tabs and returns the details of the first tab that matches a priority group.
  *
  * @param tabs - tabs from state
@@ -171,7 +154,7 @@ async function getTabDetails(tabId: number): Promise<ManagerTab> {
 			song: tabState.song,
 		};
 		return curTab;
-	} catch (err) {
+	} catch {
 		return {
 			tabId,
 			mode: ControllerMode.Unsupported,

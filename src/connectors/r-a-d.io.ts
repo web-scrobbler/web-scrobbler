@@ -1,12 +1,12 @@
 export {};
 
-const playPauseButtonSelector = '#stream-play';
+const playPauseButtonSelector = '#stream-play-pause';
 
-Connector.artistTrackSelector = '#np';
+Connector.artistTrackSelector = '#metadata';
 
-Connector.playerSelector = '.dynamic-row > .col-md-6';
+Connector.playerSelector = '.section > .container > .mb-6';
 
-Connector.durationSelector = '#progress-length';
+Connector.durationSelector = '#progress-max';
 
 Connector.currentTimeSelector = '#progress-current';
 

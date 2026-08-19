@@ -1,3 +1,5 @@
+export {};
+
 Connector.trackSelector = '#songlist > tbody > tr.plSel > .clickable-row a';
 
 Connector.isPlaying = () =>
@@ -15,6 +17,7 @@ Connector.artistSelector = '#pageContent > p[align="left"]';
 const filter = MetadataFilter.createFilter({
 	artist: cleanupArtist,
 });
+
 Connector.applyFilter(filter);
 
 function cleanupArtist(text: string) {

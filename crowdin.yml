@@ -1,0 +1,19 @@
+#
+# Crowdin CLI configuration
+# See https://crowdin.github.io/crowdin-cli/configuration for more information
+# See https://support.crowdin.com/developer/configuration-file/ for all available options
+#
+
+'project_id': '842852'
+'api_token_env': 'CROWDIN_PERSONAL_TOKEN'
+'base_path': '.'
+'base_url': 'https://api.crowdin.com'
+
+'preserve_hierarchy': true
+
+files:
+  - source: /src/_locales/en/messages.json
+    translation: /src/_locales/%locale%/messages.json
+  - source: /src/_locales/en/privacy.md
+    translation: /src/_locales/%locale%/privacy.md
+    type: md

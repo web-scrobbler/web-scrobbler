@@ -54,14 +54,14 @@ function testSaveEmptySong() {
 	emptySavedEdits();
 	const emptySong = makeNonProcessedSong();
 
-	it('should throw an error while loading info of an empty song', () => {
-		expect(savedEdits.loadSongInfo(emptySong)).rejects.to.deep.equal(
+	it('should throw an error while loading info of an empty song', async () => {
+		await expect(savedEdits.loadSongInfo(emptySong)).rejects.to.deep.equal(
 			new Error('Empty song'),
 		);
 	});
 
-	it('should throw an error while saving an empty song', () => {
-		expect(
+	it('should throw an error while saving an empty song', async () => {
+		await expect(
 			savedEdits.saveSongInfo(emptySong, editedInfo),
 		).rejects.to.deep.equal(new Error('Empty song'));
 	});
