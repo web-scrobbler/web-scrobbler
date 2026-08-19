@@ -405,6 +405,12 @@ export default <ConnectorMeta[]>[
 		id: 'accuradio',
 	},
 	{
+		label: 'I Love Music',
+		matches: ['*://ilovemusic.de/*'],
+		js: 'ilovemusic.js',
+		id: 'ilmovemusic',
+	},
+	{
 		label: 'Imusic.am',
 		matches: ['*://imusic.am/*'],
 		js: 'imusic.am.js',
