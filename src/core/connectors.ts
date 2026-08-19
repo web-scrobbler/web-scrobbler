@@ -811,28 +811,15 @@ export default <ConnectorMeta[]>[
 		id: 'fairpricemusic',
 	},
 	{
-		label: 'Radio ULTRA',
-		matches: ['*://player.radioultra.ru/*'],
-		js: 'radioultra.js',
-		id: 'radioultra',
-	},
-	{
-		label: 'Наше Радио',
-		matches: ['*://player.nashe.ru/*'],
-		js: 'radioultra.js',
-		id: 'nashe',
-	},
-	{
-		label: 'RockFM',
-		matches: ['*://player.rockfm.ru/*'],
-		js: 'radioultra.js',
-		id: 'rockfm',
-	},
-	{
-		label: 'Radio JAZZ',
-		matches: ['*://player.radiojazzfm.ru/*'],
-		js: 'radioultra.js',
-		id: 'radiojazzfm',
+		label: 'ULTRA Production Radios',
+		matches: [
+			'*://www.nashe.ru/*',
+			'*://www.rockfm.ru/*',
+			'*://radiojazzfm.ru/*',
+			'*://radioultra.ru/*',
+		],
+		js: 'ultraproduction.js',
+		id: 'ultraproduction',
 	},
 	{
 		label: 'WO Streaming',
