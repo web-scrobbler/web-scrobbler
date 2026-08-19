@@ -73,8 +73,7 @@ window.cleanup = (() => {
 	};
 
 	// Wait until the player is loaded
-	let timer: ReturnType<typeof setInterval>;
-	let init = () => {
+	const init = () => {
 		if (!window.jwplayer) {
 			return;
 		}
@@ -86,7 +85,7 @@ window.cleanup = (() => {
 			clearInterval(timer);
 		}
 	};
-	timer = setInterval(init, 2000);
+	const timer = setInterval(init, 2000);
 	init();
 
 	return () => {
