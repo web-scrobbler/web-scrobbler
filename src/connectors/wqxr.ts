@@ -17,18 +17,22 @@ Connector.getArtistTrack = () => {
 	const artistTrackAndShow = Util.getTextFromSelectors(
 		Connector.artistTrackSelector,
 	);
-	if (!artistTrackAndShow) return;
+	if (!artistTrackAndShow) {
+		return;
+	}
 
 	const show = Util.getTextFromSelectors(
 		`${Connector.artistTrackSelector} .nypr-player-link`,
 	);
-	if (!show) return;
+	if (!show) {
+		return;
+	}
 
 	const [left, right] = artistTrackAndShow.split(' - ', 2);
 	let artistTrack;
-	if (left.trim() == show.trim()) {
+	if (left.trim() === show.trim()) {
 		artistTrack = right;
-	} else if (right.trim() == show.trim()) {
+	} else if (right.trim() === show.trim()) {
 		artistTrack = left;
 	}
 	if (artistTrack) {
