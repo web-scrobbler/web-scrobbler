@@ -2668,15 +2668,9 @@ export default <ConnectorMeta[]>[
 		id: 'aonsoku',
 	},
 	{
-		label: 'Radyo Voyage',
-		matches: ['*://radyovoyage.com/*'],
-		js: 'radyovoyage.js',
-		id: 'radyovoyage',
-	},
-	{
-		label: 'Radyo Eksen',
-		matches: ['*://radioeksen.com/*'],
-		js: 'radioeksen.js',
-		id: 'radioeksen',
+		label: 'Radyo Plyr',
+		matches: ['*://radyovoyage.com/*', '*://radioeksen.com/*'],
+		js: 'radyoplyr.js',
+		id: 'radyoplyr',
 	},
 ];
