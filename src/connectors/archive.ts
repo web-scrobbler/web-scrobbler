@@ -1,5 +1,7 @@
 export {};
 
+import type { State } from './jwplayer-dom-inject';
+
 /**
  * Example links to debug and test the connector:
  *
@@ -26,7 +28,7 @@ function removeNumericPrefixes(track: string) {
 }
 
 function hasAllTracksNumericPrefix() {
-	const playlist = state?.getPlaylist;
+	const playlist = state?.getPlaylist ?? [];
 
 	let hasAllTracksNumericPrefix = true;
 	for (const track of playlist) {
@@ -55,22 +57,10 @@ Connector.getTrackArt = () => {
 	return theaterElement.querySelector('img')?.getAttribute('src');
 };
 
-Connector.injectScript('connectors/archive-dom-inject.js');
+Connector.injectScript('connectors/jwplayer-dom-inject.js');
 
-type State = {
-	isPlaying: boolean | null;
-	getDuration: number | null;
-	getTrack: string | null;
-	getArtist: string | null;
-	getPlaylist: Array<string>;
-};
-let state: State = {
-	isPlaying: null,
-	getDuration: null,
-	getTrack: null,
-	getArtist: null,
-	getPlaylist: [],
-};
+let state: Partial<State> = {};
+
 Connector.onScriptEvent = (event) => {
 	state = event.data.state as State;
 	Connector.onStateChanged();
@@ -82,4 +72,4 @@ Connector.getDuration = () => state?.getDuration;
 
 Connector.getTrack = () => state?.getTrack;
 
-Connector.getArtist = () => state?.getArtist || Connector.getAlbumArtist();
+Connector.getArtist = () => state?.getArtist;

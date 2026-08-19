@@ -1,8 +1,10 @@
 export {};
 
 /**
- * This script runs in non-isolated environment(internet archive itself)
- * for accessing navigator variables on Firefox
+ * This script runs in non-isolated environment (eg. internet archive itself)
+ * for accessing the jwplayer variables.
+ *
+ * https://docs.jwplayer.com/players/docs/jw8-reference
  *
  * * Script is run as an IIFE to ensure variables are scoped, as in the event
  * of extension reload/update a new script will have to override the current one.
@@ -10,11 +12,24 @@ export {};
  * Script starts by calling window.cleanup to cleanup any potential previous script.
  *
  * @returns a cleanup function that cleans up event listeners and similar for a future overriding script.
+ *
+ * @see {@link ./archive.ts} for an example for using this
  */
 
-interface Window {
-	jwplayer: () => JwplayerApi;
+declare global {
+	interface Window {
+		jwplayer?: () => JwplayerApi;
+		cleanup?: () => void;
+	}
 }
+
+export type State = {
+	isPlaying: boolean;
+	getDuration: number;
+	getTrack: string;
+	getArtist: string;
+	getPlaylist: Array<string>;
+};
 
 interface JwplayerApi {
 	getState: () => string;
@@ -30,18 +45,18 @@ type JwplayerPlaylistItem = {
 	artist: string;
 };
 
-if ('cleanup' in window && typeof window.cleanup === 'function') {
-	(window as unknown as { cleanup: () => void }).cleanup();
+if (typeof window.cleanup === 'function') {
+	window.cleanup();
 }
 
-(window as unknown as { cleanup: () => void }).cleanup = (() => {
+window.cleanup = (() => {
 	let player: JwplayerApi;
 
 	const sendData = () => {
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
-				state: {
+				state: <State>{
 					isPlaying: player.getState() === 'playing',
 					getDuration: player.getDuration(),
 					getTrack: player.getPlaylistItem().title,
@@ -58,17 +73,24 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	};
 
 	// Wait until the player is loaded
-	const timer = setInterval(() => {
-		player = (window as unknown as Window).jwplayer();
+	let timer: ReturnType<typeof setInterval>;
+	let init = () => {
+		if (!window.jwplayer) {
+			return;
+		}
+		player = window.jwplayer();
 
 		if (player.on) {
 			player.on('play', sendData);
 			player.on('pause', sendData);
 			clearInterval(timer);
 		}
-	}, 2000);
+	};
+	timer = setInterval(init, 2000);
+	init();
 
 	return () => {
+		clearInterval(timer);
 		player.off('play', sendData);
 		player.off('pause', sendData);
 	};
