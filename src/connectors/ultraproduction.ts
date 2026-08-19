@@ -24,9 +24,10 @@ Connector.scrobblingDisallowedReason = () => {
 	if (station) {
 		Connector.meta.label = station;
 	}
+	const lowerStation = station?.toLowerCase().trim();
 	if (
-		station?.toLowerCase().trim() ===
-		Connector.getTrack()?.toLowerCase().trim()
+		lowerStation === Connector.getTrack()?.toLowerCase().trim() ||
+		lowerStation === Connector.getArtist()?.toLowerCase().trim()
 	) {
 		return 'FilteredTag';
 	}
