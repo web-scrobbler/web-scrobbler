@@ -5,7 +5,7 @@ const filter = MetadataFilter.createFilter({
 });
 
 function trimTrailingSeparator(text: string) {
-	return text.replace(/ – $/, '');
+	return text.replace(/ \u2013 $/, '');
 }
 
 const playerDisplay = '#NowPlaying button > span';
@@ -24,26 +24,26 @@ Connector.getArtistTrack = () => {
 		return null;
 	}
 
-	for (let elem of elems) {
-		if (elem.childNodes.length == 2) {
+	for (const elem of elems) {
+		if (elem.childNodes.length === 2) {
 			// The artist/title box has two textNodes,
 			// so use those if we have them
 			return {
-				artist: elem.firstChild.textContent,
-				track: elem.lastChild.textContent,
+				artist: elem.firstChild!.textContent,
+				track: elem.lastChild!.textContent,
 			};
-		} else {
-			// Otherwise fall back to trying to split using the default splitter
-			let artistTrack = Util.splitArtistTrack(elem.innerText);
-			if (artistTrack.artist && artistTrack.track) {
-				return artistTrack;
-			}
+		}
+
+		// Otherwise fall back to trying to split using the default splitter
+		const artistTrack = Util.splitArtistTrack(elem.innerText);
+		if (artistTrack.artist && artistTrack.track) {
+			return artistTrack;
 		}
 	}
 };
 
 Connector.currentTimeSelector = `${timeDiv} > div:first-child`;
-Connector.durationTimeSelector = `${timeDiv} > div:last-child`;
+Connector.durationSelector = `${timeDiv} > div:last-child`;
 
 Connector.loveButtonSelector =
 	'button img[alt="Approve"]:not([src*="pressed"])';
