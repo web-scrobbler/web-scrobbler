@@ -17,13 +17,13 @@ import {
 	enableConnector,
 	disableConnector,
 	disableUntilClosed,
-	updateTabsFromTabList,
 	getCurrentTab,
 	getActiveTabDetails,
 	getCurrentTabId,
 	addToBlocklist,
 	removeFromBlocklist,
 } from './util';
+import { performUpdateAction } from './action';
 import type { ControllerModeStr } from '@/core/object/controller/controller';
 import { isPrioritizedMode } from '@/core/object/controller/controller';
 import type { CloneableSong } from '@/core/object/song';
@@ -50,6 +50,12 @@ import scrobbleService from '../object/scrobble-service';
 import { fetchListenBrainzProfile } from '@/util/util';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
+
+async function updateTabsFromTabList(tabs: ManagerTab[], tabId?: number) {
+	const curTab = await getActiveTabDetails(tabs, tabId);
+	performUpdateAction(curTab);
+	return curTab;
+}
 
 // Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
 browser.runtime.onStartup.addListener(onStartup);
@@ -223,7 +229,7 @@ async function updateTab(
 		throw new Error('No tabid given');
 	}
 
-	// perform the update, making sure there is no race condition, and making sure locking isnt permanently locked by an error
+	// perform the update, making sure there is no race condition, and making sure locking isn't permanently locked by an error
 	let performedSet = false;
 	try {
 		const curState = await getState();
@@ -263,7 +269,7 @@ async function updateTab(
 		// this can be different from the tab of the script calling the mode change
 		const activeTabId = await getCurrentTabId();
 		updateTabsFromTabList(activeTabs, activeTabId);
-	} catch (err) {
+	} catch {
 		if (!performedSet) {
 			unlockState();
 		}
@@ -378,7 +384,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'setPaused',
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
+
 		fn: (payload, sender) => {
 			return sendPaused(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
@@ -391,7 +397,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'setResumedPlaying',
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
+
 		fn: (payload, sender) => {
 			return sendResumedPlaying(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
@@ -480,7 +486,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'updateTheme',
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
+
 		fn: async (payload) => {
 			const curState = await getState();
 			await setState({

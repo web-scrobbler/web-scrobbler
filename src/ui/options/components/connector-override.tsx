@@ -27,7 +27,7 @@ import {
 import browser from 'webextension-polyfill';
 import { t } from '@/util/i18n';
 import BlockedChannels from './edit-options/blocked-channels';
-import type { ModalType } from './navigator';
+import type { ModalType } from './modal-type';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(
@@ -58,8 +58,7 @@ export default function ConnectorOverrideOptions(props: {
 		<>
 			<h1>{t('optionsSupportedWebsites')}</h1>
 			<p>{t('optionsEnableDisableHint')}</p>
-			{/* eslint-disable-next-line */}
-			<p innerHTML={t('optionsCustomPatternsHint')} />
+			<p>{t('optionsCustomPatternsHint')}</p>
 			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
 					<SettingsOutlined />

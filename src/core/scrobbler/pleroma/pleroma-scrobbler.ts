@@ -15,8 +15,8 @@ import type {
  */
 
 export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
-	public userToken!: string;
-	public userApiUrl!: string;
+	declare public userToken: string;
+	declare public userApiUrl: string;
 	public isLocalOnly = true;
 
 	/** @override */
@@ -88,7 +88,7 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 			const json = (await response.json()) as PleromaUser | null;
 			const fqn = json ? json.fqn : '';
 			return { sessionID: this.userToken, sessionName: fqn };
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
 			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
@@ -152,7 +152,7 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 			if (response.status !== 200) {
 				return ServiceCallResult.ERROR_OTHER;
 			}
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
 			return ServiceCallResult.ERROR_OTHER;
 		}

@@ -12,14 +12,14 @@ const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 const SEPARATORS: Separator[] = [' - ', ' | '];
 
 /**
- * This filter is applied after all page properties are inititialized.
+ * This filter is applied after all page properties are initialized.
  */
-let bandcampFilter = MetadataFilter.createFilter(
-	MetadataFilter.createFilterSetForFields(
-		['artist', 'track', 'album', 'albumArtist'],
-		MetadataFilter.removeZeroWidth,
-	),
-);
+let bandcampFilter = MetadataFilter.createFilter({
+	artist: MetadataFilter.removeZeroWidth,
+	track: MetadataFilter.removeZeroWidth,
+	album: [MetadataFilter.removeZeroWidth, removePreOrderSuffix],
+	albumArtist: MetadataFilter.removeZeroWidth,
+});
 
 if (document.querySelector('main#p-tralbum-page') === null) {
 	setupDesktopConnector();
@@ -202,7 +202,7 @@ function initPropertiesForSongAndAlbumPlayer() {
 function initPropertiesForCollectionsPlayer() {
 	Connector.artistSelector = '.now-playing .artist span';
 
-	Connector.trackSelector = '.info-progress .title span:nth-child(2)';
+	Connector.trackSelector = '.info-progress .title span:last-child';
 
 	Connector.albumSelector = '.now-playing .title';
 
@@ -266,7 +266,6 @@ function initPropertiesForHomePage() {
 
 	Connector.getUniqueID = () => {
 		if (document.querySelector('.bcweekly.playing') !== null) {
-			// eslint-disable-next-line
 			const { bcw_data: bandcampWeeklyData } = getData(
 				'#pagedata',
 				'data-blob',
@@ -274,14 +273,12 @@ function initPropertiesForHomePage() {
 			const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
 
 			if (currentShowId && currentShowId in bandcampWeeklyData) {
-				// eslint-disable-next-line
 				const currentShowData = bandcampWeeklyData[currentShowId];
 				const currentTrackIndex = Util.getDataFromSelectors(
 					'.bcweekly-current',
 					'index',
 				);
 
-				// eslint-disable-next-line
 				return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
 			}
 		}
@@ -320,9 +317,7 @@ function getTrackNodes() {
 	if (isAlbumPage()) {
 		trackNodes = document.querySelectorAll('.track_list .track-title');
 	} else if (isCollectionsPage()) {
-		trackNodes = document.querySelectorAll(
-			'.queue .title span:nth-child(2)',
-		);
+		trackNodes = document.querySelectorAll('.queue .title span:last-child');
 	}
 
 	return trackNodes;
@@ -335,15 +330,25 @@ function isArtistVarious(artist: string | null, track: string | null) {
 	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
 	 */
 	if (trackNodes.length !== 0) {
-		const artists = [];
-		for (const trackNode of trackNodes) {
-			const trackName = trackNode.textContent;
-			if (!Util.findSeparator(trackName ?? '', SEPARATORS)) {
-				return false;
-			}
-			const { artist } = Util.splitArtistTrack(trackName, SEPARATORS);
-			artists.push(artist);
+		const artists = [...trackNodes]
+			.map((trackNode) => trackNode.textContent)
+			.filter((trackName) =>
+				Util.findSeparator(trackName ?? '', SEPARATORS),
+			)
+			.map(
+				(trackName) =>
+					Util.splitArtistTrack(trackName, SEPARATORS).artist,
+			);
+
+		/*
+		 * We allow one single track without a separator, as sometimes mixed versions
+		 * of a compilation are present that are formatted differently.
+		 * Example: https://leonvynehall.bandcamp.com/album/fabric-presents-leon-vynehall
+		 */
+		if (trackNodes.length - artists.length > 1) {
+			return false;
 		}
+
 		/*
 		 * Return false if every detected artist on the album has a very short name.
 		 * It is probably not artist names but disc sides or some kind of numbers.
@@ -406,7 +411,7 @@ function getData(selector: string, attr: string) {
 	const element = document.querySelector(selector);
 	if (element) {
 		const rawData = element.getAttribute(attr);
-		// eslint-disable-next-line
+
 		return JSON.parse(rawData ?? '');
 	}
 
@@ -419,4 +424,8 @@ function removeByPrefix(text: string) {
 
 function removeFromPrefix(text: string) {
 	return text.replace('from ', '');
+}
+
+function removePreOrderSuffix(text: string) {
+	return text.replace(/ ?pre-order/i, '');
 }

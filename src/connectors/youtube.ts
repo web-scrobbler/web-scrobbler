@@ -253,6 +253,20 @@ function areChaptersAvailable() {
 		return false;
 	}
 
+	if (text) {
+		// YouTube introduced putting text into the current chapter element for
+		// referring users to the timeline ("In this video"). hard to check for
+		// because that text gets translated, we can however check if the
+		// description has a chapter like that, if not it's not a real chapter
+		if (
+			!document.querySelector(
+				`.ytd-watch-metadata ytd-macro-markers-list-item-renderer #details:has([title="${CSS.escape(text)}"]):has(#time)`,
+			)
+		) {
+			return false;
+		}
+	}
+
 	// Return the text if no sponsorblock text.
 	return text;
 }
@@ -339,7 +353,7 @@ async function fetchCategoryName(videoId: string) {
 		if (categoryMatch !== null) {
 			return categoryMatch[1];
 		}
-	} catch (e) {
+	} catch {
 		// Do nothing
 	}
 
@@ -446,9 +460,8 @@ function getTrackInfoFromYoutubeMusic():
 			// TODO: type videoInfo
 			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
 				done: true,
-				// eslint-disable-next-line
+
 				recognisedByYtMusic:
-					// eslint-disable-next-line
 					videoInfo.videoDetails?.musicVideoType?.startsWith(
 						'MUSIC_VIDEO_',
 					) || false,
@@ -458,16 +471,14 @@ function getTrackInfoFromYoutubeMusic():
 			// not something youtube music actually knows, so it usually gives
 			// wrong results, so we only return if it is that musicVideoType
 			if (
-				// eslint-disable-next-line
 				videoInfo.videoDetails?.musicVideoType ===
 				'MUSIC_VIDEO_TYPE_OMV'
 			) {
 				getTrackInfoFromYoutubeMusicCache[
 					videoId ?? ''
 				].currentTrackInfo = {
-					// eslint-disable-next-line
 					artist: videoInfo.videoDetails.author,
-					// eslint-disable-next-line
+
 					track: videoInfo.videoDetails.title,
 				};
 			}

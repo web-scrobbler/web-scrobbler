@@ -26,7 +26,7 @@ function testStorage<K extends BrowserStorage.StorageNamespace>(
 
 		it('should set key value', async () => {
 			const newData = { test: 'ok' };
-			// @ts-expect-error
+			// @ts-expect-error lazy about constructing a valid data model
 			await storage.set(newData);
 
 			const data = await storage.get();
@@ -36,7 +36,7 @@ function testStorage<K extends BrowserStorage.StorageNamespace>(
 		it('should update storage', async () => {
 			const newData = { test: 'ok', key: 'value' };
 			const dataToAdd = { key: 'value' };
-			// @ts-expect-error
+			// @ts-expect-error lazy about constructing a valid data model
 			await storage.update(dataToAdd);
 			const data = await storage.get();
 			expect(newData).to.deep.equal(data);
@@ -55,18 +55,18 @@ function testStorage<K extends BrowserStorage.StorageNamespace>(
  */
 function runTests() {
 	const storages = {
-		// @ts-expect-error
+		// @ts-expect-error not a storage type we ever expect
 		local: BrowserStorage.getLocalStorage('Local'),
-		// @ts-expect-error
+		// @ts-expect-error not a storage type we ever expect
 		sync: BrowserStorage.getSyncStorage('Sync'),
 	};
 
 	for (const type in storages) {
-		// @ts-expect-error
-		// eslint-disable-next-line
+		// @ts-expect-error iterate over everything without checking for hygiene
+
 		const storage = storages[type];
-		// @ts-expect-error
-		// eslint-disable-next-line
+		// @ts-expect-error see above
+
 		testStorage(type, storage);
 	}
 
@@ -91,7 +91,7 @@ function testBrowserStorage() {
 
 	it('should throw error for unknown storage', () => {
 		expect(() => {
-			// @ts-expect-error
+			// @ts-expect-error actually fails typechecking on top of it
 			return BrowserStorage.getStorage('unknown-storage123');
 		}).to.throw();
 	});

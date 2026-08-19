@@ -471,13 +471,13 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [
 		expected: { artist: 'Artist', track: 'Track' },
 	},
 	{
-		description: 'should process tracks with seperators and quotes',
+		description: 'should process tracks with separators and quotes',
 		args: ['Artist - "Track Name"'],
 		expected: { artist: 'Artist', track: 'Track Name' },
 	},
 	{
 		description:
-			'should process tracks with seperators without leading whitespace and quotes',
+			'should process tracks with separators without leading whitespace and quotes',
 		args: ['Artist: "Track Name"'],
 		expected: { artist: 'Artist', track: 'Track Name' },
 	},
@@ -1128,7 +1128,7 @@ function runTests() {
 
 		describe(description, () => {
 			// TODO: type gymnastics
-			// @ts-ignore type gymnastics required on this one. It works.
+			// @ts-expect-error type gymnastics required on this one. It works.
 			testFunction(func, data);
 		});
 	}

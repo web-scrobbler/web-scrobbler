@@ -1,33 +1,32 @@
 export {};
 
-const symphonySelector =
-	'.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:first-child';
-const commonNameSelector =
-	'.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:nth-child(2)';
+const trackSelector = '[class*="player-PlayerInfo__infoEl--"]';
+const symphonySelector = `${trackSelector} span:nth-child(3) span:first-child`;
+const commonNameSelector = `${trackSelector} span:nth-child(3) span:nth-child(2)`;
 const directorSelector =
-	'.player-PlayerInfo__recordingInfo--15VMv>span:first-child span';
-const trackSelector = '.player-PlayerInfo__infoEl--2jhHY';
-const pauseButtonSelector =
-	'.player-PlayerControls__btn--1r-vy:nth-child(3) .util-IconLabel__component--3Uitr span';
+	'[class*="player-PlayerInfo__recordingInfo--"]>span:first-child span';
 
-Connector.playerSelector = '.player-PlayerBar__bar--2yos_';
+Connector.playerSelector = '[class*="player-PlayerBar__bar--"]';
 
-Connector.artistSelector = '.player-PlayerInfo__infoEl--2jhHY span:first-child';
+Connector.artistSelector = `${trackSelector} span:first-child`;
 
 Connector.getTrack = getCurrentTrack;
 
 Connector.getAlbum = getCurrentSymphony;
 
-Connector.currentTimeSelector = '.player-PlayerProgress__progress--2F0qB>span';
+Connector.currentTimeSelector =
+	'[class*="player-PlayerProgress__progress--"]>span';
 
-Connector.durationSelector = '.player-PlayerProgress__timeTotal--3aHlj span';
+Connector.durationSelector =
+	'[class*="player-PlayerProgress__timeTotal--"] span';
 
-Connector.isPlaying = () =>
-	Util.getTextFromSelectors(pauseButtonSelector)?.toUpperCase() === 'PAUSE';
+Connector.pauseButtonSelector =
+	'[class*="player-PlayerControls__btn--"][data-test="player-controls.pause-btn"]';
 
 Connector.scrobblingDisallowedReason = () =>
-	Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') ===
-	'Sponsor message'
+	Util.getTextFromSelectors(
+		'[class*="player-PlayerInfo__recordingInfo--"]',
+	) === 'Sponsor message'
 		? 'IsAd'
 		: null;
 

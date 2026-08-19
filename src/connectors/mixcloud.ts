@@ -1,80 +1,50 @@
 export {};
 
+const playerSelector = '[data-testid=player-container]';
+const artistSelector = '[class*=styles__Artist-]';
+const trackSelector = '[class*=styles__Track-]';
 const filter = MetadataFilter.createFilter({
 	artist: [removeByPrefix, removeBuySuffix],
 });
 
-Connector.playerSelector = '[class^=styles__PlayerWrapper-]';
+Connector.playerSelector = playerSelector;
 
-const trackInfoSelector = '[class^=styles__PlayerTrackInfo-]';
+Connector.pauseButtonSelector = '[data-testid=player-play-button-Pause]';
+
+Connector.isPodcast = () =>
+	Boolean(!Util.isElementVisible([artistSelector, trackSelector]));
 
 Connector.getTrackInfo = () => {
-	const artistTrackElement = document.querySelector(trackInfoSelector);
-	let artistText;
-	let trackText;
-	let trackArtUrl;
-	let currentTimeValue;
-	let remainingTimeValue;
-	let podcastBoolean;
+	const showSelector = '[data-testid=player-show-title]';
+	const trackArtSelector = `${playerSelector} img`;
+	const currentTimeSelector = '[data-testid=startTime]';
+	const durationSelector = '[data-testid=endTime]';
+	let artist = Util.getTextFromSelectors(artistSelector);
+	let track = Util.getTextFromSelectors(trackSelector);
+	let trackArt;
+	let currentTime;
+	let duration;
 
-	if (artistTrackElement && artistTrackElement.hasChildNodes()) {
-		artistText = Util.getTextFromSelectors('[class*=styles__Artist-]');
-		trackText = Util.getTextFromSelectors('[class*=styles__Track-]');
-		podcastBoolean = false;
-	} else if (artistTrackElement && !artistTrackElement.hasChildNodes()) {
-		artistText = Util.getTextFromSelectors(
-			'[class^=styles__ShowOwnerName]',
+	if (Connector.isPodcast()) {
+		artist = Util.getTextFromSelectors(`${playerSelector} p span`);
+		track = Util.getTextFromSelectors(showSelector);
+		trackArt = Util.extractImageUrlFromSelectors(trackArtSelector)?.replace(
+			/(?<=\/)\d+x\d+(?=\/)/,
+			'580x580', // larger image
 		);
-		trackText = Util.getTextFromSelectors(
-			'[class*=PlayerControlsDetails__ShowTitle]',
-		);
-		trackArtUrl = Util.extractImageUrlFromSelectors(
-			'[class*=styles__createShowPicture] > img',
-		)?.replace(/(?<=\/)\d+x\d+(?=\/)/g, '300x300'); // larger image path
-		currentTimeValue = Util.getSecondsFromSelectors(
-			'[class^=styles__StartTime-]',
-		);
-		remainingTimeValue = Util.getSecondsFromSelectors(
-			'[class^=styles__EndTime-]',
-		);
-		podcastBoolean = true;
+		currentTime = Util.getSecondsFromSelectors(currentTimeSelector);
+		duration = Util.getSecondsFromSelectors(durationSelector);
 	}
 
-	return {
-		artist: artistText,
-		track: trackText,
-		trackArt: trackArtUrl,
-		currentTime: currentTimeValue,
-		duration: (currentTimeValue ?? 0) - (remainingTimeValue ?? 0),
-		isPodcast: podcastBoolean,
-	};
+	return { artist, track, trackArt, currentTime, duration };
 };
-
-Connector.isPlaying = () =>
-	Util.getAttrFromSelectors(
-		'[class^=styles__PlayerControl-]',
-		'aria-label',
-	) === 'Pause';
-
-Connector.isStateChangeAllowed = () => {
-	/*
-	 * Mixcloud player hides artist and track elements while seeking the stream,
-	 * and we should not update state in such case.
-	 */
-	return Boolean(
-		Connector.getTrackInfo() && Util.isElementVisible(trackInfoSelector),
-	);
-};
-
-Connector.scrobblingDisallowedReason = () =>
-	Connector.isStateChangeAllowed() ? null : 'ElementMissing';
 
 Connector.applyFilter(filter);
 
 function removeByPrefix(text: string) {
-	return text.replace(/^by\s/g, '');
+	return text.replace(/^by\s/, '');
 }
 
 function removeBuySuffix(text: string) {
-	return text.replace(/[\u2014-]\sbuy$/gi, '');
+	return text.replace(/[\u2014-]\sbuy$/i, '');
 }

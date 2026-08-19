@@ -1,7 +1,6 @@
 import browser from 'webextension-polyfill';
 import type { DataModels } from '@/core/storage/wrapper';
 import StorageWrapper from '@/core/storage/wrapper';
-import type CloneableSong from '../object/song';
 
 const LOCAL = 0;
 const SYNC = 1;
@@ -38,7 +37,7 @@ export const CUSTOM_PATTERNS = 'customPatterns';
  * The format of storage data is following:
  * \{
  *     changelog: \{
- *     	   // `ver` is the extention version, e.g. 'v2.15.1'
+ *     	   // `ver` is the extension version, e.g. 'v2.15.1'
  *     	   // `true` means the notification of the version changelog
  *     	   // was displayed.
  *         ver: true,

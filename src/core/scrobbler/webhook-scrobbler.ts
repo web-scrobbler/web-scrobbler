@@ -23,7 +23,7 @@ type WebhookRequest = {
  */
 
 export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
-	public userApiUrl!: string;
+	declare public userApiUrl: string;
 	public isLocalOnly = true;
 
 	/** @override */
@@ -112,7 +112,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 					return ServiceCallResult.ERROR_OTHER;
 				}
 			}
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
 			return ServiceCallResult.ERROR_OTHER;
 		}
