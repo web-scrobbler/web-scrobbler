@@ -84,6 +84,9 @@ function setupDesktopConnector() {
 	} else if (isDiscoverPage()) {
 		Util.debugLog('Init props for discover player');
 		initPropertiesForDiscoverPlayer();
+	} else if (isPlaylistPage()) {
+		Util.debugLog('Init props for playlist player');
+		initPropertiesForPlaylistPlayer();
 	} else {
 		Util.debugLog('Init props for home page');
 
@@ -202,7 +205,7 @@ function initPropertiesForSongAndAlbumPlayer() {
 function initPropertiesForCollectionsPlayer() {
 	Connector.artistSelector = '.now-playing .artist span';
 
-	Connector.trackSelector = '.info-progress .title span:nth-child(2)';
+	Connector.trackSelector = '.info-progress .title span:last-child';
 
 	Connector.albumSelector = '.now-playing .title';
 
@@ -233,6 +236,44 @@ function initPropertiesForFeedPlayer() {
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
 
 	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
+}
+
+// Example: https://bandcamp.com/%USERNAME%/playlist/%PLAYLISTNAME%
+// Selector approach for the new player informed by #5736 (@adam-blackwater).
+function initPropertiesForPlaylistPlayer() {
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+		}),
+	);
+
+	// Track metadata lives on the currently-playing list item; play state and
+	// the track id/duration live on the persistent floating player bar.
+	const playerContext = '.track-list-item.currently-playing ';
+	const trackMeta = '.floating-player .track-meta';
+
+	Connector.playerSelector = '.floating-player';
+
+	Connector.artistSelector = `${playerContext} .artist-name`;
+	Connector.trackSelector = `${playerContext} .title-text`;
+	Connector.albumSelector = `${playerContext} .album-title > strong`;
+	Connector.trackArtSelector = `${playerContext} .g-image`;
+
+	Connector.isPlaying = () =>
+		document
+			.querySelector('.floating-player .play-pause-button')
+			?.getAttribute('aria-label') === 'Pause';
+
+	// `.track-meta` carries the numeric track id and duration (in seconds).
+	Connector.getUniqueID = () =>
+		document.querySelector(trackMeta)?.getAttribute('id') ?? null;
+
+	Connector.getDuration = () => {
+		const duration = document
+			.querySelector(trackMeta)
+			?.getAttribute('duration');
+		return duration ? parseFloat(duration) : null;
+	};
 }
 
 // Example: https://bandcamp.com/?show=47
@@ -311,15 +352,17 @@ function isDiscoverPage() {
 	return url.pathname.startsWith('/discover');
 }
 
+function isPlaylistPage() {
+	return getPageType() === 'music.playlist';
+}
+
 function getTrackNodes() {
 	let trackNodes: NodeListOf<Element> =
 		document.querySelectorAll('thisshouldbeempty');
 	if (isAlbumPage()) {
 		trackNodes = document.querySelectorAll('.track_list .track-title');
 	} else if (isCollectionsPage()) {
-		trackNodes = document.querySelectorAll(
-			'.queue .title span:nth-child(2)',
-		);
+		trackNodes = document.querySelectorAll('.queue .title span:last-child');
 	}
 
 	return trackNodes;
