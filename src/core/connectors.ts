@@ -2721,6 +2721,7 @@ export default <ConnectorMeta[]>[
 		js: 'gravity.fm.js',
 		id: 'gravity',
 	},
+
 	{
 		label: 'Archaic Horizon',
 		matches: ['*://archaichorizon.com/*', '*://www.archaichorizon.com/*'],
@@ -2903,5 +2904,11 @@ export default <ConnectorMeta[]>[
 		matches: ['*://wpgu.com/*'],
 		js: 'wpgu.js',
 		id: 'wpgu',
+	},
+	{
+		label: 'Radyo Plyr',
+		matches: ['*://radyovoyage.com/*', '*://radioeksen.com/*'],
+		js: 'radyoplyr.js',
+		id: 'radyoplyr',
 	},
 ];
