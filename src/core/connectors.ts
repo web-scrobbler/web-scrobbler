@@ -82,7 +82,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'WEFUNK Radio',
-		matches: ['*://session.wefunkradio.com/*'],
+		matches: ['*://session.wefunkradio.com/*', '*://www.wefunkradio.com/*'],
 		js: 'wefunkradio.js',
 		id: 'wefunkradio',
 	},
