@@ -997,7 +997,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Music Walker',
-		matches: ['*://arkanath.com/MusicWalker/*'],
+		matches: ['*://musicwalker.app/*'],
 		js: 'musicwalker.js',
 		id: 'musicwalker',
 	},
@@ -1732,7 +1732,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Street Voice',
-		matches: ['*://streetvoice.cn/*', '*://streetvoice.com/*'],
+		matches: ['*://www.streetvoice.cn/*', '*://streetvoice.com/*'],
 		js: 'streetvoice.js',
 		id: 'streetvoice',
 	},
@@ -1793,14 +1793,9 @@ export default <ConnectorMeta[]>[
 		id: 'lms',
 	},
 	{
-		label: 'deep-cut.fm',
-		matches: [
-			'*://deepcut.fm/*',
-			'*://turntable.fm/*',
-			'*://deep-cut.fm/*',
-			'*://deepcuts.fm/*',
-		],
-		js: 'deep-cut.fm.js',
+		label: 'deepcut',
+		matches: ['*://deepcut.live/*'],
+		js: 'deepcut.js',
 		id: 'deepcut.fm',
 	},
 	{
@@ -1900,34 +1895,15 @@ export default <ConnectorMeta[]>[
 		id: 'thrilljockey',
 	},
 	{
-		label: 'Radio Horizonte',
-		matches: ['*://horizonte.cl/*'],
+		label: 'MediaStream',
+		matches: [
+			'*://sonarfm.cl/*',
+			'*://playfm.cl/*',
+			'*://player.wkmradio.com/*',
+			'*://www.rockaxis.com/*',
+		],
 		js: 'mediastream.js',
-		id: 'horizontecl',
-	},
-	{
-		label: 'Sonar FM',
-		matches: ['*://sonarfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'sonarfmcl',
-	},
-	{
-		label: 'Play FM',
-		matches: ['*://playfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'playfmcl',
-	},
-	{
-		label: 'WKM Radio',
-		matches: ['*://www.wkmradio.com/*'],
-		js: 'mediastream.js',
-		id: 'wkmradio',
-	},
-	{
-		label: 'Rockaxis',
-		matches: ['*://www.rockaxis.com/*'],
-		js: 'mediastream.js',
-		id: 'rockaxis',
+		id: 'mediastream',
 	},
 	{
 		label: 'Rock&Pop Chile',
@@ -2398,10 +2374,10 @@ export default <ConnectorMeta[]>[
 		id: 'fmspins',
 	},
 	{
-		label: 'vk-save',
-		matches: ['*://*.vk-save.com/*'],
-		js: 'vk-save.js',
-		id: 'vk-save',
+		label: 'KissVK',
+		matches: ['*://kissvk.top/*'],
+		js: 'kissvk.js',
+		id: 'kissvk',
 	},
 	{
 		label: 'Radio Student',
