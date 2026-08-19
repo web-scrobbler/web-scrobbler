@@ -1,4 +1,4 @@
-export { };
+export {};
 
 const wefunkradioArtistFilterRules = [
 	{ source: /\s*talk \(over\s+(.+)$/i, target: '$1' },
@@ -11,7 +11,10 @@ const wefunkradioTrackFilterRules = [
 
 const wefunkradioFilter = MetadataFilter.createFilter({
 	artist: (text) =>
-		MetadataFilter.filterWithFilterRules(text, wefunkradioArtistFilterRules),
+		MetadataFilter.filterWithFilterRules(
+			text,
+			wefunkradioArtistFilterRules,
+		),
 	track: (text) =>
 		MetadataFilter.filterWithFilterRules(text, wefunkradioTrackFilterRules),
 });
@@ -23,15 +26,11 @@ Connector.artistTrackSelector = '.player-control-title';
 Connector.applyFilter(wefunkradioFilter);
 
 Connector.scrobblingDisallowedReason = () => {
-	const filteredTerms = [
-		/\([^)]*\bunknown\b[^)]*\)/i,
-	];
+	const filteredTerms = [/\([^)]*\bunknown\b[^)]*\)/i];
 
 	const track = Connector.getArtistTrack();
 
-	return filteredTerms.some(
-		(term) => track?.track?.match(term),
-	)
+	return filteredTerms.some((term) => track?.track?.match(term))
 		? 'FilteredTag'
 		: null;
-}
+};
