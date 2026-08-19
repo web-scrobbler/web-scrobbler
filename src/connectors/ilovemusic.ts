@@ -19,6 +19,7 @@ for (const prop in state) {
 		value: () => state[prop as keyof State],
 	});
 }
+Connector.getTrackArt = () => Util.normalizeUrl(state.getTrackArt);
 
 Connector.onScriptEvent = (event) => {
 	if (event.data.type === 'ILOVEMUSIC_STATE') {
