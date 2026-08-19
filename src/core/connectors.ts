@@ -2753,6 +2753,12 @@ export default <ConnectorMeta[]>[
 		id: 'ampwall',
 	},
 	{
+		label: 'WQXR',
+		matches: ['*://www.wqxr.org/*'],
+		js: 'wqxr.js',
+		id: 'wqxr',
+	},
+	{
 		label: 'Monochrome',
 		matches: [
 			'*://monochrome.prigoana.com/*',
