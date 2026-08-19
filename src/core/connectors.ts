@@ -811,28 +811,15 @@ export default <ConnectorMeta[]>[
 		id: 'fairpricemusic',
 	},
 	{
-		label: 'Radio ULTRA',
-		matches: ['*://player.radioultra.ru/*'],
-		js: 'radioultra.js',
-		id: 'radioultra',
-	},
-	{
-		label: 'Наше Радио',
-		matches: ['*://player.nashe.ru/*'],
-		js: 'radioultra.js',
-		id: 'nashe',
-	},
-	{
-		label: 'RockFM',
-		matches: ['*://player.rockfm.ru/*'],
-		js: 'radioultra.js',
-		id: 'rockfm',
-	},
-	{
-		label: 'Radio JAZZ',
-		matches: ['*://player.radiojazzfm.ru/*'],
-		js: 'radioultra.js',
-		id: 'radiojazzfm',
+		label: 'ULTRA Production Radios',
+		matches: [
+			'*://www.nashe.ru/*',
+			'*://www.rockfm.ru/*',
+			'*://radiojazzfm.ru/*',
+			'*://radioultra.ru/*',
+		],
+		js: 'ultraproduction.js',
+		id: 'ultraproduction',
 	},
 	{
 		label: 'WO Streaming',
@@ -997,7 +984,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Music Walker',
-		matches: ['*://arkanath.com/MusicWalker/*'],
+		matches: ['*://musicwalker.app/*'],
 		js: 'musicwalker.js',
 		id: 'musicwalker',
 	},
@@ -1018,12 +1005,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://musicoin.org/*'],
 		js: 'musicoin.js',
 		id: 'musicoin',
-	},
-	{
-		label: '181.fm',
-		matches: ['*://player.181fm.com/*'],
-		js: '181.fm.js',
-		id: '181.fm',
 	},
 	{
 		label: 'Phish.in',
@@ -1713,7 +1694,7 @@ export default <ConnectorMeta[]>[
 		id: 'bullofheavencom',
 	},
 	{
-		label: 'All Classical Portland',
+		label: 'All Classical Radio',
 		matches: ['*://player.allclassical.org/*'],
 		js: 'allclassical.org.js',
 		id: 'allclassicalportland',
@@ -1732,7 +1713,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Street Voice',
-		matches: ['*://streetvoice.cn/*', '*://streetvoice.com/*'],
+		matches: ['*://www.streetvoice.cn/*', '*://streetvoice.com/*'],
 		js: 'streetvoice.js',
 		id: 'streetvoice',
 	},
@@ -1793,14 +1774,9 @@ export default <ConnectorMeta[]>[
 		id: 'lms',
 	},
 	{
-		label: 'deep-cut.fm',
-		matches: [
-			'*://deepcut.fm/*',
-			'*://turntable.fm/*',
-			'*://deep-cut.fm/*',
-			'*://deepcuts.fm/*',
-		],
-		js: 'deep-cut.fm.js',
+		label: 'deepcut',
+		matches: ['*://deepcut.live/*'],
+		js: 'deepcut.js',
 		id: 'deepcut.fm',
 	},
 	{
@@ -1844,6 +1820,18 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.queup.net/*'],
 		js: 'queup.js',
 		id: 'queup',
+	},
+	{
+		label: 'SoundStack',
+		matches: [
+			'*://*.mystreamplayer.com/*',
+			'*://player.gotradio.com/*',
+			'*://player.live365.com/*',
+			'*://player.181fm.com/*',
+		],
+		js: 'soundstack.js',
+		id: 'soundstack',
+		allFrames: true,
 	},
 	{
 		label: 'Live 365',
@@ -1900,34 +1888,15 @@ export default <ConnectorMeta[]>[
 		id: 'thrilljockey',
 	},
 	{
-		label: 'Radio Horizonte',
-		matches: ['*://horizonte.cl/*'],
+		label: 'MediaStream',
+		matches: [
+			'*://sonarfm.cl/*',
+			'*://playfm.cl/*',
+			'*://player.wkmradio.com/*',
+			'*://www.rockaxis.com/*',
+		],
 		js: 'mediastream.js',
-		id: 'horizontecl',
-	},
-	{
-		label: 'Sonar FM',
-		matches: ['*://sonarfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'sonarfmcl',
-	},
-	{
-		label: 'Play FM',
-		matches: ['*://playfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'playfmcl',
-	},
-	{
-		label: 'WKM Radio',
-		matches: ['*://www.wkmradio.com/*'],
-		js: 'mediastream.js',
-		id: 'wkmradio',
-	},
-	{
-		label: 'Rockaxis',
-		matches: ['*://www.rockaxis.com/*'],
-		js: 'mediastream.js',
-		id: 'rockaxis',
+		id: 'mediastream',
 	},
 	{
 		label: 'Rock&Pop Chile',
@@ -2152,12 +2121,6 @@ export default <ConnectorMeta[]>[
 		id: 'friskyfm',
 	},
 	{
-		label: 'GotRadio',
-		matches: ['*://player.gotradio.com/*'],
-		js: 'gotradio.js',
-		id: 'gotradio',
-	},
-	{
 		label: 'LightningStream',
 		matches: [
 			'*://*.lightningstream.com/Player*',
@@ -2187,19 +2150,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://radio.uwu.network/*'],
 		js: 'uwu-radio.js',
 		id: 'uwu-radio',
-	},
-	{
-		label: 'MyStreamPlayer',
-		matches: ['*://*.mystreamplayer.com/*'],
-		js: 'mystreamplayer.js',
-		id: 'mystreamplayer',
-	},
-	{
-		label: 'BagelRadio',
-		matches: ['*://*.bagelradio.com/*'],
-		js: 'mystreamplayer.js',
-		id: 'bagelradio',
-		allFrames: true,
 	},
 	{
 		label: 'Amazing Radio',
@@ -2398,10 +2348,10 @@ export default <ConnectorMeta[]>[
 		id: 'fmspins',
 	},
 	{
-		label: 'vk-save',
-		matches: ['*://*.vk-save.com/*'],
-		js: 'vk-save.js',
-		id: 'vk-save',
+		label: 'KissVK',
+		matches: ['*://kissvk.top/*'],
+		js: 'kissvk.js',
+		id: 'kissvk',
 	},
 	{
 		label: 'Radio Student',
@@ -2721,6 +2671,7 @@ export default <ConnectorMeta[]>[
 		js: 'gravity.fm.js',
 		id: 'gravity',
 	},
+
 	{
 		label: 'Archaic Horizon',
 		matches: ['*://archaichorizon.com/*', '*://www.archaichorizon.com/*'],
@@ -2750,6 +2701,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://ampwall.com/*'],
 		js: 'ampwall.js',
 		id: 'ampwall',
+	},
+	{
+		label: 'WQXR',
+		matches: ['*://www.wqxr.org/*'],
+		js: 'wqxr.js',
+		id: 'wqxr',
 	},
 	{
 		label: 'Monochrome',
@@ -2833,6 +2790,12 @@ export default <ConnectorMeta[]>[
 		id: 'radiosaw',
 	},
 	{
+		label: 'Radio SWH',
+		matches: ['*://play.radioswh.lv/*'],
+		js: 'radioswh.js',
+		id: 'radioswh',
+	},
+	{
 		label: 'Star FM',
 		matches: ['*://tv3.lv/starfm/online/*'],
 		js: 'starfm.js',
@@ -2903,6 +2866,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://wpgu.com/*'],
 		js: 'wpgu.js',
 		id: 'wpgu',
+	},
+	{
+		label: 'Radyo Plyr',
+		matches: ['*://radyovoyage.com/*', '*://radioeksen.com/*'],
+		js: 'radyoplyr.js',
+		id: 'radyoplyr',
 	},
 	{
 		label: 'SoundScout',
