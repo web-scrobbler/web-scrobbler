@@ -71,7 +71,7 @@ interface Pv {
 	id: number;
 	length: number;
 	url: string;
-};
+}
 
 Connector.getTrackInfo = () => {
 	const store = getPlayQueueStore();
