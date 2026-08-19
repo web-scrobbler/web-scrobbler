@@ -677,31 +677,31 @@ export default <ConnectorMeta[]>[
 	{
 		label: 'MUSICat', // musicat.co/libraries
 		matches: [
-			'*://amplify817.org/*',
-			'*://flipside.apl.org/*',
-			'*://capitalcityrecords.ca/*',
-			'*://stacks.carnegielibrary.org/*',
-			'*://crescentcitysounds.org/*',
-			'*://blast.hmcpl.org/*',
-			'*://vibes.kdl.org/*',
-			'*://librarymusicproject.com/*',
-			'*://records.lilaccitylocal.com/*',
-			'*://music.lplks.org/*',
-			'*://atxlibrary.musicat.co/*',
-			'*://hclib.musicat.co/*',
-			'*://memphis.musicat.co/*',
-			'*://boombox.nashvillepubliclibrary.org/*',
-			'*://pimadesertstreams.org/*',
-			'*://qcbeats.org/*',
-			'*://redstickrhythms.org/*',
-			'*://sawdustcitysounds.org/*',
-			'*://baybeats.sfpl.org/*',
-			'*://hum.slcpl.org/*',
-			'*://smllogjam.org/*',
-			'*://playback.spl.org/*',
-			'*://waves.tadl.org/*',
-			'*://thebeathartford.co/*',
-			'*://tracksmusiclibrary.org/*',
+			'*://capitalcityrecords.ca/*', // EDMONTON PUBLIC LIBRARY
+			'*://amplify817.org/*', // FORT WORTH PUBLIC LIBRARY
+			'*://playback.spl.org/*', // THE SEATTLE PUBLIC LIBRARY
+			'*://hum.slcpl.org/*', // SALT LAKE CITY PUBLIC LIBRARY
+			'*://hclib.musicat.co/*', // HENNEPIN COUNTY LIBRARY
+			'*://atxlibrary.musicat.co/*', // AUSTIN PUBLIC LIBRARY
+			'*://librarymusicproject.com/*', // MULTNOMAH COUNTY LIBRARY
+			'*://stacks.carnegielibrary.org/*', // CARNEGIE LIBRARY of PITTSBURGH
+			'*://tracksmusiclibrary.org/*', // CHAPEL HILL PUBLIC LIBRARY
+			'*://flipside.apl.org/*', // APPLETON PUBLIC LIBRARY
+			'*://qcbeats.org/*', // DAVENPORT PUBLIC LIBRARY
+			'*://boombox.nashvillepubliclibrary.org/*', // NASHVILLE PUBLIC LIBRARY
+			'*://thebeathartford.co/*', // HARTFORD PUBLIC LIBRARY
+			'*://records.lilaccitylocal.com/*', // SPOKANE PUBLIC LIBRARY
+			'*://baybeats.sfpl.org/*', // SAN FRANCISCO PUBLIC LIBRARY
+			'*://vibes.kdl.org/*', // KENT DISTRICT LIBRARY
+			'*://blast.hmcpl.org/*', // HUNTSVILLE-MADISON COUNTY PUBLIC LIBRARY
+			'*://music.lplks.org/*', // LAWRENCE PUBLIC LIBRARY
+			'*://memphis.musicat.co/*', // MEMPHIS PUBLIC LIBRARIES
+			'*://sawdustcitysounds.org/*', // L.E. PHILLIPS MEMORIAL PUBLIC LIBRARY
+			'*://crescentcitysounds.org/*', // NEW ORLEANS PUBLIC LIBRARY
+			'*://waves.tadl.org/*', // TRAVERSE AREA PUBLIC LIBARY
+			'*://smllogjam.org/*', // SHREVE MEMORIAL LIBRARY
+			'*://pimadesertstreams.org/*', // PIMA COUNTY PUBLIC LIBRARY
+			'*://redstickrhythms.org/*', // EAST BATON ROUGE PARISH LIBRARY
 		],
 		js: 'musicat.js',
 		id: 'musicat',
