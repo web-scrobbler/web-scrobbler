@@ -13,24 +13,25 @@ interface Channel {
 	current?: CurrentChannel;
 }
 
-interface Window {
-	ilr3: {
-		radio: { playing: boolean };
-		channel: number;
-		channelSequence: {
-			id: string;
-			channel?: Channel;
-		}[];
-	};
+declare global {
+	interface Window {
+		ilr3: {
+			radio: { playing: boolean };
+			channel: number;
+			channelSequence: {
+				id: string;
+				channel?: Channel;
+			}[];
+		};
+		cleanup?: () => void;
+	}
 }
 
 if ('cleanup' in window && typeof window.cleanup === 'function') {
-	(window as unknown as { cleanup: () => void }).cleanup();
+	window.cleanup();
 }
 
-(window as unknown as { cleanup: () => void }).cleanup = (() => {
-	const W = window as unknown as Window;
-
+window.cleanup = (() => {
 	function getArtwork(data: Channel | CurrentChannel) {
 		if ('img' in data) {
 			return data.img;
@@ -40,7 +41,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	}
 
 	function listener() {
-		const { channel, radio, channelSequence } = W.ilr3;
+		const { channel, radio, channelSequence } = window.ilr3;
 		const id = String(channel);
 		const target = channelSequence.find((x) => x.id === id);
 		const data = target?.channel?.current || target?.channel;
