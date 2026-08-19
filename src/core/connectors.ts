@@ -2904,4 +2904,10 @@ export default <ConnectorMeta[]>[
 		js: 'wpgu.js',
 		id: 'wpgu',
 	},
+	{
+		label: 'SoundScout',
+		matches: ['*://www.soundscout.com/*'],
+		js: 'soundscout.js',
+		id: 'soundscout',
+	},
 ];
