@@ -1713,7 +1713,7 @@ export default <ConnectorMeta[]>[
 		id: 'bullofheavencom',
 	},
 	{
-		label: 'All Classical Portland',
+		label: 'All Classical Radio',
 		matches: ['*://player.allclassical.org/*'],
 		js: 'allclassical.org.js',
 		id: 'allclassicalportland',
