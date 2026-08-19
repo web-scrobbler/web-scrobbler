@@ -67,15 +67,18 @@ export const defaultSeparators = [
 	' \u2013 ',
 	' \u2014 ',
 	' // ',
-	'\u002d',
-	'\u2013',
-	'\u2014',
+	' \u002d',
+	' \u2013',
+	' \u2014',
+	'\u002d ',
+	'\u2013 ',
+	'\u2014 ',
 	':',
 	'|',
 	'///',
 	'/',
 	'~',
-];
+] as const;
 
 /**
  * Convert given time-string into seconds.
