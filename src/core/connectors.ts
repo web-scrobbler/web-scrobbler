@@ -2840,6 +2840,12 @@ export default <ConnectorMeta[]>[
 		id: 'radiosaw',
 	},
 	{
+		label: 'Radio SWH',
+		matches: ['*://play.radioswh.lv/*'],
+		js: 'radioswh.js',
+		id: 'radioswh',
+	},
+	{
 		label: 'Star FM',
 		matches: ['*://tv3.lv/starfm/online/*'],
 		js: 'starfm.js',
