@@ -1769,8 +1769,8 @@ export default <ConnectorMeta[]>[
 		allFrames: true,
 	},
 	{
-		label: 'Live 365',
-		matches: ['*://*.live365.com/*'],
+		label: 'Live365',
+		matches: ['*://live365.com/*'],
 		js: 'live365.js',
 		id: 'live365',
 	},
