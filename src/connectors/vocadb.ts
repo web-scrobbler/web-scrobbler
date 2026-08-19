@@ -24,7 +24,7 @@ function cleanupArtist(artist: string) {
 						.replace(/Megpoid/, 'GUMI')
 						.replace(/\s\([^()]+\)/g, '')
 						.replace(
-							/\s?\b(Synthesizer V|Synthesizer V)( 2)?( Plus| AI)?\b\s?/g,
+							/\s?\bSynthesizer V( 2)?( Plus| AI)?\b\s?/g,
 							'',
 						)
 						.replace(/^(AI|V\d+X?)\b\s?/g, '')
@@ -73,6 +73,8 @@ interface Pv {
 	url: string;
 }
 
+Connector.getOriginUrl = () => undefined;
+
 Connector.getTrackInfo = () => {
 	const store = getPlayQueueStore();
 	const current = store?.items[store.currentIndex];
@@ -85,7 +87,9 @@ Connector.getTrackInfo = () => {
 		artist: current?.entry.artistString,
 		uniqueID: current?.entry.id,
 		duration: currentPv?.length,
-		currentTime: (currentPv?.length || 0) * getPercentage(),
+		currentTime: currentPv?.length
+			? currentPv.length * getPercentage()
+			: null,
 		trackArt: current?.entry.urlThumb,
 		originUrl: currentPv?.url,
 	};
