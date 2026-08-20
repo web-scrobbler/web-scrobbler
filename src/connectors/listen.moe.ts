@@ -13,16 +13,29 @@ const filterRules = [
 	{ source: /\s+/g, target: ' ' },
 ];
 
-Connector.playerSelector = '#app';
+Connector.playerSelector = '.glass';
 
-Connector.artistSelector = '.player-song-artist';
+Connector.artistSelector = '.glass .text-xs';
 
-Connector.trackSelector = '.player-song-title';
-
-Connector.isPlaying = () => {
-	return !(document.querySelector('#audio-player') as HTMLAudioElement)
-		.paused;
+Connector.getTrack = () => {
+	const element = document.querySelector('.glass .font-semibold');
+	if (!element) {
+		return null;
+	}
+	let text = '';
+	for (const node of element.childNodes) {
+		if (node.nodeType === Node.TEXT_NODE) {
+			text += node.textContent;
+		} else {
+			break;
+		}
+	}
+	return text;
 };
+
+// Pause icon (<rect> elements) visible = playing. The site has no
+// <audio> element (playback via Web Audio API).
+Connector.pauseButtonSelector = '.glass button.rounded-full:has(svg rect)';
 
 Connector.applyFilter(filter);
 
