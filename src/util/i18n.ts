@@ -29,3 +29,5 @@ export const CUSTOM_URLS_DOCS_URL =
 	'https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns';
 export const RELEASES_URL =
 	'https://github.com/web-scrobbler/web-scrobbler/releases';
+export const CONNECTOR_DEVELOPMENT_URL =
+	'https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development';
