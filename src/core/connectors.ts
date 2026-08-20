@@ -617,12 +617,6 @@ export default <ConnectorMeta[]>[
 		id: 'q-dance',
 	},
 	{
-		label: 'Monstercat',
-		matches: ['*://www.monstercat.com/*', '*://player.monstercat.com/*'],
-		js: 'monstercat.js',
-		id: 'monstercat',
-	},
-	{
 		label: 'Listen.moe',
 		matches: ['*://listen.moe/*'],
 		js: 'listen.moe.js',
