@@ -1739,13 +1739,10 @@ export default <ConnectorMeta[]>[
 		id: 'cbcmusic',
 	},
 	{
-		label: 'Indie88',
-		matches: [
-			'*://indie88.com/lean-stream-player/*',
-			'*://cob.leanplayer.com/CINDFM*',
-		],
-		js: 'indie88.js',
-		id: 'indie88',
+		label: 'leanplayer',
+		matches: ['*://*.leanplayer.com/*'],
+		js: 'leanplayer.js',
+		id: 'leanplayer',
 	},
 	{
 		label: 'Playlist Randomizer',
