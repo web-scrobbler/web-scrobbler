@@ -13,8 +13,12 @@ export {};
  *
  * The TV page (`/tv`) and the embed widget (`embed/outrahora-bar.js`)
  * also use the same `#currentTitle` / `#currentArtist` / `#coverArtwork`
- * / `#playButton` selectors in their own DOM, so this connector covers
- * all of them once the URL matches.
+ * / `#audio` selectors in their own DOM, so this connector covers all
+ * of them once the URL matches.
+ *
+ * `#playButton` is never hidden or removed while playing (it just
+ * swaps its icon), so playback state is read from the `<audio>`
+ * element instead, like other connectors do.
  */
 
 Connector.playerSelector = '#playerView';
@@ -24,6 +28,6 @@ Connector.trackSelector = '#currentTitle';
 
 Connector.trackArtSelector = '#coverArtwork';
 
-Connector.playButtonSelector = '#playButton';
+Connector.isPlaying = () => !document.querySelector('audio')?.paused;
 
 Connector.useMediaSessionApi();
