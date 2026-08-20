@@ -5,12 +5,11 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
 import { isDev, isProd, releaseTarget, resolvePath } from 'scripts/util';
-import minifyImages from 'scripts/minify-images';
-import generateIcons from 'scripts/generate-icons';
 import ConditionalCompile from 'vite-plugin-conditional-compiler';
 
 const dist = resolvePath('build');
 const root = resolvePath('src');
+const images = resolvePath('images');
 const builds = {
 	chrome: resolvePath(dist, 'chrome'),
 	firefox: resolvePath(dist, 'firefox'),
@@ -105,12 +104,29 @@ export const buildStart: UserConfig = {
 		ConditionalCompile(),
 		solid(),
 		makeManifest(),
-		generateIcons(),
 		viteStaticCopy({
 			targets: [
 				{
 					src: resolvePath(root, '_locales'),
 					dest: '',
+				},
+				{
+					src: resolvePath(
+						images,
+						'build',
+						releaseTarget ?? '',
+						'img',
+					),
+					dest: distRoot(),
+				},
+				{
+					src: resolvePath(
+						images,
+						'build',
+						releaseTarget ?? '',
+						'icons',
+					),
+					dest: distRoot(),
 				},
 			],
 		}),
@@ -118,6 +134,5 @@ export const buildStart: UserConfig = {
 			isDev: isDev(),
 			watchDirectory: 'src/connectors/',
 		}),
-		minifyImages({ isDev: isDev() }),
 	],
 };
