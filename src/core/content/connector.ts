@@ -791,9 +791,10 @@ export default class BaseConnector {
 		};
 
 		this.isPlaying = () => {
-			const notPaused = this.playButtonSelector
-				? !Util.isElementVisible(this.playButtonSelector)
-				: null;
+			const notPaused = () =>
+				this.playButtonSelector
+					? !Util.isElementVisible(this.playButtonSelector)
+					: null;
 
 			const playing = this.pauseButtonSelector
 				? Util.isElementVisible(this.pauseButtonSelector)
@@ -803,7 +804,7 @@ export default class BaseConnector {
 			 * Return true if play/pause button selector is not specified. It's
 			 * better to assume the playback is always playing than otherwise. :)
 			 */
-			return (playing || notPaused) ?? true;
+			return (playing || notPaused()) ?? true;
 		};
 
 		this.getTrackArt = () => {
