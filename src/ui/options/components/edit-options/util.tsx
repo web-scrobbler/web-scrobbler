@@ -12,7 +12,7 @@ import { t } from '@/util/i18n';
 import type { Setter } from 'solid-js';
 import { createSignal } from 'solid-js';
 import type { RegexEdit } from '@/util/regex';
-import type { ModalType } from '../navigator';
+import type { ModalType } from '../modal-type';
 import type { ConnectorMeta } from '@/core/connectors';
 
 type EditWrapper = StorageWrapper<

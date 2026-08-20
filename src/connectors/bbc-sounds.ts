@@ -23,7 +23,7 @@ Connector.getArtistTrack = () => {
 	}
 
 	const cleanText = (trackElement as HTMLElement).innerText
-		.replace(/(^\d\.|\nnow playing)/gi, '')
+		.replace(/(^\d+\.|\nnow playing)/gi, '')
 		.trim();
 
 	const parts = cleanText.split('\n');

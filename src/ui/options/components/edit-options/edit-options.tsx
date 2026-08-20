@@ -2,7 +2,7 @@ import type { Setter } from 'solid-js';
 import EditedTracks from './edited-tracks';
 import RegexEdits from './regex-edits';
 import { t } from '@/util/i18n';
-import type { ModalType } from '../navigator';
+import type { ModalType } from '../modal-type';
 import BlockedTagsElement from './blocked-tags';
 
 export default function EditOptions(props: {
