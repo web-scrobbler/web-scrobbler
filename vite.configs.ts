@@ -4,9 +4,9 @@ import solid from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
-import { isDev, isProd, releaseTarget, resolvePath } from 'scripts/util';
-import minifyImages from 'scripts/minify-images';
-import generateIcons from 'scripts/generate-icons';
+import { isDev, isProd, releaseTarget, resolvePath } from './scripts/util';
+import minifyImages from './scripts/minify-images';
+import generateIcons from './scripts/generate-icons';
 import ConditionalCompile from 'vite-plugin-conditional-compiler';
 
 const dist = resolvePath('build');

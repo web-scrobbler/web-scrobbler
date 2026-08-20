@@ -4,7 +4,7 @@ import {
 	chromeManifest,
 	firefoxManifest,
 	safariManifest,
-} from 'manifest.config';
+} from '../manifest.config';
 import colorLog from './log';
 import { getBrowser, releaseTarget } from './util';
 import type { Manifest } from 'webextension-polyfill';
