@@ -170,6 +170,12 @@ export default <ConnectorMeta[]>[
 		id: 'dandelionradio',
 	},
 	{
+		label: 'dublab',
+		matches: ['*://*.dublab.com/*'],
+		js: 'dublab.js',
+		id: 'dublab',
+	},
+	{
 		label: 'HillyDilly',
 		matches: ['*://www.hillydilly.com/*'],
 		js: 'hillydilly.js',
