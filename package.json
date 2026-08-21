@@ -19,7 +19,7 @@
     "lint:stylelint": "stylelint \"**/*.scss\"",
     "lint:prettier": "prettier . --check",
     "lint:markdown": "remark .",
-    "lint:circular": "madge --extensions ts,tsx --circular src",
+    "lint:circular": "madge --circular src",
     "prettierfix": "prettier . --write",
     "fixstyle": "stylelint \"**/*.scss\" --fix",
     "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
@@ -103,6 +103,10 @@
       "at-rule-prelude-no-invalid": null,
       "declaration-property-value-no-unknown": null
     }
+  },
+  "madge": {
+    "tsConfig": "./tsconfig.json",
+    "fileExtensions": ["ts", "tsx"]
   },
   "license": "MIT"
 }
