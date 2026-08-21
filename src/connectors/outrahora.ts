@@ -1,7 +1,7 @@
 export {};
 
 /**
- * Outra Hora ships two players that both fill the Media Session API:
+ * outrahora rádio ships two players that both fill the Media Session API:
  * the station site at radio.outrahora.com, and an embed bar injected on
  * every page of outrahora.com.
  *

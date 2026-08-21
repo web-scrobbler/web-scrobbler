@@ -312,7 +312,7 @@ export default <ConnectorMeta[]>[
 		id: 'odnoklassniki',
 	},
 	{
-		label: 'Outra Hora',
+		label: 'outrahora rádio',
 		matches: [
 			'*://radio.outrahora.com/*',
 			'*://outrahora.com/*',
