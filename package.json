@@ -106,7 +106,12 @@
   },
   "madge": {
     "tsConfig": "./tsconfig.json",
-    "fileExtensions": ["ts", "tsx"]
+    "fileExtensions": ["ts", "tsx"],
+    "detectiveOptions": {
+      "ts": {
+        "skipTypeImports": true
+      }
+    }
   },
   "license": "MIT"
 }
