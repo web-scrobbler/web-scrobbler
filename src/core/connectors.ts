@@ -313,11 +313,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'outrahora rádio',
-		matches: [
-			'*://radio.outrahora.com/*',
-			'*://outrahora.com/*',
-			'*://*.outrahora.com/*',
-		],
+		matches: ['*://*.outrahora.com/*'],
 		js: 'outrahora.js',
 		id: 'outrahora',
 	},
