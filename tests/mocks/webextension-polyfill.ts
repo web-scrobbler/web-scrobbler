@@ -11,19 +11,22 @@ class StorageAreaStub {
 	}
 
 	get() {
-		return this.data;
+		return Promise.resolve(this.data);
 	}
 
 	set(data: Record<string, unknown>) {
 		this.data = Object.assign(this.data, data);
+		return Promise.resolve();
 	}
 
 	remove(key: string) {
 		delete this.data[key];
+		return Promise.resolve();
 	}
 
 	clear() {
 		this.data = {};
+		return Promise.resolve();
 	}
 }
 

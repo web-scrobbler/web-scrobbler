@@ -28,8 +28,8 @@ import type { CloneableSong } from '@/core/object/song';
 import EventEmitter from '@/util/emitter';
 import type connectors from '@/core/connectors';
 import type { RegexEdit } from '@/util/regex';
-import { debugLog } from '../content/util';
 import { ServiceCallResult } from '../object/service-call-result';
+import { debugLog } from '../util/debug';
 
 export interface CustomPatterns {
 	[connectorId: string]: string[];
