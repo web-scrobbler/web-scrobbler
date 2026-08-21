@@ -93,7 +93,13 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 		const resultArray: Promise<ServiceCallResult>[] = [];
 		for (const song of songs.slice(0, 50)) {
 			const songData = this.makeTrackMetadata(song);
-			resultArray.push(this.sendRequest(songData, this.userToken));
+			resultArray.push(
+				this.sendRequest(
+					songData,
+					'/apis/mlj_1/newscrobble',
+					this.userToken,
+				),
+			);
 		}
 		return Promise.all(resultArray);
 	}
@@ -102,6 +108,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 
 	async sendRequest(
 		params: MalojaTrackMetadata,
+		path: string,
 		sessionID: string,
 	): Promise<ServiceCallResult> {
 		params.key = sessionID;
@@ -114,7 +121,17 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 			body: JSON.stringify(params),
 		};
 
-		const promise = fetch(this.userApiUrl, requestInfo);
+		let url: URL;
+		try {
+			url = new URL(this.userApiUrl);
+		} catch (e) {
+			// try to automatically prepend https://
+			url = new URL(`https://${this.userApiUrl}`);
+		}
+		url.pathname = url.pathname.split('/apis/mlj_1')[0];
+		url.pathname += url.pathname.endsWith('/') ? path.slice(1) : path;
+
+		const promise = fetch(url, requestInfo);
 
 		const timeout = this.REQUEST_TIMEOUT;
 
