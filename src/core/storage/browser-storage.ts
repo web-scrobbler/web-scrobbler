@@ -160,6 +160,7 @@ const storageTypeMap = {
 	[CONNECTORS_OVERRIDE_OPTIONS]: SYNC,
 	[CUSTOM_PATTERNS]: SYNC,
 	[NOTIFICATIONS]: SYNC,
+	// make sure to update '@/core/util/debug' if you change this
 	[OPTIONS]: SYNC,
 
 	LastFM: LOCAL,
