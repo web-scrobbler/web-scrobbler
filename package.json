@@ -40,7 +40,7 @@
     "webextension-polyfill": "0.12.0"
   },
   "devDependencies": {
-    "@types/archiver": "6.0.3",
+    "@types/archiver": "8.0.0",
     "@types/blueimp-md5": "2.18.2",
     "@types/fs-extra": "11.0.4",
     "@types/imagemin": "9.0.1",
@@ -50,7 +50,7 @@
     "@types/webextension-polyfill": "0.12.5",
     "@web-scrobbler/eslint-config": "4.0.0",
     "@web-scrobbler/stylelint-config": "2.0.0",
-    "archiver": "7.0.1",
+    "archiver": "8.0.0",
     "canvas": "3.2.0",
     "chokidar": "4.0.3",
     "esbuild": "0.25.11",
