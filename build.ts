@@ -5,10 +5,10 @@ import { build } from 'vite';
 import * as configs from './vite.configs';
 import { mkdir } from 'fs/promises';
 import { getBrowser, isDev, releaseTarget, releaseType } from './scripts/util';
-import colorLog from 'scripts/log';
+import colorLog from './scripts/log';
 import { exec } from 'child_process';
 import { emptydirSync } from 'fs-extra';
-import createDistributable from 'scripts/create-distributable';
+import createDistributable from './scripts/create-distributable';
 
 /**
  * Try to make a directory, dont error if the directory exists

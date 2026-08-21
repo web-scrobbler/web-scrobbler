@@ -1,6 +1,6 @@
 import { glob } from 'glob';
 import { readFile, writeFile } from 'fs/promises';
-import colorLog from 'scripts/log';
+import colorLog from './log';
 
 async function main() {
 	const translationFiles = await glob('src/_locales/**/messages.json');
