@@ -516,7 +516,8 @@ function getTrackInfoFromTitle(): ArtistTrackInfo {
 		Util.getTextFromSelectors(videoTitleSelector),
 	);
 	if (!artist) {
-		artist = Util.getTextFromSelectors(channelNameSelector);
+		const channelName = Util.getTextFromSelectors(channelNameSelector);
+		artist = channelName?.replace(/ - Topic$/, '') ?? null;
 	}
 
 	return { artist, track };
