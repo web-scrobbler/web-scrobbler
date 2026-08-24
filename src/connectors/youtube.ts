@@ -518,7 +518,10 @@ function getTrackInfoFromTitle(): ArtistTrackInfo {
 	);
 	if (!artist) {
 		const channelName = Util.getTextFromSelectors(channelNameSelector);
-		artist = channelName?.replace(/ - Topic$/, '') ?? null;
+		const re =
+			// eslint-disable-next-line no-irregular-whitespace
+			/^(?:Mavzu|Тема|الموضوع|ਵਿਸ਼ਾ)\s[–-]\s|(?:(?:\s[-—–]|[:՝])\s(?:Onderwerp|Mövzu|Topik|tema|Tema|téma|Emne|Thema|teema|Topic|gaia|Paksa|Sujet|Isihloko|Efni|Mada|tēma|téma|emne|temat|Tópico|Subiect|aihekanava|Ämne|Chủ đề|Konu|тэма|Тема|Тақырып|Сэдэв|тема|Θέμα|թեմա|נושא|موضوع|عنوان|विषय|বিষয়বস্তু|বিষয়|મુદ્દો|ବିଷୟ|தலைப்பு|అంశం|ವಿಷಯ|വിഷയം|මාතෘකාව|หัวข้อ|ຫົວ​ຂໍ້|ခေါင်းစဉ်|თემა|ርዕስ|ប្រធាន​បទ|主题|主題|トピック|주제)|\s\(tema\))$/;
+		artist = channelName?.replace(re, '') ?? null;
 	}
 
 	return { artist, track };
