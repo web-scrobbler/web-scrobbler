@@ -2,11 +2,35 @@ export {};
 
 Connector.playerSelector = '.now-playing-bar';
 
-Connector.artistSelector = '.now-playing-bar .artist';
-
-Connector.trackSelector = '.now-playing-bar .title';
+Connector.albumSelector = '.now-playing-bar .album';
 
 Connector.trackArtSelector = '.now-playing-bar .cover';
+
+Connector.getArtist = () => {
+	const elements = Util.queryElements(
+		`${Connector.playerSelector} .artist-link`,
+	);
+	if (elements) {
+		const track = Connector.getTrack()?.toLowerCase();
+		return Array.from(elements)
+			.map((el) => el.textContent.trim())
+			.filter((text) => track?.includes(text.toLowerCase()) === false)
+			.join(', ');
+	}
+};
+
+Connector.getTrack = () => {
+	const elements = Util.queryElements(`${Connector.playerSelector} .title`);
+	if (elements) {
+		for (const element of elements) {
+			for (const node of element.childNodes) {
+				if (node.nodeType === Node.TEXT_NODE) {
+					return node?.textContent?.trim();
+				}
+			}
+		}
+	}
+};
 
 Connector.isPlaying = () => {
 	const audioPlayer = document.getElementById(
@@ -27,11 +51,4 @@ Connector.getDuration = () => {
 		'audio-player',
 	) as HTMLAudioElement;
 	return audioPlayer ? audioPlayer.duration : null;
-};
-
-Connector.getAlbum = () => {
-	if ('mediaSession' in navigator && navigator.mediaSession.metadata) {
-		return navigator.mediaSession.metadata.album;
-	}
-	return null;
 };

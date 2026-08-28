@@ -15,6 +15,7 @@ import type {
 	Blocklists,
 } from '@/core/storage/wrapper';
 import type { RegexEdit } from './regex';
+import type { DebugLogType } from '@/core/util/debug';
 
 /**
  * Module that contains some useful helper functions for background scripts.
@@ -44,8 +45,6 @@ export const MIN_TRACK_DURATION = 30;
  * Max number of seconds of playback before the track is scrobbled.
  */
 export const MAX_SCROBBLE_TIME = 240;
-
-export type DebugLogType = 'log' | 'error' | 'warn' | 'info';
 
 /**
  * Print debug message.
@@ -250,7 +249,7 @@ export function createArtistURL(artist: string | null | undefined): string {
 	if (!artist) {
 		return '';
 	}
-	return `https://www.last.fm/music/${encodeLastFMURIComponent(artist)}`;
+	return `https://www.last.fm/music/+noredirect/${encodeLastFMURIComponent(artist)}`;
 }
 
 /**
@@ -272,39 +271,43 @@ export function createAlbumURL(
 /**
  * Create a URL to a track page on Last.fm.
  * @param artist - Artist name
+ * @param album - Album name (optional)
  * @param track - Track name
  * @returns URL to the track page
  */
 export function createTrackURL(
 	artist: string | null | undefined,
-	track?: string | null,
+	album: string | null | undefined,
+	track: string | null | undefined,
 ): string {
 	if (!track || !artist) {
 		return '';
 	}
-	return `${createArtistURL(artist)}/_/${encodeLastFMURIComponent(track)}`;
+	return `${createAlbumURL(artist, album ?? '_')}/${encodeLastFMURIComponent(track)}`;
 }
 
 /**
  * Create a URL to the page for a track in a user's library on Last.fm.
  * @param username - Username
  * @param artist - Artist name
+ * @param album  - Album name (optional)
  * @param track - Track name
  * @returns URL to the track library page
  */
 export function createTrackLibraryURL(
 	username: string | null | undefined,
 	artist: string | null | undefined,
+	album: string | null | undefined,
 	track: string | null | undefined,
 ): string {
 	if (!track || !artist || !username) {
 		return '';
 	}
-	return `https://www.last.fm/user/${encodeLastFMURIComponent(
-		username,
-	)}/library/music/${encodeLastFMURIComponent(artist)}/_/${encodeLastFMURIComponent(
-		track,
-	)}`;
+	const encUsername = encodeLastFMURIComponent(username);
+	const encArtist = encodeLastFMURIComponent(artist);
+	const encAlbum = encodeLastFMURIComponent(album ?? '_');
+	const encTrack = encodeLastFMURIComponent(track);
+	return `https://www.last.fm/user/${encUsername}/library/music/+noredirect/${encArtist}/${encAlbum}/${encTrack}`;
 }
 
 /**

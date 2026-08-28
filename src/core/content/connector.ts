@@ -42,7 +42,7 @@ export default class BaseConnector {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getAlbumArtist` is used.
 	 */
-	public albumArtistSelector: string | null = null;
+	public albumArtistSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing track current time in h:m:s format.
@@ -104,8 +104,6 @@ export default class BaseConnector {
 	 * Selector of a play button element. If the element is not visible,
 	 * the playback is considered to be playing.
 	 *
-	 * Should not be used if Connector#pauseButtonSelector is defined.
-	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
 	 */
@@ -114,8 +112,6 @@ export default class BaseConnector {
 	/**
 	 * Selector of a pause button element. If the element is visible,
 	 * the playback is considered to be playing.
-	 *
-	 * Should not be used if `Connector.playButtonSelector` is defined.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
@@ -795,19 +791,20 @@ export default class BaseConnector {
 		};
 
 		this.isPlaying = () => {
-			if (this.playButtonSelector) {
-				return !Util.isElementVisible(this.playButtonSelector);
-			}
+			const notPaused = () =>
+				this.playButtonSelector
+					? !Util.isElementVisible(this.playButtonSelector)
+					: null;
 
-			if (this.pauseButtonSelector) {
-				return Util.isElementVisible(this.pauseButtonSelector);
-			}
+			const playing = this.pauseButtonSelector
+				? Util.isElementVisible(this.pauseButtonSelector)
+				: null;
 
 			/*
 			 * Return true if play/pause button selector is not specified. It's
 			 * better to assume the playback is always playing than otherwise. :)
 			 */
-			return true;
+			return (playing || notPaused()) ?? true;
 		};
 
 		this.getTrackArt = () => {
@@ -979,12 +976,7 @@ export default class BaseConnector {
 				let fieldValue = this.currentState[field];
 
 				switch (field) {
-					case 'albumArtist': {
-						if (fieldValue === this.currentState.artist) {
-							fieldValue = this.defaultState[field];
-						}
-					}
-					// eslint-disable-next-line no-fallthrough
+					case 'albumArtist':
 					case 'artist':
 					case 'track':
 					case 'album': {

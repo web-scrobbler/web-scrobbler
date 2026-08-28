@@ -253,6 +253,19 @@ function areChaptersAvailable() {
 		return false;
 	}
 
+	// Chapters from the description have an "engagement panel" (sidebar),
+	// separate from "auto-chapters" which also have a one, but it's different.
+	// Some Music Videos also get text "In this video" inserted where the chapter
+	// would be, which this also catches because that only gets inserted when
+	// there are no description chapters.
+	if (
+		!document.querySelector(
+			'[target-id="engagement-panel-macro-markers-description-chapters"]',
+		)
+	) {
+		return false;
+	}
+
 	// Return the text if no sponsorblock text.
 	return text;
 }

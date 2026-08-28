@@ -1,7 +1,6 @@
 import type { ConnectorMeta } from '@/core/connectors';
 import connectors from '@/core/connectors';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import { debugLog } from '../content/util';
 import { DEFAULT_SCROBBLE_PERCENT } from '@/util/util';
 
 const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
@@ -135,10 +134,10 @@ const OVERRIDE_CONTENT = {
 
 export interface ConnectorOptions {
 	YouTube: {
-		scrobbleMusicOnly: boolean;
-		scrobbleEntertainmentOnly: boolean;
 		scrobbleMusicRecognisedOnly: boolean;
 		enableGetTrackInfoFromYtMusic: boolean;
+		scrobbleMusicOnly: boolean;
+		scrobbleEntertainmentOnly: boolean;
 	};
 }
 
@@ -147,10 +146,10 @@ export interface ConnectorOptions {
  */
 const DEFAULT_CONNECTOR_OPTIONS: ConnectorOptions = {
 	YouTube: {
-		scrobbleMusicOnly: false,
+		scrobbleMusicRecognisedOnly: true,
+		enableGetTrackInfoFromYtMusic: true,
+		scrobbleMusicOnly: true,
 		scrobbleEntertainmentOnly: false,
-		scrobbleMusicRecognisedOnly: false,
-		enableGetTrackInfoFromYtMusic: false,
 	},
 };
 
@@ -221,7 +220,6 @@ async function cleanupConfigValues() {
 
 		if (!isFound) {
 			delete data[DISABLED_CONNECTORS][connectorId];
-			debugLog(`Remove ${connectorId} from storage`);
 		}
 	}
 }
@@ -414,4 +412,8 @@ export async function setAllConnectorsEnabled(state: boolean): Promise<void> {
 	await options.set(data);
 }
 
-void setupDefaultConfigValues().then(cleanupConfigValues);
+// prettier-ignore
+// #v-ifdef VITE_TEST
+await
+// #v-endif
+setupDefaultConfigValues().then(cleanupConfigValues);
