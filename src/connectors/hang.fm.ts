@@ -34,7 +34,9 @@ Connector.getArtistTrack = () => {
 		const popupElements = document.querySelectorAll(
 			`${popupImageWrapper} >div>div:last-child [speed]>:first-child`,
 		);
-		if (popupElements.length != 2) return null;
+		if (popupElements.length !== 2) {
+			return null;
+		}
 		const [title, artist] = Array.from(popupElements).map(
 			(elem) => elem.textContent,
 		);
