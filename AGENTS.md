@@ -19,17 +19,19 @@ Use `npm run dist chrome|firefox` to build the extension for distribution.
 
 When creating pull requests:
 - **Template**: Always use the template provided in `.github/PULL_REQUEST_TEMPLATE.md`.
-- **Labels**: Choose relevant labels based on the categories defined in `.github/release-drafter.yml`:
-    - `new-feature`: Additions of new functionalities.
-    - `core-fix`: Bug fixes for core extension functionality.
-    - `new-connector`: Addition of support for a new music service connector.
-    - `fixed-connector`: Fixes for issues with existing music service connectors.
-    - `updated`: Dependency updates or other component updates.
-    - `maintenance`: General maintenance, refactoring, or infrastructure improvements.
+- **Labels**: You MUST select exactly one label from each of the two sets defined in `.github/release-drafter.yml`:
 
-    Additionally, every PR **must** include exactly one of the following versioning labels to determine the next release version:
-    - `major-change`: Use for major overhauls or breaking changes.
-    - `minor-change`: Use for new features or new connectors.
-    - `patch-change`: Use for bug fixes or maintenance changes.
+    **Category labels** (choose one):
+    - `new-feature`
+    - `core-fix`
+    - `new-connector`
+    - `fixed-connector`
+    - `updated`
+    - `maintenance`
+
+    **Versioning labels** (choose one):
+    - `major-change`
+    - `minor-change`
+    - `patch-change`
 
 Ensure your commit messages and PR titles follow Conventional Commits (as per `CLAUDE.md`).
