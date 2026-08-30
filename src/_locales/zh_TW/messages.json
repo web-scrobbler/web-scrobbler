@@ -419,6 +419,10 @@
         "message": "點擊齒輪圖示以設定 Connector 的自訂 URL 規則。",
         "description": "Description of how to configure custom URL patterns"
     },
+    "optionsConnectorsWelcome": {
+        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href='$1'>contribute to the project</a>.",
+        "description": "Encouraging message about adding more connectors"
+    },
     "optionsSupportedWebsites": {
         "message": "支援的網站",
         "description": "'Supported websites' header"
