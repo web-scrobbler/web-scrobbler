@@ -1,6 +1,6 @@
 import { t } from '@/util/i18n';
-import type { Setter } from 'solid-js';
-import { For, Show, createMemo, createResource } from 'solid-js';
+import type { JSXElement, Setter } from 'solid-js';
+import { For, Show, createMemo, createResource, createSignal } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import {
@@ -23,6 +23,7 @@ export default function RegexEdits(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
 }) {
+	const [uploadStatus, setUploadStatus] = createSignal<JSXElement>();
 	return (
 		<>
 			<h2>{t('optionsRegexEdits')}</h2>
@@ -41,8 +42,12 @@ export default function RegexEdits(props: {
 					editWrapper={regexEdits}
 					filename="regex-edits.json"
 				/>
-				<ImportEdits editWrapper={regexEdits} />
+				<ImportEdits
+					editWrapper={regexEdits}
+					setUploadStatus={setUploadStatus}
+				/>
 			</div>
+			{uploadStatus()}
 		</>
 	);
 }

@@ -13,7 +13,6 @@ import type {
 	REGEX_EDITS,
 	SCROBBLE_CACHE,
 	STATE_MANAGEMENT,
-	StorageNamespace,
 	BLOCKLISTS,
 	NATIVE_SCROBBLER_NOTIFICATION,
 } from '@/core/storage/browser-storage';
@@ -196,7 +195,7 @@ const LOCKING_TIMEOUT = 3000;
 export default class StorageWrapper<K extends keyof DataModels> {
 	// V extends DataModels[K], T extends Record<K, V>
 	private storage: browser.Storage.StorageArea;
-	private namespace: StorageNamespace;
+	readonly namespace: K;
 	private requests: number[] = [];
 	private autoIncrement = 0;
 	private emitter = new EventEmitter<StorageEvents>();
@@ -212,10 +211,7 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	 * @param storage - StorageArea object
 	 * @param namespace - Storage namespace
 	 */
-	constructor(
-		storage: browser.Storage.StorageArea,
-		namespace: StorageNamespace,
-	) {
+	constructor(storage: browser.Storage.StorageArea, namespace: K) {
 		this.storage = storage;
 		this.namespace = namespace;
 	}
@@ -238,8 +234,8 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		// #v-ifdef VITE_DEV
 		console.log('StorageWrapper#get: ', this.namespace);
 		// #v-endif
-		const data = await this.storage.get();
-		if (data && this.namespace in data) {
+		const data = await this.storage.get(this.namespace);
+		if (this.namespace in data) {
 			return data[this.namespace] as DataModels[K];
 		}
 

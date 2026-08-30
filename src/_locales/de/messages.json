@@ -763,6 +763,14 @@
         "message": "Falls die Erweiterung kürzlich aktualisiert wurde, werden Websites möglicherweise als nicht unterstützt angezeigt, bis du die Seite neu geladen hast.",
         "description": "The description of 'unsupported' popup"
     },
+    "importSuccess": {
+        "message": "Erfolgreich importiert!",
+        "description": "Message that shows when Edits were successfully imported"
+    },
+    "importError": {
+        "message": "Beim Importieren ist ein Fehler aufgetreten: $1",
+        "description": "Message that shows when an error occurs when importing Edits"
+    },
     "infoLove": {
         "message": "Lieblingstitel",
         "description": "Label of love/unlove button"
