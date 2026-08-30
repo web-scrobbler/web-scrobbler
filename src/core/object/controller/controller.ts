@@ -98,6 +98,20 @@ export default class Controller {
 		payload: undefined,
 	});
 
+	private async updateUI(): Promise<void> {
+		const isEnabled = await Options.getOption(
+			Options.USE_INFOBOX,
+			this.connector.meta.id,
+		);
+
+		if (!isEnabled) {
+			this.controllerUI.cleanup();
+			return;
+		}
+
+		await this.controllerUI.updateInfoBox(this.getMode(), this.currentSong);
+	}
+
 	/**
 	 * Mutates this.currentSong to sync disallowed reason, and returns whether song should scrobble
 	 *
@@ -276,7 +290,7 @@ export default class Controller {
 	 * Called if current song is updated.
 	 */
 	public onSongUpdated(): void {
-		this.controllerUI.updateInfoBox(this.getMode(), this.currentSong);
+		void this.updateUI();
 		sendContentMessage({
 			type: 'songUpdate',
 			payload: this.currentSong?.getCloneableData() ?? null,
@@ -287,7 +301,7 @@ export default class Controller {
 	 * Called if a controller mode is changed.
 	 */
 	public onModeChanged(): void {
-		this.controllerUI.updateInfoBox(this.getMode(), this.currentSong);
+		void this.updateUI();
 		sendContentMessage({
 			type: 'controllerModeChange',
 			payload: {
@@ -361,7 +375,7 @@ export default class Controller {
 			}
 		}
 
-		this.controllerUI.updateInfoBox(this.getMode(), this.currentSong);
+		void this.updateUI();
 	}
 
 	/** Public functions */

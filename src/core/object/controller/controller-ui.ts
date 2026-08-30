@@ -1,6 +1,5 @@
 import browser from 'webextension-polyfill';
 import type { ControllerUIConnector } from './controller-ui-connector';
-import * as Options from '@/core/storage/options';
 import * as Util from '@/core/content/util';
 import type Song from '@/core/object/song';
 import type { ControllerModeStr } from './controller';
@@ -9,14 +8,7 @@ export default class ControllerUI {
 	constructor(private connector: ControllerUIConnector) {}
 
 	public async getInfoBoxElement(): Promise<HTMLDivElement | null> {
-		if (
-			!this.connector.scrobbleInfoLocationSelector ||
-			// infobox is disabled in options
-			!(await Options.getOption(
-				Options.USE_INFOBOX,
-				this.connector.meta.id,
-			))
-		) {
+		if (!this.connector.scrobbleInfoLocationSelector) {
 			return null;
 		}
 
@@ -98,5 +90,11 @@ export default class ControllerUI {
 			infoBoxElement.appendChild(img);
 			infoBoxElement.appendChild(info);
 		}
+	}
+
+	public cleanup(): void {
+		document
+			.querySelector<HTMLDivElement>('#scrobbler-infobox-el')
+			?.remove();
 	}
 }
