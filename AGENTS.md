@@ -33,5 +33,8 @@ When creating pull requests:
     - `major-change`
     - `minor-change`
     - `patch-change`
+    - `skip-changelog` (for changes that should not appear in the changelog, e.g., chores)
+
+    *Note: If `skip-changelog` is used, a versioning label is not required.*
 
 Ensure your commit messages and PR titles follow Conventional Commits (as per `CLAUDE.md`).
