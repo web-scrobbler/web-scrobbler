@@ -29,12 +29,14 @@ When creating pull requests:
     - `updated`
     - `maintenance`
 
-    **Versioning labels** (choose one):
+    **Versioning labels**:
     - `major-change`
     - `minor-change`
     - `patch-change`
+
+    **Additional labels**:
     - `skip-changelog` (for changes that should not appear in the changelog, e.g., chores)
 
-    *Note: If `skip-changelog` is used, a versioning label is not required.*
+    *Note: Select exactly one versioning label. You may additionally select `skip-changelog` if appropriate.*
 
 Ensure your commit messages and PR titles follow Conventional Commits (as per `CLAUDE.md`).
