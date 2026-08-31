@@ -148,7 +148,7 @@ class ScrobbleService {
 				// Forward result (including errors) to caller
 				try {
 					return await scrobbler.sendNowPlaying(
-						scrobbler.applyFilter(song),
+						await scrobbler.applyFilter(song),
 					);
 				} catch (result) {
 					return this.processErrorResult(
@@ -179,7 +179,7 @@ class ScrobbleService {
 				// Forward result (including errors) to caller
 				try {
 					return await scrobbler.sendPaused(
-						scrobbler.applyFilter(song),
+						await scrobbler.applyFilter(song),
 					);
 				} catch (result) {
 					return this.processErrorResult(
@@ -210,7 +210,7 @@ class ScrobbleService {
 				// Forward result (including errors) to caller
 				try {
 					return await scrobbler.sendResumedPlaying(
-						scrobbler.applyFilter(song),
+						await scrobbler.applyFilter(song),
 					);
 				} catch (result) {
 					return this.processErrorResult(
@@ -238,7 +238,9 @@ class ScrobbleService {
 				// Forward result (including errors) to caller
 				try {
 					return await scrobbler.scrobble(
-						songs.map(scrobbler.applyFilter),
+						await Promise.all(
+							songs.map((s) => scrobbler.applyFilter(s)),
+						),
 						currentlyPlaying,
 					);
 				} catch (result) {

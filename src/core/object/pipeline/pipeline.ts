@@ -7,6 +7,7 @@ import * as Metadata from '@/core/object/pipeline/metadata';
 import * as Normalize from '@/core/object/pipeline/normalize';
 import * as RegexEdits from '@/core/object/pipeline/regex-edits';
 import * as CoverArtArchive from '@/core/object/pipeline/coverartarchive/coverartarchive';
+import * as FirstArtist from '@/core/object/pipeline/first-artist';
 import * as BlockedTags from '@/core/object/pipeline/blocked-tags';
 import type Song from '@/core/object/song';
 import type { ConnectorMeta } from '@/core/connectors';
@@ -20,6 +21,7 @@ export default class Pipeline {
 		RegexEdits,
 		Metadata,
 		RegexEdits, // Run regex edits again, as the regex edit might have caused an album to be found.
+		FirstArtist, // After Metadata so it is the final word on the artist, guarded by isCorrectedByUser.
 		BlockedTags,
 		CoverArtArchive,
 	];
