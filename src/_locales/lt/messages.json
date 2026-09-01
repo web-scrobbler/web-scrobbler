@@ -160,19 +160,19 @@
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Naudoti „YouTube Music“, kad gauti informaciją apie takelį",
+        "message": "Naudoti „YouTube Music API“, kad gauti informaciją apie takelį",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Naudoti „YouTube Music“, kad gauti informaciją apie takelį, jei išjungta, numatytasis nustatymas – naudoti vaizdo įrašo aprašymą ir pavadinimą",
+        "message": "Naudoti „YouTube Music API“, kad gauti informaciją apie takelį, jei išjungta, numatytasis nustatymas – naudoti vaizdo įrašo aprašymą ir pavadinimą",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "Skrobuolinti tik tuos vaizdo įrašus, kuriuos „YouTube Music“ atpažįsta kaip muziką",
+        "message": "Skrobuolinti tik tuos vaizdo įrašus, kuriuos „YouTube Music API“ atpažįsta kaip muziką",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignoruoti vaizdo įrašus, kurių „YouTube Music“ neatpažįsta kaip muziką",
+        "message": "Ignoruoti vaizdo įrašus, kurių „YouTube Music API“ neatpažįsta kaip muziką",
         "description": "Option title"
     },
     "optionTheme": {
@@ -704,7 +704,7 @@
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-        "message": "„YouTube Music“ neatpažįsta šio vaizdo įrašo kaip muzikos, o jūs nustatymuose įjungėte parinktį „Skrobuolinti tik tuos vaizdo įrašus, kuriuos „YouTube Music“ atpažįsta kaip muziką“.",
+        "message": "„YouTube Music API“ neatpažįsta šio vaizdo įrašo kaip muzikos, o jūs nustatymuose įjungėte parinktį „Skrobuolinti tik tuos vaizdo įrašus, kuriuos „YouTube Music API“ atpažįsta kaip muziką“.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
