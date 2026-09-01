@@ -16,12 +16,11 @@ class DebugLogQueue {
 	private isActive = false;
 	private shouldPrint = (browser.storage.sync || browser.storage.local)
 		.get('Options')
-		.then(
-			(storageEntries) =>
-				(storageEntries['Options'] as Record<string, unknown>)[
-					'debugLoggingEnabled'
-				],
-		);
+		.then((storageEntries) => {
+			type PartialStorage = Record<string, unknown | undefined>;
+			const Options = storageEntries.Options as PartialStorage;
+			return Options?.['debugLoggingEnabled'];
+		});
 
 	/**
 	 * Enqueue a log message to be printed.
