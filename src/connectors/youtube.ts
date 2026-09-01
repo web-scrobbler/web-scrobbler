@@ -447,6 +447,28 @@ function getTrackInfoFromYoutubeMusic():
 		videoId,
 	});
 
+	interface VideoInfo {
+		videoDetails?: Partial<{
+			videoId: string;
+			title: string;
+			channelId: string;
+			thumbnail: {
+				thumbnails?: Partial<{
+					url: string;
+					width: number;
+					height: number;
+				}>[];
+			};
+			lengthSeconds: number;
+			author: string;
+			musicVideoType?: string;
+			// nonexhaustive
+			[other: string]: unknown | undefined;
+		}>;
+		// nonexhaustive
+		[other: string]: unknown | undefined;
+	}
+
 	fetch('https://music.youtube.com/youtubei/v1/player', {
 		method: 'POST',
 		headers: {
