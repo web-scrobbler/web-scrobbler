@@ -16,7 +16,12 @@ class DebugLogQueue {
 	private isActive = false;
 	private shouldPrint = (browser.storage.sync || browser.storage.local)
 		.get('Options')
-		.then((options) => options['debugLoggingEnabled']);
+		.then(
+			(storageEntries) =>
+				(storageEntries['Options'] as Record<string, unknown>)[
+					'debugLoggingEnabled'
+				],
+		);
 
 	/**
 	 * Enqueue a log message to be printed.
