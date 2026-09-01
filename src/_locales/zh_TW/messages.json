@@ -160,19 +160,19 @@
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "使用 YouTube Music 來取得資訊",
+        "message": "使用 YouTube Music API 來取得資訊",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "使用 YouTube Music 取得曲目資訊；停用則使用影片標題及說明欄",
+        "message": "使用 YouTube Music API 取得曲目資訊；停用則使用影片標題及說明欄",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "僅記錄被 YouTube Music 辨識為音樂的影片",
+        "message": "僅記錄被 YouTube Music API 辨識為音樂的影片",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "忽略未被 YouTube Music 辨識為音樂的影片",
+        "message": "忽略未被 YouTube Music API 辨識為音樂的影片",
         "description": "Option title"
     },
     "optionTheme": {
@@ -704,7 +704,7 @@
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-        "message": "YouTube Music 沒有將此影片識別為音樂，且您啟用了「僅記錄被 YouTube Music 辨識為音樂的影片」設定。",
+        "message": "YouTube Music API 沒有將此影片識別為音樂，且您啟用了「僅記錄被 YouTube Music API 辨識為音樂的影片」設定。",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
