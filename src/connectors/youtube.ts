@@ -1,4 +1,8 @@
-import type { ArtistTrackInfo, TrackInfoWithAlbum } from '@/core/types';
+import type {
+	ArtistTrackInfo,
+	BaseState,
+	TrackInfoWithAlbum,
+} from '@/core/types';
 
 export {};
 
@@ -54,33 +58,40 @@ const allowedCategories: string[] = [];
 const categoryCache = new Map<string, string>();
 
 /**
- * Wether we should only scrobble music recognised by YouTube Music
+ * Wether we should only scrobble music recognised by the YouTube Music API
  */
-let scrobbleMusicRecognisedOnly = false;
+let scrobbleYTMusicAPIRecognisedOnly = false;
 
 /**
- * Wether the Youtube Music track info getter is enabled
+ * Wether the YouTube Music API track info getter is enabled
  */
-let getTrackInfoFromYtMusicEnabled = false;
+let getTrackInfoFromYTMusicAPIEnabled = false;
 
 let currentVideoDescription: string | null = null;
 let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
 
 const getTrackInfoFromYoutubeMusicCache: {
-	[videoId: string]: {
-		done?: boolean;
-		recognisedByYtMusic?: boolean;
-		videoId?: string | null;
-		currentTrackInfo?: { artist?: string; track?: string };
-	};
+	[videoId: string]:
+		| undefined
+		| {
+				done: false;
+		  }
+		| {
+				done: true;
+				recognisedByYtMusic: boolean;
+				currentTrackInfo?: BaseState;
+		  };
 } = {};
 
-const trackInfoGetters: (() =>
-	| ArtistTrackInfo
-	| null
-	| undefined
-	| Record<string, never>
-	| TrackInfoWithAlbum)[] = [
+/**
+ * different methods of getting information for the currently playing track.
+ * once one of them has filled in all required fields (artist, track) the value is used.
+ * the return values have different meanings:
+ * - @type {BaseState} fill in fields that are not set yet
+ * - @type {null}      method not applicable, skip to the next one.
+ * - @type {undefined} method is still waiting on return value. don't test the other methods, just return nothing.
+ */
+const trackInfoGetters: (() => BaseState | null | undefined)[] = [
 	getTrackInfoFromChapters,
 	getTrackInfoFromYoutubeMusic,
 	getTrackInfoFromDescription,
@@ -121,36 +132,20 @@ Connector.channelLabelSelector = [
 ];
 
 Connector.getTrackInfo = () => {
-	const trackInfo: TrackInfoWithAlbum = {};
-
-	if (getTrackInfoFromYtMusicEnabled) {
-		const videoId = getVideoId();
-		if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-			// start loading getTrackInfoFromYoutubeMusic
-			getTrackInfoFromYoutubeMusic();
-
-			// wait for getTrackInfoFromYoutubeMusic to finish
-			return trackInfo;
-		}
-	}
+	const trackInfo: BaseState = {};
 
 	for (const getter of trackInfoGetters) {
 		const currentTrackInfo = getter();
-		if (!currentTrackInfo) {
-			continue;
+
+		if (typeof currentTrackInfo === 'undefined') {
+			// wait for getTrackInfoFromYoutubeMusic to finish
+			return null;
 		}
 
-		if (!trackInfo.artist) {
-			trackInfo.artist = currentTrackInfo.artist;
-		}
-
-		if (!trackInfo.track) {
-			trackInfo.track = currentTrackInfo.track;
-		}
-
-		if (!trackInfo.album && 'album' in currentTrackInfo) {
-			trackInfo.album = currentTrackInfo.album;
-		}
+		trackInfo.artist ??= currentTrackInfo?.artist ?? null;
+		trackInfo.track ??= currentTrackInfo?.track ?? null;
+		trackInfo.trackArt ??= currentTrackInfo?.trackArt ?? null;
+		trackInfo.album ??= currentTrackInfo?.album ?? null;
 
 		if (!Util.isArtistTrackEmpty(trackInfo)) {
 			break;
@@ -177,7 +172,9 @@ Connector.getTimeInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	return Util.hasElementClass('.html5-video-player', 'playing-mode');
+	const videoElement =
+		document.querySelector<HTMLVideoElement>('.html5-main-video');
+	return !videoElement?.paused;
 };
 
 Connector.getOriginUrl = () => {
@@ -204,7 +201,7 @@ Connector.scrobblingDisallowedReason = () => {
 		return 'Other';
 	}
 
-	if (scrobbleMusicRecognisedOnly) {
+	if (scrobbleYTMusicAPIRecognisedOnly) {
 		const videoId = getVideoId();
 		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId ?? ''];
 
@@ -372,13 +369,15 @@ async function readConnectorOptions() {
 	Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
 
 	if (await Util.getOption('YouTube', 'scrobbleMusicRecognisedOnly')) {
-		scrobbleMusicRecognisedOnly = true;
-		Util.debugLog('Only scrobbling when recognised by YouTube Music');
+		scrobbleYTMusicAPIRecognisedOnly = true;
+		Util.debugLog(
+			'Only scrobbling when recognised by the YouTube Music API',
+		);
 	}
 
 	if (await Util.getOption('YouTube', 'enableGetTrackInfoFromYtMusic')) {
-		getTrackInfoFromYtMusicEnabled = true;
-		Util.debugLog('Get track info from YouTube Music enabled');
+		getTrackInfoFromYTMusicAPIEnabled = true;
+		Util.debugLog('Get track info from the YouTube Music API enabled');
 	}
 }
 
@@ -398,40 +397,44 @@ function getTrackInfoFromDescription() {
 	return artistTrackFromDescription;
 }
 
-function getTrackInfoFromYoutubeMusic():
-	| ArtistTrackInfo
-	| Record<string, never>
-	| undefined {
+function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 	// if neither getTrackInfoFromYtMusicEnabled nor scrobbleMusicRecognisedOnly
 	// are enabled, there is no need to run this getter
-	if (!getTrackInfoFromYtMusicEnabled && !scrobbleMusicRecognisedOnly) {
-		return {};
+	if (
+		!getTrackInfoFromYTMusicAPIEnabled &&
+		!scrobbleYTMusicAPIRecognisedOnly
+	) {
+		return null;
 	}
 
 	const videoId = getVideoId();
+	if (!videoId) {
+		// no video ID, no info.
+		return null;
+	}
 
-	if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-		getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-			videoId: null,
-			done: false,
-			currentTrackInfo: {},
-		};
-	} else {
-		if (!getTrackInfoFromYtMusicEnabled) {
+	if (getTrackInfoFromYoutubeMusicCache[videoId]) {
+		// cache hit
+
+		if (!getTrackInfoFromYTMusicAPIEnabled) {
 			// this means that only scrobbleMusicRecognisedOnly is enabled,
 			// therefore only the cache is used and we return {} for the
 			// actual getter
 			return {};
 		}
 
-		if (getTrackInfoFromYoutubeMusicCache[videoId ?? ''].done) {
+		if (getTrackInfoFromYoutubeMusicCache[videoId].done) {
 			// already ran!
-			return getTrackInfoFromYoutubeMusicCache[videoId ?? '']
-				.currentTrackInfo;
+			return getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo;
 		}
 		// still running, lets be patient
-		return {};
+		return undefined;
 	}
+
+	// cache not initialized -> start request
+	getTrackInfoFromYoutubeMusicCache[videoId] = {
+		done: false,
+	};
 
 	const body = JSON.stringify({
 		context: {
@@ -516,13 +519,10 @@ function getTrackInfoFromYoutubeMusic():
 		});
 }
 
-function getTrackInfoFromChapters() {
+function getTrackInfoFromChapters(): ArtistTrackInfo | null {
 	// Short circuit if chapters not available - necessary to avoid misscrobbling with SponsorBlock.
 	if (!areChaptersAvailable()) {
-		return {
-			artist: null,
-			track: null,
-		};
+		return null;
 	}
 
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
