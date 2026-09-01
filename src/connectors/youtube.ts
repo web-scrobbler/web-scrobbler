@@ -594,6 +594,8 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 				recognisedByYtMusic,
 				currentTrackInfo: { artist, track, trackArt },
 			};
+
+			Connector.onStateChanged();
 		})
 		.catch((err) => {
 			Util.debugLog(
