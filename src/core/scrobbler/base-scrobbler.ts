@@ -2,7 +2,7 @@
 
 import type { DebugLogType } from '@/core/util/debug';
 import { debugLog } from '@/util/util';
-import type { BaseSong } from '@/core/object/song';
+import type { BaseSong, LastFmMetadata } from '@/core/object/song';
 import type { ServiceCallResult } from '@/core/object/service-call-result';
 import type {
 	ArrayProperties,
@@ -27,20 +27,15 @@ export interface SessionData {
 	token?: string;
 }
 
-export interface ScrobblerSongInfo {
+export interface ScrobblerSongInfo extends LastFmMetadata {
 	artist: string;
-	artistUrl: string;
 
 	track: string;
-	trackUrl: string;
 	trackArtUrl?: string;
 
 	album?: string;
-	albumUrl?: string;
-	albumMbId?: string;
 
 	userloved?: boolean;
-	userPlayCount: number;
 
 	duration: number | null;
 }
