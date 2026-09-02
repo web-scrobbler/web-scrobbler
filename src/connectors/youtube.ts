@@ -613,14 +613,33 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 					// if it's not exactly that, then it should be good.
 					// EXCEPT NOT: videos that are part of music playlists seem to have a wrong artist set.
 
-					const title = Util.getTextFromSelectors(videoTitleSelector);
+					// <channel> or "Episode • <podcast>"
+					// but NEVER "<channel> - Topic"
+					// let's abuse this to find out if it's a podcast mislabel without having to localize
+					const channelOrEpisode =
+						videoInfo.microformat?.microformatDataRenderer
+							?.description;
+
+					const title =
+						videoInfo.microformat?.microformatDataRenderer?.title ??
+						Util.getTextFromSelectors(videoTitleSelector);
 					const channel =
+						videoInfo.microformat?.microformatDataRenderer
+							?.pageOwnerDetails?.name ??
 						Util.getTextFromSelectors(channelNameSelector);
 					if (
 						videoInfo.videoDetails.title === title &&
 						videoInfo.videoDetails.author === channel
 					) {
 						// do not use, let title parsing handle it.
+					} else if (
+						videoInfo.videoDetails.author &&
+						videoInfo.videoDetails.author !== channelOrEpisode &&
+						channelOrEpisode?.includes(
+							videoInfo.videoDetails.author,
+						)
+					) {
+						// don't use it either here, prevent podcast name from being scrobbled as author
 					} else {
 						({ author: artist, title: track } =
 							videoInfo.videoDetails);
