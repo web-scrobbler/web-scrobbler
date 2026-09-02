@@ -197,11 +197,6 @@ Connector.scrobblingDisallowedReason = () => {
 		return 'IsAd';
 	}
 
-	// Workaround to prevent scrobbling the video opened in a background tab.
-	if (!isVideoStartedPlaying()) {
-		return 'Other';
-	}
-
 	if (scrobbleYTMusicAPIRecognisedOnly) {
 		const videoId = getVideoId() ?? '';
 		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId];
