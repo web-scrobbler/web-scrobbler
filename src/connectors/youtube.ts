@@ -469,7 +469,7 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 		}>;
 		microformat?: {
 			microformatDataRenderer?: Partial<{
-				// real video title
+				// track or title
 				title: string;
 				// channel or "Episode • <podcast>"
 				description: string;
@@ -615,12 +615,8 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 						videoInfo.microformat?.microformatDataRenderer
 							?.description;
 
-					const title =
-						videoInfo.microformat?.microformatDataRenderer?.title ??
-						Util.getTextFromSelectors(videoTitleSelector);
+					const title = Util.getTextFromSelectors(videoTitleSelector);
 					const channel =
-						videoInfo.microformat?.microformatDataRenderer
-							?.pageOwnerDetails?.name ??
 						Util.getTextFromSelectors(channelNameSelector);
 					if (
 						videoInfo.videoDetails.title === title &&
@@ -742,13 +738,6 @@ function removeNumericPrefix(text: string) {
 		 */
 		{ source: /^\(\d{1,2}\)\./, target: '' },
 	]);
-}
-
-function isVideoStartedPlaying() {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
-	return videoElement && videoElement.currentTime > 0;
 }
 
 function isVideoCategoryAllowed() {
