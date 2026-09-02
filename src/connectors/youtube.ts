@@ -192,9 +192,15 @@ Connector.getUniqueID = () => {
 	return getVideoId();
 };
 
+let vorapisIsNavigating = false;
+
 Connector.scrobblingDisallowedReason = () => {
 	if (document.querySelector('.ad-showing')) {
 		return 'IsAd';
+	}
+
+	if (vorapisIsNavigating) {
+		return 'IsLoading';
 	}
 
 	if (scrobbleYTMusicAPIRecognisedOnly) {
@@ -264,6 +270,15 @@ function areChaptersAvailable() {
 }
 
 function getVideoId() {
+	const videoUrl = document
+		.querySelector<
+			Element & { getVideoUrl?: () => string }
+		>('.html5-video-player')
+		?.getVideoUrl?.();
+	if (videoUrl) {
+		return Util.getYtVideoIdFromUrl(videoUrl);
+	}
+
 	/*
 	 * ytd-watch-flexy element contains ID of a first played video
 	 * if the miniplayer is visible, so we should check
@@ -755,3 +770,45 @@ function isVideoCategoryAllowed() {
 		videoCategory === categoryUnknown
 	);
 }
+
+document.addEventListener('V3_NAVITRONIC_STARTED', () => {
+	vorapisIsNavigating = true;
+	Connector.onStateChanged();
+});
+let lastVideoElem: HTMLVideoElement | undefined;
+const finishNavigation = () => {
+	console.log('navitronic');
+	const videoElem = document.querySelector<HTMLVideoElement>(videoSelector);
+	debugger;
+	if (videoElem) {
+		vorapisIsNavigating = false;
+
+		if (videoElem !== lastVideoElem) {
+			if (!lastVideoElem) {
+				videoTitleSelector.unshift('.watch-content .watch-title');
+				channelNameSelector.unshift('.watch-content .yt-user-name');
+				videoDescriptionSelector.unshift(
+					'.watch-content #watch-description-text',
+				);
+			}
+
+			const events = ['playing', 'pause', 'seeked', 'ended'];
+			for (const event of events) {
+				lastVideoElem?.removeEventListener?.(
+					event,
+					Connector.onStateChanged,
+				);
+				videoElem?.addEventListener?.(event, Connector.onStateChanged);
+			}
+			lastVideoElem = videoElem;
+		}
+	} else {
+		setTimeout(finishNavigation, 100);
+	}
+	Connector.onStateChanged();
+};
+document.addEventListener(
+	'V3_SERVERCONTRACT_FLUSH_DOCEL_ATTRIB',
+	finishNavigation,
+);
+document.addEventListener('V3_NAVITRONIC_FINISHED', finishNavigation);
