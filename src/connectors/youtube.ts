@@ -779,7 +779,6 @@ let lastVideoElem: HTMLVideoElement | undefined;
 const finishNavigation = () => {
 	console.log('navitronic');
 	const videoElem = document.querySelector<HTMLVideoElement>(videoSelector);
-	debugger;
 	if (videoElem) {
 		vorapisIsNavigating = false;
 
