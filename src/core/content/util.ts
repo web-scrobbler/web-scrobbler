@@ -640,11 +640,16 @@ export function isElementVisible(
 export function getValueFromSelectors(
 	selectors: string | string[],
 ): string | null {
-	const element = queryElements(selectors);
-	if (!element || !('value' in element)) {
+	const elements = queryElements<HTMLInputElement>(selectors);
+	if (!elements) {
 		return null;
 	}
-	return element.value as string;
+	for (const element of elements) {
+		if (typeof element.value === 'string') {
+			return element.value;
+		}
+	}
+	return null;
 }
 
 /**
@@ -666,18 +671,20 @@ export function getDataFromSelectors(
  * element with the selector. If `selectors` is an array, return
  * element matched by first valid selector.
  * @param selectors - Single selector or array of selectors
- * @returns HTML element
+ * @returns HTML element or null if not found (or no selectors passed)
  */
-/* istanbul ignore next */
-export function queryElements(
+export function queryElements<ElementT extends Element = HTMLElement>(
 	selectors: string | string[] | null | undefined,
-): NodeListOf<HTMLElement> | null {
+): typeof selectors extends null | undefined
+	? null
+	: NodeListOf<ElementT> | null {
 	if (!selectors) {
 		return null;
 	}
 
 	if (typeof selectors === 'string') {
-		return document.querySelectorAll(selectors);
+		const singleResult = document.querySelectorAll<ElementT>(selectors);
+		return singleResult.length > 0 ? singleResult : null;
 	}
 
 	if (!Array.isArray(selectors)) {
@@ -685,9 +692,7 @@ export function queryElements(
 	}
 
 	for (const selector of selectors) {
-		const elements = document.querySelectorAll(
-			selector,
-		) as NodeListOf<HTMLElement>;
+		const elements = document.querySelectorAll<ElementT>(selector);
 		if (elements.length > 0) {
 			return elements;
 		}
