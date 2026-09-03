@@ -270,15 +270,6 @@ function areChaptersAvailable() {
 }
 
 function getVideoId() {
-	const videoUrl = document
-		.querySelector<
-			Element & { getVideoUrl?: () => string }
-		>('.html5-video-player')
-		?.getVideoUrl?.();
-	if (videoUrl) {
-		return Util.getYtVideoIdFromUrl(videoUrl);
-	}
-
 	/*
 	 * ytd-watch-flexy element contains ID of a first played video
 	 * if the miniplayer is visible, so we should check
