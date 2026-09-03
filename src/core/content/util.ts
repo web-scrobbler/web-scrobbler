@@ -640,11 +640,16 @@ export function isElementVisible(
 export function getValueFromSelectors(
 	selectors: string | string[],
 ): string | null {
-	const element = queryElements(selectors);
-	if (!element || !('value' in element)) {
+	const elements = queryElements<HTMLInputElement>(selectors);
+	if (!elements) {
 		return null;
 	}
-	return element.value as string;
+	for (const element of elements) {
+		if (typeof element.value === 'string') {
+			return element.value;
+		}
+	}
+	return null;
 }
 
 /**
@@ -666,18 +671,22 @@ export function getDataFromSelectors(
  * element with the selector. If `selectors` is an array, return
  * element matched by first valid selector.
  * @param selectors - Single selector or array of selectors
- * @returns HTML element
+ * @returns HTML element or null if not found (or no selectors passed)
  */
-/* istanbul ignore next */
-export function queryElements(
+export function queryElements(selectors: [] | null | undefined): null;
+export function queryElements<ElementT extends Element = HTMLElement>(
+	selectors: string | string[],
+): NodeListOf<ElementT> | null;
+export function queryElements<ElementT extends Element = HTMLElement>(
 	selectors: string | string[] | null | undefined,
-): NodeListOf<HTMLElement> | null {
+): NodeListOf<ElementT> | null {
 	if (!selectors) {
 		return null;
 	}
 
 	if (typeof selectors === 'string') {
-		return document.querySelectorAll(selectors);
+		const singleResult = document.querySelectorAll<ElementT>(selectors);
+		return singleResult.length > 0 ? singleResult : null;
 	}
 
 	if (!Array.isArray(selectors)) {
@@ -685,15 +694,157 @@ export function queryElements(
 	}
 
 	for (const selector of selectors) {
-		const elements = document.querySelectorAll(
-			selector,
-		) as NodeListOf<HTMLElement>;
+		const elements = document.querySelectorAll<ElementT>(selector);
 		if (elements.length > 0) {
 			return elements;
 		}
 	}
 
 	return null;
+}
+type AbortableResult<T> =
+	| { aborted: true; reason: string }
+	| { aborted: false; result: T };
+
+export class AbortablePromiseLike<T> extends Promise<T> {
+	protected constructor(
+		private inner: Promise<T>,
+		private abortFn: (reason?: string) => void,
+	) {
+		super((resolve, reject) => inner.then(resolve, reject));
+	}
+
+	then<TResult1 = T, TResult2 = never>(
+		onfulfilled?:
+			| ((value: T) => TResult1 | PromiseLike<TResult1>)
+			| null
+			| undefined,
+		onrejected?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined,
+	): AbortablePromiseLike<TResult1 | TResult2> {
+		return new AbortablePromiseLike(
+			this.inner.then(onfulfilled, onrejected),
+			this.abort.bind(this),
+		);
+	}
+	catch<TResult = never>(
+		onrejected?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		((reason: any) => TResult | PromiseLike<TResult>) | null | undefined,
+	): AbortablePromiseLike<T | TResult> {
+		return new AbortablePromiseLike(
+			this.inner.catch(onrejected),
+			this.abort.bind(this),
+		);
+	}
+
+	finally(
+		onfinally?: (() => void) | null | undefined,
+	): AbortablePromiseLike<T> {
+		return new AbortablePromiseLike(
+			this.inner.finally(onfinally),
+			this.abort.bind(this),
+		);
+	}
+
+	abort(reason?: string): void {
+		return this.abortFn(reason);
+	}
+}
+
+/**
+ *
+ * @param makePromise function created from this must use setOnAbort with their Promise's reject and an onAbort handler
+ * @returns
+ */
+export class AbortablePromise<T> extends AbortablePromiseLike<
+	AbortableResult<T>
+> {
+	constructor(
+		executor: (
+			resolve: (value: T | PromiseLike<T>) => void,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			reject: (reason?: any) => void,
+			setOnAbort: (onAbort: (reason?: string) => void) => void,
+		) => void,
+	) {
+		const ac = new AbortController();
+		let onAbort: (reason: string) => void = () => void 0;
+		const abortHandler = (resolve: (value: AbortableResult<T>) => void) => {
+			if (!ac.signal.aborted) {
+				return;
+			}
+			onAbort(ac.signal.reason);
+			resolve({ aborted: true, reason: ac.signal.reason });
+		};
+		const promise = new Promise<AbortableResult<T>>((resolve, reject) => {
+			function abortableResolve(result: T | PromiseLike<T>) {
+				if (
+					typeof result === 'object' &&
+					result &&
+					'then' in result &&
+					typeof result.then === 'function'
+				) {
+					result.then((result) => ({
+						aborted: false,
+						result,
+					}));
+				} else {
+					resolve({ aborted: false, result: result as T });
+				}
+			}
+			executor(abortableResolve, reject, (abortHandler) => {
+				onAbort = abortHandler;
+			});
+			ac.signal.addEventListener('abort', () => abortHandler(resolve));
+		});
+		super(promise, ac.abort.bind(ac));
+	}
+}
+
+/**
+ * Wait for first available elements for selectors. If `selectors` is a string, return
+ * elements with the selector. If `selectors` is an array, return
+ * element matched by first valid selector.
+ * @param selectors - Single selector or array of selectors
+ * @param options.throttle_ms - how much to throttle the mutationObserver by
+ * @returns HTML element
+ */
+export function waitForElements<ElementT extends Element = HTMLElement>(
+	selectors: string | string[],
+	options?: {
+		throttle_ms: number;
+	},
+): AbortablePromise<NodeListOf<ElementT>> {
+	return new AbortablePromise((resolve, reject, setOnAbort) => {
+		const instantElements = queryElements<ElementT>(selectors);
+		if (instantElements) {
+			resolve(instantElements);
+			return;
+		}
+
+		const mutationCallback = () => {
+			const observeElements = queryElements<ElementT>(selectors);
+			if (observeElements) {
+				observer.disconnect();
+				resolve(observeElements);
+			}
+		};
+
+		const observer = new MutationObserver(
+			options?.throttle_ms
+				? throttle(mutationCallback, options.throttle_ms)
+				: mutationCallback,
+		);
+
+		setOnAbort(() => {
+			observer.disconnect();
+		});
+
+		observer.observe(document.body, {
+			childList: true,
+			subtree: true,
+		});
+	});
 }
 
 /**

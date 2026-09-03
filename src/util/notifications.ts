@@ -267,7 +267,11 @@ export async function showNowPlaying(
  */
 export function clearNowPlaying(song: BaseSong): void {
 	if (!song.metadata.notificationId) {
-		throw new Error('Notification ID is not set');
+		// this used to throw an error, but is reachable and breaks infobox when we throw an error here.
+		// todo: controller logic
+		Util.debugLog('Notification ID is not set', 'warn');
+		// there was no notification yet (e.g. Controller.)
+		return;
 	}
 	clearNotificationTimeout();
 	remove(song.metadata.notificationId);

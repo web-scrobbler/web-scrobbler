@@ -238,9 +238,13 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		// #v-ifdef VITE_DEV
 		console.log('StorageWrapper#get: ', this.namespace);
 		// #v-endif
-		const data = await this.storage.get();
-		if (data && this.namespace in data) {
-			return data[this.namespace] as DataModels[K];
+		try {
+			const data = await this.storage.get(this.namespace);
+			if (this.namespace in data) {
+				return data[this.namespace] as DataModels[K];
+			}
+		} catch (e) {
+			debugLog(`StorageWrapper#get(${this.namespace}); ${e}`);
 		}
 
 		return null;
@@ -281,7 +285,11 @@ export default class StorageWrapper<K extends keyof DataModels> {
 			[this.namespace]: data,
 		};
 
-		await this.storage.set(dataToSave);
+		try {
+			await this.storage.set(dataToSave);
+		} catch (e) {
+			debugLog(`StorageWrapper#set(${this.namespace}); ${e}`);
+		}
 	}
 
 	/**
@@ -339,6 +347,10 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	 * Clear storage.
 	 */
 	async clear(): Promise<void> {
-		await this.storage.remove(this.namespace);
+		try {
+			await this.storage.remove(this.namespace);
+		} catch (e) {
+			debugLog(`StorageWrapper#remove(${this.namespace}); ${e}`);
+		}
 	}
 }
