@@ -1,3 +1,5 @@
+import { AbortablePromise } from '@/core/content/util';
+import { DisallowedReason } from '@/core/object/disallowed-reason';
 import type {
 	ArtistTrackInfo,
 	BaseState,
@@ -157,9 +159,8 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.getTimeInfo = () => {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
+	const videoElement =
+		document.querySelector<HTMLVideoElement>(videoSelector);
 	if (videoElement && !areChaptersAvailable()) {
 		let { currentTime, duration, playbackRate } = videoElement;
 
@@ -174,7 +175,7 @@ Connector.getTimeInfo = () => {
 
 Connector.isPlaying = () => {
 	const videoElement =
-		document.querySelector<HTMLVideoElement>('.html5-main-video');
+		document.querySelector<HTMLVideoElement>(videoSelector);
 	return !videoElement?.paused;
 };
 
@@ -192,15 +193,15 @@ Connector.getUniqueID = () => {
 	return getVideoId();
 };
 
-let vorapisIsNavigating = false;
+let vorapisIsNavigatingReason: DisallowedReason | null = null;
 
 Connector.scrobblingDisallowedReason = () => {
 	if (document.querySelector('.ad-showing')) {
 		return 'IsAd';
 	}
 
-	if (vorapisIsNavigating) {
-		return 'IsLoading';
+	if (vorapisIsNavigatingReason) {
+		return vorapisIsNavigatingReason;
 	}
 
 	if (scrobbleYTMusicAPIRecognisedOnly) {
@@ -762,39 +763,58 @@ function isVideoCategoryAllowed() {
 	);
 }
 
+const startNavigation = () => {
+	vorapisIsNavigatingReason = 'IsLoading';
+	if (waitVideoElem) {
+		waitVideoElem.abort('new navigation');
+	}
+};
 document.addEventListener('V3_NAVITRONIC_STARTED', () => {
-	vorapisIsNavigating = true;
+	Util.debugLog('vorapis navigation start', 'info');
+	startNavigation();
 	Connector.onStateChanged();
 });
 let lastVideoElem: HTMLVideoElement | undefined;
-const finishNavigation = () => {
-	console.log('navitronic');
-	const videoElem = document.querySelector<HTMLVideoElement>(videoSelector);
-	if (videoElem) {
-		vorapisIsNavigating = false;
+let waitVideoElem: AbortablePromise<NodeListOf<HTMLVideoElement>> | undefined;
+const finishNavigation = async () => {
+	Util.debugLog('vorapis navigation finish', 'info');
 
-		if (videoElem !== lastVideoElem) {
-			if (!lastVideoElem) {
-				videoTitleSelector.unshift('.watch-content .watch-title');
-				channelNameSelector.unshift('.watch-content .yt-user-name');
-				videoDescriptionSelector.unshift(
-					'.watch-content #watch-description-text',
-				);
-			}
-
-			const events = ['playing', 'pause', 'seeked', 'ended'];
-			for (const event of events) {
-				lastVideoElem?.removeEventListener?.(
-					event,
-					Connector.onStateChanged,
-				);
-				videoElem?.addEventListener?.(event, Connector.onStateChanged);
-			}
-			lastVideoElem = videoElem;
-		}
-	} else {
-		setTimeout(finishNavigation, 100);
+	if (waitVideoElem) {
+		// we didn't catch the startNavigation (for example, we loaded in mid-navigation)
+		startNavigation();
 	}
+
+	waitVideoElem = Util.waitForElements<HTMLVideoElement>(videoSelector, {
+		throttle_ms: 100,
+	});
+
+	if (!lastVideoElem) {
+		videoTitleSelector.unshift('.watch-content .watch-title');
+		channelNameSelector.unshift('.watch-content .yt-user-name');
+		videoDescriptionSelector.unshift(
+			'.watch-content #watch-description-text',
+		);
+	}
+
+	const abortableResult = await waitVideoElem;
+	if (abortableResult.aborted) {
+		Util.debugLog('vorapis player acquisition aborted', 'info');
+		return;
+	}
+	const videoElem = abortableResult.result[0];
+	Util.debugLog('vorapis player acquired', 'info');
+	if (videoElem !== lastVideoElem) {
+		const events = ['playing', 'pause', 'seeked', 'ended'];
+		for (const event of events) {
+			lastVideoElem?.removeEventListener?.(
+				event,
+				Connector.onStateChanged,
+			);
+			videoElem.addEventListener(event, Connector.onStateChanged);
+		}
+		lastVideoElem = videoElem;
+	}
+	vorapisIsNavigatingReason = null;
 	Connector.onStateChanged();
 };
 document.addEventListener(
@@ -802,3 +822,8 @@ document.addEventListener(
 	finishNavigation,
 );
 document.addEventListener('V3_NAVITRONIC_FINISHED', finishNavigation);
+
+// check if vorapis initialized first
+if (document.querySelector('head title.v3')) {
+	finishNavigation();
+}
