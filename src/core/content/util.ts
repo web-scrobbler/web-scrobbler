@@ -795,6 +795,16 @@ export const ytTitleRegExps = [
 ];
 
 /**
+ * Detect a cover marker that does not identify the covering artist.
+ *
+ * A title such as "Track - Original Artist cover" is not an artist-track
+ * pair: the artist is the channel owner, while the complete title is the
+ * most useful track value. Keep "cover by Artist" on the regular parsing
+ * path, since it already provides an artist.
+ */
+const ytCoverTitleRegExp = /\bcover\b\s*[)\]】）]?\s*$/i;
+
+/**
  * Extract artist and track from Youtube video title.
  * @param videoTitle - Youtube video title
  * @returns Object containing artist and track fields
@@ -832,6 +842,11 @@ export function processYtVideoTitle(
 
 	// MV/PV if ending and with whitespace in front
 	title = title.replace(/\s+(MV|PV)$/i, '');
+
+	// A trailing cover marker without an artist must use the channel name.
+	if (ytCoverTitleRegExp.test(title)) {
+		return { artist, track: title };
+	}
 
 	// Try to match one of the regexps
 	for (const regExp of ytTitleRegExps) {

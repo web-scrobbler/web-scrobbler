@@ -471,6 +471,18 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [
 		expected: { artist: 'Artist', track: 'Track' },
 	},
 	{
+		description:
+			'should keep the complete title when a cover artist is not specified',
+		args: ['High and Dry - Radiohead cover'],
+		expected: { artist: null, track: 'High and Dry - Radiohead cover' },
+	},
+	{
+		description:
+			'should keep the complete title when a parenthesized cover marker is used',
+		args: ['Nude - Radiohead (cover)'],
+		expected: { artist: null, track: 'Nude - Radiohead (cover)' },
+	},
+	{
 		description: 'should process tracks with separators and quotes',
 		args: ['Artist - "Track Name"'],
 		expected: { artist: 'Artist', track: 'Track Name' },
