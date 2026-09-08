@@ -22,7 +22,8 @@
     "lint:circular": "madge --circular src",
     "prettierfix": "prettier . --write",
     "fixstyle": "stylelint \"**/*.scss\" --fix",
-    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
+    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -61,6 +62,7 @@
     "eslint-plugin-tsdoc": "0.5.2",
     "fs-extra": "11.3.2",
     "glob": "11.1.0",
+    "husky": "^9.1.7",
     "imagemin": "9.0.1",
     "imagemin-jpegtran": "8.0.0",
     "imagemin-pngquant": "10.0.0",
@@ -106,7 +108,10 @@
   },
   "madge": {
     "tsConfig": "./tsconfig.json",
-    "fileExtensions": ["ts", "tsx"],
+    "fileExtensions": [
+      "ts",
+      "tsx"
+    ],
     "detectiveOptions": {
       "ts": {
         "skipTypeImports": true
