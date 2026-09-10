@@ -2,30 +2,43 @@ name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🎁 New features'
-    label: 'new-feature'
+    when:
+      - labels: ['new-feature']
   - title: '🐛 Core fixes'
-    label: 'core-fix'
+    when:
+      - labels: ['core-fix']
   - title: '🚀 New connectors'
-    label: 'new-connector'
+    when:
+      - labels: ['new-connector']
   - title: '🐛 Fixed connectors'
-    label: 'fixed-connector'
+    when:
+      - labels: ['fixed-connector']
   - title: '⬆️ Updated'
-    label: 'updated'
+    when:
+      - labels: ['updated']
   - title: '🔧 Maintenance'
-    label: 'maintenance'
-exclude-labels:
-  - 'skip-changelog'
-  - 'chore'
+    when:
+      - labels: ['maintenance']
+  - title: 'Excluded'
+    type: 'pre-exclude'
+    when:
+      - labels: ['skip-changelog', 'chore']
+  - title: 'Major'
+    type: 'version-resolver'
+    semver-increment: 'major'
+    when:
+      - labels: ['major-change']
+  - title: 'Minor'
+    type: 'version-resolver'
+    semver-increment: 'minor'
+    when:
+      - labels: ['minor-change']
+  - title: 'Patch'
+    type: 'version-resolver'
+    semver-increment: 'patch'
+    when:
+      - labels: ['patch-change']
 version-resolver:
-  major:
-    labels:
-      - 'major-change'
-  minor:
-    labels:
-      - 'minor-change'
-  patch:
-    labels:
-      - 'patch-change'
   default: patch
 template: |
   $CHANGES
