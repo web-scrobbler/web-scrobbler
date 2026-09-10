@@ -1,4 +1,10 @@
-import type { ArtistTrackInfo, TrackInfoWithAlbum } from '@/core/types';
+import { AbortablePromise } from '@/core/content/util';
+import { DisallowedReason } from '@/core/object/disallowed-reason';
+import type {
+	ArtistTrackInfo,
+	BaseState,
+	TrackInfoWithAlbum,
+} from '@/core/types';
 
 export {};
 
@@ -54,33 +60,40 @@ const allowedCategories: string[] = [];
 const categoryCache = new Map<string, string>();
 
 /**
- * Wether we should only scrobble music recognised by YouTube Music
+ * Wether we should only scrobble music recognised by the YouTube Music API
  */
-let scrobbleMusicRecognisedOnly = false;
+let scrobbleYTMusicAPIRecognisedOnly = false;
 
 /**
- * Wether the Youtube Music track info getter is enabled
+ * Wether the YouTube Music API track info getter is enabled
  */
-let getTrackInfoFromYtMusicEnabled = false;
+let getTrackInfoFromYTMusicAPIEnabled = false;
 
 let currentVideoDescription: string | null = null;
 let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
 
 const getTrackInfoFromYoutubeMusicCache: {
-	[videoId: string]: {
-		done?: boolean;
-		recognisedByYtMusic?: boolean;
-		videoId?: string | null;
-		currentTrackInfo?: { artist?: string; track?: string };
-	};
+	[videoId: string]:
+		| undefined
+		| {
+				done: false;
+		  }
+		| {
+				done: true;
+				recognisedByYtMusic: boolean;
+				currentTrackInfo?: BaseState & { artists?: string[] | null };
+		  };
 } = {};
 
-const trackInfoGetters: (() =>
-	| ArtistTrackInfo
-	| null
-	| undefined
-	| Record<string, never>
-	| TrackInfoWithAlbum)[] = [
+/**
+ * different methods of getting information for the currently playing track.
+ * once one of them has filled in all required fields (artist, track) the value is used.
+ * the return values have different meanings:
+ * - @type {BaseState} fill in fields that are not set yet
+ * - @type {null}      method not applicable, skip to the next one.
+ * - @type {undefined} method is still waiting on return value. don't test the other methods, just return nothing.
+ */
+const trackInfoGetters: (() => BaseState | null | undefined)[] = [
 	getTrackInfoFromChapters,
 	getTrackInfoFromYoutubeMusic,
 	getTrackInfoFromDescription,
@@ -121,36 +134,21 @@ Connector.channelLabelSelector = [
 ];
 
 Connector.getTrackInfo = () => {
-	const trackInfo: TrackInfoWithAlbum = {};
-
-	if (getTrackInfoFromYtMusicEnabled) {
-		const videoId = getVideoId();
-		if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-			// start loading getTrackInfoFromYoutubeMusic
-			getTrackInfoFromYoutubeMusic();
-
-			// wait for getTrackInfoFromYoutubeMusic to finish
-			return trackInfo;
-		}
-	}
+	const trackInfo: BaseState = {};
 
 	for (const getter of trackInfoGetters) {
 		const currentTrackInfo = getter();
-		if (!currentTrackInfo) {
-			continue;
+
+		if (typeof currentTrackInfo === 'undefined') {
+			// wait for getTrackInfoFromYoutubeMusic to finish
+			return null;
 		}
 
-		if (!trackInfo.artist) {
-			trackInfo.artist = currentTrackInfo.artist;
-		}
-
-		if (!trackInfo.track) {
-			trackInfo.track = currentTrackInfo.track;
-		}
-
-		if (!trackInfo.album && 'album' in currentTrackInfo) {
-			trackInfo.album = currentTrackInfo.album;
-		}
+		trackInfo.artist ??= currentTrackInfo?.artist ?? null;
+		trackInfo.artists ??= currentTrackInfo?.artists ?? null;
+		trackInfo.track ??= currentTrackInfo?.track ?? null;
+		trackInfo.trackArt ??= currentTrackInfo?.trackArt ?? null;
+		trackInfo.album ??= currentTrackInfo?.album ?? null;
 
 		if (!Util.isArtistTrackEmpty(trackInfo)) {
 			break;
@@ -161,9 +159,8 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.getTimeInfo = () => {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
+	const videoElement =
+		document.querySelector<HTMLVideoElement>(videoSelector);
 	if (videoElement && !areChaptersAvailable()) {
 		let { currentTime, duration, playbackRate } = videoElement;
 
@@ -177,7 +174,9 @@ Connector.getTimeInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	return Util.hasElementClass('.html5-video-player', 'playing-mode');
+	const videoElement =
+		document.querySelector<HTMLVideoElement>(videoSelector);
+	return !videoElement?.paused;
 };
 
 Connector.getOriginUrl = () => {
@@ -194,19 +193,20 @@ Connector.getUniqueID = () => {
 	return getVideoId();
 };
 
+let vorapisIsNavigatingReason: DisallowedReason | null = null;
+
 Connector.scrobblingDisallowedReason = () => {
 	if (document.querySelector('.ad-showing')) {
 		return 'IsAd';
 	}
 
-	// Workaround to prevent scrobbling the video opened in a background tab.
-	if (!isVideoStartedPlaying()) {
-		return 'Other';
+	if (vorapisIsNavigatingReason) {
+		return vorapisIsNavigatingReason;
 	}
 
-	if (scrobbleMusicRecognisedOnly) {
-		const videoId = getVideoId();
-		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId ?? ''];
+	if (scrobbleYTMusicAPIRecognisedOnly) {
+		const videoId = getVideoId() ?? '';
+		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId];
 
 		if (!ytMusicCache) {
 			// start loading getTrackInfoFromYoutubeMusic
@@ -372,13 +372,15 @@ async function readConnectorOptions() {
 	Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
 
 	if (await Util.getOption('YouTube', 'scrobbleMusicRecognisedOnly')) {
-		scrobbleMusicRecognisedOnly = true;
-		Util.debugLog('Only scrobbling when recognised by YouTube Music');
+		scrobbleYTMusicAPIRecognisedOnly = true;
+		Util.debugLog(
+			'Only scrobbling when recognised by the YouTube Music API',
+		);
 	}
 
 	if (await Util.getOption('YouTube', 'enableGetTrackInfoFromYtMusic')) {
-		getTrackInfoFromYtMusicEnabled = true;
-		Util.debugLog('Get track info from YouTube Music enabled');
+		getTrackInfoFromYTMusicAPIEnabled = true;
+		Util.debugLog('Get track info from the YouTube Music API enabled');
 	}
 }
 
@@ -398,40 +400,44 @@ function getTrackInfoFromDescription() {
 	return artistTrackFromDescription;
 }
 
-function getTrackInfoFromYoutubeMusic():
-	| ArtistTrackInfo
-	| Record<string, never>
-	| undefined {
+function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 	// if neither getTrackInfoFromYtMusicEnabled nor scrobbleMusicRecognisedOnly
 	// are enabled, there is no need to run this getter
-	if (!getTrackInfoFromYtMusicEnabled && !scrobbleMusicRecognisedOnly) {
-		return {};
+	if (
+		!getTrackInfoFromYTMusicAPIEnabled &&
+		!scrobbleYTMusicAPIRecognisedOnly
+	) {
+		return null;
 	}
 
 	const videoId = getVideoId();
+	if (!videoId) {
+		// no video ID, no info.
+		return null;
+	}
 
-	if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-		getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-			videoId: null,
-			done: false,
-			currentTrackInfo: {},
-		};
-	} else {
-		if (!getTrackInfoFromYtMusicEnabled) {
+	if (getTrackInfoFromYoutubeMusicCache[videoId]) {
+		// cache hit
+
+		if (!getTrackInfoFromYTMusicAPIEnabled) {
 			// this means that only scrobbleMusicRecognisedOnly is enabled,
 			// therefore only the cache is used and we return {} for the
 			// actual getter
 			return {};
 		}
 
-		if (getTrackInfoFromYoutubeMusicCache[videoId ?? ''].done) {
+		if (getTrackInfoFromYoutubeMusicCache[videoId].done) {
 			// already ran!
-			return getTrackInfoFromYoutubeMusicCache[videoId ?? '']
-				.currentTrackInfo;
+			return getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo;
 		}
 		// still running, lets be patient
-		return {};
+		return undefined;
 	}
+
+	// cache not initialized -> start request
+	getTrackInfoFromYoutubeMusicCache[videoId] = {
+		done: false,
+	};
 
 	const body = JSON.stringify({
 		context: {
@@ -447,6 +453,53 @@ function getTrackInfoFromYoutubeMusic():
 		videoId,
 	});
 
+	interface VideoInfo {
+		videoDetails?: Partial<{
+			videoId: string;
+			// track or title
+			title: string;
+			channelId: string;
+			// square cover art if ATV, otherwise just thumbnails
+			thumbnail: {
+				thumbnails?: Partial<{
+					url: string;
+					width: number;
+					height: number;
+				}>[];
+			};
+			lengthSeconds: number;
+			// artist(s joined by delimiters), channel or podcast
+			author: string;
+			musicVideoType?: string;
+			// nonexhaustive
+			[other: string]: unknown | undefined;
+		}>;
+		microformat?: {
+			microformatDataRenderer?: Partial<{
+				// track or title
+				title: string;
+				// channel or "Episode • <podcast>"
+				description: string;
+				// for ATV album track: [("<artist>",)+ "<album>", "<track>"] (https://www.youtube.com/watch?v=i1D8WkGuq4g)
+				// for ATV single: ["<artist>", "<track>"] (https://www.youtube.com/watch?v=tNT5sYheayM)
+				// all artists are in the .videoDetails.author string, in this order.
+				tags: string[];
+				pageOwnerDetails: {
+					// channel (if applicable "<channel> - Topic")
+					name: string;
+					externalChannelId: string;
+					youtubeProfileUrl: string;
+				};
+				// Music or Entertainment or... others
+				category: string;
+				// nonexhaustive
+				[other: string]: unknown;
+			}>;
+		};
+		// nonexhaustive
+		[other: string]: unknown | undefined;
+	}
+
 	fetch('https://music.youtube.com/youtubei/v1/player', {
 		method: 'POST',
 		headers: {
@@ -455,52 +508,200 @@ function getTrackInfoFromYoutubeMusic():
 		body,
 	})
 		.then((response) => response.json())
-		.then((videoInfo) => {
-			// TODO: type videoInfo
-			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-				done: true,
+		.then((videoInfo: VideoInfo) => {
+			const recognisedByYtMusic =
+				videoInfo.videoDetails?.musicVideoType?.startsWith(
+					'MUSIC_VIDEO_TYPE_',
+				) || false;
 
-				recognisedByYtMusic:
-					videoInfo.videoDetails?.musicVideoType?.startsWith(
-						'MUSIC_VIDEO_',
-					) || false,
+			let artist = null;
+			let artists = null;
+			let album = null;
+			let track = null;
+			let trackArt = null;
+
+			switch (videoInfo.videoDetails?.musicVideoType) {
+				/* eslint no-fallthrough: "off" */
+
+				// YouTube Music Library uploads
+				// with metadata: "<track>" by "<author>"
+				// without metadata: "filename.mp3" by "Music Library Uploads"
+				case 'MUSIC_VIDEO_TYPE_PRIVATELY_OWNED_TRACK': // FALLTHROUGH
+					// if the author is set as "Music Library Uploads", we ignore it
+					// otherwise, accept as valid metadata.
+					// it does not appear that this is translated, luckily
+					if (
+						videoInfo.videoDetails.author ===
+						'Music Library Uploads'
+					) {
+						break;
+					}
+
+				//* Autogenerated Topic Video
+				// good: "<track>" by "<author>" (https://www.youtube.com/watch?v=wPm68ZJqNy8)
+				// uploader is always a " - Topic" channel. the " - Topic" part is never added to the author field
+				case 'MUSIC_VIDEO_TYPE_ATV': {
+					// always good, created from information supplied to google by record labels
+					({ author: artist, title: track } = videoInfo.videoDetails);
+					const thumbs = videoInfo.videoDetails.thumbnail?.thumbnails;
+					// use thumbnail from here, if available.
+					const thumbUrl = thumbs?.[thumbs.length - 1].url;
+					// and not default (for PRIVATELY_OWNED_TRACK)
+					if (!thumbUrl?.includes('cover_track_default')) {
+						trackArt = thumbUrl;
+					}
+					const tags =
+						videoInfo.microformat?.microformatDataRenderer?.tags;
+					if (artist && tags) {
+						let i = 0;
+						let artistPos = 0;
+						artists = [];
+						while (i < tags.length - 1) {
+							const tag = tags[i];
+							const tagIndex = artist.indexOf(tag, artistPos);
+							if (tagIndex < 0) {
+								Util.debugLog(
+									`unexpected tag ${tag} of ATV not included in author ${artist}`,
+									'warn',
+								);
+								break;
+							}
+
+							artists.push(tag);
+
+							artistPos = tagIndex + tag.length;
+							if (artistPos === artist.length) {
+								break;
+							}
+							i++;
+						}
+
+						if (++i < tags.length - 2) {
+							Util.debugLog(
+								`unexpected tag reverse index ${tags.length - i} after author tag matching: ${tags} in ${artist}`,
+								'warn',
+							);
+						}
+
+						if (i === tags.length - 2) {
+							album = tags[i++];
+						}
+
+						if (i === tags.length - 1 && tags[i] !== track) {
+							Util.debugLog(
+								`tag matching sanity check failed, track tag ${tags[i]} != ${track}`,
+								'warn',
+							);
+						}
+					}
+
+					break;
+				}
+
+				// album preview? music video?
+				// good: "On a Cherry Blossom Night" by "あいみょん" (http://youtube.com/watch?v=YXe7GQnvzqY)
+				// bad: not found yet?
+				case 'MUSIC_VIDEO_TYPE_SHOULDER': // FALLTHROUGH
+					// treat like OMV for now
+					void 0;
+
+				//* Original Music Video
+				// good: "<track>" by "<author>" (https://www.youtube.com/watch?v=GsiQM4aYecE)
+				// bad: "<title>" by "<channel>" (https://www.youtube.com/watch?v=sIDRbAUjGvA)
+				// bug?: "Pinkie" by "Diversity - All Songs" (https://www.youtube.com/watch?v=yu_XJc_5__Q)
+				// uploader (probably) has to be an "Official Artist Channel"
+				case 'MUSIC_VIDEO_TYPE_OMV': {
+					// may need processing if it's exactly "<title>" by "<channel>" -> don't use those
+					// if it's not exactly that, then it should be good.
+					// EXCEPT NOT: videos that are part of music playlists seem to have a wrong artist set.
+
+					// <channel> or "Episode • <podcast>"
+					// but NEVER "<channel> - Topic"
+					// let's abuse this to find out if it's a podcast mislabel without having to localize
+					const channelOrEpisode =
+						videoInfo.microformat?.microformatDataRenderer
+							?.description;
+
+					const title = Util.getTextFromSelectors(videoTitleSelector);
+					const channel =
+						Util.getTextFromSelectors(channelNameSelector);
+					if (
+						videoInfo.videoDetails.title === title &&
+						videoInfo.videoDetails.author === channel
+					) {
+						// do not use, let title parsing handle it.
+					} else if (
+						videoInfo.videoDetails.author &&
+						videoInfo.videoDetails.author !== channelOrEpisode &&
+						channelOrEpisode?.includes(
+							videoInfo.videoDetails.author,
+						)
+					) {
+						// don't use it either here, prevent podcast name from being scrobbled as author
+					} else {
+						({ author: artist, title: track } =
+							videoInfo.videoDetails);
+					}
+					break;
+				}
+
+				// ! short and simple: the rest don't reliably provide good information.
+
+				//* User Generated Content
+				// album: "<title>" by "<channel>" (https://www.youtube.com/watch?v=RXWIitU8V0A)
+				case 'MUSIC_VIDEO_TYPE_UGC':
+					// similar to OMV, unclear why something is UGC or OMV.
+					// it seems though that UGC does not have the title doctored with.
+					// "Official Artist Channel"s can also get a video marked as UGC (https://www.youtube.com/watch?v=cMkJDPvJxdk)
+					// ignore, let title parsing handle it
+					break;
+
+				// Official video content, but not for a single track
+				// uploader (probably) has to be an "Official Artist Channel"
+				case 'MUSIC_VIDEO_TYPE_OFFICIAL_SOURCE_MUSIC':
+					// we will probably never hit here because chapters will parse?
+					// in any case this should not carry any information if it's for multiple videos (mix/album)
+					break;
+
+				// podcast episodes.
+				case 'MUSIC_VIDEO_TYPE_PODCAST_EPISODE':
+					// not music, ignore
+					break;
+
+				default:
+					if (recognisedByYtMusic) {
+						Util.debugLog(
+							`YTMusic API: unknown musicVideoType '${videoInfo.videoDetails!.musicVideoType}'. ` +
+								'Please tell the web-scrobbler maintainers about it.',
+							'warn',
+						);
+					}
+			}
+
+			getTrackInfoFromYoutubeMusicCache[videoId] = {
+				done: true,
+				recognisedByYtMusic,
+				currentTrackInfo: { artist, artists, album, track, trackArt },
 			};
 
-			// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
-			// not something youtube music actually knows, so it usually gives
-			// wrong results, so we only return if it is that musicVideoType
-			if (
-				videoInfo.videoDetails?.musicVideoType ===
-				'MUSIC_VIDEO_TYPE_OMV'
-			) {
-				getTrackInfoFromYoutubeMusicCache[
-					videoId ?? ''
-				].currentTrackInfo = {
-					artist: videoInfo.videoDetails.author,
-
-					track: videoInfo.videoDetails.title,
-				};
-			}
+			Connector.onStateChanged();
 		})
 		.catch((err) => {
 			Util.debugLog(
 				`Failed to fetch youtube music data for ${videoId}: ${err}`,
 				'warn',
 			);
-			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
+			getTrackInfoFromYoutubeMusicCache[videoId] = {
 				done: true,
 				recognisedByYtMusic: false,
 			};
 		});
 }
 
-function getTrackInfoFromChapters() {
+function getTrackInfoFromChapters(): ArtistTrackInfo | null {
 	// Short circuit if chapters not available - necessary to avoid misscrobbling with SponsorBlock.
 	if (!areChaptersAvailable()) {
-		return {
-			artist: null,
-			track: null,
-		};
+		return null;
 	}
 
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
@@ -546,13 +747,6 @@ function removeNumericPrefix(text: string) {
 	]);
 }
 
-function isVideoStartedPlaying() {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
-	return videoElement && videoElement.currentTime > 0;
-}
-
 function isVideoCategoryAllowed() {
 	if (allowedCategories.length === 0) {
 		return true;
@@ -567,4 +761,69 @@ function isVideoCategoryAllowed() {
 		allowedCategories.includes(videoCategory) ||
 		videoCategory === categoryUnknown
 	);
+}
+
+const startNavigation = () => {
+	vorapisIsNavigatingReason = 'IsLoading';
+	if (waitVideoElem) {
+		waitVideoElem.abort('new navigation');
+	}
+};
+document.addEventListener('V3_NAVITRONIC_STARTED', () => {
+	Util.debugLog('vorapis navigation start', 'info');
+	startNavigation();
+	Connector.onStateChanged();
+});
+let lastVideoElem: HTMLVideoElement | undefined;
+let waitVideoElem: AbortablePromise<NodeListOf<HTMLVideoElement>> | undefined;
+const finishNavigation = async () => {
+	Util.debugLog('vorapis navigation finish', 'info');
+
+	if (waitVideoElem) {
+		// we didn't catch the startNavigation (for example, we loaded in mid-navigation)
+		startNavigation();
+	}
+
+	waitVideoElem = Util.waitForElements<HTMLVideoElement>(videoSelector, {
+		throttle_ms: 100,
+	});
+
+	if (!lastVideoElem) {
+		videoTitleSelector.unshift('.watch-content .watch-title');
+		channelNameSelector.unshift('.watch-content .yt-user-name');
+		videoDescriptionSelector.unshift(
+			'.watch-content #watch-description-text',
+		);
+	}
+
+	const abortableResult = await waitVideoElem;
+	if (abortableResult.aborted) {
+		Util.debugLog('vorapis player acquisition aborted', 'info');
+		return;
+	}
+	const videoElem = abortableResult.result[0];
+	Util.debugLog('vorapis player acquired', 'info');
+	if (videoElem !== lastVideoElem) {
+		const events = ['playing', 'pause', 'seeked', 'ended'];
+		for (const event of events) {
+			lastVideoElem?.removeEventListener?.(
+				event,
+				Connector.onStateChanged,
+			);
+			videoElem.addEventListener(event, Connector.onStateChanged);
+		}
+		lastVideoElem = videoElem;
+	}
+	vorapisIsNavigatingReason = null;
+	Connector.onStateChanged();
+};
+document.addEventListener(
+	'V3_SERVERCONTRACT_FLUSH_DOCEL_ATTRIB',
+	finishNavigation,
+);
+document.addEventListener('V3_NAVITRONIC_FINISHED', finishNavigation);
+
+// check if vorapis initialized first
+if (document.querySelector('head title.v3')) {
+	finishNavigation();
 }

@@ -296,8 +296,8 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		try {
 			response = await Util.timeoutPromise(timeout, promise);
 			result = (await response.json()) as T;
-		} catch {
-			this.debugLog('Error while sending request', 'error');
+		} catch (e) {
+			this.debugLog(`Error while sending request: ${e}`, 'error');
 			throw new Error(ServiceCallResult.ERROR_OTHER);
 		}
 

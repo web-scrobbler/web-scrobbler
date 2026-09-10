@@ -704,7 +704,7 @@
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-        "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+        "message": "The YouTube Music API does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized as music by the YouTube Music API\" in settings.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
