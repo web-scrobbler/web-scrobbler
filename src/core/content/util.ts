@@ -807,10 +807,12 @@ const ytCoverTitleRegExp = /\bcover\b\s*[)\]】）]?\s*$/i;
 /**
  * Extract artist and track from Youtube video title.
  * @param videoTitle - Youtube video title
+ * @param channelName - Youtube channel name, if available
  * @returns Object containing artist and track fields
  */
 export function processYtVideoTitle(
 	videoTitle: string | null | undefined,
+	channelName: string | null = null,
 ): ArtistTrackInfo {
 	let artist = null;
 	let track = null;
@@ -844,7 +846,14 @@ export function processYtVideoTitle(
 	title = title.replace(/\s+(MV|PV)$/i, '');
 
 	// A trailing cover marker without an artist must use the channel name.
-	if (ytCoverTitleRegExp.test(title)) {
+	// Without the channel name, the title alone is not enough to distinguish
+	// an unattributed cover from a track whose name happens to end in "cover".
+	if (
+		channelName !== null &&
+		channelName !== '' &&
+		ytCoverTitleRegExp.test(title) &&
+		splitArtistTrack(title).artist !== channelName
+	) {
 		return { artist, track: title };
 	}
 
