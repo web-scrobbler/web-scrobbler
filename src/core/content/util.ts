@@ -673,13 +673,11 @@ export function getDataFromSelectors(
  * @param selectors - Single selector or array of selectors
  * @returns HTML element or null if not found (or no selectors passed)
  */
-export function queryElements(selectors: [] | null | undefined): null;
-export function queryElements<ElementT extends Element = HTMLElement>(
-	selectors: string | string[],
-): NodeListOf<ElementT> | null;
 export function queryElements<ElementT extends Element = HTMLElement>(
 	selectors: string | string[] | null | undefined,
-): NodeListOf<ElementT> | null {
+): typeof selectors extends null | undefined
+	? null
+	: NodeListOf<ElementT> | null {
 	if (!selectors) {
 		return null;
 	}
