@@ -852,7 +852,8 @@ export function processYtVideoTitle(
 		channelName !== null &&
 		channelName !== '' &&
 		ytCoverTitleRegExp.test(title) &&
-		splitArtistTrack(title).artist !== channelName
+		splitArtistTrack(title).artist?.trim().toLowerCase() !==
+			channelName.trim().toLowerCase()
 	) {
 		return { artist, track: title };
 	}

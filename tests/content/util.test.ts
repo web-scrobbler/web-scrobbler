@@ -490,6 +490,12 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [
 	},
 	{
 		description:
+			'should compare the channel and parsed artist case-insensitively',
+		args: ['Artist - Cover', 'artist'],
+		expected: { artist: 'Artist', track: 'Cover' },
+	},
+	{
+		description:
 			'should preserve a track containing cover when the channel is the parsed artist',
 		args: ['Artist - No Cover', 'Artist'],
 		expected: { artist: 'Artist', track: 'No Cover' },
