@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "3.22.0",
+  "version": "3.23.0",
   "author": "David Šabata <posta@davidsabata.cz>",
   "contributors": [
     "@mountainash (https://mountainash.id.au/)"
@@ -106,7 +106,10 @@
   },
   "madge": {
     "tsConfig": "./tsconfig.json",
-    "fileExtensions": ["ts", "tsx"],
+    "fileExtensions": [
+      "ts",
+      "tsx"
+    ],
     "detectiveOptions": {
       "ts": {
         "skipTypeImports": true
