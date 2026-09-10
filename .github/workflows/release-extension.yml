@@ -16,6 +16,19 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
+      - name: Check if Edge API Key is nearing expiration
+        env:
+          GH_TOKEN: ${{ secrets.BOT_PAT }}
+        run: |
+          UPDATED_AT=$(gh api repos/${{ github.repository }}/actions/secrets/EDGE_API_KEY --jq '.updated_at')
+          AGE_DAYS=$(( ($(date +%s) - $(date -d "$UPDATED_AT" +%s)) / 86400 ))
+
+          echo "Secret age: $AGE_DAYS days"
+          if (( AGE_DAYS >= 70 )); then
+            echo "::error::Edge API key is $AGE_DAYS days old (expires at 71). Rotate in Partner Center and update secrets."
+            exit 1
+          fi
+
       - name: Checkout the repository
         uses: actions/checkout@v7
         with:
