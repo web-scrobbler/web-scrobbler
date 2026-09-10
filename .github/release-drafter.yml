@@ -19,22 +19,18 @@ categories:
   - title: '🔧 Maintenance'
     when:
       - labels: ['maintenance']
-  - title: 'Excluded'
-    type: 'pre-exclude'
+  - type: 'pre-exclude'
     when:
       - labels: ['skip-changelog', 'chore']
-  - title: 'Major'
-    type: 'version-resolver'
+  - type: 'version-resolver'
     semver-increment: 'major'
     when:
       - labels: ['major-change']
-  - title: 'Minor'
-    type: 'version-resolver'
+  - type: 'version-resolver'
     semver-increment: 'minor'
     when:
       - labels: ['minor-change']
-  - title: 'Patch'
-    type: 'version-resolver'
+  - type: 'version-resolver'
     semver-increment: 'patch'
     when:
       - labels: ['patch-change']
