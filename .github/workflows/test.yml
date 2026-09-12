@@ -22,7 +22,19 @@ jobs:
         run: npm ci
 
       - name: Run tests
+        if: github.ref != 'refs/heads/master'
         run: npm run test
+
+      - name: Run tests with coverage
+        if: github.ref == 'refs/heads/master'
+        run: npm run test:coverage
+
+      - name: Upload coverage to Codacy
+        if: github.ref == 'refs/heads/master'
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: ./coverage/lcov.info
 
   test_typescript:
     name: Run typescript checks
