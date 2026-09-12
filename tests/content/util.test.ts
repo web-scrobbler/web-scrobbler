@@ -972,6 +972,19 @@ const FILL_EMPTY_FIELDS = [
 		args: [{ track: 'Track' }, { artist: 'New Artist' }, ['artist']],
 		expected: { artist: 'New Artist', track: 'Track' },
 	},
+	{
+		description: 'should ignore unsafe fields',
+		args: [
+			{ artist: null },
+			Object.assign(Object.create(null), {
+				['__proto__']: 'polluted',
+				constructor: 'polluted',
+				prototype: 'polluted',
+			}),
+			['__proto__', 'constructor', 'prototype'],
+		],
+		expected: { artist: null },
+	},
 ];
 
 const YT_DESCRIPTION_EXAMPLE_1 = `Provided to YouTube by IDOL

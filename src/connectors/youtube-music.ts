@@ -66,11 +66,11 @@ Connector.getArtistTrack = () => {
 		track = metadata.title;
 	} else {
 		({ artist, track } = Util.processYtVideoTitle(
-			metadata?.title,
-			metadata?.artist ?? null,
+			metadata.title,
+			metadata.artist,
 		));
 		if (!artist) {
-			artist = metadata?.artist;
+			artist = metadata.artist;
 		}
 	}
 	return { artist, track };
