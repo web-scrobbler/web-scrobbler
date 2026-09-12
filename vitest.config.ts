@@ -12,5 +12,11 @@ export default {
 	test: {
 		testTimeout: 10000,
 		setupFiles: ['./tests/setup/handle-rejections.ts'],
+		coverage: {
+			provider: 'istanbul',
+			reporter: ['lcovonly', 'text-summary'],
+			all: false,
+			include: ['src/**'],
+		},
 	},
 };
