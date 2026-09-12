@@ -25,9 +25,9 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import { debugLog } from '@/core/content/util';
 import scrobbleCache from '@/core/storage/scrobble-cache';
 import { ScrobbleStatus } from '@/core/storage/wrapper';
-import browser from 'webextension-polyfill';
 import type BaseConnector from '@/core/content/connector';
 import Blocklist from '@/core/storage/blocklist';
+import ControllerUI from './controller-ui';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -91,11 +91,26 @@ export default class Controller {
 	private setNotEditingTimeout = setTimeout(() => {
 		// do nothing
 	}, 0);
+	private controllerUI: ControllerUI;
 	private eventEmitter = new EventEmitter<updateEvent>();
 	private tabId = sendContentMessage({
 		type: 'getTabId',
 		payload: undefined,
 	});
+
+	private async updateUI(): Promise<void> {
+		const isEnabled = await Options.getOption(
+			Options.USE_INFOBOX,
+			this.connector.meta.id,
+		);
+
+		if (!isEnabled) {
+			this.controllerUI.cleanup();
+			return;
+		}
+
+		await this.controllerUI.updateInfoBox(this.getMode(), this.currentSong);
+	}
 
 	/**
 	 * Mutates this.currentSong to sync disallowed reason, and returns whether song should scrobble
@@ -134,105 +149,13 @@ export default class Controller {
 	}
 
 	/**
-	 * Function that handles updating the scrobble info box
-	 */
-	private async getInfoBoxElement(): Promise<HTMLDivElement | null> {
-		if (
-			!this.connector.scrobbleInfoLocationSelector ||
-			// infobox is disabled in options
-			!(await Options.getOption(
-				Options.USE_INFOBOX,
-				this.connector.meta.id,
-			))
-		) {
-			return null;
-		}
-
-		const parentEl = document.querySelector(
-			this.connector.scrobbleInfoLocationSelector,
-		);
-		if (!parentEl) {
-			return null;
-		}
-
-		// check if infoBoxEl was already created
-		let infoBoxElement = document.querySelector<HTMLDivElement>(
-			'#scrobbler-infobox-el',
-		);
-
-		// check if element is still in the correct place
-		if (infoBoxElement) {
-			if (infoBoxElement.parentElement !== parentEl) {
-				infoBoxElement.remove();
-			} else {
-				return infoBoxElement;
-			}
-		}
-
-		// if it was not in the correct place or didn't exist, create it
-		infoBoxElement = document.createElement('div');
-		infoBoxElement.setAttribute('id', 'scrobbler-infobox-el');
-
-		// style the infobox
-		for (const prop in this.connector.scrobbleInfoStyle) {
-			infoBoxElement.style[prop] =
-				this.connector.scrobbleInfoStyle[prop] ?? '';
-		}
-
-		parentEl.appendChild(infoBoxElement);
-		return infoBoxElement;
-	}
-
-	private async updateInfoBox() {
-		let oldInfoBoxText: string | false = false;
-		const infoBoxElement = await this.getInfoBoxElement();
-		if (!infoBoxElement) {
-			// clean up
-			const infoBoxElement = document.querySelector<HTMLDivElement>(
-				'#scrobbler-infobox-el',
-			);
-			if (infoBoxElement) {
-				infoBoxElement.remove();
-			}
-			return;
-		}
-		const textEl = infoBoxElement.querySelector('span');
-		if (textEl) {
-			oldInfoBoxText = textEl.innerText;
-		}
-
-		const mode = this.getMode();
-		const infoBoxText = Util.getInfoBoxText(mode, this.currentSong);
-
-		// Check if infobox needs to be updated
-		if (!oldInfoBoxText || infoBoxText !== oldInfoBoxText) {
-			const img = document.createElement('img');
-			img.setAttribute(
-				'src',
-				browser.runtime.getURL('./icons/icon_main_48.png'),
-			);
-			img.setAttribute('alt', 'Web Scrobbler state:');
-			img.setAttribute('style', 'height: 1.2em');
-
-			const info = document.createElement('span');
-			info.innerText = infoBoxText;
-
-			// Clear old contents of infoBoxElement
-			while (infoBoxElement.firstChild) {
-				infoBoxElement.removeChild(infoBoxElement.firstChild);
-			}
-			infoBoxElement.appendChild(img);
-			infoBoxElement.appendChild(info);
-		}
-	}
-
-	/**
 	 * @param tabId - Tab ID
 	 * @param connector - Connector match object
 	 * @param isEnabled - Flag indicates initial stage
 	 */
 	constructor(connector: BaseConnector, isEnabled: boolean) {
 		this.connector = connector;
+		this.controllerUI = new ControllerUI(connector);
 		this.blocklist = new Blocklist(this.connector.meta.id);
 		this.isEnabled = isEnabled;
 		this.mode = isEnabled ? ControllerMode.Base : ControllerMode.Disabled;
@@ -367,7 +290,7 @@ export default class Controller {
 	 * Called if current song is updated.
 	 */
 	public onSongUpdated(): void {
-		this.updateInfoBox();
+		void this.updateUI();
 		sendContentMessage({
 			type: 'songUpdate',
 			payload: this.currentSong?.getCloneableData() ?? null,
@@ -378,7 +301,7 @@ export default class Controller {
 	 * Called if a controller mode is changed.
 	 */
 	public onModeChanged(): void {
-		this.updateInfoBox();
+		void this.updateUI();
 		sendContentMessage({
 			type: 'controllerModeChange',
 			payload: {
@@ -452,7 +375,7 @@ export default class Controller {
 			}
 		}
 
-		this.updateInfoBox();
+		void this.updateUI();
 	}
 
 	/** Public functions */
