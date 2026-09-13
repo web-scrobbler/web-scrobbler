@@ -934,6 +934,11 @@ export default class Controller {
 			return;
 		}
 
+		// we check if this.currentSong is not null again to prevent toString errors from calling null.toString(); 
+		if (!assertSongNotNull(this.currentSong)) {
+			return;
+		}
+		
 		this.debugLog(
 			`Song finished processing: ${this.currentSong.toString()}`,
 		);
