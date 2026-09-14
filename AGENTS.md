@@ -15,6 +15,10 @@ Use `npm run dist chrome|firefox` to build the extension for distribution.
 - To fix Prettier issues: `npm run prettierfix`
 - To fix Stylelint issues: `npm run fixstyle`
 
+### Pre-commit Checks
+- `npm run lint` is automatically executed as a pre-commit check via husky.
+- You can run it manually at any time to verify your changes locally. It executes all linting tasks in parallel for speed.
+
 ## Pull Requests
 
 When creating pull requests:
