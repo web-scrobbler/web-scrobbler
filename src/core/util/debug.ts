@@ -19,7 +19,7 @@ class DebugLogQueue {
 		.then((storageEntries) => {
 			type PartialStorage = Record<string, unknown | undefined>;
 			const Options = storageEntries.Options as PartialStorage;
-			return Options?.['debugLoggingEnabled'];
+			return Options['debugLoggingEnabled'];
 		});
 
 	/**
