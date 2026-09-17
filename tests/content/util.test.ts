@@ -471,6 +471,48 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [
 		expected: { artist: 'Artist', track: 'Track' },
 	},
 	{
+		description:
+			'should keep the complete title when a cover artist is not specified',
+		args: ['High and Dry - Radiohead cover', 'thanks mom'],
+		expected: { artist: null, track: 'High and Dry - Radiohead cover' },
+	},
+	{
+		description:
+			'should keep the complete title when a parenthesized cover marker is used',
+		args: ['Nude - Radiohead (cover)', 'Inés Adam'],
+		expected: { artist: null, track: 'Nude - Radiohead (cover)' },
+	},
+	{
+		description:
+			'should preserve a track ending in cover when the channel is the parsed artist',
+		args: ['Artist - Cover', 'Artist'],
+		expected: { artist: 'Artist', track: 'Cover' },
+	},
+	{
+		description:
+			'should compare the channel and parsed artist case-insensitively',
+		args: ['Artist - Cover', 'artist'],
+		expected: { artist: 'Artist', track: 'Cover' },
+	},
+	{
+		description:
+			'should preserve a track containing cover when the channel is the parsed artist',
+		args: ['Artist - No Cover', 'Artist'],
+		expected: { artist: 'Artist', track: 'No Cover' },
+	},
+	{
+		description:
+			'should use regular parsing when no channel name is available',
+		args: ['Artist - Cover'],
+		expected: { artist: 'Artist', track: 'Cover' },
+	},
+	{
+		description:
+			'should use regular parsing when the channel name is empty',
+		args: ['Artist - Cover', ''],
+		expected: { artist: 'Artist', track: 'Cover' },
+	},
+	{
 		description: 'should process tracks with separators and quotes',
 		args: ['Artist - "Track Name"'],
 		expected: { artist: 'Artist', track: 'Track Name' },
@@ -929,6 +971,19 @@ const FILL_EMPTY_FIELDS = [
 		description: 'should modify target if field is missing',
 		args: [{ track: 'Track' }, { artist: 'New Artist' }, ['artist']],
 		expected: { artist: 'New Artist', track: 'Track' },
+	},
+	{
+		description: 'should ignore unsafe fields',
+		args: [
+			{ artist: null },
+			Object.assign(Object.create(null), {
+				['__proto__']: 'polluted',
+				constructor: 'polluted',
+				prototype: 'polluted',
+			}),
+			['__proto__', 'constructor', 'prototype'],
+		],
+		expected: { artist: null },
 	},
 ];
 
