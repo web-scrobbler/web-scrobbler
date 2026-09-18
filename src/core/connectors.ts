@@ -2503,4 +2503,10 @@ export default <ConnectorMeta[]>[
 		js: 'soundscout.js',
 		id: 'soundscout',
 	},
+	{
+		label: 'Hangout FM',
+		matches: ['*://hang.fm/*'],
+		js: 'hang.fm.js',
+		id: 'hangfm',
+	},
 ];
