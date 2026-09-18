@@ -57,6 +57,22 @@ function isScrobblerInArray(scrobbler: Scrobbler, array: Scrobbler[]) {
 	});
 }
 
+type ServiceErrorResult =
+	| ServiceCallResult.ERROR_AUTH
+	| ServiceCallResult.ERROR_OTHER;
+
+function getServiceErrorResult(result: unknown): ServiceErrorResult {
+	const value = result instanceof Error ? result.message : result;
+	if (
+		value === ServiceCallResult.ERROR_OTHER ||
+		value === ServiceCallResult.ERROR_AUTH
+	) {
+		return value;
+	}
+
+	throw new Error(`Invalid result: ${String(value)}`);
+}
+
 class ScrobbleService {
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
@@ -244,7 +260,8 @@ class ScrobbleService {
 				} catch (result) {
 					return this.processScrobbleErrorResult(
 						scrobbler,
-						result as ServiceCallResult[],
+						result,
+						songs.length,
 					);
 				}
 			}),
@@ -321,14 +338,10 @@ class ScrobbleService {
 	 */
 	async processErrorResult(
 		scrobbler: Scrobbler,
-		result: ServiceCallResult,
+		result: unknown,
 	): Promise<ServiceCallResult> {
-		const isOtherError = result === ServiceCallResult.ERROR_OTHER;
-		const isAuthError = result === ServiceCallResult.ERROR_AUTH;
-
-		if (!(isOtherError || isAuthError)) {
-			throw new Error(`Invalid result: ${result}`);
-		}
+		const errorResult = getServiceErrorResult(result);
+		const isAuthError = errorResult === ServiceCallResult.ERROR_AUTH;
 
 		if (isAuthError) {
 			// Don't unbind scrobblers which have tokens
@@ -339,7 +352,7 @@ class ScrobbleService {
 		}
 
 		// Forward result
-		return result;
+		return errorResult;
 	}
 
 	/**
@@ -351,14 +364,15 @@ class ScrobbleService {
 	 */
 	async processScrobbleErrorResult(
 		scrobbler: Scrobbler,
-		result: ServiceCallResult[],
+		result: unknown,
+		songCount: number,
 	): Promise<ServiceCallResult[]> {
-		const isOtherError = result[0] === ServiceCallResult.ERROR_OTHER;
-		const isAuthError = result[0] === ServiceCallResult.ERROR_AUTH;
-
-		if (!(isOtherError || isAuthError)) {
-			throw new Error(`Invalid result: ${result[0]}`);
-		}
+		const results = Array.isArray(result)
+			? result.map(getServiceErrorResult)
+			: new Array<ServiceErrorResult>(Math.min(songCount, 50)).fill(
+					getServiceErrorResult(result),
+				);
+		const isAuthError = results.includes(ServiceCallResult.ERROR_AUTH);
 
 		if (isAuthError) {
 			// Don't unbind scrobblers which have tokens
@@ -369,7 +383,7 @@ class ScrobbleService {
 		}
 
 		// Forward result
-		return result;
+		return results;
 	}
 }
 
