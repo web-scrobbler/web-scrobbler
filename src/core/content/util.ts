@@ -3,7 +3,6 @@
 import type {
 	ArtistTrackInfo,
 	BaseState,
-	State,
 	TimeInfo,
 	TrackInfoWithAlbum,
 } from '@/core/types';
@@ -347,18 +346,20 @@ export function isArtistTrackEmpty(
  * @param source - Source object
  * @param fields - List of fields to fill
  */
-export function fillEmptyFields(
-	target: State,
-	source: State | null | undefined,
-	fields: (keyof State)[] | undefined,
-): State {
-	if (!source || !Array.isArray(fields)) {
+export function fillEmptyFields<
+	T extends object,
+	Fields extends readonly (keyof T)[],
+>(
+	target: Partial<T>,
+	source: Partial<Pick<T, Fields[number]>> | null | undefined,
+	fields: Fields,
+): typeof target {
+	if (!source || !fields) {
 		return target;
 	}
 
 	for (const field of fields) {
 		if (!target[field] && source[field]) {
-			// @ts-expect-error - TS is a little confused here too
 			target[field] = source[field];
 		}
 	}

@@ -1,6 +1,6 @@
 import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import browser from 'webextension-polyfill';
-import type { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
+import type { ArtistTrackInfo, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
 import type { ConnectorMeta } from '../connectors';
 import type { DisallowedReason } from '../object/disallowed-reason';
@@ -315,7 +315,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Track info
 	 */
-	public getTrackInfo: () => BaseState | null | undefined = () => null;
+	public getTrackInfo: () => State | null | undefined = () => null;
 
 	/**
 	 * Returns a unique identifier of current track. The identifier does not
@@ -659,22 +659,22 @@ export default class BaseConnector {
 	 * List of song fields used to check if song is changed. If any of
 	 * these fields are changed, the new song is playing.
 	 */
-	private fieldsToCheckSongChange: (keyof State)[] = [
+	private fieldsToCheckSongChange = [
 		'artist',
 		'track',
 		'album',
 		'albumArtist',
 		'uniqueID',
-	];
+	] as const;
 	// #v-endif
-	private mediaSessionFields: (keyof State)[] = [
+	private mediaSessionFields = [
 		'artist',
 		'track',
 		'album',
 		'trackArt',
-	];
-	private artistTrackFields: (keyof State)[] = ['artist', 'track'];
-	private timeInfoFields: (keyof State)[] = ['duration', 'currentTime'];
+	] as const;
+	private artistTrackFields = ['artist', 'track'] as const;
+	private timeInfoFields = ['duration', 'currentTime'] as const;
 
 	/**
 	 * Gathered info about the current track for internal use.
@@ -907,7 +907,7 @@ export default class BaseConnector {
 		};
 
 		this.getCurrentState = () => {
-			const newState = {
+			const newState = <State>{
 				albumArtist: this.getAlbumArtist(),
 				uniqueID: this.getUniqueID(),
 				duration: this.getDuration(),
