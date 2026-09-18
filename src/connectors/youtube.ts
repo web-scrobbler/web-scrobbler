@@ -175,7 +175,7 @@ Connector.getTimeInfo = () => {
 Connector.isPlaying = () => {
 	const videoElement =
 		document.querySelector<HTMLVideoElement>('.html5-main-video');
-	return !videoElement?.paused;
+	return Boolean(videoElement && !videoElement.paused);
 };
 
 Connector.getOriginUrl = () => {
@@ -688,6 +688,7 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 				done: true,
 				recognisedByYtMusic: false,
 			};
+			Connector.onStateChanged();
 		});
 }
 
