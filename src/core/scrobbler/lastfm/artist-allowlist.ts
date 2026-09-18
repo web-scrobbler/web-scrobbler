@@ -5,7 +5,7 @@ import { debugLog } from '@/util/util';
 let artistAllowlistCache: Set<bigint> | null = null;
 
 /** Promise used for concurrency deduplication during loading. */
-let loadingPromise: Promise<void> | null = null;
+let loadingPromise: Promise<Set<bigint>> | null = null;
 
 /**
  * Load the artist allowlist from the bundled binary hash file.
@@ -62,11 +62,10 @@ export async function getArtistAllowlist(): Promise<Set<bigint>> {
 	}
 
 	if (loadingPromise === null) {
-		loadingPromise = loadArtistAllowlist().then((result) => {
-			artistAllowlistCache = result;
-		});
+		loadingPromise = loadArtistAllowlist();
 	}
 
-	await loadingPromise;
-	return artistAllowlistCache ?? new Set();
+	const result = await loadingPromise;
+	artistAllowlistCache = result;
+	return result;
 }
