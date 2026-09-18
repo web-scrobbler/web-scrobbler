@@ -877,9 +877,9 @@ export function isYtVideoDescriptionValid(desc: string | null): desc is string {
 	);
 }
 
-export function parseYtVideoDescription(
+export function parseYtTopicVideoDescription(
 	desc: string | null,
-): TrackInfoWithAlbum | null {
+): typeof desc extends null ? null : TrackInfoWithAlbum | null {
 	if (!isYtVideoDescriptionValid(desc)) {
 		return null;
 	}
