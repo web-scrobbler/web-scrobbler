@@ -804,7 +804,7 @@ export default class BaseConnector {
 			 * Return true if play/pause button selector is not specified. It's
 			 * better to assume the playback is always playing than otherwise. :)
 			 */
-			return (playing || notPaused()) ?? true;
+			return (playing || notPaused()) ?? playing ?? true;
 		};
 
 		this.getTrackArt = () => {
