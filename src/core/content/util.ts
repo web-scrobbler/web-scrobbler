@@ -804,6 +804,52 @@ export class AbortablePromise<T> extends AbortablePromiseLike<
 }
 
 /**
+ * Wait for first available elements for selectors. If `selectors` is a string, return
+ * elements with the selector. If `selectors` is an array, return
+ * element matched by first valid selector.
+ * @param selectors - Single selector or array of selectors
+ * @param options.throttle_ms - how much to throttle the mutationObserver by
+ * @returns HTML element
+ */
+export function waitForElements<ElementT extends Element = HTMLElement>(
+	selectors: string | string[],
+	options?: {
+		throttle_ms: number;
+	},
+): AbortablePromise<NodeListOf<ElementT>> {
+	return new AbortablePromise((resolve, reject, setOnAbort) => {
+		const instantElements = queryElements<ElementT>(selectors);
+		if (instantElements) {
+			resolve(instantElements);
+			return;
+		}
+
+		const mutationCallback = () => {
+			const observeElements = queryElements<ElementT>(selectors);
+			if (observeElements) {
+				observer.disconnect();
+				resolve(observeElements);
+			}
+		};
+
+		const observer = new MutationObserver(
+			options?.throttle_ms
+				? throttle(mutationCallback, options.throttle_ms)
+				: mutationCallback,
+		);
+
+		setOnAbort(() => {
+			observer.disconnect();
+		});
+
+		observer.observe(document.body, {
+			childList: true,
+			subtree: true,
+		});
+	});
+}
+
+/**
  * Read connector option from storage.
  * @param connector - Connector name
  * @param key - Option key
