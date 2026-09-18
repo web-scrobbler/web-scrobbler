@@ -1,6 +1,7 @@
 import type {
 	ArtistTrackInfo,
 	BaseState,
+	State,
 	TrackInfoWithAlbum,
 } from '@/core/types';
 
@@ -79,7 +80,7 @@ const getTrackInfoFromYoutubeMusicCache: {
 		| {
 				done: true;
 				recognisedByYtMusic: boolean;
-				currentTrackInfo?: BaseState & { artists?: string[] | null };
+				currentTrackInfo?: BaseState & { isPodcast?: boolean };
 		  };
 } = {};
 
@@ -97,6 +98,15 @@ const trackInfoGetters: (() => BaseState | null | undefined)[] = [
 	getTopicArtistTrackFromDescription,
 	getTrackInfoFromTitle,
 ];
+
+const trackInfoFields = [
+	'artist',
+	'artists',
+	'track',
+	'trackArt',
+	'album',
+	'isPodcast',
+] as const;
 
 readConnectorOptions();
 setupEventListener();
@@ -132,7 +142,7 @@ Connector.channelLabelSelector = [
 ];
 
 Connector.getTrackInfo = () => {
-	const trackInfo: BaseState = {};
+	const trackInfo: State = {};
 
 	for (const getter of trackInfoGetters) {
 		const currentTrackInfo = getter();
@@ -142,11 +152,7 @@ Connector.getTrackInfo = () => {
 			return null;
 		}
 
-		trackInfo.artist ??= currentTrackInfo?.artist ?? null;
-		trackInfo.artists ??= currentTrackInfo?.artists ?? null;
-		trackInfo.track ??= currentTrackInfo?.track ?? null;
-		trackInfo.trackArt ??= currentTrackInfo?.trackArt ?? null;
-		trackInfo.album ??= currentTrackInfo?.album ?? null;
+		Util.fillEmptyFields(trackInfo, currentTrackInfo, trackInfoFields);
 
 		if (!Util.isArtistTrackEmpty(trackInfo)) {
 			break;
@@ -512,6 +518,7 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 			let album = null;
 			let track = null;
 			let trackArt = null;
+			let isPodcast = false;
 
 			switch (videoInfo.videoDetails?.musicVideoType) {
 				/* eslint no-fallthrough: "off" */
@@ -659,6 +666,7 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 				// podcast episodes.
 				case 'MUSIC_VIDEO_TYPE_PODCAST_EPISODE':
 					// not music, ignore
+					isPodcast = true;
 					break;
 
 				default:
@@ -674,7 +682,14 @@ function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
 			getTrackInfoFromYoutubeMusicCache[videoId] = {
 				done: true,
 				recognisedByYtMusic,
-				currentTrackInfo: { artist, artists, album, track, trackArt },
+				currentTrackInfo: {
+					artist,
+					artists,
+					album,
+					track,
+					trackArt,
+					isPodcast,
+				},
 			};
 
 			Connector.onStateChanged();
