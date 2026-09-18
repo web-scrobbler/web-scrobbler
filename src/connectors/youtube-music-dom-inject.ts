@@ -17,38 +17,63 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
-	const sendData = () => {
+	type Indexable = Record<string | symbol, unknown>;
+
+	const handler: ProxyHandler<MediaSession> = {
+		get: (target: MediaSession, prop: string | symbol): unknown => {
+			return (target as unknown as Indexable)[prop];
+		},
+		set: (
+			target: MediaSession,
+			prop: string | symbol,
+			value: unknown,
+		): boolean => {
+			(target as unknown as Indexable)[prop] = value;
+			sendData();
+			return true;
+		},
+	};
+
+	const proxy = new Proxy(navigator.mediaSession, handler);
+
+	Object.defineProperty(navigator, 'mediaSession', {
+		get() {
+			return proxy;
+		},
+		configurable: true,
+	});
+
+	function sendData(): void {
+		const metadata = proxy.metadata;
+
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
-				playbackState: navigator.mediaSession.playbackState,
-				metadata: {
-					title: navigator.mediaSession.metadata?.title,
-					artist: navigator.mediaSession.metadata?.artist,
-					artwork: navigator.mediaSession.metadata?.artwork,
-					album: navigator.mediaSession.metadata?.album,
-				},
+				playbackState: proxy.playbackState,
+				metadata: metadata
+					? {
+							title: metadata.title,
+							artist: metadata.artist,
+							artwork: metadata.artwork,
+							album: metadata.album,
+						}
+					: null,
 			},
 			'*',
 		);
-	};
-	const playPauseButton = document.getElementById('play-pause-button');
-	const SongInfo = document.querySelector('.content-info-wrapper');
+	}
 
-	const observer = new MutationObserver(sendData);
-
-	observer.observe(playPauseButton as Node, {
-		attributes: true,
-	});
-
-	observer.observe(SongInfo as Node, {
-		attributes: true,
-		subtree: true,
-	});
+	navigator.mediaSession.metadata = new MediaMetadata();
 
 	return () => {
-		// remove the subscribers added by this extension from the array.
-		// we dont have a confirmed reference to it so we have to check all of them.
-		observer.disconnect();
+		// Remove listener: restore handler.set without `any`
+		handler.set = (
+			target: MediaSession,
+			prop: string | symbol,
+			value: unknown,
+		): boolean => {
+			(target as unknown as Indexable)[prop] = value;
+			return true;
+		};
 	};
 })();
