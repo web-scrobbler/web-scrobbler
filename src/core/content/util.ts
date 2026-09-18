@@ -701,6 +701,107 @@ export function queryElements<ElementT extends Element = HTMLElement>(
 
 	return null;
 }
+type AbortableResult<T> =
+	| { aborted: true; reason: string }
+	| { aborted: false; result: T };
+
+export class AbortablePromiseLike<T> extends Promise<T> {
+	protected constructor(
+		private inner: Promise<T>,
+		private abortFn: (reason?: string) => void,
+	) {
+		super((resolve, reject) => inner.then(resolve, reject));
+	}
+
+	then<TResult1 = T, TResult2 = never>(
+		onfulfilled?:
+			| ((value: T) => TResult1 | PromiseLike<TResult1>)
+			| null
+			| undefined,
+		onrejected?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined,
+	): AbortablePromiseLike<TResult1 | TResult2> {
+		return new AbortablePromiseLike(
+			this.inner.then(onfulfilled, onrejected),
+			this.abort.bind(this),
+		);
+	}
+	catch<TResult = never>(
+		onrejected?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		((reason: any) => TResult | PromiseLike<TResult>) | null | undefined,
+	): AbortablePromiseLike<T | TResult> {
+		return new AbortablePromiseLike(
+			this.inner.catch(onrejected),
+			this.abort.bind(this),
+		);
+	}
+
+	finally(
+		onfinally?: (() => void) | null | undefined,
+	): AbortablePromiseLike<T> {
+		return new AbortablePromiseLike(
+			this.inner.finally(onfinally),
+			this.abort.bind(this),
+		);
+	}
+
+	abort(reason?: string): void {
+		this.abortFn(reason);
+	}
+}
+
+/**
+ *
+ * @param makePromise function created from this must use setOnAbort with their Promise's reject and an onAbort handler
+ * @returns
+ */
+export class AbortablePromise<T> extends AbortablePromiseLike<
+	AbortableResult<T>
+> {
+	constructor(
+		executor: (
+			resolve: (value: T | PromiseLike<T>) => void,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			reject: (reason?: any) => void,
+			setOnAbort: (onAbort: (reason?: string) => void) => void,
+		) => void,
+	) {
+		const ac = new AbortController();
+		let onAbort: (reason: string) => void = () => void 0;
+		const abortHandler = (resolve: (value: AbortableResult<T>) => void) => {
+			if (!ac.signal.aborted) {
+				return;
+			}
+			onAbort(ac.signal.reason);
+			resolve({ aborted: true, reason: ac.signal.reason });
+		};
+		const promise = new Promise<AbortableResult<T>>((resolve, reject) => {
+			function abortableResolve(result: T | PromiseLike<T>) {
+				const mappedResolve = (result: T) => {
+					resolve({ aborted: false, result });
+				};
+
+				if (
+					typeof result === 'object' &&
+					result &&
+					'then' in result &&
+					typeof result.then === 'function'
+				) {
+					void result.then(mappedResolve);
+				} else {
+					mappedResolve(result as T);
+				}
+			}
+			executor(abortableResolve, reject, (abortHandler) => {
+				onAbort = abortHandler;
+			});
+			ac.signal.addEventListener('abort', () => {
+				abortHandler(resolve);
+			});
+		});
+		super(promise, ac.abort.bind(ac));
+	}
+}
 
 /**
  * Read connector option from storage.
