@@ -1,9 +1,5 @@
-import type {
-	ArtistTrackInfo,
-	BaseState,
-	State,
-	TrackInfoWithAlbum,
-} from '@/core/types';
+import type { ArtistTrackInfo, State } from '@/core/types';
+import { ytMusicApiRequest, keyFn, YtApiResult } from './api/ytmusic-api';
 
 export {};
 
@@ -59,6 +55,33 @@ const allowedCategories: string[] = [];
 const categoryCache = new Map<string, string>();
 
 /**
+ * "VideoId+Title+Channel=TrackInfo+Category+onYtMusic" cache.
+ */
+const ytMusicApiCache = new Util.MapCache(ytMusicApiRequest, {
+	cb: Connector.onStateChanged,
+	keyFn,
+});
+
+// convenience method to fetch current id, title, channel
+// and deal with possible network errors
+function getYtMusicApiCache(): Partial<YtApiResult> | null | undefined {
+	const videoId = getVideoId();
+	const title = Util.getTextFromSelectors(videoTitleSelector);
+	const channel = Util.getTextFromSelectors(channelNameSelector);
+	if (!videoId || !title || !channel) {
+		return null;
+	}
+	try {
+		return ytMusicApiCache.get({ videoId, title, channel });
+	} catch (e) {
+		Util.debugLog(`YtMusicApi failed: ${e}`, 'error');
+
+		// return dummy response on error
+		return {};
+	}
+}
+
+/**
  * Wether we should only scrobble music recognised by the YouTube Music API
  */
 let scrobbleYTMusicAPIRecognisedOnly = false;
@@ -68,38 +91,26 @@ let scrobbleYTMusicAPIRecognisedOnly = false;
  */
 let getTrackInfoFromYTMusicAPIEnabled = false;
 
-let currentVideoDescription: string | null = null;
-let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
-
-const getTrackInfoFromYoutubeMusicCache: {
-	[videoId: string]:
-		| undefined
-		| {
-				done: false;
-		  }
-		| {
-				done: true;
-				recognisedByYtMusic: boolean;
-				currentTrackInfo?: BaseState & { isPodcast?: boolean };
-		  };
-} = {};
+const topicDescriptionCache = new Util.LastCache(
+	Util.parseYtTopicVideoDescription,
+);
 
 /**
  * different methods of getting information for the currently playing track.
  * once one of them has filled in all required fields (artist, track) the value is used.
  * the return values have different meanings:
- * - @type {BaseState} fill in fields that are not set yet
+ * - @type {State}     fill in fields that are not set yet
  * - @type {null}      method not applicable, skip to the next one.
  * - @type {undefined} method is still waiting on return value. don't test the other methods, just return nothing.
  */
-const trackInfoGetters: (() => BaseState | null | undefined)[] = [
+const trackInfoGetters: (() => State | null | undefined)[] = [
 	getTrackInfoFromChapters,
-	getTrackInfoFromYoutubeMusic,
+	getTrackInfoFromYtMusicApi,
 	getTopicArtistTrackFromDescription,
 	getTrackInfoFromTitle,
 ];
 
-const trackInfoFields = [
+export const trackInfoFields = [
 	'artist',
 	'artists',
 	'track',
@@ -204,22 +215,11 @@ Connector.scrobblingDisallowedReason = () => {
 	}
 
 	if (scrobbleYTMusicAPIRecognisedOnly) {
-		const videoId = getVideoId() ?? '';
-		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId];
-
-		if (!ytMusicCache) {
-			// start loading getTrackInfoFromYoutubeMusic
-			getTrackInfoFromYoutubeMusic();
+		const res = getYtMusicApiCache();
+		if (typeof res === 'undefined') {
 			return 'IsLoading';
 		}
-
-		if (!ytMusicCache.done) {
-			// not done loading yet
-			return 'IsLoading';
-		}
-
-		if (!ytMusicCache.recognisedByYtMusic) {
-			// not recognised!
+		if (res && !res.recognisedByYtMusic) {
 			return 'NotOnYouTubeMusic';
 		}
 	}
@@ -297,6 +297,22 @@ function getVideoId() {
 }
 
 function getVideoCategory() {
+	if (getTrackInfoFromYTMusicAPIEnabled || scrobbleYTMusicAPIRecognisedOnly) {
+		const res = getYtMusicApiCache();
+
+		if (res !== null) {
+			if (!res || res.category) {
+				return res?.category;
+			}
+			// if ytMusicApi did not get a category
+			// e.g. because they changed the API format
+			// fall back to fetching from /watch html
+		} else {
+			// if res == null, then either video id, title, or channel failed to be found
+			// fall back to fetching from /watch html
+		}
+	}
+
 	const videoId = getVideoId();
 
 	if (!videoId) {
@@ -388,323 +404,15 @@ function getVideoDescription() {
 }
 
 function getTopicArtistTrackFromDescription() {
-	const description = getVideoDescription();
-	if (currentVideoDescription === description) {
-		return artistTrackFromDescription;
-	}
-
-	currentVideoDescription = description;
-	artistTrackFromDescription = Util.parseYtTopicVideoDescription(description);
-
-	return artistTrackFromDescription;
+	return topicDescriptionCache.get(getVideoDescription());
 }
 
-function getTrackInfoFromYoutubeMusic(): BaseState | null | undefined {
-	// if neither getTrackInfoFromYtMusicEnabled nor scrobbleMusicRecognisedOnly
-	// are enabled, there is no need to run this getter
-	if (
-		!getTrackInfoFromYTMusicAPIEnabled &&
-		!scrobbleYTMusicAPIRecognisedOnly
-	) {
-		return null;
-	}
-
-	const videoId = getVideoId();
-	if (!videoId) {
-		// no video ID, no info.
-		return null;
-	}
-
-	if (getTrackInfoFromYoutubeMusicCache[videoId]) {
-		// cache hit
-
-		if (!getTrackInfoFromYTMusicAPIEnabled) {
-			// this means that only scrobbleMusicRecognisedOnly is enabled,
-			// therefore only the cache is used and we return {} for the
-			// actual getter
-			return {};
-		}
-
-		if (getTrackInfoFromYoutubeMusicCache[videoId].done) {
-			// already ran!
-			return getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo;
-		}
-		// still running, lets be patient
-		return undefined;
-	}
-
-	// cache not initialized -> start request
-	getTrackInfoFromYoutubeMusicCache[videoId] = {
-		done: false,
-	};
-
-	const body = JSON.stringify({
-		context: {
-			client: {
-				// parameters are needed, you get a 400 if you omit these
-				// specific values are just what I got when doing a request
-				// using firefox
-				clientName: 'WEB_REMIX',
-				clientVersion: '1.20221212.01.00',
-			},
-		},
-		captionParams: {},
-		videoId,
-	});
-
-	interface VideoInfo {
-		videoDetails?: Partial<{
-			videoId: string;
-			// track or title
-			title: string;
-			channelId: string;
-			// square cover art if ATV, otherwise just thumbnails
-			thumbnail: {
-				thumbnails?: Partial<{
-					url: string;
-					width: number;
-					height: number;
-				}>[];
-			};
-			lengthSeconds: number;
-			// artist(s joined by delimiters), channel or podcast
-			author: string;
-			musicVideoType?: string;
-			// nonexhaustive
-			[other: string]: unknown | undefined;
-		}>;
-		microformat?: {
-			microformatDataRenderer?: Partial<{
-				// track or title
-				title: string;
-				// channel or "Episode • <podcast>"
-				description: string;
-				// for ATV album track: [("<artist>",)+ "<album>", "<track>"] (https://www.youtube.com/watch?v=i1D8WkGuq4g)
-				// for ATV single: ["<artist>", "<track>"] (https://www.youtube.com/watch?v=tNT5sYheayM)
-				// all artists are in the .videoDetails.author string, in this order.
-				tags: string[];
-				pageOwnerDetails: {
-					// channel (if applicable "<channel> - Topic")
-					name: string;
-					externalChannelId: string;
-					youtubeProfileUrl: string;
-				};
-				// Music or Entertainment or... others
-				category: string;
-				// nonexhaustive
-				[other: string]: unknown;
-			}>;
-		};
-		// nonexhaustive
-		[other: string]: unknown | undefined;
-	}
-
-	fetch('https://music.youtube.com/youtubei/v1/player', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body,
-	})
-		.then((response) => response.json())
-		.then((videoInfo: VideoInfo) => {
-			const recognisedByYtMusic =
-				videoInfo.videoDetails?.musicVideoType?.startsWith(
-					'MUSIC_VIDEO_TYPE_',
-				) || false;
-
-			let artist = null;
-			let artists = null;
-			let album = null;
-			let track = null;
-			let trackArt = null;
-			let isPodcast = false;
-
-			switch (videoInfo.videoDetails?.musicVideoType) {
-				/* eslint no-fallthrough: "off" */
-
-				// YouTube Music Library uploads
-				// with metadata: "<track>" by "<author>"
-				// without metadata: "filename.mp3" by "Music Library Uploads"
-				case 'MUSIC_VIDEO_TYPE_PRIVATELY_OWNED_TRACK': // FALLTHROUGH
-					// if the author is set as "Music Library Uploads", we ignore it
-					// otherwise, accept as valid metadata.
-					// it does not appear that this is translated, luckily
-					if (
-						videoInfo.videoDetails.author ===
-						'Music Library Uploads'
-					) {
-						break;
+function getTrackInfoFromYtMusicApi() {
+	const res = getYtMusicApiCache();
+	if (!res) {
+		return res;
 					}
-
-				//* Autogenerated Topic Video
-				// good: "<track>" by "<author>" (https://www.youtube.com/watch?v=wPm68ZJqNy8)
-				// uploader is always a " - Topic" channel. the " - Topic" part is never added to the author field
-				case 'MUSIC_VIDEO_TYPE_ATV': {
-					// always good, created from information supplied to google by record labels
-					({ author: artist, title: track } = videoInfo.videoDetails);
-					const thumbs = videoInfo.videoDetails.thumbnail?.thumbnails;
-					// use thumbnail from here, if available.
-					const thumbUrl = thumbs?.[thumbs.length - 1].url;
-					// and not default (for PRIVATELY_OWNED_TRACK)
-					if (!thumbUrl?.includes('cover_track_default')) {
-						trackArt = thumbUrl;
-					}
-					const tags =
-						videoInfo.microformat?.microformatDataRenderer?.tags;
-					if (artist && tags) {
-						let i = 0;
-						let artistPos = 0;
-						artists = [];
-						while (i < tags.length - 1) {
-							const tag = tags[i];
-							const tagIndex = artist.indexOf(tag, artistPos);
-							if (tagIndex < 0) {
-								Util.debugLog(
-									`unexpected tag ${tag} of ATV not included in author ${artist}`,
-									'warn',
-								);
-								break;
-							}
-
-							artists.push(tag);
-
-							artistPos = tagIndex + tag.length;
-							if (artistPos === artist.length) {
-								break;
-							}
-							i++;
-						}
-
-						if (++i < tags.length - 2) {
-							Util.debugLog(
-								`unexpected tag reverse index ${tags.length - i} after author tag matching: ${tags} in ${artist}`,
-								'warn',
-							);
-						}
-
-						if (i === tags.length - 2) {
-							album = tags[i++];
-						}
-
-						if (i === tags.length - 1 && tags[i] !== track) {
-							Util.debugLog(
-								`tag matching sanity check failed, track tag ${tags[i]} != ${track}`,
-								'warn',
-							);
-						}
-					}
-
-					break;
-				}
-
-				// album preview? music video?
-				// good: "On a Cherry Blossom Night" by "あいみょん" (http://youtube.com/watch?v=YXe7GQnvzqY)
-				// bad: not found yet?
-				case 'MUSIC_VIDEO_TYPE_SHOULDER': // FALLTHROUGH
-					// treat like OMV for now
-					void 0;
-
-				//* Original Music Video
-				// good: "<track>" by "<author>" (https://www.youtube.com/watch?v=GsiQM4aYecE)
-				// bad: "<title>" by "<channel>" (https://www.youtube.com/watch?v=sIDRbAUjGvA)
-				// bug?: "Pinkie" by "Diversity - All Songs" (https://www.youtube.com/watch?v=yu_XJc_5__Q)
-				// uploader (probably) has to be an "Official Artist Channel"
-				case 'MUSIC_VIDEO_TYPE_OMV': {
-					// may need processing if it's exactly "<title>" by "<channel>" -> don't use those
-					// if it's not exactly that, then it should be good.
-					// EXCEPT NOT: videos that are part of music playlists seem to have a wrong artist set.
-
-					// <channel> or "Episode • <podcast>"
-					// but NEVER "<channel> - Topic"
-					// let's abuse this to find out if it's a podcast mislabel without having to localize
-					const channelOrEpisode =
-						videoInfo.microformat?.microformatDataRenderer
-							?.description;
-
-					const title = Util.getTextFromSelectors(videoTitleSelector);
-					const channel =
-						Util.getTextFromSelectors(channelNameSelector);
-					if (
-						videoInfo.videoDetails.title === title &&
-						videoInfo.videoDetails.author === channel
-					) {
-						// do not use, let title parsing handle it.
-					} else if (
-						videoInfo.videoDetails.author &&
-						videoInfo.videoDetails.author !== channelOrEpisode &&
-						channelOrEpisode?.includes(
-							videoInfo.videoDetails.author,
-						)
-					) {
-						// don't use it either here, prevent podcast name from being scrobbled as author
-					} else {
-						({ author: artist, title: track } =
-							videoInfo.videoDetails);
-					}
-					break;
-				}
-
-				// ! short and simple: the rest don't reliably provide good information.
-
-				//* User Generated Content
-				// album: "<title>" by "<channel>" (https://www.youtube.com/watch?v=RXWIitU8V0A)
-				case 'MUSIC_VIDEO_TYPE_UGC':
-					// similar to OMV, unclear why something is UGC or OMV.
-					// it seems though that UGC does not have the title doctored with.
-					// "Official Artist Channel"s can also get a video marked as UGC (https://www.youtube.com/watch?v=cMkJDPvJxdk)
-					// ignore, let title parsing handle it
-					break;
-
-				// Official video content, but not for a single track
-				// uploader (probably) has to be an "Official Artist Channel"
-				case 'MUSIC_VIDEO_TYPE_OFFICIAL_SOURCE_MUSIC':
-					// we will probably never hit here because chapters will parse?
-					// in any case this should not carry any information if it's for multiple videos (mix/album)
-					break;
-
-				// podcast episodes.
-				case 'MUSIC_VIDEO_TYPE_PODCAST_EPISODE':
-					// not music, ignore
-					isPodcast = true;
-					break;
-
-				default:
-					if (recognisedByYtMusic) {
-						Util.debugLog(
-							`YTMusic API: unknown musicVideoType '${videoInfo.videoDetails!.musicVideoType}'. ` +
-								'Please tell the web-scrobbler maintainers about it.',
-							'warn',
-						);
-					}
-			}
-
-			getTrackInfoFromYoutubeMusicCache[videoId] = {
-				done: true,
-				recognisedByYtMusic,
-				currentTrackInfo: {
-					artist,
-					artists,
-					album,
-					track,
-					trackArt,
-					isPodcast,
-				},
-			};
-
-			Connector.onStateChanged();
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch youtube music data for ${videoId}: ${err}`,
-				'warn',
-			);
-			getTrackInfoFromYoutubeMusicCache[videoId] = {
-				done: true,
-				recognisedByYtMusic: false,
-			};
-			Connector.onStateChanged();
-		});
+	return res.currentTrackInfo;
 }
 
 function getTrackInfoFromChapters(): ArtistTrackInfo | null {
