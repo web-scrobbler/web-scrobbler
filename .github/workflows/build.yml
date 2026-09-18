@@ -71,7 +71,7 @@ jobs:
           cache: 'npm'
 
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Install Os packages
         run: |
