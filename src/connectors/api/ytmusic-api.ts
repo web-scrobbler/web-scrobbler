@@ -58,7 +58,6 @@ export async function ytMusicApiRequest({
 
 	let artist = null;
 	let artists = null;
-	let album = null;
 	let track = null;
 	let trackArt = null;
 	let isPodcast = false;
@@ -92,18 +91,13 @@ export async function ytMusicApiRequest({
 			}
 			const tags = videoInfo.microformat?.microformatDataRenderer?.tags;
 			if (artist && tags) {
-				let i = 0;
 				let artistPos = 0;
 				artists = [];
-				while (i < tags.length - 1) {
-					const tag = tags[i];
+				for (const tag of tags) {
 					const tagIndex = artist.indexOf(tag, artistPos);
 					if (tagIndex < 0) {
-						Util.debugLog(
-							`unexpected tag ${tag} of ATV not included in author ${artist}`,
-							'warn',
-						);
-						break;
+						// probably some translated artist name
+						continue;
 					}
 
 					artists.push(tag);
@@ -112,23 +106,11 @@ export async function ytMusicApiRequest({
 					if (artistPos === artist.length) {
 						break;
 					}
-					i++;
 				}
 
-				if (++i < tags.length - 2) {
+				if (artistPos !== artist.length) {
 					Util.debugLog(
-						`unexpected tag reverse index ${tags.length - i} after author tag matching: ${tags} in ${artist}`,
-						'warn',
-					);
-				}
-
-				if (i === tags.length - 2) {
-					album = tags[i++];
-				}
-
-				if (i === tags.length - 1 && tags[i] !== track) {
-					Util.debugLog(
-						`tag matching sanity check failed, track tag ${tags[i]} != ${track}`,
+						`didn't match entire artist '${artist}' with tags '${tags.join(',')}'`,
 						'warn',
 					);
 				}
@@ -213,14 +195,7 @@ export async function ytMusicApiRequest({
 
 	return {
 		recognisedByYtMusic,
-		currentTrackInfo: {
-			artist,
-			artists,
-			album,
-			track,
-			trackArt,
-			isPodcast,
-		},
+		currentTrackInfo: { artist, artists, track, trackArt, isPodcast },
 		category,
 	};
 }
