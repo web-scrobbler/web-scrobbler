@@ -1,7 +1,9 @@
 name: Release Drafter
 
 on:
-  push:
+  pull_request_target:
+    types:
+      - closed
     branches:
       - master
 
@@ -10,6 +12,7 @@ permissions:
 
 jobs:
   update_release_draft:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: release-drafter/release-drafter@v7
