@@ -354,7 +354,7 @@ export function fillEmptyFields<
 	source: Partial<Pick<T, Fields[number]>> | null | undefined,
 	fields: Fields,
 ): typeof target {
-	if (!source || !fields) {
+	if (!source) {
 		return target;
 	}
 
