@@ -63,6 +63,7 @@
     "eslint-plugin-tsdoc": "0.5.2",
     "fs-extra": "11.3.2",
     "glob": "11.1.0",
+    "happy-dom": "^20.14.5",
     "imagemin": "9.0.1",
     "imagemin-jpegtran": "8.0.0",
     "imagemin-pngquant": "10.0.0",
