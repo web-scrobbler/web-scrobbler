@@ -678,14 +678,14 @@ export function queryElements<ElementT extends Element = HTMLElement>(
 	selectors: string | string[] | null | undefined,
 ): typeof selectors extends null | undefined
 	? null
-	: NodeListOf<ElementT> | null {
+	: (NodeListOf<ElementT> & { 0: ElementT }) | null {
 	if (!selectors) {
 		return null;
 	}
 
 	if (typeof selectors === 'string') {
 		const singleResult = document.querySelectorAll<ElementT>(selectors);
-		return singleResult.length > 0 ? singleResult : null;
+		return nodeListIsNonEmpty(singleResult) ? singleResult : null;
 	}
 
 	if (!Array.isArray(selectors)) {
@@ -694,12 +694,18 @@ export function queryElements<ElementT extends Element = HTMLElement>(
 
 	for (const selector of selectors) {
 		const elements = document.querySelectorAll<ElementT>(selector);
-		if (elements.length > 0) {
+		if (nodeListIsNonEmpty(elements)) {
 			return elements;
 		}
 	}
 
 	return null;
+
+	function nodeListIsNonEmpty<TNode extends Node>(
+		nodeList: NodeListOf<TNode>,
+	): nodeList is NodeListOf<TNode> & { 0: TNode } {
+		return nodeList.length > 0;
+	}
 }
 
 /**
