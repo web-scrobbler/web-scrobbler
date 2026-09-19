@@ -19,7 +19,7 @@ Connector.getAlbum = () => {
 	const albumHeader = Util.queryElements(
 		`.eps._playAlbum[data-catalogueid="${catalogID}"]`,
 	);
-	if (albumHeader && albumHeader.length > 0) {
+	if (albumHeader) {
 		return albumHeader[0].textContent;
 	}
 	return null;

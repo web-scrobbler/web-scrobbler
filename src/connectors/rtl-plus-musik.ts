@@ -19,7 +19,7 @@ Connector.isPlaying = () => {
 	const titleElements = Util.queryElements(
 		'plus-player-container .play-icon > svg > title',
 	);
-	if (titleElements && titleElements[0] && titleElements[0].textContent) {
+	if (titleElements) {
 		const isPaused = titleElements[0].textContent.indexOf('Abspielen') >= 0;
 		return !isPaused;
 	}
