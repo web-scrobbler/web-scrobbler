@@ -73,21 +73,19 @@ Connector.getDuration = () => {
 		if (!fullDuration) {
 			return undefined;
 		}
-		return Util.stringToSeconds(
-			fullDuration?.innerText.replace(' / ', '0'),
-		);
+		return Util.stringToSeconds(fullDuration.innerText.replace(' / ', '0'));
 	}
 
-	const nowPlayingStart = Util.queryElements(
+	const nowPlayingStart = Util.queryElements<HTMLSpanElement>(
 		`${nowPlayingSelector} > div > span:first-of-type`,
-	)?.[0] as HTMLSpanElement | undefined;
+	)?.[0];
 	if (!nowPlayingStart) {
 		return undefined;
 	}
 
-	const nextPlayingStart = Util.queryElements(
+	const nextPlayingStart = Util.queryElements<HTMLSpanElement>(
 		`${nowPlayingNextSelector} > div > span:first-of-type`,
-	)?.[0] as HTMLSpanElement | undefined;
+	)?.[0];
 	let nextTimestamp;
 	if (nextPlayingStart) {
 		nextTimestamp = nextPlayingStart.innerText;

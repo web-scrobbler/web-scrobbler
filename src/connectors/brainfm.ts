@@ -9,10 +9,7 @@ Connector.trackArtSelector =
 
 Connector.getTrack = () => {
 	const elements = Util.queryElements('[data-testid="currentTrackTitle"]');
-	if (!elements) {
-		return null;
-	}
-	return elements[0]?.firstChild?.textContent;
+	return elements?.[0].firstChild?.textContent;
 };
 
 Connector.getArtist = () => 'Brain.fm';

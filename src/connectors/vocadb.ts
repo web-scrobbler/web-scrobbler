@@ -85,7 +85,7 @@ Connector.getTrackInfo = () => {
 	const data = {
 		track: current?.entry.name,
 		artist: current?.entry.artistString,
-		uniqueID: current?.entry.id,
+		uniqueID: String(current?.entry.id),
 		duration: currentPv?.length,
 		currentTime: currentPv?.length
 			? currentPv.length * getPercentage()
