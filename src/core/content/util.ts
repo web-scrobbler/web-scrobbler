@@ -3,7 +3,6 @@
 import type {
 	ArtistTrackInfo,
 	BaseState,
-	State,
 	TimeInfo,
 	TrackInfoWithAlbum,
 } from '@/core/types';
@@ -347,18 +346,20 @@ export function isArtistTrackEmpty(
  * @param source - Source object
  * @param fields - List of fields to fill
  */
-export function fillEmptyFields(
-	target: State,
-	source: State | null | undefined,
-	fields: (keyof State)[] | undefined,
-): State {
-	if (!source || !Array.isArray(fields)) {
+export function fillEmptyFields<
+	T extends object,
+	Fields extends readonly (keyof T)[],
+>(
+	target: Partial<T>,
+	source: Partial<Pick<T, Fields[number]>> | null | undefined,
+	fields: Fields,
+): typeof target {
+	if (!source) {
 		return target;
 	}
 
 	for (const field of fields) {
 		if (!target[field] && source[field]) {
-			// @ts-expect-error - TS is a little confused here too
 			target[field] = source[field];
 		}
 	}
@@ -640,11 +641,16 @@ export function isElementVisible(
 export function getValueFromSelectors(
 	selectors: string | string[],
 ): string | null {
-	const element = queryElements(selectors);
-	if (!element || !('value' in element)) {
+	const elements = queryElements<HTMLInputElement>(selectors);
+	if (!elements) {
 		return null;
 	}
-	return element.value as string;
+	for (const element of elements) {
+		if (typeof element.value === 'string') {
+			return element.value;
+		}
+	}
+	return null;
 }
 
 /**
@@ -666,18 +672,20 @@ export function getDataFromSelectors(
  * element with the selector. If `selectors` is an array, return
  * element matched by first valid selector.
  * @param selectors - Single selector or array of selectors
- * @returns HTML element
+ * @returns HTML element or null if not found (or no selectors passed)
  */
-/* istanbul ignore next */
-export function queryElements(
+export function queryElements<ElementT extends Element = HTMLElement>(
 	selectors: string | string[] | null | undefined,
-): NodeListOf<HTMLElement> | null {
+): typeof selectors extends null | undefined
+	? null
+	: NodeListOf<ElementT> | null {
 	if (!selectors) {
 		return null;
 	}
 
 	if (typeof selectors === 'string') {
-		return document.querySelectorAll(selectors);
+		const singleResult = document.querySelectorAll<ElementT>(selectors);
+		return singleResult.length > 0 ? singleResult : null;
 	}
 
 	if (!Array.isArray(selectors)) {
@@ -685,15 +693,114 @@ export function queryElements(
 	}
 
 	for (const selector of selectors) {
-		const elements = document.querySelectorAll(
-			selector,
-		) as NodeListOf<HTMLElement>;
+		const elements = document.querySelectorAll<ElementT>(selector);
 		if (elements.length > 0) {
 			return elements;
 		}
 	}
 
 	return null;
+}
+type AbortableResult<T> =
+	| { aborted: true; reason: string }
+	| { aborted: false; result: T };
+
+export class AbortablePromiseLike<T> extends Promise<T> {
+	protected constructor(
+		private inner: Promise<T>,
+		private abortFn: (reason?: string) => void,
+	) {
+		super((resolve, reject) => inner.then(resolve, reject));
+	}
+
+	then<TResult1 = T, TResult2 = never>(
+		onfulfilled?:
+			| ((value: T) => TResult1 | PromiseLike<TResult1>)
+			| null
+			| undefined,
+		onrejected?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined,
+	): AbortablePromiseLike<TResult1 | TResult2> {
+		return new AbortablePromiseLike(
+			this.inner.then(onfulfilled, onrejected),
+			this.abort.bind(this),
+		);
+	}
+	catch<TResult = never>(
+		onrejected?: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		((reason: any) => TResult | PromiseLike<TResult>) | null | undefined,
+	): AbortablePromiseLike<T | TResult> {
+		return new AbortablePromiseLike(
+			this.inner.catch(onrejected),
+			this.abort.bind(this),
+		);
+	}
+
+	finally(
+		onfinally?: (() => void) | null | undefined,
+	): AbortablePromiseLike<T> {
+		return new AbortablePromiseLike(
+			this.inner.finally(onfinally),
+			this.abort.bind(this),
+		);
+	}
+
+	abort(reason?: string): void {
+		this.abortFn(reason);
+	}
+}
+
+/**
+ *
+ * @param makePromise function created from this must use setOnAbort with their Promise's reject and an onAbort handler
+ * @returns
+ */
+export class AbortablePromise<T> extends AbortablePromiseLike<
+	AbortableResult<T>
+> {
+	constructor(
+		executor: (
+			resolve: (value: T | PromiseLike<T>) => void,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			reject: (reason?: any) => void,
+			setOnAbort: (onAbort: (reason?: string) => void) => void,
+		) => void,
+	) {
+		const ac = new AbortController();
+		let onAbort: (reason: string) => void = () => void 0;
+		const abortHandler = (resolve: (value: AbortableResult<T>) => void) => {
+			if (!ac.signal.aborted) {
+				return;
+			}
+			onAbort(ac.signal.reason);
+			resolve({ aborted: true, reason: ac.signal.reason });
+		};
+		const promise = new Promise<AbortableResult<T>>((resolve, reject) => {
+			function abortableResolve(result: T | PromiseLike<T>) {
+				const mappedResolve = (result: T) => {
+					resolve({ aborted: false, result });
+				};
+
+				if (
+					typeof result === 'object' &&
+					result &&
+					'then' in result &&
+					typeof result.then === 'function'
+				) {
+					void result.then(mappedResolve);
+				} else {
+					mappedResolve(result as T);
+				}
+			}
+			executor(abortableResolve, reject, (abortHandler) => {
+				onAbort = abortHandler;
+			});
+			ac.signal.addEventListener('abort', () => {
+				abortHandler(resolve);
+			});
+		});
+		super(promise, ac.abort.bind(ac));
+	}
 }
 
 /**
@@ -871,9 +978,9 @@ export function isYtVideoDescriptionValid(desc: string | null): desc is string {
 	);
 }
 
-export function parseYtVideoDescription(
+export function parseYtTopicVideoDescription(
 	desc: string | null,
-): TrackInfoWithAlbum | null {
+): typeof desc extends null ? null : TrackInfoWithAlbum | null {
 	if (!isYtVideoDescriptionValid(desc)) {
 		return null;
 	}
@@ -1090,4 +1197,122 @@ export async function fetchFromServiceWorker(
 				),
 			};
 	}
+}
+
+interface Cache<T, V> {
+	get(arg: T): V | undefined;
+}
+
+type CacheState<V> =
+	| { state: 'pending'; promise: Promise<V> }
+	| { state: 'error'; error: unknown }
+	| { state: 'result'; result: V };
+
+export abstract class CacheBase<K extends string, V, A = K>
+	implements Cache<A, V>
+{
+	// must be implemented in subclass
+	protected abstract getCached(key: K): CacheState<V> | undefined;
+	protected abstract setCached(key: K, cacheState: CacheState<V>): void;
+
+	// passed in through options
+	private callback?: (cacheState: CacheState<V>, arg: A, key: K) => void =
+		undefined;
+	private keyFn: (arg: A) => K;
+
+	constructor(
+		fetchFn: (arg: A) => V | Promise<V>,
+		opts?: K extends A ? CacheOpts<A, K, V> | undefined : never,
+	);
+	constructor(fetchFn: (arg: A) => V | Promise<V>, opts: CacheOpts<A, K, V>);
+	constructor(
+		private fetchFn: (arg: A) => V | Promise<V>,
+		opts?: CacheOpts<A, K, V>,
+	) {
+		this.keyFn = opts?.keyFn
+			? opts.keyFn
+			: (((arg: A) => arg) as K extends A ? (arg: A) => K : never);
+
+		this.callback = opts?.cb;
+	}
+
+	get(arg: A): V | undefined {
+		const key = this.keyFn(arg);
+
+		const setState = (arg: A, key: K, state: CacheState<V>) => {
+			this.setCached(key, state);
+			this.callback?.(state, arg, key);
+		};
+
+		const onResult = (result: V) => {
+			setState(arg, key, { state: 'result', result });
+		};
+
+		const onError = (error: unknown) => {
+			setState(arg, key, { state: 'error', error });
+		};
+
+		// check cache
+		const cachedState = this.getCached(key);
+		switch (cachedState?.state) {
+			case 'result':
+				return cachedState.result;
+			case 'error':
+				throw cachedState.error;
+			case 'pending':
+				return;
+			default:
+		}
+
+		let result;
+		try {
+			result = this.fetchFn(arg);
+		} catch (error) {
+			onError(error);
+			throw error;
+		}
+
+		if (result instanceof Promise) {
+			this.setCached(key, {
+				state: 'pending',
+				promise: result,
+			});
+			result.then(onResult, onError);
+			return;
+		}
+
+		onResult(result);
+
+		return result;
+	}
+}
+
+type CacheOpts<A, K extends string, V> = {
+	cb?: (cacheState: CacheState<V>, arg: A, key: K) => void;
+} & ((K extends A ? true : false) extends true
+	? { keyFn?: ((arg: A) => K) | undefined }
+	: { keyFn: (arg: A) => K });
+
+export class LastCache<K extends string, V, A = K> extends CacheBase<K, V, A> {
+	private current: { key: K; state: CacheState<V> } | undefined;
+
+	getCached(key: K) {
+		if (this.current?.key === key) {
+			return this.current.state;
+		}
+	}
+
+	setCached(key: K, state: CacheState<V>) {
+		this.current = { key, state };
+	}
+}
+
+export class MapCache<K extends string, V, A = K>
+	extends CacheBase<K, V, A>
+	implements Cache<A, V>
+{
+	private cacheStore = new Map<K, CacheState<V>>();
+
+	protected getCached = this.cacheStore.get.bind(this.cacheStore);
+	protected setCached = this.cacheStore.set.bind(this.cacheStore);
 }
