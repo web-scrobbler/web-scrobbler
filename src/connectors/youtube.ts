@@ -140,7 +140,7 @@ Connector.getChannelId = () => {
 	if (!channelAnchors) {
 		return null;
 	}
-	return new URL(channelAnchors[0]!.href).pathname.slice(1);
+	return channelAnchors[0].pathname.slice(1);
 };
 Connector.channelLabelSelector = [
 	'#primary #title+#top-row ytd-channel-name .yt-formatted-string',
