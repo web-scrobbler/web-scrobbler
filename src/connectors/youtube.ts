@@ -25,16 +25,19 @@ const videoSelector = '.html5-main-video';
 const chapterNameSelector = '.html5-video-player .ytp-chapter-title-content';
 const videoTitleSelector = [
 	'.html5-video-player .ytp-title-link',
-	'.slim-video-information-title .yt-core-attributed-string',
+	'ytm-slim-video-metadata-section-renderer .slim-video-information-title', // m.youtube.com
 ];
 const channelNameSelector = [
-	'#top-row .ytd-channel-name a',
-	'.slim-owner-channel-name .yt-core-attributed-string',
+	'#top-row .ytd-channel-name a', // www.youtube.com
+];
+// channel info (name, id)
+const breadcrumbListJsonSelectors = [
+	'ytm-slim-video-action-bar-renderer script[type="application/ld+json"]', // m.youtube.com
 ];
 const videoDescriptionSelector = [
 	'#description.ytd-expandable-video-description-body-renderer',
 	'#meta-contents #description',
-	'.crawler-full-description',
+	'ytm-crawler-description', // m.youtube.com
 ];
 
 /**
@@ -62,7 +65,7 @@ const ytMusicApiCache = new Util.MapCache(ytMusicApiRequest, {
 function getYtMusicApiCache(): Partial<YtApiResult> | null | undefined {
 	const videoId = getVideoId();
 	const title = Util.getTextFromSelectors(videoTitleSelector);
-	const channel = Util.getTextFromSelectors(channelNameSelector);
+	const channel = getChannelName();
 	if (!videoId || !title || !channel) {
 		return null;
 	}
@@ -137,10 +140,14 @@ Connector.getChannelId = () => {
 		'#upload-info .ytd-channel-name a.yt-simple-endpoint',
 		'a.slim-owner-icon-and-title',
 	]);
-	if (!channelAnchors) {
-		return null;
+	if (channelAnchors) {
+		return new URL(channelAnchors[0]!.href).pathname.slice(1);
 	}
-	return new URL(channelAnchors[0]!.href).pathname.slice(1);
+
+	const channelInfoJson = getChannelInfoFromBreadcrumbListJson();
+	if (channelInfoJson) {
+		return channelInfoJson.channelId;
+	}
 };
 Connector.channelLabelSelector = [
 	'#primary #title+#top-row ytd-channel-name .yt-formatted-string',
@@ -335,6 +342,38 @@ function getVideoCategory() {
 	return ytWatchCache.get(videoId)?.category;
 }
 
+function getChannelInfoFromBreadcrumbListJson() {
+	// m.youtube.com
+	const breadcrumbListJson = Util.getTextFromSelectors(
+		breadcrumbListJsonSelectors,
+	);
+	if (breadcrumbListJson) {
+		try {
+			for (const elem of JSON.parse(breadcrumbListJson).itemListElement) {
+				const idUrl = elem?.item?.['@id'];
+				const channelName = elem?.item?.name;
+				const channelId = idUrl.match(
+					/youtube\.com\/channel\/(.+)(?:\/|$)/,
+				)?.[1];
+				if (channelId && channelName) {
+					return { channelId, channelName };
+				}
+			}
+		} catch (e) {}
+	}
+}
+
+function getChannelName() {
+	const channelNameFromSelectors =
+		Util.getTextFromSelectors(channelNameSelector);
+	if (channelNameFromSelectors) {
+		return channelNameFromSelectors;
+	}
+
+	const ytmChannelInfo = getChannelInfoFromBreadcrumbListJson();
+	return ytmChannelInfo?.channelName;
+}
+
 /**
  * Asynchronously read connector options.
  */
@@ -395,7 +434,7 @@ function getTrackInfoFromTitle(): ArtistTrackInfo {
 		Util.getTextFromSelectors(videoTitleSelector),
 	);
 	if (!artist) {
-		const channelName = Util.getTextFromSelectors(channelNameSelector);
+		const channelName = getChannelName();
 		const re =
 			// eslint-disable-next-line no-irregular-whitespace
 			/^(?:Mavzu|Тема|الموضوع|ਵਿਸ਼ਾ)\s[–-]\s|(?:(?:\s[-—–]|[:՝])\s(?:Onderwerp|Mövzu|Topik|tema|Tema|téma|Emne|Thema|teema|Topic|gaia|Paksa|Sujet|Isihloko|Efni|Mada|tēma|téma|emne|temat|Tópico|Subiect|aihekanava|Ämne|Chủ đề|Konu|тэма|Тема|Тақырып|Сэдэв|тема|Θέμα|թեմա|נושא|موضوع|عنوان|विषय|বিষয়বস্তু|বিষয়|મુદ્દો|ବିଷୟ|தலைப்பு|అంశం|ವಿಷಯ|വിഷയം|මාතෘකාව|หัวข้อ|ຫົວ​ຂໍ້|ခေါင်းစဉ်|თემა|ርዕስ|ប្រធាន​បទ|主题|主題|トピック|주제)|\s\(tema\))$/;
