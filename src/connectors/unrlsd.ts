@@ -4,7 +4,7 @@ Connector.playerSelector = 'body';
 
 Connector.getTrack = () => {
 	return (
-		navigator.mediaSession?.metadata?.title ||
+		navigator.mediaSession.metadata?.title ||
 		Util.getTextFromSelectors([
 			'.fixed.bottom-3 h4',
 			'.fixed.bottom-4 h4',
@@ -16,7 +16,7 @@ Connector.getTrack = () => {
 
 Connector.getArtist = () => {
 	return (
-		navigator.mediaSession?.metadata?.artist ||
+		navigator.mediaSession.metadata?.artist ||
 		Util.getTextFromSelectors([
 			'.fixed.bottom-3 h4 + p',
 			'.fixed.bottom-4 h4 + p',
@@ -47,7 +47,7 @@ Connector.getTrackArt = () => {
 		return projectCover;
 	}
 
-	const artwork = navigator.mediaSession?.metadata?.artwork;
+	const artwork = navigator.mediaSession.metadata?.artwork;
 	if (artwork && artwork.length > 0) {
 		const src = artwork[0].src;
 		if (src && !src.includes('icon-512.png')) {
@@ -59,7 +59,7 @@ Connector.getTrackArt = () => {
 
 Connector.isPlaying = () => {
 	return (
-		navigator.mediaSession?.playbackState === 'playing' ||
+		navigator.mediaSession.playbackState === 'playing' ||
 		Util.isElementVisible('.t-icon-swap[data-state="b"]')
 	);
 };
