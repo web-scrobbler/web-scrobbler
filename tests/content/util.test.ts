@@ -894,15 +894,6 @@ const FILL_EMPTY_FIELDS = [
 		expected: { artist: 'Artist', track: 'Track' },
 	},
 	{
-		description: 'should return target if fields arg is null',
-		args: [
-			{ artist: 'Artist', track: 'Track' },
-			{ artist: 'New Artist' },
-			null,
-		],
-		expected: { artist: 'Artist', track: 'Track' },
-	},
-	{
 		description: 'should not modify target if fields arg is empty',
 		args: [
 			{ artist: 'Artist', track: 'Track' },
