@@ -6,6 +6,7 @@ import type Song from '@/core/object/song';
 import type { ConnectorMeta } from '@/core/connectors';
 import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import { sendContentMessage } from '@/util/communication';
+import { getFirstArtistForSong } from '@/core/object/pipeline/first-artist';
 
 const INFO_TO_COPY: ['duration', 'artist', 'track'] = [
 	'duration',
@@ -41,10 +42,15 @@ export async function process(
 		return;
 	}
 
+	const cloneable = song.getCloneableData();
+	const firstArtist = await getFirstArtistForSong(song);
+	if (firstArtist) {
+		cloneable.processed = { ...cloneable.processed, artist: firstArtist };
+	}
 	const songInfoArr = await sendContentMessage({
 		type: 'getSongInfo',
 		payload: {
-			song: song.getCloneableData(),
+			song: cloneable,
 		},
 	});
 	const songInfo = getInfo(songInfoArr);

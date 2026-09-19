@@ -169,8 +169,17 @@ export default class LastFmScrobbler extends AudioScrobbler {
 		return songInfo as ScrobblerSongInfo;
 	}
 
-	/** @override */
-	applyFilter(song: BaseSong): BaseSong {
+	/**
+	 * Apply Last.fm-specific song filters before scrobbling.
+	 *
+	 * Normalizes the album artist to "Various Artists" if it contains the
+	 * phrase, since Last.fm rejects tracks that list a different album artist.
+	 *
+	 * @override
+	 * @param song - Song to filter
+	 * @returns Filtered song
+	 */
+	async applyFilter(song: BaseSong): Promise<BaseSong> {
 		/**
 		 * Last.fm rejects track if album artist contains more then just "Various Artists"
 		 */
@@ -181,7 +190,6 @@ export default class LastFmScrobbler extends AudioScrobbler {
 				? 'Various Artists'
 				: albumArtist;
 		}
-
 		return song;
 	}
 }

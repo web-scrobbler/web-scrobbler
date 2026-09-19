@@ -3,6 +3,8 @@ coverage/**
 node_modules/**
 src/_locales/**
 .xcode/**
+scripts/data/**
+src/static-data/**
 
 package.json
 package-lock.json
