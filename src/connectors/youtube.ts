@@ -184,7 +184,25 @@ Connector.getTimeInfo = () => {
 	return null;
 };
 
+// player-modes (classes on #movie_player):
+//
+// unstarted-mode
+//      v
+// playing-mode <-> (_+buffering-mode)
+//     v ^
+// paused-mode <-> (_+seeking+mode)
+const pausedClasses = ['unstarted-mode', 'paused-mode', 'buffering-mode'];
+
 Connector.isPlaying = () => {
+	const moviePlayerElement = document.querySelector('#movie_player');
+	if (moviePlayerElement) {
+		for (const pausedClass of pausedClasses) {
+			if (moviePlayerElement.classList.contains(pausedClass)) {
+				return false;
+			}
+		}
+	}
+
 	const videoElement =
 		document.querySelector<HTMLVideoElement>('.html5-main-video');
 	return Boolean(videoElement && !videoElement.paused);
