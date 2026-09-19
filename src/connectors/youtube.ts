@@ -1,5 +1,6 @@
 import type { ArtistTrackInfo, State } from '@/core/types';
 import { ytMusicApiRequest, keyFn, YtApiResult } from './api/ytmusic-api';
+import { Category, ytWatchRequest } from './api/yt-watch';
 
 export {};
 
@@ -36,23 +37,17 @@ const videoDescriptionSelector = [
 	'.crawler-full-description',
 ];
 
-// Dummy category indicates an actual category is being fetched
-const categoryPending = 'YT_DUMMY_CATEGORY_PENDING';
-// Fallback value in case when we cannot fetch a category.
-const categoryUnknown = 'YT_DUMMY_CATEGORY_UNKNOWN';
-
-const categoryMusic = 'Music';
-const categoryEntertainment = 'Entertainment';
-
 /**
  * Array of categories allowed to be scrobbled.
  */
 const allowedCategories: string[] = [];
 
 /**
- * "Video Id=Category" map.
+ * "VideoId=Category" cache.
  */
-const categoryCache = new Map<string, string>();
+const ytWatchCache = new Util.MapCache(ytWatchRequest, {
+	cb: Connector.onStateChanged,
+});
 
 /**
  * "VideoId+Title+Channel=TrackInfo+Category+onYtMusic" cache.
@@ -319,59 +314,7 @@ function getVideoCategory() {
 		return null;
 	}
 
-	if (categoryCache.has(videoId)) {
-		return categoryCache.get(videoId);
-	}
-
-	/*
-	 * Add dummy category for videoId to prevent
-	 * fetching category multiple times.
-	 */
-	categoryCache.set(videoId, categoryPending);
-
-	fetchCategoryName(videoId)
-		.then((category) => {
-			Util.debugLog(`Fetched category for ${videoId}: ${category}`);
-			categoryCache.set(videoId, category);
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch category for ${videoId}: ${err}`,
-				'warn',
-			);
-			categoryCache.set(videoId, categoryUnknown);
-		});
-
-	return null;
-}
-
-async function fetchCategoryName(videoId: string) {
-	/*
-	 * We cannot use `location.href`, since it could miss the video URL
-	 * in case when YouTube mini player is visible.
-	 */
-	const videoUrl = `${location.origin}/watch?v=${videoId}`;
-
-	try {
-		/*
-		 * Category info is not available via DOM API, so we should search it
-		 * in a page source.
-		 *
-		 * But we cannot use `document.documentElement.outerHtml`, since it
-		 * is not updated on video change.
-		 */
-		const response = await fetch(videoUrl);
-		const rawHtml = await response.text();
-
-		const categoryMatch = rawHtml.match(/"category":"(.+?)"/);
-		if (categoryMatch !== null) {
-			return categoryMatch[1];
-		}
-	} catch {
-		// Do nothing
-	}
-
-	return categoryUnknown;
+	return ytWatchCache.get(videoId)?.category;
 }
 
 /**
@@ -379,10 +322,10 @@ async function fetchCategoryName(videoId: string) {
  */
 async function readConnectorOptions() {
 	if (await Util.getOption('YouTube', 'scrobbleMusicOnly')) {
-		allowedCategories.push(categoryMusic);
+		allowedCategories.push(Category.Music);
 	}
 	if (await Util.getOption('YouTube', 'scrobbleEntertainmentOnly')) {
-		allowedCategories.push(categoryEntertainment);
+		allowedCategories.push(Category.Entertainment);
 	}
 	Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
 
@@ -411,7 +354,7 @@ function getTrackInfoFromYtMusicApi() {
 	const res = getYtMusicApiCache();
 	if (!res) {
 		return res;
-					}
+	}
 	return res.currentTrackInfo;
 }
 
@@ -476,6 +419,6 @@ function isVideoCategoryAllowed() {
 
 	return (
 		allowedCategories.includes(videoCategory) ||
-		videoCategory === categoryUnknown
+		videoCategory === Category.Unknown
 	);
 }
