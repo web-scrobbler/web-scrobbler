@@ -359,7 +359,12 @@ function getChannelInfoFromBreadcrumbListJson() {
 					return { channelId, channelName };
 				}
 			}
-		} catch (e) {}
+		} catch (e) {
+			Util.debugLog(
+				`yt-mobile: error getting channelName from script-json ${e}`,
+				'warn',
+			);
+		}
 	}
 }
 
