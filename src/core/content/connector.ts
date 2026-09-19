@@ -642,6 +642,7 @@ export default class BaseConnector {
 	private defaultState: State = {
 		track: null,
 		artist: null,
+		artists: null,
 		album: null,
 		albumArtist: null,
 		uniqueID: null,
