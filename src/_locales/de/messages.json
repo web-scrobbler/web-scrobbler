@@ -416,8 +416,12 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Klick auf das Zahnradsymbol um benutzerdefinierte URL-Muster für die Verbinder zu konfigurieren.",
+        "message": "Expand a connector to configure custom URL patterns and other settings.",
         "description": "Description of how to configure custom URL patterns"
+    },
+    "optionsConnectorsWelcome": {
+        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href='$1'>contribute to the project</a>.",
+        "description": "Encouraging message about adding more connectors"
     },
     "optionsSupportedWebsites": {
         "message": "Unterstützte Webseiten",
