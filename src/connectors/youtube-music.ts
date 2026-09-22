@@ -61,7 +61,7 @@ Connector.getArtistTrack = () => {
 	let track;
 	const metadata = mediaInfo.metadata;
 
-	if (metadata?.album) {
+	if (metadata.album) {
 		artist = metadata.artist;
 		track = metadata.title;
 	} else {

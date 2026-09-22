@@ -978,6 +978,26 @@ const FILL_EMPTY_FIELDS = [
 	},
 ];
 
+it('should not modify the target prototype for unsafe fields', () => {
+	const target: Record<string, unknown> = { artist: null };
+	const source: Record<string, unknown> = Object.assign(Object.create(null), {
+		['__proto__']: { polluted: true },
+		constructor: { polluted: true },
+		prototype: { polluted: true },
+	});
+
+	Util.fillEmptyFields(target, source, [
+		'__proto__',
+		'constructor',
+		'prototype',
+	]);
+
+	expect(Object.getPrototypeOf(target)).toBe(Object.prototype);
+	expect(
+		Object.prototype.hasOwnProperty.call(Object.prototype, 'polluted'),
+	).toBe(false);
+});
+
 const YT_DESCRIPTION_EXAMPLE_1 = `Provided to YouTube by IDOL
 
 Tranquility (Forces of Nature Remix) · Aquasky

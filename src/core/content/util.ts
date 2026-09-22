@@ -338,7 +338,11 @@ export function isArtistTrackEmpty(
 	return !(artistTrack && artistTrack.artist && artistTrack.track);
 }
 
-const unsafeStateFields = new Set(['__proto__', 'constructor', 'prototype']);
+const unsafeStateFields = new Set<string>([
+	'__proto__',
+	'constructor',
+	'prototype',
+]);
 
 /**
  * Fill fields of a target object with non-empty field values
@@ -361,7 +365,7 @@ export function fillEmptyFields<
 	}
 
 	for (const field of fields) {
-		if (unsafeStateFields.has(field as string)) {
+		if (typeof field === 'string' && unsafeStateFields.has(field)) {
 			continue;
 		}
 
