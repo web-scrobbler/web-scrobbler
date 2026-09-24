@@ -16,39 +16,50 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	(window as unknown as { cleanup: () => void }).cleanup();
 }
 
-(window as unknown as { cleanup: () => void }).cleanup = (() => {
-	const sendData = () => {
-		window.postMessage(
-			{
-				sender: 'web-scrobbler',
-				playbackState: navigator.mediaSession.playbackState,
-				metadata: {
-					title: navigator.mediaSession.metadata?.title,
-					artist: navigator.mediaSession.metadata?.artist,
-					artwork: navigator.mediaSession.metadata?.artwork,
-					album: navigator.mediaSession.metadata?.album,
-				},
-			},
-			'*',
-		);
+type MessagePayload = {
+	sender: 'web-scrobbler';
+	playbackState: MediaSessionPlaybackState;
+	metadata: {
+		title?: string;
+		artist?: string;
+		artwork?: readonly MediaImage[];
+		album?: string;
 	};
-	const playPauseButton = document.getElementById('play-pause-button');
-	const SongInfo = document.querySelector('.content-info-wrapper');
+};
 
-	const observer = new MutationObserver(sendData);
+(window as unknown as { cleanup: () => void }).cleanup = (() => {
+	let previousPayload: MessagePayload | null = null;
 
-	observer.observe(playPauseButton as Node, {
-		attributes: true,
-	});
+	let pollInterval: number | null = window.setInterval(() => {
+		const payload: MessagePayload = {
+			sender: 'web-scrobbler',
+			playbackState: navigator.mediaSession.playbackState,
+			metadata: {
+				title: navigator.mediaSession.metadata?.title,
+				artist: navigator.mediaSession.metadata?.artist,
+				artwork: navigator.mediaSession.metadata?.artwork,
+				album: navigator.mediaSession.metadata?.album,
+			},
+		};
 
-	observer.observe(SongInfo as Node, {
-		attributes: true,
-		subtree: true,
-	});
+		if (
+			!previousPayload ||
+			payload.playbackState !== previousPayload.playbackState ||
+			payload.metadata.title !== previousPayload.metadata.title ||
+			payload.metadata.artist !== previousPayload.metadata.artist ||
+			payload.metadata.artwork !== previousPayload.metadata.artwork ||
+			payload.metadata.album !== previousPayload.metadata.album
+		) {
+			window.postMessage(payload, '*');
+
+			previousPayload = payload;
+		}
+	}, 1000);
 
 	return () => {
-		// remove the subscribers added by this extension from the array.
-		// we dont have a confirmed reference to it so we have to check all of them.
-		observer.disconnect();
+		if (pollInterval !== null) {
+			window.clearInterval(pollInterval);
+			pollInterval = null;
+		}
 	};
 })();
