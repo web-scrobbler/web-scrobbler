@@ -1,4 +1,6 @@
-import type { ArtistTrackInfo, TrackInfoWithAlbum } from '@/core/types';
+import type { ArtistTrackInfo, State } from '@/core/types';
+import { ytMusicApiRequest, keyFn, YtApiResult } from './api/ytmusic-api';
+import { Category, ytWatchRequest } from './api/yt-watch';
 
 export {};
 
@@ -35,57 +37,82 @@ const videoDescriptionSelector = [
 	'.crawler-full-description',
 ];
 
-// Dummy category indicates an actual category is being fetched
-const categoryPending = 'YT_DUMMY_CATEGORY_PENDING';
-// Fallback value in case when we cannot fetch a category.
-const categoryUnknown = 'YT_DUMMY_CATEGORY_UNKNOWN';
-
-const categoryMusic = 'Music';
-const categoryEntertainment = 'Entertainment';
-
 /**
  * Array of categories allowed to be scrobbled.
  */
 const allowedCategories: string[] = [];
 
 /**
- * "Video Id=Category" map.
+ * "VideoId=Category" cache.
  */
-const categoryCache = new Map<string, string>();
+const ytWatchCache = new Util.MapCache(ytWatchRequest, {
+	cb: Connector.onStateChanged,
+});
 
 /**
- * Wether we should only scrobble music recognised by YouTube Music
+ * "VideoId+Title+Channel=TrackInfo+Category+onYtMusic" cache.
  */
-let scrobbleMusicRecognisedOnly = false;
+const ytMusicApiCache = new Util.MapCache(ytMusicApiRequest, {
+	cb: Connector.onStateChanged,
+	keyFn,
+});
+
+// convenience method to fetch current id, title, channel
+// and deal with possible network errors
+function getYtMusicApiCache(): Partial<YtApiResult> | null | undefined {
+	const videoId = getVideoId();
+	const title = Util.getTextFromSelectors(videoTitleSelector);
+	const channel = Util.getTextFromSelectors(channelNameSelector);
+	if (!videoId || !title || !channel) {
+		return null;
+	}
+	try {
+		return ytMusicApiCache.get({ videoId, title, channel });
+	} catch (e) {
+		Util.debugLog(`YtMusicApi failed: ${e}`, 'error');
+
+		// return dummy response on error
+		return {};
+	}
+}
 
 /**
- * Wether the Youtube Music track info getter is enabled
+ * Wether we should only scrobble music recognised by the YouTube Music API
  */
-let getTrackInfoFromYtMusicEnabled = false;
+let scrobbleYTMusicAPIRecognisedOnly = false;
 
-let currentVideoDescription: string | null = null;
-let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
+/**
+ * Wether the YouTube Music API track info getter is enabled
+ */
+let getTrackInfoFromYTMusicAPIEnabled = false;
 
-const getTrackInfoFromYoutubeMusicCache: {
-	[videoId: string]: {
-		done?: boolean;
-		recognisedByYtMusic?: boolean;
-		videoId?: string | null;
-		currentTrackInfo?: { artist?: string; track?: string };
-	};
-} = {};
+const topicDescriptionCache = new Util.LastCache(
+	Util.parseYtTopicVideoDescription,
+);
 
-const trackInfoGetters: (() =>
-	| ArtistTrackInfo
-	| null
-	| undefined
-	| Record<string, never>
-	| TrackInfoWithAlbum)[] = [
+/**
+ * different methods of getting information for the currently playing track.
+ * once one of them has filled in all required fields (artist, track) the value is used.
+ * the return values have different meanings:
+ * - @type {State}     fill in fields that are not set yet
+ * - @type {null}      method not applicable, skip to the next one.
+ * - @type {undefined} method is still waiting on return value. don't test the other methods, just return nothing.
+ */
+const trackInfoGetters: (() => State | null | undefined)[] = [
 	getTrackInfoFromChapters,
-	getTrackInfoFromYoutubeMusic,
+	getTrackInfoFromYtMusicApi,
 	getTopicArtistTrackFromDescription,
 	getTrackInfoFromTitle,
 ];
+
+export const trackInfoFields = [
+	'artist',
+	'artists',
+	'track',
+	'trackArt',
+	'album',
+	'isPodcast',
+] as const;
 
 readConnectorOptions();
 setupEventListener();
@@ -105,52 +132,33 @@ Connector.loveButtonSelector =
 Connector.unloveButtonSelector =
 	'ytd-watch-metadata like-button-view-model button[aria-pressed="true"]';
 
-Connector.getChannelId = () =>
-	new URL(
-		(
-			Util.queryElements([
-				'#upload-info .ytd-channel-name .yt-simple-endpoint',
-				'.slim-owner-icon-and-title',
-			]) as NodeListOf<HTMLAnchorElement>
-		)?.[0]?.href ?? 'https://youtube.com/',
-	).pathname.slice(1);
-
+Connector.getChannelId = () => {
+	const channelAnchors = Util.queryElements<HTMLAnchorElement>([
+		'#upload-info .ytd-channel-name a.yt-simple-endpoint',
+		'a.slim-owner-icon-and-title',
+	]);
+	if (!channelAnchors) {
+		return null;
+	}
+	return channelAnchors[0].pathname.slice(1);
+};
 Connector.channelLabelSelector = [
 	'#primary #title+#top-row ytd-channel-name .yt-formatted-string',
 	'.slim-owner-icon-and-title .yt-core-attributed-string',
 ];
 
 Connector.getTrackInfo = () => {
-	const trackInfo: TrackInfoWithAlbum = {};
-
-	if (getTrackInfoFromYtMusicEnabled) {
-		const videoId = getVideoId();
-		if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-			// start loading getTrackInfoFromYoutubeMusic
-			getTrackInfoFromYoutubeMusic();
-
-			// wait for getTrackInfoFromYoutubeMusic to finish
-			return trackInfo;
-		}
-	}
+	const trackInfo: State = {};
 
 	for (const getter of trackInfoGetters) {
 		const currentTrackInfo = getter();
-		if (!currentTrackInfo) {
-			continue;
+
+		if (typeof currentTrackInfo === 'undefined') {
+			// wait for getTrackInfoFromYoutubeMusic to finish
+			return null;
 		}
 
-		if (!trackInfo.artist) {
-			trackInfo.artist = currentTrackInfo.artist;
-		}
-
-		if (!trackInfo.track) {
-			trackInfo.track = currentTrackInfo.track;
-		}
-
-		if (!trackInfo.album && 'album' in currentTrackInfo) {
-			trackInfo.album = currentTrackInfo.album;
-		}
+		Util.fillEmptyFields(trackInfo, currentTrackInfo, trackInfoFields);
 
 		if (!Util.isArtistTrackEmpty(trackInfo)) {
 			break;
@@ -176,8 +184,28 @@ Connector.getTimeInfo = () => {
 	return null;
 };
 
+// player-modes (classes on #movie_player):
+//
+// unstarted-mode
+//      v
+// playing-mode <-> (_+buffering-mode)
+//     v ^
+// paused-mode <-> (_+seeking+mode)
+const pausedClasses = ['unstarted-mode', 'paused-mode', 'buffering-mode'];
+
 Connector.isPlaying = () => {
-	return Util.hasElementClass('.html5-video-player', 'playing-mode');
+	const moviePlayerElement = document.querySelector('#movie_player');
+	if (moviePlayerElement) {
+		for (const pausedClass of pausedClasses) {
+			if (moviePlayerElement.classList.contains(pausedClass)) {
+				return false;
+			}
+		}
+	}
+
+	const videoElement =
+		document.querySelector<HTMLVideoElement>('.html5-main-video');
+	return Boolean(videoElement && !videoElement.paused);
 };
 
 Connector.getOriginUrl = () => {
@@ -199,28 +227,12 @@ Connector.scrobblingDisallowedReason = () => {
 		return 'IsAd';
 	}
 
-	// Workaround to prevent scrobbling the video opened in a background tab.
-	if (!isVideoStartedPlaying()) {
-		return 'Other';
-	}
-
-	if (scrobbleMusicRecognisedOnly) {
-		const videoId = getVideoId();
-		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId ?? ''];
-
-		if (!ytMusicCache) {
-			// start loading getTrackInfoFromYoutubeMusic
-			getTrackInfoFromYoutubeMusic();
+	if (scrobbleYTMusicAPIRecognisedOnly) {
+		const res = getYtMusicApiCache();
+		if (typeof res === 'undefined') {
 			return 'IsLoading';
 		}
-
-		if (!ytMusicCache.done) {
-			// not done loading yet
-			return 'IsLoading';
-		}
-
-		if (!ytMusicCache.recognisedByYtMusic) {
-			// not recognised!
+		if (res && !res.recognisedByYtMusic) {
 			return 'NotOnYouTubeMusic';
 		}
 	}
@@ -298,65 +310,29 @@ function getVideoId() {
 }
 
 function getVideoCategory() {
+	if (getTrackInfoFromYTMusicAPIEnabled || scrobbleYTMusicAPIRecognisedOnly) {
+		const res = getYtMusicApiCache();
+
+		if (res !== null) {
+			if (!res || res.category) {
+				return res?.category;
+			}
+			// if ytMusicApi did not get a category
+			// e.g. because they changed the API format
+			// fall back to fetching from /watch html
+		} else {
+			// if res == null, then either video id, title, or channel failed to be found
+			// fall back to fetching from /watch html
+		}
+	}
+
 	const videoId = getVideoId();
 
 	if (!videoId) {
 		return null;
 	}
 
-	if (categoryCache.has(videoId)) {
-		return categoryCache.get(videoId);
-	}
-
-	/*
-	 * Add dummy category for videoId to prevent
-	 * fetching category multiple times.
-	 */
-	categoryCache.set(videoId, categoryPending);
-
-	fetchCategoryName(videoId)
-		.then((category) => {
-			Util.debugLog(`Fetched category for ${videoId}: ${category}`);
-			categoryCache.set(videoId, category);
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch category for ${videoId}: ${err}`,
-				'warn',
-			);
-			categoryCache.set(videoId, categoryUnknown);
-		});
-
-	return null;
-}
-
-async function fetchCategoryName(videoId: string) {
-	/*
-	 * We cannot use `location.href`, since it could miss the video URL
-	 * in case when YouTube mini player is visible.
-	 */
-	const videoUrl = `${location.origin}/watch?v=${videoId}`;
-
-	try {
-		/*
-		 * Category info is not available via DOM API, so we should search it
-		 * in a page source.
-		 *
-		 * But we cannot use `document.documentElement.outerHtml`, since it
-		 * is not updated on video change.
-		 */
-		const response = await fetch(videoUrl);
-		const rawHtml = await response.text();
-
-		const categoryMatch = rawHtml.match(/"category":"(.+?)"/);
-		if (categoryMatch !== null) {
-			return categoryMatch[1];
-		}
-	} catch {
-		// Do nothing
-	}
-
-	return categoryUnknown;
+	return ytWatchCache.get(videoId)?.category;
 }
 
 /**
@@ -364,21 +340,23 @@ async function fetchCategoryName(videoId: string) {
  */
 async function readConnectorOptions() {
 	if (await Util.getOption('YouTube', 'scrobbleMusicOnly')) {
-		allowedCategories.push(categoryMusic);
+		allowedCategories.push(Category.Music);
 	}
 	if (await Util.getOption('YouTube', 'scrobbleEntertainmentOnly')) {
-		allowedCategories.push(categoryEntertainment);
+		allowedCategories.push(Category.Entertainment);
 	}
 	Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
 
 	if (await Util.getOption('YouTube', 'scrobbleMusicRecognisedOnly')) {
-		scrobbleMusicRecognisedOnly = true;
-		Util.debugLog('Only scrobbling when recognised by YouTube Music');
+		scrobbleYTMusicAPIRecognisedOnly = true;
+		Util.debugLog(
+			'Only scrobbling when recognised by the YouTube Music API',
+		);
 	}
 
 	if (await Util.getOption('YouTube', 'enableGetTrackInfoFromYtMusic')) {
-		getTrackInfoFromYtMusicEnabled = true;
-		Util.debugLog('Get track info from YouTube Music enabled');
+		getTrackInfoFromYTMusicAPIEnabled = true;
+		Util.debugLog('Get track info from the YouTube Music API enabled');
 	}
 }
 
@@ -387,120 +365,21 @@ function getVideoDescription() {
 }
 
 function getTopicArtistTrackFromDescription() {
-	const description = getVideoDescription();
-	if (currentVideoDescription === description) {
-		return artistTrackFromDescription;
-	}
-
-	currentVideoDescription = description;
-	artistTrackFromDescription = Util.parseYtTopicVideoDescription(description);
-
-	return artistTrackFromDescription;
+	return topicDescriptionCache.get(getVideoDescription());
 }
 
-function getTrackInfoFromYoutubeMusic():
-	| ArtistTrackInfo
-	| Record<string, never>
-	| undefined {
-	// if neither getTrackInfoFromYtMusicEnabled nor scrobbleMusicRecognisedOnly
-	// are enabled, there is no need to run this getter
-	if (!getTrackInfoFromYtMusicEnabled && !scrobbleMusicRecognisedOnly) {
-		return {};
+function getTrackInfoFromYtMusicApi() {
+	const res = getYtMusicApiCache();
+	if (!res) {
+		return res;
 	}
-
-	const videoId = getVideoId();
-
-	if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-		getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-			videoId: null,
-			done: false,
-			currentTrackInfo: {},
-		};
-	} else {
-		if (!getTrackInfoFromYtMusicEnabled) {
-			// this means that only scrobbleMusicRecognisedOnly is enabled,
-			// therefore only the cache is used and we return {} for the
-			// actual getter
-			return {};
-		}
-
-		if (getTrackInfoFromYoutubeMusicCache[videoId ?? ''].done) {
-			// already ran!
-			return getTrackInfoFromYoutubeMusicCache[videoId ?? '']
-				.currentTrackInfo;
-		}
-		// still running, lets be patient
-		return {};
-	}
-
-	const body = JSON.stringify({
-		context: {
-			client: {
-				// parameters are needed, you get a 400 if you omit these
-				// specific values are just what I got when doing a request
-				// using firefox
-				clientName: 'WEB_REMIX',
-				clientVersion: '1.20221212.01.00',
-			},
-		},
-		captionParams: {},
-		videoId,
-	});
-
-	fetch('https://music.youtube.com/youtubei/v1/player', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body,
-	})
-		.then((response) => response.json())
-		.then((videoInfo) => {
-			// TODO: type videoInfo
-			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-				done: true,
-
-				recognisedByYtMusic:
-					videoInfo.videoDetails?.musicVideoType?.startsWith(
-						'MUSIC_VIDEO_',
-					) || false,
-			};
-
-			// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
-			// not something youtube music actually knows, so it usually gives
-			// wrong results, so we only return if it is that musicVideoType
-			if (
-				videoInfo.videoDetails?.musicVideoType ===
-				'MUSIC_VIDEO_TYPE_OMV'
-			) {
-				getTrackInfoFromYoutubeMusicCache[
-					videoId ?? ''
-				].currentTrackInfo = {
-					artist: videoInfo.videoDetails.author,
-
-					track: videoInfo.videoDetails.title,
-				};
-			}
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch youtube music data for ${videoId}: ${err}`,
-				'warn',
-			);
-			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-				done: true,
-				recognisedByYtMusic: false,
-			};
-		});
+	return res.currentTrackInfo;
 }
 
-function getTrackInfoFromChapters() {
+function getTrackInfoFromChapters(): ArtistTrackInfo | null {
 	// Short circuit if chapters not available - necessary to avoid misscrobbling with SponsorBlock.
 	if (!areChaptersAvailable()) {
-		return {
-			artist: null,
-			track: null,
-		};
+		return null;
 	}
 
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
@@ -546,13 +425,6 @@ function removeNumericPrefix(text: string) {
 	]);
 }
 
-function isVideoStartedPlaying() {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
-	return videoElement && videoElement.currentTime > 0;
-}
-
 function isVideoCategoryAllowed() {
 	if (allowedCategories.length === 0) {
 		return true;
@@ -565,6 +437,6 @@ function isVideoCategoryAllowed() {
 
 	return (
 		allowedCategories.includes(videoCategory) ||
-		videoCategory === categoryUnknown
+		videoCategory === Category.Unknown
 	);
 }

@@ -160,19 +160,19 @@
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Использовать YouTube Music для получения информации о треках",
+        "message": "Использовать YouTube Music API для получения информации о треках",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Использовать YouTube Music для получения информации о треках; если отключено, то будут использованы данные из заголовка и описания видео",
+        "message": "Использовать YouTube Music API для получения информации о треках; если отключено, то будут использованы данные из заголовка и описания видео",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "Скробблить только те видео, которые распознаны сервисом YouTube Music как музыка",
+        "message": "Скробблить только те видео, которые распознаны сервисом YouTube Music API как музыка",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Игнорировать видео, которые не распознаны сервисом YouTube Music как музыка",
+        "message": "Игнорировать видео, которые не распознаны сервисом YouTube Music API как музыка",
         "description": "Option title"
     },
     "optionTheme": {
@@ -704,7 +704,7 @@
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-        "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+        "message": "The YouTube Music API does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized as music by the YouTube Music API\" in settings.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
