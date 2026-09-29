@@ -41,20 +41,30 @@ export type Flags =
 	  }
 	| Record<string, never>;
 
+export type LastFmMetadata = {
+	albumMbId?: string;
+	albumUrl?: string;
+	artistMbId?: string;
+	artistUrl?: string;
+	// MusicBrainz Track ID (last.fm & musicbrainz)
+	trackMbId?: string;
+	trackUrl?: string;
+	trackArtUrl?: string;
+	userPlayCount?: number;
+};
+
 export type Metadata =
-	| {
+	| ({
 			label: string;
 			startTimestamp: number;
 
-			albumMbId?: string;
-			albumUrl?: string;
-			artistUrl?: string;
 			notificationId?: string;
-			trackArtUrl?: string;
-			trackUrl?: string;
-			userPlayCount?: number;
 			userloved?: boolean;
-	  }
+			// MusicBrainz Recording ID (musicbrainz)
+			recordingMbId?: string;
+			// MessyBrainz identifier (for musicbrainz love/hate feedback)
+			recordingMsId?: string;
+	  } & LastFmMetadata)
 	| Record<string, never>;
 
 export interface CloneableSong {
