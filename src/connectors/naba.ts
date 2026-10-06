@@ -8,15 +8,25 @@ const POLL_INTERVAL = 30_000;
 let currentSong: ArtistTrackInfo | null = null;
 let pendingSong: ArtistTrackInfo | null = null;
 
+const PLAYER_SELECTOR = '.player-container';
+
 function isNabaChannel(): boolean {
-	return new URLSearchParams(window.location.search).get('channel') === '6';
+	return (
+		Util.getAttrFromSelectors(`${PLAYER_SELECTOR} .album`, 'title') ===
+		'NABA'
+	);
 }
 
 function checkIsPlaying(): boolean {
 	if (!isNabaChannel()) {
 		return false;
 	}
-	return Util.hasElementClass('.jwplayer', 'jw-state-playing');
+	return (
+		Util.getAttrFromSelectors(
+			`${PLAYER_SELECTOR} .area-controls button[aria-pressed]`,
+			'aria-pressed',
+		) === 'true'
+	);
 }
 
 async function fetchCurrentSong(): Promise<ArtistTrackInfo | null> {
@@ -66,7 +76,7 @@ async function poll(): Promise<void> {
 
 setInterval(poll, POLL_INTERVAL);
 
-Connector.playerSelector = '.jwplayer';
+Connector.playerSelector = PLAYER_SELECTOR;
 
 Connector.getArtistTrack = () => currentSong;
 

@@ -1629,9 +1629,10 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Radio NABA',
-		matches: ['*://latvijasradio.lsm.lv/lv/tiesraide/*'],
+		matches: ['*://live.latvijasradio.lv/*'],
 		js: 'naba.js',
 		id: 'naba',
+		allFrames: true,
 	},
 	{
 		label: 'Radio Nemiers',
