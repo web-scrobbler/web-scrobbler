@@ -17,11 +17,27 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
+	const getMusicVideoType = (): string | undefined => {
+		try {
+			const player = document.getElementById('movie_player') as
+				| (HTMLElement & {
+						getPlayerResponse?: () => {
+							videoDetails?: { musicVideoType?: string };
+						};
+				  })
+				| null;
+			return player?.getPlayerResponse?.()?.videoDetails?.musicVideoType;
+		} catch {
+			return undefined;
+		}
+	};
+
 	const sendData = () => {
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
 				playbackState: navigator.mediaSession.playbackState,
+				musicVideoType: getMusicVideoType(),
 				metadata: {
 					title: navigator.mediaSession.metadata?.title,
 					artist: navigator.mediaSession.metadata?.artist,
