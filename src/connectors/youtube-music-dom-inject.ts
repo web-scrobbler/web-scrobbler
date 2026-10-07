@@ -17,16 +17,17 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
+	type MoviePlayer = HTMLElement & {
+		getPlayerResponse?: () =>
+			| { videoDetails?: { musicVideoType?: string } }
+			| undefined;
+	};
+
 	const getMusicVideoType = (): string | undefined => {
 		try {
-			const player = document.getElementById('movie_player') as
-				| (HTMLElement & {
-						getPlayerResponse?: () => {
-							videoDetails?: { musicVideoType?: string };
-						};
-				  })
-				| null;
-			return player?.getPlayerResponse?.()?.videoDetails?.musicVideoType;
+			return (
+				document.getElementById('movie_player') as MoviePlayer | null
+			)?.getPlayerResponse?.()?.videoDetails?.musicVideoType;
 		} catch {
 			return undefined;
 		}

@@ -75,7 +75,7 @@ Connector.getArtistTrack = () => {
 		track = metadata.title;
 	} else if (
 		mediaInfo.musicVideoType === MUSIC_VIDEO_TYPE_OMV &&
-		metadata?.artist
+		metadata.artist
 	) {
 		({ artist, track } = getArtistTrackFromOfficialVideo(
 			metadata.title,
