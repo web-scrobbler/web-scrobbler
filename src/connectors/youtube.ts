@@ -57,6 +57,7 @@ const categoryCache = new Map<string, string>();
  * Wether we should only scrobble music recognised by YouTube Music
  */
 let scrobbleMusicRecognisedOnly = false;
+let connectorOptionsReady = false;
 
 /**
  * Wether the Youtube Music track info getter is enabled
@@ -87,7 +88,17 @@ const trackInfoGetters: (() =>
 	getTrackInfoFromTitle,
 ];
 
-void readConnectorOptions();
+void readConnectorOptions()
+	.catch((error: unknown) => {
+		Util.debugLog(
+			`Failed to read YouTube connector options: ${error}`,
+			'warn',
+		);
+	})
+	.then(() => {
+		connectorOptionsReady = true;
+		Connector.onStateChanged();
+	});
 setupEventListener();
 
 Connector.playerSelector = ['#content', '#player'];
@@ -197,6 +208,9 @@ Connector.getUniqueID = () => {
 Connector.scrobblingDisallowedReason = () => {
 	if (document.querySelector('.ad-showing')) {
 		return 'IsAd';
+	}
+	if (!connectorOptionsReady) {
+		return 'IsLoading';
 	}
 
 	// Workaround to prevent scrobbling the video opened in a background tab.
