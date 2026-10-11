@@ -338,6 +338,12 @@ export function isArtistTrackEmpty(
 	return !(artistTrack && artistTrack.artist && artistTrack.track);
 }
 
+const unsafeStateFields = new Set<string>([
+	'__proto__',
+	'constructor',
+	'prototype',
+]);
+
 /**
  * Fill fields of a target object with non-empty field values
  * of a source object.
@@ -359,6 +365,10 @@ export function fillEmptyFields<
 	}
 
 	for (const field of fields) {
+		if (typeof field === 'string' && unsafeStateFields.has(field)) {
+			continue;
+		}
+
 		if (!target[field] && source[field]) {
 			target[field] = source[field];
 		}
@@ -801,18 +811,30 @@ export const ytTitleRegExps = [
 	},
 	// Track (... by Artist)
 	{
-		pattern: /(\w[\s\w]*?)\s+\([^)]*\s*by\s*([^)]+)+\)/,
+		pattern: /(\w[\s\w]*?)\s+\([^)]*\s*by\s*([^)]+)\)/,
 		groups: { artist: 2, track: 1 },
 	},
 ];
 
 /**
+ * Detect a cover marker that does not identify the covering artist.
+ *
+ * A title such as "Track - Original Artist cover" is not an artist-track
+ * pair: the artist is the channel owner, while the complete title is the
+ * most useful track value. Keep "cover by Artist" on the regular parsing
+ * path, since it already provides an artist.
+ */
+const ytCoverTitleRegExp = /\bcover\b\s*[)\]】）]?\s*$/i;
+
+/**
  * Extract artist and track from Youtube video title.
  * @param videoTitle - Youtube video title
+ * @param channelName - Youtube channel name, if available
  * @returns Object containing artist and track fields
  */
 export function processYtVideoTitle(
 	videoTitle: string | null | undefined,
+	channelName: string | null = null,
 ): ArtistTrackInfo {
 	let artist = null;
 	let track = null;
@@ -845,6 +867,20 @@ export function processYtVideoTitle(
 	// MV/PV if ending and with whitespace in front
 	title = title.replace(/\s+(MV|PV)$/i, '');
 
+	// A trailing cover marker without an artist must use the channel name.
+	// Without the channel name, the title alone is not enough to distinguish
+	// an unattributed cover from a track whose name happens to end in "cover".
+	const splitTitle = splitArtistTrack(title);
+	if (
+		channelName !== null &&
+		channelName !== '' &&
+		ytCoverTitleRegExp.test(title) &&
+		splitTitle.artist?.trim().toLowerCase() !==
+			channelName.trim().toLowerCase()
+	) {
+		return { artist, track: title };
+	}
+
 	// Try to match one of the regexps
 	for (const regExp of ytTitleRegExps) {
 		const artistTrack = regExp.pattern.exec(title);
@@ -857,7 +893,7 @@ export function processYtVideoTitle(
 
 	// No match? Try splitting, then.
 	if (isArtistTrackEmpty({ artist, track })) {
-		({ artist, track } = splitArtistTrack(title));
+		({ artist, track } = splitTitle);
 	}
 
 	// No match? Check for 【】

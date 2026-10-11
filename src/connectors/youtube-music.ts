@@ -61,13 +61,16 @@ Connector.getArtistTrack = () => {
 	let track;
 	const metadata = mediaInfo.metadata;
 
-	if (metadata?.album) {
+	if (metadata.album) {
 		artist = metadata.artist;
 		track = metadata.title;
 	} else {
-		({ artist, track } = Util.processYtVideoTitle(metadata?.title));
+		({ artist, track } = Util.processYtVideoTitle(
+			metadata.title,
+			metadata.artist,
+		));
 		if (!artist) {
-			artist = metadata?.artist;
+			artist = metadata.artist;
 		}
 	}
 	return { artist, track };
