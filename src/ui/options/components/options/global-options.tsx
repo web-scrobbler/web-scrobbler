@@ -74,6 +74,14 @@ export default function GlobalOptionsList(props: {
 					i18nlabel="optionAutoToggleLove"
 					key={Options.AUTO_TOGGLE_LOVE}
 				/>
+				<GlobalOptionEntry
+					options={props.options}
+					setOptions={props.setOptions}
+					globalOptions={globalOptions}
+					i18ntitle="optionFirstArtistOnlyTitle"
+					i18nlabel="optionFirstArtistOnly"
+					key={Options.FIRST_ARTIST_ONLY}
+				/>
 			</ul>
 		</>
 	);
