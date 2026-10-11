@@ -90,8 +90,10 @@ const trackInfoGetters: (() =>
 
 void readConnectorOptions()
 	.catch((error: unknown) => {
+		const errorMessage =
+			error instanceof Error ? error.toString() : String(error);
 		Util.debugLog(
-			`Failed to read YouTube connector options: ${error}`,
+			`Failed to read YouTube connector options: ${errorMessage}`,
 			'warn',
 		);
 	})

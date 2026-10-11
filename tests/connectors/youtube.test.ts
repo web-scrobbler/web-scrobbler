@@ -91,4 +91,19 @@ describe('YouTube connector initialization', () => {
 			connector.onStateChanged,
 		);
 	});
+
+	it('stringifies non-Error option read failures', async () => {
+		const getOption = vi.fn().mockRejectedValue('storage unavailable');
+		const { connector, util } = setupConnector(getOption);
+
+		await loadConnector();
+		await vi.waitFor(() => {
+			expect(connector.onStateChanged).toHaveBeenCalledTimes(1);
+		});
+
+		expect(util.debugLog).toHaveBeenCalledWith(
+			'Failed to read YouTube connector options: storage unavailable',
+			'warn',
+		);
+	});
 });
