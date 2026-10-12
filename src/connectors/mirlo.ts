@@ -1,11 +1,8 @@
 export {};
 
-Connector.playerSelector = '#player';
-Connector.trackSelector = `${Connector.playerSelector} #player-track-title`;
-Connector.artistSelector = `${Connector.playerSelector} #player-artist-name`;
-Connector.albumSelector = `${Connector.playerSelector} #player-trackGroup-title`;
-Connector.trackArtSelector = `${Connector.playerSelector} img`;
-Connector.playButtonSelector = `${Connector.playerSelector} .play-button`;
-Connector.isPlaying = () =>
-	Util.getAttrFromSelectors(Connector.playButtonSelector, 'aria-label') !==
-	'Play';
+Connector.playerSelector = '.web-scrobbler-player';
+Connector.trackSelector = `${Connector.playerSelector} .web-scrobbler-track`;
+Connector.artistSelector = `${Connector.playerSelector} .web-scrobbler-artist`;
+Connector.albumSelector = `${Connector.playerSelector} .web-scrobbler-album`;
+Connector.trackArtSelector = `${Connector.playerSelector} .web-scrobbler-track-art`;
+Connector.playButtonSelector = `${Connector.playerSelector} .web-scrobbler-play-button`;
