@@ -37,7 +37,8 @@ async function fetchCurrentSong(): Promise<ArtistTrackInfo | null> {
 			return null;
 		}
 		return Util.splitArtistTrack(data.songString);
-	} catch {
+	} catch (err) {
+		Util.debugLog(`Error: ${err?.toString()}`, 'error');
 		return null;
 	}
 }
@@ -74,7 +75,7 @@ async function poll(): Promise<void> {
 	}
 }
 
-setInterval(poll, POLL_INTERVAL);
+setInterval(() => void poll(), POLL_INTERVAL);
 
 Connector.playerSelector = PLAYER_SELECTOR;
 
