@@ -41,6 +41,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 	observer.observe(playPauseButton as Node, {
 		attributes: true,
+		subtree: true,
 	});
 
 	observer.observe(SongInfo as Node, {
