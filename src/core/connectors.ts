@@ -2503,4 +2503,10 @@ export default <ConnectorMeta[]>[
 		js: 'soundscout.js',
 		id: 'soundscout',
 	},
+	{
+		label: 'zig-zag.fm',
+		matches: ['*://zig-zag.fm/*', '*://www.zig-zag.fm/*'],
+		js: 'zig-zag.fm.js',
+		id: 'zig-zag.fm',
+	},
 ];
