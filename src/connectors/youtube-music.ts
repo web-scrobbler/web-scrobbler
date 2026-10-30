@@ -20,7 +20,12 @@ export {};
  * Uploaded songs have different artist and track selectors
  */
 
-const adSelector = '.ytmusic-player-bar.advertisement';
+// The redesigned player renders as 'ytmusic-miniplayer'; selector arrays
+// keep the legacy markup first and fall back to it, first match wins.
+const adSelector = [
+	'.ytmusic-player-bar.advertisement',
+	'ytmusic-miniplayer.advertisement',
+];
 
 const mediaInfo = {
 	playbackState: 'none',
@@ -42,7 +47,7 @@ Connector.onScriptEvent = (event) => {
 	};
 };
 
-Connector.playerSelector = 'ytmusic-player-bar';
+Connector.playerSelector = ['ytmusic-player-bar', 'ytmusic-miniplayer'];
 
 Connector.isTrackArtDefault = (url) => {
 	// Self-uploaded tracks could not have cover arts
@@ -73,15 +78,22 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
+Connector.timeInfoSelector = [
+	'.ytmusic-player-bar.time-info',
+	'ytmusic-miniplayer .time-info',
+];
 
 Connector.isPlaying = () => mediaInfo.playbackState === 'playing';
 
-Connector.loveButtonSelector =
-	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]';
+Connector.loveButtonSelector = [
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]',
+	'like-button-view-model button[aria-pressed="false"]',
+];
 
-Connector.unloveButtonSelector =
-	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]';
+Connector.unloveButtonSelector = [
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]',
+	'like-button-view-model button[aria-pressed="true"]',
+];
 
 Connector.getUniqueID = () => {
 	const uniqueId = new URLSearchParams(window.location.search).get('v');
