@@ -66,8 +66,10 @@ export const common: Manifest.WebExtensionManifest = {
 /**
  * Manifest for chromium browsers
  */
-export const chromeManifest: Manifest.WebExtensionManifest = {
+export const chromeManifest: Manifest.WebExtensionManifest & { key: string } = {
 	...common,
+	// Keep unpacked builds on the published extension ID and its existing storage.
+	key: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPvRk2TRWcLqM9RsKXmxBHM6hFBHYhUUQfffv/RpRVum6le1VvH5Ld9oRGG5rrBaAt7DDs6IsYKk7TzZoaqq/1ajW+dZsxtvTVZ9ylnwmBZ1yNbe1vYz/2QYthS1lmVhDheLzZwN19eQ0FKkSlejeRZ4+eMcqLrcuf5ReKEDpCXwIDAQAB',
 	background: {
 		service_worker: 'background/main.js',
 	},

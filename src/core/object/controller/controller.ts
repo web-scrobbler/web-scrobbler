@@ -86,6 +86,7 @@ export default class Controller {
 
 	private forceScrobble = false;
 	private shouldHaveScrobbled = false;
+	private recoveringScrobble: Song | null = null;
 
 	private isEditing = false;
 	private setNotEditingTimeout = setTimeout(() => {
@@ -887,7 +888,8 @@ export default class Controller {
 		if (isPlayingStateChanged && isPlaying !== void 0) {
 			this.onPlayingStateChanged(isPlaying);
 		} else if (
-			this.mode === ControllerMode.Disallowed &&
+			(this.mode === ControllerMode.Disallowed ||
+				this.shouldHaveScrobbled) &&
 			(await this.shouldScrobble()) &&
 			isPlaying
 		) {
@@ -1019,7 +1021,7 @@ export default class Controller {
 
 			// Maybe the song was not marked as playing yet
 			if (
-				!isMarkedAsPlaying &&
+				(!isMarkedAsPlaying || this.shouldHaveScrobbled) &&
 				this.currentSong.isValid() &&
 				(await this.shouldScrobble())
 			) {
@@ -1128,7 +1130,9 @@ export default class Controller {
 		if (
 			!assertSongNotNull(this.currentSong) ||
 			!this.currentSong.isValid() ||
-			!(await this.shouldScrobble())
+			!(await this.shouldScrobble()) ||
+			this.currentSong.flags.isScrobbled ||
+			this.recoveringScrobble === this.currentSong
 		) {
 			return;
 		}
@@ -1142,6 +1146,22 @@ export default class Controller {
 		if (!this.currentSong.flags.finishedProcessing) {
 			this.debugLog('Song set as loading');
 			this.setMode(ControllerMode.Loading);
+			return;
+		}
+
+		if (this.shouldHaveScrobbled) {
+			// The timer already fired while this play was blocked. Recover the
+			// scrobble itself, rather than only sending another Now Playing update.
+			const song = this.currentSong;
+			this.recoveringScrobble = song;
+			this.shouldHaveScrobbled = false;
+			try {
+				await this.scrobbleSong();
+			} finally {
+				if (this.recoveringScrobble === song) {
+					this.recoveringScrobble = null;
+				}
+			}
 			return;
 		}
 
@@ -1283,6 +1303,7 @@ export default class Controller {
 		if (await this.saveFailedScrobble()) {
 			return;
 		}
+		this.shouldHaveScrobbled = false;
 		if (this.scrobbleCacheId) {
 			scrobbleCache.deleteScrobbles([this.scrobbleCacheId]);
 			this.scrobbleCacheId = null;

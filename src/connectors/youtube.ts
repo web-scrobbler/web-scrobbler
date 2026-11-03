@@ -177,7 +177,11 @@ Connector.getTimeInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	return Util.hasElementClass('.html5-video-player', 'playing-mode');
+	const video = document.querySelector<HTMLVideoElement>(videoSelector);
+	// The player can have playing-mode while background autoplay is paused.
+	return Boolean(
+		video && video.currentTime > 0 && !video.paused && !video.ended,
+	);
 };
 
 Connector.getOriginUrl = () => {
@@ -197,11 +201,6 @@ Connector.getUniqueID = () => {
 Connector.scrobblingDisallowedReason = () => {
 	if (document.querySelector('.ad-showing')) {
 		return 'IsAd';
-	}
-
-	// Workaround to prevent scrobbling the video opened in a background tab.
-	if (!isVideoStartedPlaying()) {
-		return 'Other';
 	}
 
 	if (scrobbleMusicRecognisedOnly) {
@@ -236,9 +235,18 @@ Connector.applyFilter(
 );
 
 function setupEventListener() {
-	document
-		.querySelector(videoSelector)
-		?.addEventListener('timeupdate', Connector.onStateChanged);
+	// Capture media events so this also works for videos created or replaced later.
+	for (const eventName of ['timeupdate', 'play', 'pause', 'ended']) {
+		document.addEventListener(
+			eventName,
+			(event) => {
+				if ((event.target as Element | null)?.matches(videoSelector)) {
+					Connector.onStateChanged();
+				}
+			},
+			true,
+		);
+	}
 }
 
 function areChaptersAvailable() {
@@ -544,13 +552,6 @@ function removeNumericPrefix(text: string) {
 		 */
 		{ source: /^\(\d{1,2}\)\./, target: '' },
 	]);
-}
-
-function isVideoStartedPlaying() {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
-	return videoElement && videoElement.currentTime > 0;
 }
 
 function isVideoCategoryAllowed() {

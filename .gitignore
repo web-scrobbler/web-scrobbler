@@ -1,6 +1,9 @@
 # Build
 /build/
 /*.zip
+*.crx
+*.pem
+/privatekey.txt
 
 # IDE
 /.idea/

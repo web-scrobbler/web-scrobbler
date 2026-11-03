@@ -58,6 +58,12 @@ To install the extension from sources or zip file, read
 [this page][WikiUnpacked] if you're on Chrome, or [this one][WikiTempAddon]
 if you use Firefox.
 
+For local Chrome Web Store and Opera updates, see
+[updating without losing settings or cache](docs/youtube-background-scrobbling.md#updating-a-local-build-in-chrome-or-opera).
+Use **Load unpacked** with the built `build/chrome` folder. The Chromium build
+includes the public key for the Chrome Web Store extension ID, so it can use
+the existing extension's storage.
+
 ## Development
 
 ### Build the extension
@@ -66,20 +72,28 @@ Before building the extension you should install dependencies:
 
 ```sh
 # Install dependencies
-> npm install
+> npm ci
 
 # Build the extension
-> npm run build firefox
+> npm run dist firefox
 # or
-> npm run build chrome
+> npm run dist chrome
 # or (requires Xcode (xcrun and xcodebuild))
-> npm run build safari
+> npm run dist safari
 ```
 
-The built extension is available in `build` directory. You can install it as an
-unpacked extension from this directory.
+The built extension is available in the browser's subdirectory of `build`, such
+as `build/chrome` or `build/firefox`. You can load that directory as an unpacked
+extension. Chromium distribution builds also produce `web-scrobbler-chrome.zip`.
 
 The detailed build instruction is available [here][BuildInstructions].
+
+### YouTube background playback
+
+Version 3.23.2 fixes YouTube videos opened paused in a background tab being saved
+as disallowed scrobbles after playback starts. Playback timing now follows the
+video element, and eligible plays recover after a temporary block clears. See
+the [troubleshooting and verification notes](docs/youtube-background-scrobbling.md).
 
 ### Develop connectors
 
