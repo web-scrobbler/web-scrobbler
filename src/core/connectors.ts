@@ -2503,4 +2503,10 @@ export default <ConnectorMeta[]>[
 		js: 'soundscout.js',
 		id: 'soundscout',
 	},
+	{
+		label: 'NEXT',
+		matches: ['*://nextsong.app/*'],
+		js: 'nextsong.js',
+		id: 'nextsong',
+	},
 ];
