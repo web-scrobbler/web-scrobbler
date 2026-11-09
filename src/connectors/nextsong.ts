@@ -30,3 +30,16 @@ Connector.isPlaying = () => {
 Connector.getDuration = () => getAudio()?.duration;
 
 Connector.getCurrentTime = () => getAudio()?.currentTime;
+
+/**
+ * The SAVE key reports its state through aria-pressed. During album
+ * playback it saves the whole album rather than the playing track, so
+ * love is only synced when it saves the song itself.
+ */
+Connector.isLoved = () => {
+	const saveButton = document.querySelector('[data-save-target]');
+	if (saveButton?.getAttribute('data-save-target') !== 'song') {
+		return null;
+	}
+	return saveButton.getAttribute('aria-pressed') === 'true';
+};
