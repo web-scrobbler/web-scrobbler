@@ -1,5 +1,5 @@
 import { glob } from 'glob';
-import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import fs from 'fs-extra';
 import path from 'node:path';
 import sharp from 'sharp';
 import type { PluginOption } from 'vite';
@@ -32,15 +32,14 @@ async function minifyImage(sourcePath: string, destinationDir?: string) {
 		? path.join(destinationDir, path.basename(sourcePath))
 		: sourcePath;
 
-	const { size } = await stat(sourcePath);
+	const { size } = await fs.stat(sourcePath);
 	const useOptimized = data.length < size;
 	if (!useOptimized && !destinationDir) {
 		return;
 	}
 
-	await mkdir(path.dirname(destinationPath), { recursive: true });
-	const output = useOptimized ? data : await readFile(sourcePath);
-	await writeFile(destinationPath, output);
+	const output = useOptimized ? data : await fs.readFile(sourcePath);
+	await fs.outputFile(destinationPath, output);
 }
 
 async function minifyImagesIn(pattern: string, destinationDir?: string) {
