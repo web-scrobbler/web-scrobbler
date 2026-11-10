@@ -1,4 +1,4 @@
-Connector.playerSelector = "footer";
+Connector.playerSelector = 'footer';
 
 Connector.useMediaSessionApi();
 
