@@ -1,10 +1,8 @@
 export {};
 
-Connector.playerSelector = '.player';
+Connector.playerSelector = '#audio_player';
 
-Connector.artistSelector = `${Connector.playerSelector} .artiste`;
+Connector.isPlaying = () => Util.isElementVisible('#player-pause-btn');
 
-Connector.trackSelector = `${Connector.playerSelector} .titre`;
-
-Connector.isPlaying = () =>
-	Util.hasElementClass('#jp_container_1', 'jp-state-playing');
+Connector.getArtistTrack = () =>
+	Util.splitArtistTrack(Util.getTextFromSelectors('.current-track.title'));

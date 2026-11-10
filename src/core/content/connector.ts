@@ -1,6 +1,6 @@
 import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import browser from 'webextension-polyfill';
-import type { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
+import type { ArtistTrackInfo, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
 import type { ConnectorMeta } from '../connectors';
 import type { DisallowedReason } from '../object/disallowed-reason';
@@ -104,8 +104,6 @@ export default class BaseConnector {
 	 * Selector of a play button element. If the element is not visible,
 	 * the playback is considered to be playing.
 	 *
-	 * Should not be used if Connector#pauseButtonSelector is defined.
-	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
 	 */
@@ -114,8 +112,6 @@ export default class BaseConnector {
 	/**
 	 * Selector of a pause button element. If the element is visible,
 	 * the playback is considered to be playing.
-	 *
-	 * Should not be used if `Connector.playButtonSelector` is defined.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
@@ -319,7 +315,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Track info
 	 */
-	public getTrackInfo: () => BaseState | null | undefined = () => null;
+	public getTrackInfo: () => State | null | undefined = () => null;
 
 	/**
 	 * Returns a unique identifier of current track. The identifier does not
@@ -663,22 +659,22 @@ export default class BaseConnector {
 	 * List of song fields used to check if song is changed. If any of
 	 * these fields are changed, the new song is playing.
 	 */
-	private fieldsToCheckSongChange: (keyof State)[] = [
+	private fieldsToCheckSongChange = [
 		'artist',
 		'track',
 		'album',
 		'albumArtist',
 		'uniqueID',
-	];
+	] as const;
 	// #v-endif
-	private mediaSessionFields: (keyof State)[] = [
+	private mediaSessionFields = [
 		'artist',
 		'track',
 		'album',
 		'trackArt',
-	];
-	private artistTrackFields: (keyof State)[] = ['artist', 'track'];
-	private timeInfoFields: (keyof State)[] = ['duration', 'currentTime'];
+	] as const;
+	private artistTrackFields = ['artist', 'track'] as const;
+	private timeInfoFields = ['duration', 'currentTime'] as const;
 
 	/**
 	 * Gathered info about the current track for internal use.
@@ -795,19 +791,20 @@ export default class BaseConnector {
 		};
 
 		this.isPlaying = () => {
-			if (this.playButtonSelector) {
-				return !Util.isElementVisible(this.playButtonSelector);
-			}
+			const notPaused = () =>
+				this.playButtonSelector
+					? !Util.isElementVisible(this.playButtonSelector)
+					: null;
 
-			if (this.pauseButtonSelector) {
-				return Util.isElementVisible(this.pauseButtonSelector);
-			}
+			const playing = this.pauseButtonSelector
+				? Util.isElementVisible(this.pauseButtonSelector)
+				: null;
 
 			/*
 			 * Return true if play/pause button selector is not specified. It's
 			 * better to assume the playback is always playing than otherwise. :)
 			 */
-			return true;
+			return (playing || notPaused()) ?? playing ?? true;
 		};
 
 		this.getTrackArt = () => {
@@ -910,7 +907,7 @@ export default class BaseConnector {
 		};
 
 		this.getCurrentState = () => {
-			const newState = {
+			const newState = <State>{
 				albumArtist: this.getAlbumArtist(),
 				uniqueID: this.getUniqueID(),
 				duration: this.getDuration(),

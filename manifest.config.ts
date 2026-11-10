@@ -13,7 +13,7 @@ export const common: Manifest.WebExtensionManifest = {
 	version: pkg.version,
 
 	permissions: ['storage', 'contextMenus', 'notifications', 'scripting'],
-	host_permissions: ['http://*/', 'https://*/'],
+	optional_host_permissions: ['http://*/', 'https://*/'],
 
 	content_scripts: [
 		{

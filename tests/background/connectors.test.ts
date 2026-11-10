@@ -79,6 +79,34 @@ function testUniqueness(entry: ConnectorMeta) {
 	}
 }
 
+function* getConnectorFiles() {
+	const connectorsPath = path.join(__dirname, '../../src/connectors');
+	const dir = fs.opendirSync(connectorsPath);
+	const ignoredExtensions = ['.d.ts', '-dom-inject.ts'];
+	while (true) {
+		const dirent = dir.readSync();
+		if (!dirent) {
+			break;
+		}
+		if (!dirent.isFile() || !dirent.name.endsWith('.ts')) {
+			continue;
+		}
+		if (ignoredExtensions.find((ext) => dirent.name.endsWith(ext))) {
+			continue;
+		}
+		yield dirent.name;
+	}
+	dir.closeSync();
+}
+
+function usedByConnector(filename: string) {
+	const searchname = filename.replace(/\.ts$/, '.js');
+	assert(
+		!!connectors.find((meta) => meta.js === searchname),
+		`Connector file unused: ${filename}`,
+	);
+}
+
 function runTests() {
 	for (const entry of connectors) {
 		describe(entry.label, () => {
@@ -96,6 +124,13 @@ function runTests() {
 
 			it('should have unique id', () => {
 				testUniqueness(entry);
+			});
+		});
+	}
+	for (const connectorFile of getConnectorFiles()) {
+		describe(connectorFile, () => {
+			it('should be used by at least one connector', () => {
+				usedByConnector(connectorFile);
 			});
 		});
 	}

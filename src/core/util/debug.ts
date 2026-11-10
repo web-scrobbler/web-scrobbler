@@ -1,6 +1,6 @@
 'use strict';
 
-const Options = import('@/core/storage/options');
+import browser from 'webextension-polyfill';
 
 /**
  * Log type for debug messages.
@@ -14,9 +14,13 @@ export type DebugLogType = 'log' | 'error' | 'warn' | 'info';
 class DebugLogQueue {
 	private queue: { text: unknown; logType: DebugLogType }[] = [];
 	private isActive = false;
-	private shouldPrint = Options.then((awaitedOptions) =>
-		awaitedOptions.getOption(awaitedOptions.DEBUG_LOGGING_ENABLED),
-	);
+	private shouldPrint = (browser.storage.sync || browser.storage.local)
+		.get('Options')
+		.then((storageEntries) => {
+			type PartialStorage = Record<string, unknown | undefined>;
+			const Options = storageEntries.Options as PartialStorage;
+			return Options?.['debugLoggingEnabled'];
+		});
 
 	/**
 	 * Enqueue a log message to be printed.

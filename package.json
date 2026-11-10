@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "3.22.0",
+  "version": "3.23.1",
   "author": "David Šabata <posta@davidsabata.cz>",
   "contributors": [
     "@mountainash (https://mountainash.id.au/)"
@@ -14,15 +14,17 @@
     "build": "tsx build.ts",
     "checkts": "tsc --noEmit && tsc --noEmit --project tsconfig.connectors.json",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "run-p lint:eslint lint:stylelint lint:prettier lint:markdown lint:circular",
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint \"**/*.scss\"",
     "lint:prettier": "prettier . --check",
     "lint:markdown": "remark .",
-    "lint:circular": "madge --extensions ts,tsx --circular src",
+    "lint:circular": "madge --circular src",
     "prettierfix": "prettier . --write",
     "fixstyle": "stylelint \"**/*.scss\" --fix",
-    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
+    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -48,6 +50,7 @@
     "@types/node": "24.10.0",
     "@types/react": "19.1.13",
     "@types/webextension-polyfill": "0.12.5",
+    "@vitest/coverage-istanbul": "3.2.4",
     "@web-scrobbler/eslint-config": "4.0.0",
     "@web-scrobbler/stylelint-config": "2.0.0",
     "archiver": "7.0.1",
@@ -61,6 +64,7 @@
     "eslint-plugin-tsdoc": "0.5.2",
     "fs-extra": "11.3.2",
     "glob": "11.1.0",
+    "husky": "^9.1.7",
     "imagemin": "9.0.1",
     "imagemin-jpegtran": "8.0.0",
     "imagemin-pngquant": "10.0.0",
@@ -72,7 +76,7 @@
     "remark-cli": "12.0.1",
     "remark-preset-lint-recommended": "7.0.1",
     "sass": "1.93.3",
-    "solid-js": "1.9.11",
+    "solid-js": "1.9.17",
     "tsx": "4.20.6",
     "typescript": "5.9.2",
     "typescript-eslint": "8.44.0",
@@ -102,6 +106,18 @@
     "rules": {
       "at-rule-prelude-no-invalid": null,
       "declaration-property-value-no-unknown": null
+    }
+  },
+  "madge": {
+    "tsConfig": "./tsconfig.json",
+    "fileExtensions": [
+      "ts",
+      "tsx"
+    ],
+    "detectiveOptions": {
+      "ts": {
+        "skipTypeImports": true
+      }
     }
   },
   "license": "MIT"

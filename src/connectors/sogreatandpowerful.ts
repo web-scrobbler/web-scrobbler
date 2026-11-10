@@ -10,15 +10,11 @@ Util.bindListeners(
 );
 
 Connector.getTimeInfo = () => {
-	const audioElems = Util.queryElements(['audio']);
+	const audioElems = Util.queryElements<HTMLAudioElement>(['audio']);
 	if (!audioElems) {
 		return null;
 	}
 
-	const audioElement = audioElems[0];
-	if (!audioElement || !(audioElement instanceof HTMLAudioElement)) {
-		return null;
-	}
-	const { duration, currentTime } = audioElement;
+	const { duration, currentTime } = audioElems[0];
 	return { duration, currentTime };
 };

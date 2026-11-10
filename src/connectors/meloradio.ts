@@ -2,9 +2,9 @@ export {};
 
 Connector.playerSelector = '#player';
 
-Connector.artistSelector = '#player .player__top__text__line--1';
+Connector.artistSelector = '#player .player__rds__desc';
 
-Connector.trackSelector = '#player .player__top__text__line--2';
+Connector.trackSelector = '#player .player__rds__title';
 
 Connector.trackArtSelector = '#player .player__rds__image img';
 

@@ -53,11 +53,11 @@ Connector.scrobblingDisallowedReason = () => {
 	);
 	cue = parseInt(Util.getAttrFromSelectors('.cPlay input', 'value') ?? '');
 	currentTime = Util.getSecondsFromSelectors('#playerWidgetCurrentTime') ?? 0;
-	const noIDs = Util.queryElements('.cPlay .redTxt')?.length ?? 0;
+	const noIDs = !Util.queryElements('.cPlay .redTxt');
 	const mashup = Util.hasElementClass(
 		'.cPlay span.trackValue',
 		'mashupTrack',
 	);
 
-	return noIDs <= 0 && (cue > 0 || nextCue > 0) && !mashup ? null : 'Other';
+	return noIDs && (cue > 0 || nextCue > 0) && !mashup ? null : 'Other';
 };
