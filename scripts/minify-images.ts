@@ -18,9 +18,8 @@ const jpegOptions: sharp.JpegOptions = {
 };
 
 /**
- * Minify an image with sharp, writing the result only when it is smaller than
- * the source. When a destination directory is given the file is always written
- * there, falling back to the unmodified source when optimisation does not help.
+ * Minify an image with sharp. When a destination directory is given the file
+ * is written there, otherwise it is minified in place.
  */
 async function minifyImage(sourcePath: string, destinationDir?: string) {
 	const isPng = path.extname(sourcePath).toLowerCase() === '.png';
@@ -32,14 +31,7 @@ async function minifyImage(sourcePath: string, destinationDir?: string) {
 		? path.join(destinationDir, path.basename(sourcePath))
 		: sourcePath;
 
-	const { size } = await fs.stat(sourcePath);
-	const useOptimized = data.length < size;
-	if (!useOptimized && !destinationDir) {
-		return;
-	}
-
-	const output = useOptimized ? data : await fs.readFile(sourcePath);
-	await fs.outputFile(destinationPath, output);
+	await fs.outputFile(destinationPath, data);
 }
 
 async function minifyImagesIn(pattern: string, destinationDir?: string) {
