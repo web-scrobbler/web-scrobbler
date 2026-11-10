@@ -108,8 +108,8 @@ Licensed under the [MIT License][License].
 
 [CrowdinBadge]: https://badges.crowdin.net/web-scrobbler-test/localized.svg
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=firefox-browser&logoColor=white
-[CodacyBadge]: https://img.shields.io/codacy/grade/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
-[CodacyCoverageBadge]: https://img.shields.io/codacy/coverage/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
+[CodacyBadge]: https://app.codacy.com/project/badge/Grade/ab1b7aac4f4f4f0d84a2ff3906be05cf
+[CodacyCoverageBadge]: https://app.codacy.com/project/badge/Coverage/ab1b7aac4f4f4f0d84a2ff3906be05cf
 [DiscordBadge]: https://img.shields.io/discord/716363971070001202?logo=discord&logoColor=white&color=7289dA
 [EdgeBadge]: https://img.shields.io/badge/dynamic/json?label=edge&logo=microsoft-edge&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fobiekdelmkmlgnhddmmnpnfhngejbnnc
 [GitHubActionsBadge]: https://img.shields.io/github/actions/workflow/status/web-scrobbler/web-scrobbler/test.yml

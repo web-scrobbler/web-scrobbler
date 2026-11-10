@@ -733,7 +733,9 @@ export default class Controller {
 
 		const isSongChanged = this.isSongChanged(newState);
 
-		if (isSongChanged || this.isReplayingSong) {
+		if (Util.isArtistTrackEmpty(newState)) {
+			this.reset();
+		} else if (isSongChanged || this.isReplayingSong) {
 			if (newState.isPlaying) {
 				this.processNewState(newState);
 			} else {

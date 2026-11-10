@@ -129,6 +129,7 @@ function setupSecondObserver() {
 		if (observeTarget !== null) {
 			playerObserver.disconnect();
 			setupObserver(observeTarget);
+			Connector.onStateChanged();
 		}
 	});
 

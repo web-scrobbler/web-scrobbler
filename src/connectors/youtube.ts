@@ -6,7 +6,7 @@ export {};
  * Quick links to debug and test the connector:
  *
  * https://www.youtube.com/watch?v=WA3hL4hDx9c - auto-generated music video
- * The connector should get info via `getTrackInfoFromDescription` function
+ * The connector should get info via `getTopicArtistTrackFromDescription` function
  *
  * https://www.youtube.com/watch?v=eYLbteOm42k - video with chapters available
  * The connector should get info via `getTrackInfoFromChapters` function
@@ -83,7 +83,7 @@ const trackInfoGetters: (() =>
 	| TrackInfoWithAlbum)[] = [
 	getTrackInfoFromChapters,
 	getTrackInfoFromYoutubeMusic,
-	getTrackInfoFromDescription,
+	getTopicArtistTrackFromDescription,
 	getTrackInfoFromTitle,
 ];
 
@@ -253,18 +253,17 @@ function areChaptersAvailable() {
 		return false;
 	}
 
-	if (text) {
-		// YouTube introduced putting text into the current chapter element for
-		// referring users to the timeline ("In this video"). hard to check for
-		// because that text gets translated, we can however check if the
-		// description has a chapter like that, if not it's not a real chapter
-		if (
-			!document.querySelector(
-				`.ytd-watch-metadata ytd-macro-markers-list-item-renderer #details:has([title="${CSS.escape(text)}"]):has(#time)`,
-			)
-		) {
-			return false;
-		}
+	// Chapters from the description have an "engagement panel" (sidebar),
+	// separate from "auto-chapters" which also have a one, but it's different.
+	// Some Music Videos also get text "In this video" inserted where the chapter
+	// would be, which this also catches because that only gets inserted when
+	// there are no description chapters.
+	if (
+		!document.querySelector(
+			'[target-id="engagement-panel-macro-markers-description-chapters"]',
+		)
+	) {
+		return false;
 	}
 
 	// Return the text if no sponsorblock text.
@@ -387,14 +386,14 @@ function getVideoDescription() {
 	return Util.getTextFromSelectors(videoDescriptionSelector)?.trim() ?? null;
 }
 
-function getTrackInfoFromDescription() {
+function getTopicArtistTrackFromDescription() {
 	const description = getVideoDescription();
 	if (currentVideoDescription === description) {
 		return artistTrackFromDescription;
 	}
 
 	currentVideoDescription = description;
-	artistTrackFromDescription = Util.parseYtVideoDescription(description);
+	artistTrackFromDescription = Util.parseYtTopicVideoDescription(description);
 
 	return artistTrackFromDescription;
 }
@@ -517,7 +516,11 @@ function getTrackInfoFromTitle(): ArtistTrackInfo {
 		Util.getTextFromSelectors(videoTitleSelector),
 	);
 	if (!artist) {
-		artist = Util.getTextFromSelectors(channelNameSelector);
+		const channelName = Util.getTextFromSelectors(channelNameSelector);
+		const re =
+			// eslint-disable-next-line no-irregular-whitespace
+			/^(?:Mavzu|Тема|الموضوع|ਵਿਸ਼ਾ)\s[–-]\s|(?:(?:\s[-—–]|[:՝])\s(?:Onderwerp|Mövzu|Topik|tema|Tema|téma|Emne|Thema|teema|Topic|gaia|Paksa|Sujet|Isihloko|Efni|Mada|tēma|téma|emne|temat|Tópico|Subiect|aihekanava|Ämne|Chủ đề|Konu|тэма|Тема|Тақырып|Сэдэв|тема|Θέμα|թեմա|נושא|موضوع|عنوان|विषय|বিষয়বস্তু|বিষয়|મુદ્દો|ବିଷୟ|தலைப்பு|అంశం|ವಿಷಯ|വിഷയം|මාතෘකාව|หัวข้อ|ຫົວ​ຂໍ້|ခေါင်းစဉ်|თემა|ርዕስ|ប្រធាន​បទ|主题|主題|トピック|주제)|\s\(tema\))$/;
+		artist = channelName?.replace(re, '') ?? null;
 	}
 
 	return { artist, track };

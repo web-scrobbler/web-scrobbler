@@ -61,7 +61,10 @@ export default function ContactComponent() {
 					</li>
 				</a>
 				<a
-					href={t('contactPrivacyPolicyUrl')}
+					href={
+						t('contactPrivacyPolicyUrl') ||
+						'/_locales/en/privacy.md'
+					}
 					target="_blank"
 					rel="noopener noreferrer"
 				>

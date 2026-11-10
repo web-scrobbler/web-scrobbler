@@ -134,10 +134,10 @@ const OVERRIDE_CONTENT = {
 
 export interface ConnectorOptions {
 	YouTube: {
-		scrobbleMusicOnly: boolean;
-		scrobbleEntertainmentOnly: boolean;
 		scrobbleMusicRecognisedOnly: boolean;
 		enableGetTrackInfoFromYtMusic: boolean;
+		scrobbleMusicOnly: boolean;
+		scrobbleEntertainmentOnly: boolean;
 	};
 }
 
@@ -146,10 +146,10 @@ export interface ConnectorOptions {
  */
 const DEFAULT_CONNECTOR_OPTIONS: ConnectorOptions = {
 	YouTube: {
-		scrobbleMusicOnly: false,
+		scrobbleMusicRecognisedOnly: true,
+		enableGetTrackInfoFromYtMusic: true,
+		scrobbleMusicOnly: true,
 		scrobbleEntertainmentOnly: false,
-		scrobbleMusicRecognisedOnly: false,
-		enableGetTrackInfoFromYtMusic: false,
 	},
 };
 

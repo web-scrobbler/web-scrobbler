@@ -256,6 +256,7 @@ function TrackData(props: { song: Accessor<ClonedSong | null> }) {
 				class={styles.bold}
 				href={createTrackURL(
 					props.song()?.getArtist(),
+					props.song()?.getAlbum(),
 					props.song()?.getTrack(),
 				)}
 				title={t('infoViewTrackPage', props.song()?.getTrack() ?? '')}
@@ -307,6 +308,7 @@ function TrackMetadata(props: { song: Accessor<ClonedSong | null> }) {
 				href={createTrackLibraryURL(
 					session()?.sessionName,
 					props.song()?.getArtist(),
+					props.song()?.getAlbum(),
 					props.song()?.getTrack(),
 				)}
 				title={t(

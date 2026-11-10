@@ -50,13 +50,6 @@ export default <ConnectorMeta[]>[
 		id: 'bandcamp',
 	},
 	{
-		label: 'BNDCMPR',
-		matches: ['*://bndcmpr.co/*'],
-		js: 'bndcmpr.js',
-		id: 'bndcmpr',
-		allFrames: true,
-	},
-	{
 		label: 'Buy Music Club',
 		matches: ['*://www.buymusic.club/*'],
 		js: 'buymusicclub.js',
@@ -79,6 +72,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.deezer.com/*'],
 		js: 'deezer.js',
 		id: 'deezer',
+	},
+	{
+		label: 'WEFUNK Radio',
+		matches: ['*://session.wefunkradio.com/*', '*://www.wefunkradio.com/*'],
+		js: 'wefunkradio.js',
+		id: 'wefunkradio',
 	},
 	{
 		label: 'SoundCloud',
@@ -114,12 +113,6 @@ export default <ConnectorMeta[]>[
 		id: 'vk',
 	},
 	{
-		label: 'Megalyrics',
-		matches: ['*://megalyrics.ru/*'],
-		js: 'megalyrics.js',
-		id: 'megalyrics',
-	},
-	{
 		label: 'iHeart',
 		matches: ['*://*.iheart.com/*'],
 		js: 'iheart.js',
@@ -152,28 +145,10 @@ export default <ConnectorMeta[]>[
 		hasNativeScrobbler: true,
 	},
 	{
-		label: 'plug.dj',
-		matches: ['*://plug.dj/*'],
-		js: 'plug.dj.js',
-		id: 'plug.dj',
-	},
-	{
 		label: 'Dandelion Radio',
 		matches: ['*://www.dandelionradio.com/player.htm'],
 		js: 'dandelionradio.js',
 		id: 'dandelionradio',
-	},
-	{
-		label: 'HillyDilly',
-		matches: ['*://www.hillydilly.com/*'],
-		js: 'hillydilly.js',
-		id: 'hillydilly',
-	},
-	{
-		label: '8tracks',
-		matches: ['*://8tracks.com/*'],
-		js: '8tracks.js',
-		id: '8tracks',
 	},
 	{
 		label: 'SoGreatandPowerful',
@@ -199,22 +174,10 @@ export default <ConnectorMeta[]>[
 		id: 'nova',
 	},
 	{
-		label: 'Radioplus',
-		matches: ['*://www.radioplus.be/*', '*://radioplus.be/*'],
-		js: 'radioplus.js',
-		id: 'radioplus',
-	},
-	{
 		label: 'Радио Premium',
 		matches: ['*://rpfm.ru/*'],
 		js: 'rpfm.js',
 		id: 'rpfm',
-	},
-	{
-		label: 'Douban.FM',
-		matches: ['*://douban.fm/*', '*://fm.douban.fm/*'],
-		js: 'douban.fm.js',
-		id: 'douban.fm',
 	},
 	{
 		label: 'Focus@Will',
@@ -282,6 +245,13 @@ export default <ConnectorMeta[]>[
 		id: 'tunein',
 	},
 	{
+		label: 'Mixcloud Embed',
+		matches: ['*://player-widget.mixcloud.com/*'],
+		js: 'mixcloud-embed.js',
+		id: 'mixcloud-embed',
+		allFrames: true,
+	},
+	{
 		label: 'Mixcloud',
 		matches: ['*://*.mixcloud.com/*'],
 		js: 'mixcloud.js',
@@ -310,6 +280,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://odnoklassniki.ru/*', '*://ok.ru/*'],
 		js: 'odnoklassniki.js',
 		id: 'odnoklassniki',
+	},
+	{
+		label: 'outrahora rádio',
+		matches: ['*://*.outrahora.com/*'],
+		js: 'outrahora.js',
+		id: 'outrahora',
 	},
 	{
 		label: 'Overcast',
@@ -360,12 +336,6 @@ export default <ConnectorMeta[]>[
 		id: 'hypem',
 	},
 	{
-		label: 'Radionomy',
-		matches: ['*://www.radionomy.com/*'],
-		js: 'radionomy.js',
-		id: 'radionomy',
-	},
-	{
 		label: 'J1 Radio',
 		matches: [
 			'*://www.j1fm.tokyo/player/*',
@@ -381,40 +351,22 @@ export default <ConnectorMeta[]>[
 		id: 'jazzandrain',
 	},
 	{
-		label: 'RelaxingBeats',
-		matches: ['*://*.relaxingbeats.com/*'],
-		js: 'jazzandrain.js',
-		id: 'relaxingbeats',
-	},
-	{
-		label: 'EpicMusicTime',
-		matches: ['*://*.epicmusictime.com/*'],
-		js: 'jazzandrain.js',
-		id: 'epicmusictime',
-	},
-	{
-		label: 'AccuJazz',
-		matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
-		js: 'accujazz.js',
-		id: 'accujazz',
-	},
-	{
 		label: 'AccuRadio',
 		matches: ['*://www.accuradio.com/*'],
 		js: 'accuradio.js',
 		id: 'accuradio',
 	},
 	{
+		label: 'I Love Music',
+		matches: ['*://ilovemusic.de/*'],
+		js: 'ilovemusic.js',
+		id: 'ilmovemusic',
+	},
+	{
 		label: 'Imusic.am',
 		matches: ['*://imusic.am/*'],
 		js: 'imusic.am.js',
 		id: 'imusic.am',
-	},
-	{
-		label: 'Earbits',
-		matches: ['*://www.earbits.com/*'],
-		js: 'earbits.js',
-		id: 'earbits',
 	},
 	{
 		label: 'Player.fm',
@@ -459,12 +411,6 @@ export default <ConnectorMeta[]>[
 		id: 'audius',
 	},
 	{
-		label: 'GetWorkDoneMusic',
-		matches: ['*://*.getworkdonemusic.com/*'],
-		js: 'getworkdonemusic.js',
-		id: 'getworkdonemusic',
-	},
-	{
 		label: 'Jamendo',
 		matches: ['*://www.jamendo.com/*'],
 		js: 'jamendo.js',
@@ -486,12 +432,6 @@ export default <ConnectorMeta[]>[
 		label: 'Kodi',
 		js: 'kodi.js',
 		id: 'kodi',
-	},
-	{
-		label: 'Superplayer',
-		matches: ['*://www.superplayer.fm/*'],
-		js: 'superplayer.js',
-		id: 'superplayer',
 	},
 	{
 		label: 'RMFON',
@@ -555,18 +495,6 @@ export default <ConnectorMeta[]>[
 		id: 'beatport',
 	},
 	{
-		label: 'Beeline Music',
-		matches: ['*://music.beeline.ru/*'],
-		js: 'beeline-music.js',
-		id: 'beeline-music',
-	},
-	{
-		label: 'wavo',
-		matches: ['*://wavo.me/*'],
-		js: 'wavo.js',
-		id: 'wavo',
-	},
-	{
 		label: 'FluxFM Berlin',
 		matches: ['*://www.fluxfm.de/*'],
 		js: 'fluxfm.js',
@@ -598,22 +526,10 @@ export default <ConnectorMeta[]>[
 		id: 'youradio',
 	},
 	{
-		label: 'GPMusic',
-		matches: ['*://player.gpmusic.co/*'],
-		js: 'gpmusic.js',
-		id: 'gpmusic',
-	},
-	{
 		label: 'Nightwave Plaza',
 		matches: ['*://plaza.one/*'],
 		js: 'plaza.js',
 		id: 'plaza',
-	},
-	{
-		label: 'Retrowave',
-		matches: ['*://retrowave.ru/*'],
-		js: 'retrowave.js',
-		id: 'retrowave',
 	},
 	{
 		label: 'Genie',
@@ -632,18 +548,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://open.fm/*'],
 		js: 'openfm.js',
 		id: 'openfm',
-	},
-	{
-		label: 'Playmoss',
-		matches: ['*://playmoss.com/*'],
-		js: 'playmoss.js',
-		id: 'playmoss',
-	},
-	{
-		label: 'Apidog',
-		matches: ['*://apidog.ru/*'],
-		js: 'apidog.js',
-		id: 'apidog',
 	},
 	{
 		label: 'Pinguin Radio',
@@ -688,106 +592,42 @@ export default <ConnectorMeta[]>[
 		id: 'hoopladigital',
 	},
 	{
-		label: 'Amplify 817',
-		matches: ['*://amplify817.org/*'],
+		label: 'MUSICat', // musicat.co/libraries
+		matches: [
+			'*://capitalcityrecords.ca/*', // EDMONTON PUBLIC LIBRARY
+			'*://amplify817.org/*', // FORT WORTH PUBLIC LIBRARY
+			'*://playback.spl.org/*', // THE SEATTLE PUBLIC LIBRARY
+			'*://hum.slcpl.org/*', // SALT LAKE CITY PUBLIC LIBRARY
+			'*://hclib.musicat.co/*', // HENNEPIN COUNTY LIBRARY
+			'*://atxlibrary.musicat.co/*', // AUSTIN PUBLIC LIBRARY
+			'*://librarymusicproject.com/*', // MULTNOMAH COUNTY LIBRARY
+			'*://stacks.carnegielibrary.org/*', // CARNEGIE LIBRARY of PITTSBURGH
+			'*://tracksmusiclibrary.org/*', // CHAPEL HILL PUBLIC LIBRARY
+			'*://flipside.apl.org/*', // APPLETON PUBLIC LIBRARY
+			'*://qcbeats.org/*', // DAVENPORT PUBLIC LIBRARY
+			'*://boombox.nashvillepubliclibrary.org/*', // NASHVILLE PUBLIC LIBRARY
+			'*://thebeathartford.co/*', // HARTFORD PUBLIC LIBRARY
+			'*://records.lilaccitylocal.com/*', // SPOKANE PUBLIC LIBRARY
+			'*://baybeats.sfpl.org/*', // SAN FRANCISCO PUBLIC LIBRARY
+			'*://vibes.kdl.org/*', // KENT DISTRICT LIBRARY
+			'*://blast.hmcpl.org/*', // HUNTSVILLE-MADISON COUNTY PUBLIC LIBRARY
+			'*://music.lplks.org/*', // LAWRENCE PUBLIC LIBRARY
+			'*://memphis.musicat.co/*', // MEMPHIS PUBLIC LIBRARIES
+			'*://sawdustcitysounds.org/*', // L.E. PHILLIPS MEMORIAL PUBLIC LIBRARY
+			'*://crescentcitysounds.org/*', // NEW ORLEANS PUBLIC LIBRARY
+			'*://waves.tadl.org/*', // TRAVERSE AREA PUBLIC LIBARY
+			'*://smllogjam.org/*', // SHREVE MEMORIAL LIBRARY
+			'*://pimadesertstreams.org/*', // PIMA COUNTY PUBLIC LIBRARY
+			'*://redstickrhythms.org/*', // EAST BATON ROUGE PARISH LIBRARY
+		],
 		js: 'musicat.js',
-		id: 'amplify817',
-	},
-	{
-		label: 'Capital City Records',
-		matches: ['*://capitalcityrecords.ca/*'],
-		js: 'musicat.js',
-		id: 'capitalcityrecords',
-	},
-	{
-		label: 'Electric Lady Bird',
-		matches: ['*://atxlibrary.musicat.co/*'],
-		js: 'musicat.js',
-		id: 'musicat-atxlibrary',
-	},
-	{
-		label: 'FlipSide',
-		matches: ['*://flipside.apl.org/*'],
-		js: 'musicat.js',
-		id: 'apl-flipside',
-	},
-	{
-		label: 'HUM (Hear Utah Music)',
-		matches: ['*://hum.slcpl.org/*'],
-		js: 'musicat.js',
-		id: 'slcpl-hum',
-	},
-	{
-		label: 'KDL Vibes',
-		matches: ['*://vibes.kdl.org/*'],
-		js: 'musicat.js',
-		id: 'kdl-vibes',
-	},
-	{
-		label: 'Library Music Project',
-		matches: ['*://librarymusicproject.com/*'],
-		js: 'musicat.js',
-		id: 'librarymusicproject',
-	},
-	{
-		label: 'MNspin',
-		matches: ['*://hclib.musicat.co/*'],
-		js: 'musicat.js',
-		id: 'musicat-hclib',
-	},
-	{
-		label: 'Nashville BoomBox',
-		matches: ['*://boombox.nashvillepubliclibrary.org/*'],
-		js: 'musicat.js',
-		id: 'nashville-library-boombox',
-	},
-	{
-		label: 'QC Beats',
-		matches: ['*://qcbeats.org/*'],
-		js: 'musicat.js',
-		id: 'qcbeats',
+		id: 'musicat',
 	},
 	{
 		label: 'Q-Dance',
 		matches: ['*://www.q-dance.com/*'],
 		js: 'q-dance.js',
 		id: 'q-dance',
-	},
-	{
-		label: 'Sawdust City Sounds',
-		matches: ['*://sawdustcitysounds.org/*'],
-		js: 'musicat.js',
-		id: 'sawdustcitysounds',
-	},
-	{
-		label: 'Seattle PlayBack',
-		matches: ['*://playback.spl.org/*'],
-		js: 'musicat.js',
-		id: 'spl-playback',
-	},
-	{
-		label: 'STACKS',
-		matches: ['*://stacks.carnegielibrary.org/*'],
-		js: 'musicat.js',
-		id: 'carnegielibrary-stacks',
-	},
-	{
-		label: 'Tracks Music Library',
-		matches: ['*://tracksmusiclibrary.org/*'],
-		js: 'musicat.js',
-		id: 'tracksmusiclibrary',
-	},
-	{
-		label: 'Bay Beats',
-		matches: ['*://baybeats.sfpl.org/*'],
-		js: 'musicat.js',
-		id: 'baybeats',
-	},
-	{
-		label: 'Monstercat',
-		matches: ['*://www.monstercat.com/*', '*://player.monstercat.com/*'],
-		js: 'monstercat.js',
-		id: 'monstercat',
 	},
 	{
 		label: 'Listen.moe',
@@ -805,40 +645,15 @@ export default <ConnectorMeta[]>[
 		id: 'animebits',
 	},
 	{
-		label: 'Fair Price Music',
-		matches: ['*://www.fairpricemusic.com/*'],
-		js: 'fairpricemusic.js',
-		id: 'fairpricemusic',
-	},
-	{
-		label: 'Radio ULTRA',
-		matches: ['*://player.radioultra.ru/*'],
-		js: 'radioultra.js',
-		id: 'radioultra',
-	},
-	{
-		label: 'Наше Радио',
-		matches: ['*://player.nashe.ru/*'],
-		js: 'radioultra.js',
-		id: 'nashe',
-	},
-	{
-		label: 'RockFM',
-		matches: ['*://player.rockfm.ru/*'],
-		js: 'radioultra.js',
-		id: 'rockfm',
-	},
-	{
-		label: 'Radio JAZZ',
-		matches: ['*://player.radiojazzfm.ru/*'],
-		js: 'radioultra.js',
-		id: 'radiojazzfm',
-	},
-	{
-		label: 'WO Streaming',
-		matches: ['*://*player.wostreaming.net/*'],
-		js: 'wostreaming.js',
-		id: 'wostreaming',
+		label: 'ULTRA Production Radios',
+		matches: [
+			'*://www.nashe.ru/*',
+			'*://www.rockfm.ru/*',
+			'*://radiojazzfm.ru/*',
+			'*://radioultra.ru/*',
+		],
+		js: 'ultraproduction.js',
+		id: 'ultraproduction',
 	},
 	{
 		label: 'Listen Live',
@@ -854,36 +669,6 @@ export default <ConnectorMeta[]>[
 		],
 		js: 'planetradio.js',
 		id: 'planetradio',
-	},
-	{
-		label: 'Roxx Radio',
-		matches: ['*://roxx.gr/radio/*'],
-		js: 'roxx.js',
-		id: 'roxx',
-	},
-	{
-		label: 'ListenOnRepeat',
-		matches: ['*://listenonrepeat.com/*'],
-		js: 'listenonrepeat.js',
-		id: 'listenonrepeat',
-	},
-	{
-		label: 'Duckburg Radio',
-		matches: ['*://*.radio-mb.com/*'],
-		js: 'radio-mb.js',
-		id: 'radio-mb',
-	},
-	{
-		label: 'Webradio.de',
-		matches: ['*://www.webradio.de/*'],
-		js: 'radioplayer.js',
-		id: 'webradio.de',
-	},
-	{
-		label: 'The Breeze',
-		matches: ['*://www.thebreeze.com/*/radioplayer/*'],
-		js: 'radioplayer.js',
-		id: 'thebreeze',
 	},
 	{
 		label: 'RadioPlayer',
@@ -935,12 +720,6 @@ export default <ConnectorMeta[]>[
 		id: 'qq-video',
 	},
 	{
-		label: 'Naver',
-		matches: ['*://playerui.music.naver.com/*'],
-		js: 'naver.js',
-		id: 'naver',
-	},
-	{
 		label: 'Naver Vibe',
 		matches: ['*://vibe.naver.com/*'],
 		js: 'naver-vibe.js',
@@ -972,12 +751,6 @@ export default <ConnectorMeta[]>[
 		id: 'npr',
 	},
 	{
-		label: 'Streamsquid',
-		matches: ['*://streamsquid.com/*'],
-		js: 'streamsquid.js',
-		id: 'streamsquid',
-	},
-	{
 		label: 'Streemlion',
 		matches: ['*://listen.streemlion.com/*'],
 		js: 'streemlion.js',
@@ -997,7 +770,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Music Walker',
-		matches: ['*://arkanath.com/MusicWalker/*'],
+		matches: ['*://musicwalker.app/*'],
 		js: 'musicwalker.js',
 		id: 'musicwalker',
 	},
@@ -1020,12 +793,6 @@ export default <ConnectorMeta[]>[
 		id: 'musicoin',
 	},
 	{
-		label: '181.fm',
-		matches: ['*://player.181fm.com/*'],
-		js: '181.fm.js',
-		id: '181.fm',
-	},
-	{
 		label: 'Phish.in',
 		matches: ['*://phish.in/*'],
 		js: 'phish.in.js',
@@ -1045,34 +812,10 @@ export default <ConnectorMeta[]>[
 		id: 'rainwave',
 	},
 	{
-		label: 'Retro Synthwave',
-		matches: ['*://www.retro-synthwave.com/*'],
-		js: 'retro-synthwave.js',
-		id: 'retro-synthwave',
-	},
-	{
 		label: 'Радиоволна.нет',
 		matches: ['*://radiovolna.net/*'],
 		js: 'radiovolna.js',
 		id: 'radiovolna',
-	},
-	{
-		label: 'Feedbands',
-		matches: ['*://feedbands.com/*'],
-		js: 'feedbands.js',
-		id: 'feedbands',
-	},
-	{
-		label: 'Taazi',
-		matches: ['*://taazi.com/*'],
-		js: 'taazi.js',
-		id: 'taazi',
-	},
-	{
-		label: 'Patari',
-		matches: ['*://patari.pk/*'],
-		js: 'patari.js',
-		id: 'patari',
 	},
 	{
 		label: 'pCloud',
@@ -1175,12 +918,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://letsloop.com/*'],
 		js: 'letsloop.js',
 		id: 'letsloop',
-	},
-	{
-		label: 'Mideast Tunes',
-		matches: ['*://mideastunes.com/*', '*://map.mideastunes.com/*'],
-		js: 'mideastunes.js',
-		id: 'mideastunes',
 	},
 	{
 		label: 'mujRozhlas',
@@ -1290,23 +1027,10 @@ export default <ConnectorMeta[]>[
 		id: 'funkwhale',
 	},
 	{
-		label: '9128.live',
-		matches: ['*://9128.live/*', '*://embed.radio.co/player/*'],
-		js: 'radioco.js',
-		id: '9128.live',
-		allFrames: true,
-	},
-	{
 		label: 'Radio.co',
 		matches: ['*://embed.radio.co/player/*'],
 		js: 'radioco.js',
 		id: 'radioco',
-	},
-	{
-		label: 'Super45.fm',
-		matches: ['*://super45.fm/'],
-		js: 'radioco.js',
-		id: 'super45fm',
 		allFrames: true,
 	},
 	{
@@ -1320,12 +1044,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*music.apple.com/*'],
 		js: 'musickit.js',
 		id: 'apple-music',
-	},
-	{
-		label: 'Primephonic',
-		matches: ['*://play.primephonic.com/*'],
-		js: 'primephonic.js',
-		id: 'primephonic',
 	},
 	{
 		label: 'Watch2Gether',
@@ -1344,12 +1062,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.gds.fm/*', '*://gds.fm/*'],
 		js: 'gds.fm.js',
 		id: 'gds',
-	},
-	{
-		label: 'Wynk Music',
-		matches: ['*://wynk.in/music*'],
-		js: 'wynk.js',
-		id: 'wynk',
 	},
 	{
 		label: 'RadioJavan',
@@ -1376,12 +1088,6 @@ export default <ConnectorMeta[]>[
 		id: 'thecurrent',
 	},
 	{
-		label: 'pan y rosas discos',
-		matches: ['*://www.panyrosasdiscos.net/*'],
-		js: 'panyrosasdiscos.js',
-		id: 'panyrosasdiscos',
-	},
-	{
 		label: 'GRRIF',
 		matches: ['*://*.grrif.ch/*'],
 		js: 'grrif.js',
@@ -1398,12 +1104,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.jango.com/*'],
 		js: 'jango.js',
 		id: 'jango',
-	},
-	{
-		label: 'PlayIrish',
-		matches: ['*://*.playirish.ie/*'],
-		js: 'playirish.js',
-		id: 'playirish',
 	},
 	{
 		label: 'Radio Record',
@@ -1448,12 +1148,6 @@ export default <ConnectorMeta[]>[
 		id: 'smoothfm',
 	},
 	{
-		label: 'Vodafone.fm',
-		matches: ['*://vodafone.fm/*'],
-		js: 'vodafone.fm.js',
-		id: 'vodafonefm',
-	},
-	{
 		label: 'Relisten.net',
 		matches: ['*://relisten.net/*'],
 		js: 'relisten.js',
@@ -1476,13 +1170,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://app.chillhop.com/*'],
 		js: 'chillhop-radio.js',
 		id: 'chillhop-radio',
-	},
-	{
-		label: 'DatPiff',
-		matches: ['*://www.datpiff.com/player/*'],
-		js: 'datpiff.js',
-		id: 'datpiff',
-		allFrames: true,
 	},
 	{
 		label: 'Shuffle',
@@ -1527,12 +1214,6 @@ export default <ConnectorMeta[]>[
 		id: 'rtbf',
 	},
 	{
-		label: 'TuneTrack',
-		matches: ['*://tunetrack.net/*'],
-		js: 'tunetrack.js',
-		id: 'tunetrack',
-	},
-	{
 		label: 'Musify',
 		matches: ['*://*.musify.club/*'],
 		js: 'musify.js',
@@ -1567,12 +1248,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://app.jqbx.fm/*'],
 		js: 'jqbx.js',
 		id: 'jqbx',
-	},
-	{
-		label: 'music.jsososo.com',
-		matches: ['*://y.jsososo.com/*', '*://music.jsososo.com/*'],
-		js: 'jsososo.js',
-		id: 'jsososo',
 	},
 	{
 		label: 'Supla',
@@ -1617,12 +1292,6 @@ export default <ConnectorMeta[]>[
 		id: 'truckersfm',
 	},
 	{
-		id: 'winampify',
-		label: 'Winampify',
-		js: 'winampify.js',
-		matches: ['*://winampify.io/*'],
-	},
-	{
 		label: 'detektor.fm',
 		matches: ['*://detektor.fm/*'],
 		js: 'detektorfm.js',
@@ -1647,22 +1316,10 @@ export default <ConnectorMeta[]>[
 		id: 'radionemiers',
 	},
 	{
-		label: 'TOWER RECORDS MUSIC',
-		matches: ['*://music.tower.jp/*'],
-		js: 'towerrecordsmusic.js',
-		id: 'towerrecordsmusic',
-	},
-	{
 		label: 'Eggs',
 		matches: ['*://eggs.mu/*'],
 		js: 'eggs.js',
 		id: 'eggs',
-	},
-	{
-		label: 'Jamstash',
-		matches: ['*://jamstash.com/*'],
-		js: 'jamstash.js',
-		id: 'jamstash',
 	},
 	{
 		label: 'SubFire',
@@ -1713,7 +1370,7 @@ export default <ConnectorMeta[]>[
 		id: 'bullofheavencom',
 	},
 	{
-		label: 'All Classical Portland',
+		label: 'All Classical Radio',
 		matches: ['*://player.allclassical.org/*'],
 		js: 'allclassical.org.js',
 		id: 'allclassicalportland',
@@ -1732,7 +1389,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Street Voice',
-		matches: ['*://streetvoice.cn/*', '*://streetvoice.com/*'],
+		matches: ['*://www.streetvoice.cn/*', '*://streetvoice.com/*'],
 		js: 'streetvoice.js',
 		id: 'streetvoice',
 	},
@@ -1783,6 +1440,12 @@ export default <ConnectorMeta[]>[
 		id: 'zvuk',
 	},
 	{
+		label: 'Lyda',
+		matches: ['*://lyda.app/*'],
+		js: 'lyda.js',
+		id: 'lyda',
+	},
+	{
 		label: 'Navidrome',
 		js: 'navidrome.js',
 		id: 'navidrome',
@@ -1793,14 +1456,9 @@ export default <ConnectorMeta[]>[
 		id: 'lms',
 	},
 	{
-		label: 'deep-cut.fm',
-		matches: [
-			'*://deepcut.fm/*',
-			'*://turntable.fm/*',
-			'*://deep-cut.fm/*',
-			'*://deepcuts.fm/*',
-		],
-		js: 'deep-cut.fm.js',
+		label: 'deepcut',
+		matches: ['*://deepcut.live/*'],
+		js: 'deepcut.js',
 		id: 'deepcut.fm',
 	},
 	{
@@ -1822,13 +1480,10 @@ export default <ConnectorMeta[]>[
 		id: 'cbcmusic',
 	},
 	{
-		label: 'Indie88',
-		matches: [
-			'*://indie88.com/lean-stream-player/*',
-			'*://cob.leanplayer.com/CINDFM*',
-		],
-		js: 'indie88.js',
-		id: 'indie88',
+		label: 'leanplayer',
+		matches: ['*://*.leanplayer.com/*'],
+		js: 'leanplayer.js',
+		id: 'leanplayer',
 	},
 	{
 		label: 'Playlist Randomizer',
@@ -1846,8 +1501,20 @@ export default <ConnectorMeta[]>[
 		id: 'queup',
 	},
 	{
-		label: 'Live 365',
-		matches: ['*://*.live365.com/*'],
+		label: 'SoundStack',
+		matches: [
+			'*://*.mystreamplayer.com/*',
+			'*://player.gotradio.com/*',
+			'*://player.live365.com/*',
+			'*://player.181fm.com/*',
+		],
+		js: 'soundstack.js',
+		id: 'soundstack',
+		allFrames: true,
+	},
+	{
+		label: 'Live365',
+		matches: ['*://live365.com/*'],
 		js: 'live365.js',
 		id: 'live365',
 	},
@@ -1862,12 +1529,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://eulerbeats.com/*'],
 		js: 'eulerbeats.js',
 		id: 'eulerbeats',
-	},
-	{
-		label: 'FilmMusic.io',
-		matches: ['*://*.filmmusic.io/*'],
-		js: 'filmmusic.io.js',
-		id: 'filmmusic.io',
 	},
 	{
 		label: 'X-Team Radio',
@@ -1900,34 +1561,15 @@ export default <ConnectorMeta[]>[
 		id: 'thrilljockey',
 	},
 	{
-		label: 'Radio Horizonte',
-		matches: ['*://horizonte.cl/*'],
+		label: 'MediaStream',
+		matches: [
+			'*://sonarfm.cl/*',
+			'*://playfm.cl/*',
+			'*://player.wkmradio.com/*',
+			'*://www.rockaxis.com/*',
+		],
 		js: 'mediastream.js',
-		id: 'horizontecl',
-	},
-	{
-		label: 'Sonar FM',
-		matches: ['*://sonarfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'sonarfmcl',
-	},
-	{
-		label: 'Play FM',
-		matches: ['*://playfm.cl/*'],
-		js: 'mediastream.js',
-		id: 'playfmcl',
-	},
-	{
-		label: 'WKM Radio',
-		matches: ['*://www.wkmradio.com/*'],
-		js: 'mediastream.js',
-		id: 'wkmradio',
-	},
-	{
-		label: 'Rockaxis',
-		matches: ['*://www.rockaxis.com/*'],
-		js: 'mediastream.js',
-		id: 'rockaxis',
+		id: 'mediastream',
 	},
 	{
 		label: 'Rock&Pop Chile',
@@ -1954,10 +1596,10 @@ export default <ConnectorMeta[]>[
 		id: 'naxosmusiclibrary',
 	},
 	{
-		label: 'Klassik Radio',
-		matches: ['*://*klassikradio.de/*'],
-		js: 'klassikradio.de.js',
-		id: 'klassikradio',
+		label: 'Klassik Radio Plus',
+		matches: ['*://klassikradioplus.de/*'],
+		js: 'klassikradioplus.js',
+		id: 'klassikradioplus',
 	},
 	{
 		label: 'Beetle',
@@ -2012,12 +1654,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*intergalactic.fm/*'],
 		js: 'intergalacticfm.js',
 		id: 'intergalactic.fm',
-	},
-	{
-		label: 'Radio Cuca',
-		matches: ['*://*radiocuca.es/*'],
-		js: 'radiocuca.js',
-		id: 'radiocuca',
 	},
 	{
 		label: 'Irama Nusantara',
@@ -2134,12 +1770,6 @@ export default <ConnectorMeta[]>[
 		id: 'cpr',
 	},
 	{
-		label: 'Indie 102.3',
-		matches: ['*://indie.cpr.org/'],
-		js: 'cpr-indie.js',
-		id: 'cpr-indie',
-	},
-	{
 		label: 'WXPN',
 		matches: ['*://xpn.org/*'],
 		js: 'xpn.js',
@@ -2150,12 +1780,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.frisky.fm/*'],
 		js: 'friskyfm.js',
 		id: 'friskyfm',
-	},
-	{
-		label: 'GotRadio',
-		matches: ['*://player.gotradio.com/*'],
-		js: 'gotradio.js',
-		id: 'gotradio',
 	},
 	{
 		label: 'LightningStream',
@@ -2176,30 +1800,10 @@ export default <ConnectorMeta[]>[
 		id: 'securenetsystems',
 	},
 	{
-		label: 'WBRU',
-		matches: ['*://www.wbru.com/*'],
-		js: 'radioco.js',
-		id: 'wbru',
-		allFrames: true,
-	},
-	{
 		label: 'uwu radio',
 		matches: ['*://radio.uwu.network/*'],
 		js: 'uwu-radio.js',
 		id: 'uwu-radio',
-	},
-	{
-		label: 'MyStreamPlayer',
-		matches: ['*://*.mystreamplayer.com/*'],
-		js: 'mystreamplayer.js',
-		id: 'mystreamplayer',
-	},
-	{
-		label: 'BagelRadio',
-		matches: ['*://*.bagelradio.com/*'],
-		js: 'mystreamplayer.js',
-		id: 'bagelradio',
-		allFrames: true,
 	},
 	{
 		label: 'Amazing Radio',
@@ -2212,12 +1816,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.dr.dk/lyd*'],
 		js: 'dr-lyd.js',
 		id: 'dr-lyd',
-	},
-	{
-		label: 'lulu.fm',
-		matches: ['*://*lulu.fm/*'],
-		js: 'lulu.fm.js',
-		id: 'lulufm',
 	},
 	{
 		label: 'ROCK ANTENNE',
@@ -2236,12 +1834,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://127.0.0.1:3923/*', '*://a.ocv.me/*'],
 		js: 'copyparty.js',
 		id: 'copyparty',
-	},
-	{
-		label: 'Fungjai',
-		matches: ['*://*.fungjai.com/*'],
-		js: 'fungjai.js',
-		id: 'fungjai',
 	},
 	{
 		label: 'Radio Caprice',
@@ -2326,12 +1918,6 @@ export default <ConnectorMeta[]>[
 		id: 'hearthis-at',
 	},
 	{
-		label: 'Blend',
-		matches: ['*://blend.io/*'],
-		js: 'blend.js',
-		id: 'blend',
-	},
-	{
 		label: 'Radio Italia',
 		matches: ['*://www.radioitalia.it/*'],
 		js: 'radio-italia.js',
@@ -2398,10 +1984,10 @@ export default <ConnectorMeta[]>[
 		id: 'fmspins',
 	},
 	{
-		label: 'vk-save',
-		matches: ['*://*.vk-save.com/*'],
-		js: 'vk-save.js',
-		id: 'vk-save',
+		label: 'KissVK',
+		matches: ['*://kissvk.top/*'],
+		js: 'kissvk.js',
+		id: 'kissvk',
 	},
 	{
 		label: 'Radio Student',
@@ -2614,12 +2200,6 @@ export default <ConnectorMeta[]>[
 		id: 'basspistol',
 	},
 	{
-		label: 'RadioFreeFedi',
-		matches: ['*://radiofreefedi.net/*'],
-		js: 'radiofreefedi.js',
-		id: 'radiofreefedi',
-	},
-	{
 		label: 'MyTuner',
 		matches: ['*://mytuner-radio.com/*'],
 		js: 'mytuner.js',
@@ -2721,6 +2301,7 @@ export default <ConnectorMeta[]>[
 		js: 'gravity.fm.js',
 		id: 'gravity',
 	},
+
 	{
 		label: 'Archaic Horizon',
 		matches: ['*://archaichorizon.com/*', '*://www.archaichorizon.com/*'],
@@ -2750,6 +2331,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://ampwall.com/*'],
 		js: 'ampwall.js',
 		id: 'ampwall',
+	},
+	{
+		label: 'WQXR',
+		matches: ['*://www.wqxr.org/*'],
+		js: 'wqxr.js',
+		id: 'wqxr',
 	},
 	{
 		label: 'Monochrome',
@@ -2833,6 +2420,12 @@ export default <ConnectorMeta[]>[
 		id: 'radiosaw',
 	},
 	{
+		label: 'Radio SWH',
+		matches: ['*://play.radioswh.lv/*'],
+		js: 'radioswh.js',
+		id: 'radioswh',
+	},
+	{
 		label: 'Star FM',
 		matches: ['*://tv3.lv/starfm/online/*'],
 		js: 'starfm.js',
@@ -2903,5 +2496,35 @@ export default <ConnectorMeta[]>[
 		matches: ['*://lyl.live/*', '*://*.lyl.live/*'],
 		js: 'lyl.js',
 		id: 'lyl',
+	},
+	{
+		label: 'WPGU',
+		matches: ['*://wpgu.com/*'],
+		js: 'wpgu.js',
+		id: 'wpgu',
+	},
+	{
+		label: 'Radyo Plyr',
+		matches: ['*://radyovoyage.com/*', '*://radioeksen.com/*'],
+		js: 'radyoplyr.js',
+		id: 'radyoplyr',
+	},
+	{
+		label: 'SoundScout',
+		matches: ['*://www.soundscout.com/player/*'],
+		js: 'soundscout.js',
+		id: 'soundscout',
+	},
+	{
+		label: 'NEXT',
+		matches: ['*://nextsong.app/*'],
+		js: 'nextsong.js',
+		id: 'nextsong',
+	},
+	{
+		label: 'zig-zag.fm',
+		matches: ['*://zig-zag.fm/*', '*://www.zig-zag.fm/*'],
+		js: 'zig-zag.fm.js',
+		id: 'zig-zag.fm',
 	},
 ];
