@@ -1,18 +1,18 @@
 import { glob } from 'glob';
 import fs from 'fs-extra';
 import path from 'node:path';
-import sharp from 'sharp';
+import sharp, { type JpegOptions, type PngOptions } from 'sharp';
 import type { PluginOption } from 'vite';
 import { getBrowser, releaseTarget, releaseTargets } from './util';
 import colorLog from './log';
 
-const pngOptions: sharp.PngOptions = {
+const pngOptions: PngOptions = {
 	palette: true,
 	quality: 80,
 	dither: 1.0,
 };
 
-const jpegOptions: sharp.JpegOptions = {
+const jpegOptions: JpegOptions = {
 	mozjpeg: true,
 	quality: 85,
 };
