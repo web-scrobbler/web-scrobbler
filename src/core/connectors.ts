@@ -2509,4 +2509,10 @@ export default <ConnectorMeta[]>[
 		js: 'nextsong.js',
 		id: 'nextsong',
 	},
+	{
+		label: 'zig-zag.fm',
+		matches: ['*://zig-zag.fm/*', '*://www.zig-zag.fm/*'],
+		js: 'zig-zag.fm.js',
+		id: 'zig-zag.fm',
+	},
 ];
