@@ -17,10 +17,6 @@ const jpegOptions: sharp.JpegOptions = {
 	quality: 85,
 };
 
-/**
- * Minify an image with sharp. When a destination directory is given the file
- * is written there, otherwise it is minified in place.
- */
 async function minifyImage(sourcePath: string, destinationDir?: string) {
 	const isPng = path.extname(sourcePath).toLowerCase() === '.png';
 	const data = isPng
