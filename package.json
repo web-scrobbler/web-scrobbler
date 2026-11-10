@@ -71,7 +71,7 @@
     "remark-cli": "12.0.1",
     "remark-preset-lint-recommended": "7.0.1",
     "sass": "1.93.3",
-    "sharp": "0.34.5",
+    "sharp": "0.35.5",
     "solid-js": "1.9.17",
     "tsx": "4.20.6",
     "typescript": "5.9.2",
