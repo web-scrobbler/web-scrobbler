@@ -2492,6 +2492,12 @@ export default <ConnectorMeta[]>[
 		id: 'pixabay',
 	},
 	{
+		label: 'LYL Radio',
+		matches: ['*://lyl.live/*', '*://*.lyl.live/*'],
+		js: 'lyl.js',
+		id: 'lyl',
+	},
+	{
 		label: 'WPGU',
 		matches: ['*://wpgu.com/*'],
 		js: 'wpgu.js',
