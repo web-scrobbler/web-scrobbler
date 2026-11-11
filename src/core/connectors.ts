@@ -151,6 +151,24 @@ export default <ConnectorMeta[]>[
 		id: 'dandelionradio',
 	},
 	{
+		label: 'dublab',
+		matches: ['*://*.dublab.com/*'],
+		js: 'dublab.js',
+		id: 'dublab',
+	},
+	{
+		label: 'HillyDilly',
+		matches: ['*://www.hillydilly.com/*'],
+		js: 'hillydilly.js',
+		id: 'hillydilly',
+	},
+	{
+		label: '8tracks',
+		matches: ['*://8tracks.com/*'],
+		js: '8tracks.js',
+		id: '8tracks',
+	},
+	{
 		label: 'SoGreatandPowerful',
 		matches: ['*://sogreatandpowerful.com/*'],
 		js: 'sogreatandpowerful.js',
