@@ -32,6 +32,10 @@ export const common: Manifest.WebExtensionManifest = {
 			resources: ['icons/*'],
 			matches: ['<all_urls>'],
 		},
+		{
+			resources: ['static-data/*'],
+			matches: ['<all_urls>'],
+		},
 	],
 
 	options_ui: {
@@ -71,6 +75,10 @@ export const chromeManifest: Manifest.WebExtensionManifest = {
 	background: {
 		service_worker: 'background/main.js',
 	},
+
+	content_security_policy: {
+		extension_pages: "script-src 'self' 'wasm-unsafe-eval';",
+	},
 };
 
 /**
@@ -103,7 +111,7 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 	},
 
 	content_security_policy: {
-		extension_pages: "script-src 'self';",
+		extension_pages: "script-src 'self' 'wasm-unsafe-eval';",
 	},
 };
 

@@ -422,7 +422,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - the song about to be dispatched
 	 * @returns updated song
 	 */
-	public applyFilter(song: BaseSong): BaseSong {
+	public async applyFilter(song: BaseSong): Promise<BaseSong> {
 		return song;
 	}
 

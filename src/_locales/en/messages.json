@@ -203,6 +203,14 @@
         "message": "System",
         "description": "Option label"
     },
+    "optionFirstArtistOnly": {
+        "message": "Only scrobble first artist",
+        "description": "Option label for first-artist-only toggle"
+    },
+    "optionFirstArtistOnlyTitle": {
+        "message": "When enabled, only the first artist is scrobbled for multi-artist tracks. Artists with a comma in their official name (e.g. Tyler, The Creator) are preserved.",
+        "description": "Option title/tooltip for first-artist-only toggle"
+    },
     "optionsAccounts": {
         "message": "Accounts",
         "description": "'Accounts' section"
