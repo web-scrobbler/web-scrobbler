@@ -300,6 +300,12 @@ export default <ConnectorMeta[]>[
 		id: 'onlineradiobox',
 	},
 	{
+		label: '163 Music PWA',
+		matches: ['*://music.163.com/st/webplayer*'],
+		js: '163-music-pwa.js',
+		id: '163-music-pwa',
+	},
+	{
 		label: '163 Music',
 		matches: ['*://music.163.com/*'],
 		js: '163-music.js',
