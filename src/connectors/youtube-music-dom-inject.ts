@@ -32,13 +32,16 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			'*',
 		);
 	};
-	const playPauseButton = document.getElementById('play-pause-button');
-	const SongInfo = document.querySelector('.content-info-wrapper');
+	const playPauseButton = document.querySelector(
+		'.ytmusicPlayerControlsPlayPauseButton',
+	);
+	const SongInfo = document.querySelector('ytmusic-track-info');
 
 	const observer = new MutationObserver(sendData);
 
 	observer.observe(playPauseButton as Node, {
 		attributes: true,
+		subtree: true,
 	});
 
 	observer.observe(SongInfo as Node, {

@@ -20,7 +20,8 @@ export {};
  * Uploaded songs have different artist and track selectors
  */
 
-const adSelector = '.ytmusic-player-bar.advertisement';
+const adSelector =
+	'ytmusic-miniplayer .ytmusicTrackInfoBylineItem[title="Video will play after ad"]';
 
 const mediaInfo = {
 	playbackState: 'none',
@@ -42,7 +43,7 @@ Connector.onScriptEvent = (event) => {
 	};
 };
 
-Connector.playerSelector = 'ytmusic-player-bar';
+Connector.playerSelector = 'ytmusic-miniplayer';
 
 Connector.isTrackArtDefault = (url) => {
 	// Self-uploaded tracks could not have cover arts
@@ -73,15 +74,15 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
+Connector.timeInfoSelector = '.ytMusicMiniPlayerTimeInfo';
 
 Connector.isPlaying = () => mediaInfo.playbackState === 'playing';
 
 Connector.loveButtonSelector =
-	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]';
+	'like-button-view-model button[aria-pressed="false"]';
 
 Connector.unloveButtonSelector =
-	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]';
+	'like-button-view-model button[aria-pressed="true"]';
 
 Connector.getUniqueID = () => {
 	const uniqueId = new URLSearchParams(window.location.search).get('v');
