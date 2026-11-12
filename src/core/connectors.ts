@@ -2533,4 +2533,10 @@ export default <ConnectorMeta[]>[
 		js: 'zig-zag.fm.js',
 		id: 'zig-zag.fm',
 	},
+	{
+		label: 'FlaviBot',
+		matches: ['*://flavibot.xyz/*'],
+		js: 'flavibot.js',
+		id: 'flavibot',
+	},
 ];
