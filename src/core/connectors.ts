@@ -2510,6 +2510,12 @@ export default <ConnectorMeta[]>[
 		id: 'soundscout',
 	},
 	{
+		label: 'unrlsd',
+		matches: ['*://*.unrlsd.app/*', '*://unrlsd.app/*'],
+		js: 'unrlsd.js',
+		id: 'unrlsd',
+	},
+	{
 		label: 'NEXT',
 		matches: ['*://nextsong.app/*'],
 		js: 'nextsong.js',
