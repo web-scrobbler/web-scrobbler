@@ -19,6 +19,11 @@ export interface ArtistTrackInfo {
 	artist?: string | null;
 
 	/**
+	 * Artist names
+	 */
+	artists?: string[] | null;
+
+	/**
 	 * Track name
 	 */
 	track?: string | null;
