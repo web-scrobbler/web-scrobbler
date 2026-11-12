@@ -3,7 +3,6 @@
 import type {
 	ArtistTrackInfo,
 	BaseState,
-	State,
 	TimeInfo,
 	TrackInfoWithAlbum,
 } from '@/core/types';
@@ -347,18 +346,20 @@ export function isArtistTrackEmpty(
  * @param source - Source object
  * @param fields - List of fields to fill
  */
-export function fillEmptyFields(
-	target: State,
-	source: State | null | undefined,
-	fields: (keyof State)[] | undefined,
-): State {
-	if (!source || !Array.isArray(fields)) {
+export function fillEmptyFields<
+	T extends object,
+	Fields extends readonly (keyof T)[],
+>(
+	target: Partial<T>,
+	source: Partial<Pick<T, Fields[number]>> | null | undefined,
+	fields: Fields,
+): typeof target {
+	if (!source) {
 		return target;
 	}
 
 	for (const field of fields) {
 		if (!target[field] && source[field]) {
-			// @ts-expect-error - TS is a little confused here too
 			target[field] = source[field];
 		}
 	}
@@ -517,7 +518,7 @@ export function extractImageUrlFromSelectors(
 		return null;
 	}
 	const elements = queryElements(selectors);
-	if (!elements || !elements.length) {
+	if (!elements) {
 		return null;
 	}
 
@@ -640,11 +641,16 @@ export function isElementVisible(
 export function getValueFromSelectors(
 	selectors: string | string[],
 ): string | null {
-	const element = queryElements(selectors);
-	if (!element || !('value' in element)) {
+	const elements = queryElements<HTMLInputElement>(selectors);
+	if (!elements) {
 		return null;
 	}
-	return element.value as string;
+	for (const element of elements) {
+		if (typeof element.value === 'string') {
+			return element.value;
+		}
+	}
+	return null;
 }
 
 /**
@@ -666,18 +672,20 @@ export function getDataFromSelectors(
  * element with the selector. If `selectors` is an array, return
  * element matched by first valid selector.
  * @param selectors - Single selector or array of selectors
- * @returns HTML element
+ * @returns HTML element or null if not found (or no selectors passed)
  */
-/* istanbul ignore next */
-export function queryElements(
+export function queryElements<ElementT extends Element = HTMLElement>(
 	selectors: string | string[] | null | undefined,
-): NodeListOf<HTMLElement> | null {
+): typeof selectors extends null | undefined
+	? null
+	: (NodeListOf<ElementT> & { 0: ElementT }) | null {
 	if (!selectors) {
 		return null;
 	}
 
 	if (typeof selectors === 'string') {
-		return document.querySelectorAll(selectors);
+		const singleResult = document.querySelectorAll<ElementT>(selectors);
+		return nodeListIsNonEmpty(singleResult) ? singleResult : null;
 	}
 
 	if (!Array.isArray(selectors)) {
@@ -685,15 +693,19 @@ export function queryElements(
 	}
 
 	for (const selector of selectors) {
-		const elements = document.querySelectorAll(
-			selector,
-		) as NodeListOf<HTMLElement>;
-		if (elements.length > 0) {
+		const elements = document.querySelectorAll<ElementT>(selector);
+		if (nodeListIsNonEmpty(elements)) {
 			return elements;
 		}
 	}
 
 	return null;
+
+	function nodeListIsNonEmpty<TNode extends Node>(
+		nodeList: NodeListOf<TNode>,
+	): nodeList is NodeListOf<TNode> & { 0: TNode } {
+		return nodeList.length > 0;
+	}
 }
 
 /**
@@ -871,9 +883,9 @@ export function isYtVideoDescriptionValid(desc: string | null): desc is string {
 	);
 }
 
-export function parseYtVideoDescription(
+export function parseYtTopicVideoDescription(
 	desc: string | null,
-): TrackInfoWithAlbum | null {
+): typeof desc extends null ? null : TrackInfoWithAlbum | null {
 	if (!isYtVideoDescriptionValid(desc)) {
 		return null;
 	}

@@ -1,4 +1,4 @@
-import { TAnchor } from '@/ui/components/util';
+import { TAnchor, TPopupAnchor } from '@/ui/components/util';
 import {
 	currentChangelog,
 	t,
@@ -16,14 +16,12 @@ export default function InfoComponent() {
 		<>
 			<h1>{t('optionsAbout')}</h1>
 			<p>{t('aboutExtensionDesc')}</p>
-			<p
-				innerHTML={t('aboutChangelog', [
-					currentChangelog(),
-					RELEASES_URL,
-				])}
-			></p>
+			<TPopupAnchor
+				messageName="aboutChangelog"
+				substitutions={[currentChangelog(), RELEASES_URL]}
+			/>
 			<h2>{t('versionTitle')}</h2>
-			<p innerHTML={t('versionText', getExtensionVersion())}></p>
+			<p>{t('versionText', getExtensionVersion())}</p>
 			<h2>{t('contributorsTitle')}</h2>
 			<TAnchor
 				messageName="contributorsText"

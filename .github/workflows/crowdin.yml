@@ -20,7 +20,7 @@ jobs:
 
       - name: Perform Crowdin source upload
         if: ${{ github.event_name == 'push' }}
-        uses: crowdin/github-action@v2
+        uses: crowdin/github-action@v3
         with:
           upload_sources: true
           upload_translations: false
@@ -32,7 +32,7 @@ jobs:
 
       - name: Perform Crowdin translation download
         if: ${{ github.event_name != 'push' }}
-        uses: crowdin/github-action@v2
+        uses: crowdin/github-action@v3
         with:
           upload_sources: false
           upload_translations: false

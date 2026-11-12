@@ -79,16 +79,6 @@ jobs:
 
             Make sure you use the correct version of node (see `.nvmrc`). Tools such as `nvm`, or `mise` can be used to easily manage node versions.
 
-            ## Arm hardware additional dependencies
-
-            This addon depends on `pngquant` which is required to build from source on arm hardware.
-
-            For this to work you should additionally install `build-essential`, `pkg-config`, `libimagequant-dev`, `autoconf`, `automake`, `libpng-dev`, and `libtool` packages on your system.
-
-            ```bash
-            sudo apt update && sudo apt install -y build-essential pkg-config libimagequant-dev autoconf automake libpng-dev libtool
-            ```
-
             ## Building the extension
 
             After this install node dependencies and build the extension:
@@ -97,6 +87,8 @@ jobs:
             npm ci
             npm run dist firefox
             ```
+
+            If `npm ci` fails while building `sharp` from source, your system has `libvips` installed. Re-run with `SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm ci` to use the bundled prebuilt binaries instead.
 
             Once complete you will find a `web-scrobbler-firefox.zip` file containing the built extension in the root of the repository.
 
@@ -126,7 +118,7 @@ jobs:
         run: echo "PACKAGE_VERSION=$(jq .version package.json -r)" >> $GITHUB_ENV
 
       - name: Publish the extension for Edge
-        uses: web-scrobbler/edge-addon@v2.0.4
+        uses: web-scrobbler/edge-addon@v2.0.5
         with:
           product_id: ${{ secrets.EDGE_PRODUCT_ID }}
           client_id: ${{ secrets.EDGE_CLIENT_ID }}

@@ -6,7 +6,7 @@ export {};
  * Quick links to debug and test the connector:
  *
  * https://www.youtube.com/watch?v=WA3hL4hDx9c - auto-generated music video
- * The connector should get info via `getTrackInfoFromDescription` function
+ * The connector should get info via `getTopicArtistTrackFromDescription` function
  *
  * https://www.youtube.com/watch?v=eYLbteOm42k - video with chapters available
  * The connector should get info via `getTrackInfoFromChapters` function
@@ -83,7 +83,7 @@ const trackInfoGetters: (() =>
 	| TrackInfoWithAlbum)[] = [
 	getTrackInfoFromChapters,
 	getTrackInfoFromYoutubeMusic,
-	getTrackInfoFromDescription,
+	getTopicArtistTrackFromDescription,
 	getTrackInfoFromTitle,
 ];
 
@@ -386,14 +386,14 @@ function getVideoDescription() {
 	return Util.getTextFromSelectors(videoDescriptionSelector)?.trim() ?? null;
 }
 
-function getTrackInfoFromDescription() {
+function getTopicArtistTrackFromDescription() {
 	const description = getVideoDescription();
 	if (currentVideoDescription === description) {
 		return artistTrackFromDescription;
 	}
 
 	currentVideoDescription = description;
-	artistTrackFromDescription = Util.parseYtVideoDescription(description);
+	artistTrackFromDescription = Util.parseYtTopicVideoDescription(description);
 
 	return artistTrackFromDescription;
 }

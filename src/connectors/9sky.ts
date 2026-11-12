@@ -12,18 +12,15 @@ Util.bindListeners(
 );
 
 Connector.getTimeInfo = () => {
-	const { duration, currentTime } = Util.queryElements([
-		'audio',
-		'video',
-	])?.[0] as HTMLMediaElement;
-	return { duration, currentTime };
+	const medias = Util.queryElements<HTMLMediaElement>(['audio', 'video']);
+	if (medias) {
+		const { duration, currentTime } = medias[0];
+		return { duration, currentTime };
+	}
 };
 
 Connector.isPlaying = () => {
-	const media = Util.queryElements([
-		'audio',
-		'video',
-	])?.[0] as HTMLMediaElement;
+	const media = Util.queryElements<HTMLMediaElement>(['audio', 'video'])?.[0];
 	return Boolean(media?.currentTime && !media.paused && !media.ended);
 };
 
@@ -36,7 +33,7 @@ Connector.artistSelector = '.musicright_box3 a, #name_h3 a:last-child';
 Connector.trackArtSelector = '#playimg';
 
 Connector.getUniqueID = () => {
-	const element = Util.queryElements('.li1 img')?.[0]?.closest('ul');
+	const element = Util.queryElements('.li1 img')?.[0].closest('ul');
 	const text = element?.getAttribute('id');
 	const match = /id=(\d+)/g.exec(location.search);
 	return (text && `a${text.slice(4)}`) || (match && `v${match[1]}`) || null;

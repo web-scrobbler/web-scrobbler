@@ -20,7 +20,8 @@ export {};
  * Uploaded songs have different artist and track selectors
  */
 
-const adSelector = '.ytmusic-player-bar.advertisement';
+const adSelector =
+	'ytmusic-miniplayer.advertisement, .ytmusic-player-bar.advertisement';
 
 const mediaInfo = {
 	playbackState: 'none',
@@ -42,7 +43,7 @@ Connector.onScriptEvent = (event) => {
 	};
 };
 
-Connector.playerSelector = 'ytmusic-player-bar';
+Connector.playerSelector = 'ytmusic-miniplayer, ytmusic-player-bar';
 
 Connector.isTrackArtDefault = (url) => {
 	// Self-uploaded tracks could not have cover arts
@@ -73,15 +74,20 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
+Connector.timeInfoSelector =
+	'ytmusic-miniplayer .time-info, .ytmusic-player-bar.time-info';
 
 Connector.isPlaying = () => mediaInfo.playbackState === 'playing';
 
-Connector.loveButtonSelector =
-	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]';
+Connector.loveButtonSelector = [
+	'like-button-view-model button[aria-pressed="false"]',
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="false"]',
+].join(', ');
 
-Connector.unloveButtonSelector =
-	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]';
+Connector.unloveButtonSelector = [
+	'like-button-view-model button[aria-pressed="true"]',
+	'ytmusic-like-button-renderer #button-shape-like button[aria-pressed="true"]',
+].join(', ');
 
 Connector.getUniqueID = () => {
 	const uniqueId = new URLSearchParams(window.location.search).get('v');

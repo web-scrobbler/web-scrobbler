@@ -34,7 +34,7 @@ const getCurrentTrackListElement = () => {
  */
 const getProgressPercentage = (): number => {
 	const progressElements = Util.queryElements(progressSelector);
-	if (!progressElements || !progressElements.length) {
+	if (!progressElements) {
 		return 0;
 	}
 	const widthCss = progressElements[0].style.width;
@@ -56,7 +56,7 @@ Connector.trackArtSelector = `${Connector.playerSelector} img`;
 
 Connector.isPlaying = () => {
 	const elements = Util.queryElements(Connector.pauseButtonSelector);
-	if (!elements || !elements.length) {
+	if (!elements) {
 		return false;
 	}
 	return !elements[0].classList.contains('hidden');
