@@ -7,6 +7,10 @@
  *
  * Script starts by calling window.cleanup to cleanup any potential previous script.
  *
+ * MusicKit may be lazy-loaded by the page (as on music.apple.com), so it may not
+ * exist yet when this script is injected. The script therefore polls for the
+ * MusicKit global and a configured instance instead of assuming they exist.
+ *
  * @returns a cleanup function that cleans up event listeners and similar for a future overriding script.
  */
 
@@ -16,16 +20,16 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 }
 
 (window as unknown as { cleanup: () => Promise<void> }).cleanup = (() => {
-	addEventListeners();
+	interface MusicKitEvents {
+		metadataDidChange: unknown;
+		playbackStateDidChange: unknown;
+		nowPlayingItemDidChange: unknown;
+	}
 
 	interface MusicKitWindow {
-		MusicKit: {
-			Events: {
-				metadataDidChange: unknown;
-				playbackStateDidChange: unknown;
-				nowPlayingItemDidChange: unknown;
-			};
-			getInstance: () => MusicKitInstance;
+		MusicKit?: {
+			Events?: MusicKitEvents;
+			getInstance?: () => MusicKitInstance | undefined;
 		};
 	}
 
@@ -48,70 +52,130 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		isPlaying: boolean;
 	}
 
-	async function addEventListeners() {
-		const Events = (window as unknown as MusicKitWindow).MusicKit.Events;
-		const instance = await getInstance();
-		instance.addEventListener(Events.metadataDidChange, sendEvent);
-		instance.addEventListener(Events.playbackStateDidChange, sendEvent);
-		instance.addEventListener(Events.nowPlayingItemDidChange, sendEvent);
+	const POLL_FAST_MS = 250;
+	const POLL_SLOW_MS = 2000;
+	const FAST_POLL_DURATION_MS = 60000;
+
+	let boundInstance: MusicKitInstance | null = null;
+	let boundEvents: MusicKitEvents | null = null;
+	let pollTimer: ReturnType<typeof setTimeout> | null = null;
+	let stopped = false;
+	const startedAt = Date.now();
+
+	function getPlayer(): {
+		player: MusicKitInstance;
+		events: MusicKitEvents;
+	} | null {
+		const api = (window as unknown as MusicKitWindow).MusicKit;
+		if (!api || typeof api.getInstance !== 'function' || !api.Events) {
+			return null;
+		}
+
+		let instance: MusicKitInstance | undefined;
+		try {
+			instance = api.getInstance();
+		} catch {
+			return null;
+		}
+		if (!instance) {
+			return null;
+		}
+
+		const player = instance.player ?? instance;
+		if (typeof player.addEventListener !== 'function') {
+			return null;
+		}
+
+		return { player, events: api.Events };
+	}
+
+	function bind(player: MusicKitInstance, events: MusicKitEvents) {
+		unbind();
+		player.addEventListener(events.metadataDidChange, sendEvent);
+		player.addEventListener(events.playbackStateDidChange, sendEvent);
+		player.addEventListener(events.nowPlayingItemDidChange, sendEvent);
+		boundInstance = player;
+		boundEvents = events;
 		sendEvent();
 	}
 
-	async function getInstance() {
-		const api = (window as unknown as MusicKitWindow).MusicKit;
-
-		const initInstance = api?.getInstance();
-		// If the instance is already available, return it immediately
-		if (initInstance) {
-			return initInstance?.player ?? initInstance;
+	function unbind() {
+		if (!boundInstance || !boundEvents) {
+			return;
 		}
+		try {
+			boundInstance.removeEventListener(
+				boundEvents.metadataDidChange,
+				sendEvent,
+			);
+			boundInstance.removeEventListener(
+				boundEvents.playbackStateDidChange,
+				sendEvent,
+			);
+			boundInstance.removeEventListener(
+				boundEvents.nowPlayingItemDidChange,
+				sendEvent,
+			);
+		} catch {
+			// the instance may already be torn down; nothing to clean up
+		}
+		boundInstance = null;
+		boundEvents = null;
+	}
 
-		// Otherwise, poll until it is available
-		let i = 0;
-		return new Promise<MusicKitInstance>((resolve, reject) => {
-			const interval = setInterval(() => {
-				const instance = api?.getInstance();
-				if (instance) {
-					clearInterval(interval);
-					resolve(instance?.player ?? instance);
-					return;
-				}
-				if (i++ > 100) {
-					clearInterval(interval);
-					reject(new Error('MusicKit instance not found'));
-				}
-			}, 100);
-		});
+	function tick() {
+		if (stopped) {
+			return;
+		}
+		const found = getPlayer();
+		if (found && found.player !== boundInstance) {
+			bind(found.player, found.events);
+		}
+		const elapsed = Date.now() - startedAt;
+		const delay =
+			!boundInstance && elapsed < FAST_POLL_DURATION_MS
+				? POLL_FAST_MS
+				: POLL_SLOW_MS;
+		pollTimer = setTimeout(tick, delay);
 	}
 
 	function sendEvent() {
-		getTrackInfo().then((trackInfo) => {
-			instanceIsPlaying().then((isPlaying) => {
-				window.postMessage(
-					{
-						sender: 'web-scrobbler',
-						type: 'MUSICKIT_STATE',
-						trackInfo,
-						isPlaying,
-					},
-					'*',
-				);
-			});
-		});
+		const player = boundInstance;
+		if (!player) {
+			return;
+		}
+
+		let trackInfo;
+		let isPlaying;
+		try {
+			trackInfo = getTrackInfo(player);
+			isPlaying = Boolean(player.isPlaying);
+		} catch {
+			return;
+		}
+
+		window.postMessage(
+			{
+				sender: 'web-scrobbler',
+				type: 'MUSICKIT_STATE',
+				trackInfo,
+				isPlaying,
+			},
+			'*',
+		);
 	}
 
-	async function getTrackInfo() {
-		const instance = await getInstance();
-		const item = instance.nowPlayingItem;
+	function getTrackInfo(player: MusicKitInstance) {
+		const item = player.nowPlayingItem;
 		return {
 			album: item?.albumName,
 			track: item?.title,
 			artist: item?.artistName,
 			albumArtist: item?.container?.attributes?.artistName,
 			trackArt: getArtwork(item?.artworkURL ?? ''),
-			duration: instance.currentPlaybackDuration,
+			duration: player.currentPlaybackDuration,
 			uniqueID: item?.id,
-			currentTime: instance.currentPlaybackTime,
+			currentTime: player.currentPlaybackTime,
 		};
 	}
 
@@ -119,15 +183,14 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		return url.replace('{w}x{h}bb', '256x256bb');
 	}
 
-	async function instanceIsPlaying() {
-		return (await getInstance()).isPlaying;
-	}
+	tick();
 
 	return async () => {
-		const Events = (window as unknown as MusicKitWindow).MusicKit.Events;
-		const instance = await getInstance();
-		instance.removeEventListener(Events.metadataDidChange, sendEvent);
-		instance.removeEventListener(Events.playbackStateDidChange, sendEvent);
-		instance.removeEventListener(Events.nowPlayingItemDidChange, sendEvent);
+		stopped = true;
+		if (pollTimer !== null) {
+			clearTimeout(pollTimer);
+			pollTimer = null;
+		}
+		unbind();
 	};
 })();

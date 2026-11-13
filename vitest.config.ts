@@ -16,7 +16,7 @@ export default {
 			provider: 'istanbul',
 			reporter: ['lcovonly', 'text-summary'],
 			all: false,
-			include: ['src/**'],
+			include: ['src/**/*.{ts,tsx}'],
 		},
 	},
 };

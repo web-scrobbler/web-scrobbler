@@ -300,6 +300,12 @@ export default <ConnectorMeta[]>[
 		id: 'onlineradiobox',
 	},
 	{
+		label: '163 Music PWA',
+		matches: ['*://music.163.com/st/webplayer*'],
+		js: '163-music-pwa.js',
+		id: '163-music-pwa',
+	},
+	{
 		label: '163 Music',
 		matches: ['*://music.163.com/*'],
 		js: '163-music.js',
@@ -1440,6 +1446,12 @@ export default <ConnectorMeta[]>[
 		id: 'zvuk',
 	},
 	{
+		label: 'Lyda',
+		matches: ['*://lyda.app/*'],
+		js: 'lyda.js',
+		id: 'lyda',
+	},
+	{
 		label: 'Navidrome',
 		js: 'navidrome.js',
 		id: 'navidrome',
@@ -2502,5 +2514,29 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.soundscout.com/player/*'],
 		js: 'soundscout.js',
 		id: 'soundscout',
+	},
+	{
+		label: 'unrlsd',
+		matches: ['*://*.unrlsd.app/*', '*://unrlsd.app/*'],
+		js: 'unrlsd.js',
+		id: 'unrlsd',
+	},
+	{
+		label: 'NEXT',
+		matches: ['*://nextsong.app/*'],
+		js: 'nextsong.js',
+		id: 'nextsong',
+	},
+	{
+		label: 'zig-zag.fm',
+		matches: ['*://zig-zag.fm/*', '*://www.zig-zag.fm/*'],
+		js: 'zig-zag.fm.js',
+		id: 'zig-zag.fm',
+	},
+	{
+		label: 'FlaviBot',
+		matches: ['*://flavibot.xyz/*'],
+		js: 'flavibot.js',
+		id: 'flavibot',
 	},
 ];
