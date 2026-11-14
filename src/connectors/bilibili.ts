@@ -451,7 +451,8 @@ function getFirstNonNull(arr: (string | null)[]): string | null {
 
 /**
  * case insensitive match
- * @returns tags that be contained in any elem in textFragment array
+ * if there're exact match, return that item only
+ * @returns an array contains tags that be contained in any elem in textFragment array, or an tag that exactly match one elem
  */
 function getMatchedTags(
 	textFragment: (string | null)[],
@@ -460,17 +461,21 @@ function getMatchedTags(
 	const matchedTags: string[] = [];
 	// Traversing as textFragment's order
 	if (textFragment) {
-		textFragment.forEach((fragment) => {
-			tags.forEach((tag) => {
-				if (
+		for (const fragment of textFragment) {
+			for (const tag of tags) {
+				// the tag which exactly the same as the fragment has highest priority
+				if (fragment === tag) {
+					Util.debugLog(`exact tag found: ${tag}`);
+					return [tag];
+				} else if (
 					fragment &&
 					fragment.toLowerCase().includes(tag.toLowerCase()) &&
 					!matchedTags.includes(tag)
 				) {
 					matchedTags.push(tag);
 				}
-			});
-		});
+			}
+		}
 	}
 	return matchedTags;
 }
