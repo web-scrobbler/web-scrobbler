@@ -73,7 +73,7 @@
     "sass": "1.93.3",
     "sharp": "0.35.5",
     "solid-js": "1.9.18",
-    "tsx": "4.20.6",
+    "tsx": "4.23.15",
     "typescript": "5.9.2",
     "typescript-eslint": "8.44.0",
     "vite-plugin-conditional-compiler": "0.3.1",
