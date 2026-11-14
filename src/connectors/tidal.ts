@@ -9,7 +9,11 @@ Connector.playButtonSelector = `${Connector.playerSelector} button[data-test="pl
 Connector.pauseButtonSelector = `${Connector.playerSelector} button[data-test="pause"]`;
 
 Connector.scrobblingDisallowedReason = () =>
-	Util.queryElements(Connector.playButtonSelector) ? null : 'ElementMissing';
+	Util.queryElements(
+		`${Connector.playButtonSelector}, ${Connector.pauseButtonSelector}`,
+	)
+		? null
+		: 'ElementMissing';
 
 Connector.trackSelector = `${Connector.playerSelector} div[data-test="footer-track-title"]`;
 
