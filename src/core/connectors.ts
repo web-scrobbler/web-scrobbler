@@ -31,6 +31,12 @@ export default <ConnectorMeta[]>[
 		id: 'myspace',
 	},
 	{
+  		label: 'Ballsack TV',
+  		matches: ['*://ballsack.tv/*', '*://*.ballsack.tv/*'],
+  		js: 'ballsacktv.js',
+  		id: 'ballsacktv',
+	},
+	{
 		label: 'Bandcamp Daily',
 		matches: ['*://daily.bandcamp.com/*'],
 		js: 'bandcamp-daily.js',
