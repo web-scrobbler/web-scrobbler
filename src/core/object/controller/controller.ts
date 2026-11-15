@@ -713,36 +713,46 @@ export default class Controller {
 		 * we don't have enough data to use.
 		 */
 		if (isStateEmpty(newState)) {
-			if (this.currentSong) {
-				this.debugLog('Received empty state - resetting');
-
-				this.reset();
-			}
-
-			if (newState.isPlaying) {
-				this.debugLog(
-					`State from connector doesn't contain enough information about the playing track: ${toString(
-						newState as Record<string, unknown>,
-					)}`,
-					'warn',
-				);
-			}
-
+			this.onEmptyState(newState);
 			return;
 		}
 
-		const isSongChanged = this.isSongChanged(newState);
+		/*
+		 * A state counts as a new song when the identity fields changed
+		 * or the current song is replaying.
+		 */
+		const isNewSong = this.isSongChanged(newState) || this.isReplayingSong;
 
-		if (Util.isArtistTrackEmpty(newState)) {
-			this.reset();
-		} else if (isSongChanged || this.isReplayingSong) {
-			if (newState.isPlaying) {
-				this.processNewState(newState);
-			} else {
-				this.reset();
-			}
-		} else {
+		if (!isNewSong) {
 			this.processCurrentState(newState);
+		} else if (newState.isPlaying) {
+			this.processNewState(newState);
+		} else {
+			this.reset();
+		}
+	}
+
+	/**
+	 * Handle a state that contains no usable track data.
+	 * Resets a playing song if there is one; a non-empty state that is
+	 * still missing artist/track is left to the pipeline, which treats
+	 * missing metadata as correctable rather than as no song.
+	 *
+	 * @param newState - Connector state
+	 */
+	private onEmptyState(newState: State): void {
+		if (this.currentSong) {
+			this.debugLog('Received empty state - resetting');
+			this.reset();
+		}
+
+		if (newState.isPlaying) {
+			this.debugLog(
+				`State from connector doesn't contain enough information about the playing track: ${toString(
+					newState as Record<string, unknown>,
+				)}`,
+				'warn',
+			);
 		}
 	}
 
