@@ -24,9 +24,57 @@ function setupPropertiesForNewPlayer() {
 	const playerBarSelector = '#transport';
 	const trackContainerSelector = `${playerBarSelector} music-horizontal-item`;
 
-	Connector.playerSelector = playerBarSelector;
+	// NOTE The latest UI is built with React Native Web: class names are
+	// generated, so rely on `data-testid` and ARIA attributes only.
+	const miniPlayerTitleSelector = '[data-testid="MiniPlayer_Title"]';
+	const miniPlayerImageSelector = '[data-testid*="MiniPlayer_Image"] img';
+	const miniPlayerSliderSelector = '[role="slider"][aria-valuemax]';
+
+	/**
+	 * Get the element that contains the whole mini player of the latest UI.
+	 */
+	function getMiniPlayer(): Element | null {
+		let element = document.querySelector(miniPlayerTitleSelector);
+		while (element !== null) {
+			if (element.querySelector(miniPlayerSliderSelector) !== null) {
+				return element;
+			}
+			element = element.parentElement;
+		}
+		return null;
+	}
+
+	function getSliderValue(attribute: string): number | null {
+		const value = getMiniPlayer()
+			?.querySelector(miniPlayerSliderSelector)
+			?.getAttribute(attribute);
+		if (value === null || value === undefined) {
+			return null;
+		}
+
+		const number = Number.parseInt(value);
+		return Number.isNaN(number) ? null : number;
+	}
+
+	Connector.playerSelector = 'body';
 
 	Connector.getTrackInfo = () => {
+		const miniPlayer = getMiniPlayer();
+		if (miniPlayer !== null) {
+			const track = miniPlayer
+				.querySelector(miniPlayerTitleSelector)
+				?.textContent?.trim();
+			const artist = miniPlayer
+				.querySelector('a[href*="/artists/"]')
+				?.textContent?.trim();
+			const trackArt = miniPlayer
+				.querySelector<HTMLImageElement>(miniPlayerImageSelector)
+				?.getAttribute('src');
+
+			return { artist, track, trackArt };
+		}
+
+		// Previous version of the new UI
 		const trackContainer = document.querySelector(trackContainerSelector);
 		if (trackContainer === null) {
 			return null;
@@ -39,7 +87,23 @@ function setupPropertiesForNewPlayer() {
 		return { artist, track, trackArt };
 	};
 
+	Connector.getUniqueID = () => {
+		const trackLink = getMiniPlayer()
+			?.querySelector(miniPlayerTitleSelector)
+			?.getAttribute('href');
+
+		return trackLink?.match(/\/tracks\/([^/?#]+)/)?.[1] ?? null;
+	};
+
+	Connector.getCurrentTime = () => getSliderValue('aria-valuenow');
+
+	Connector.getDuration = () => getSliderValue('aria-valuemax');
+
 	Connector.scrobblingDisallowedReason = () => {
+		if (getMiniPlayer() !== null) {
+			return null;
+		}
+
 		const trackLink = Util.getAttrFromSelectors(
 			trackContainerSelector,
 			'primary-href',
@@ -50,7 +114,10 @@ function setupPropertiesForNewPlayer() {
 		return trackLink === '#' ? null : 'IsAd';
 	};
 
-	Connector.pauseButtonSelector = `${playerBarSelector} music-button[icon-name=pause]`;
+	Connector.pauseButtonSelector = [
+		'[data-testid*="MiniPlayer_Pause"]',
+		`${playerBarSelector} music-button[icon-name=pause]`,
+	];
 }
 
 function setupPropertiesForOldPlayer() {
