@@ -56,7 +56,11 @@ function setupPropertiesForNewPlayer() {
 		return Number.isNaN(number) ? null : number;
 	}
 
-	Connector.playerSelector = 'body';
+	// NOTE The latest UI has no stable container for the player and animates
+	// its elements with JS, so observing `body` fires dozens of times per
+	// second and slows the page down. Poll the player state instead.
+	Connector.playerSelector = null;
+	setInterval(Connector.onStateChanged, 1000);
 
 	Connector.getTrackInfo = () => {
 		const miniPlayer = getMiniPlayer();
@@ -67,9 +71,11 @@ function setupPropertiesForNewPlayer() {
 			const artist = miniPlayer
 				.querySelector('a[href*="/artists/"]')
 				?.textContent?.trim();
+			// NOTE The mini player shows a 64x64 thumbnail; request a bigger one
 			const trackArt = miniPlayer
 				.querySelector<HTMLImageElement>(miniPlayerImageSelector)
-				?.getAttribute('src');
+				?.getAttribute('src')
+				?.replace(/\._[^./]+_\.(\w+)$/, '._SX500_SY500_.$1');
 
 			return { artist, track, trackArt };
 		}
@@ -104,14 +110,17 @@ function setupPropertiesForNewPlayer() {
 			return null;
 		}
 
-		const trackLink = Util.getAttrFromSelectors(
-			trackContainerSelector,
-			'primary-href',
-		);
+		const trackContainer = document.querySelector(trackContainerSelector);
+		if (trackContainer === null) {
+			// Nothing is playing yet
+			return null;
+		}
 
 		// NOTE Regular tracks have no link
 		// Check this condition first if the connector does not work
-		return trackLink === '#' ? null : 'IsAd';
+		return trackContainer.getAttribute('primary-href') === '#'
+			? null
+			: 'IsAd';
 	};
 
 	Connector.pauseButtonSelector = [
