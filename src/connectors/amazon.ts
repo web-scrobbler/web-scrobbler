@@ -60,7 +60,7 @@ function setupPropertiesForNewPlayer() {
 	// its elements with JS, so observing `body` fires dozens of times per
 	// second and slows the page down. Poll the player state instead.
 	Connector.playerSelector = null;
-	setInterval(Connector.onStateChanged, 1000);
+	setInterval(() => Connector.onStateChanged(), 1000);
 
 	Connector.getTrackInfo = () => {
 		const miniPlayer = getMiniPlayer();
