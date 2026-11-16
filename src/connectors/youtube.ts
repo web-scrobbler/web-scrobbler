@@ -1,4 +1,20 @@
 import type { ArtistTrackInfo, TrackInfoWithAlbum } from '@/core/types';
+import {
+	extractElementTextWithNewlines,
+	extractVideoIdFromLocation,
+	fetchMobileNextData,
+	fetchWatchVideoMetadata,
+	fetchYouTubeMusicInfo,
+	getActiveChapterTitle,
+	isMobileYouTubePage,
+	isValidYouTubeVideoId,
+	normalizeChannelId,
+	readMobileClientVersion,
+	setBoundedCache,
+	type MobileNextVideoData,
+	type WatchVideoMetadata,
+	type YouTubeMusicCacheEntry,
+} from './helpers/youtube';
 
 export {};
 
@@ -19,20 +35,54 @@ export {};
  * CSS selector of video element. It's common for both players.
  */
 const videoSelector = '.html5-main-video';
+const mainVideoSelectors = [
+	'#movie_player video.html5-main-video',
+	'#player video.html5-main-video',
+	videoSelector,
+];
+const playerContainerSelector = ['#movie_player', '.html5-video-player'];
+const adPlayingSelector =
+	'#movie_player.ad-showing, #movie_player.ad-interrupting, .ad-showing, .ad-interrupting';
 
 const chapterNameSelector = '.html5-video-player .ytp-chapter-title-content';
 const videoTitleSelector = [
 	'.html5-video-player .ytp-title-link',
 	'.slim-video-information-title .yt-core-attributed-string',
+	'.slim-video-information-title',
+	'yt-video-metadata-view-model .ytVideoMetadataViewModelTitle',
 ];
 const channelNameSelector = [
 	'#top-row .ytd-channel-name a',
 	'.slim-owner-channel-name .yt-core-attributed-string',
+	'.slim-owner-channel-name',
+	'yt-channel-bar-header-view-model .ytChannelBarHeaderViewModelTitle',
+];
+const channelAnchorSelector = [
+	'#upload-info .ytd-channel-name .yt-simple-endpoint',
+	'.slim-owner-icon-and-title',
 ];
 const videoDescriptionSelector = [
 	'#description.ytd-expandable-video-description-body-renderer',
 	'#meta-contents #description',
 	'.crawler-full-description',
+];
+
+const videoPlaybackEvents = [
+	'timeupdate',
+	'play',
+	'pause',
+	'playing',
+	'ended',
+	'seeking',
+	'seeked',
+	'durationchange',
+];
+
+const spaNavigationEvents = [
+	'yt-navigate-finish',
+	'yt-page-data-updated',
+	'state-navigateend',
+	'popstate',
 ];
 
 // Dummy category indicates an actual category is being fetched
@@ -43,37 +93,73 @@ const categoryUnknown = 'YT_DUMMY_CATEGORY_UNKNOWN';
 const categoryMusic = 'Music';
 const categoryEntertainment = 'Entertainment';
 
+type MobileVideoCacheEntry =
+	| { status: 'pending'; signal: AbortSignal }
+	| { status: 'ready'; data: MobileNextVideoData }
+	| { status: 'error' };
+
+type WatchMetadataCacheEntry =
+	| { status: 'pending'; signal: AbortSignal }
+	| { status: 'ready'; data: WatchVideoMetadata }
+	| { status: 'error' };
+
+type YouTubeMusicCacheRecord =
+	| { status: 'pending'; signal: AbortSignal }
+	| { status: 'ready'; data: YouTubeMusicCacheEntry };
+
 /**
  * Array of categories allowed to be scrobbled.
  */
 const allowedCategories: string[] = [];
 
 /**
- * "Video Id=Category" map.
+ * Watch metadata ("Video Id -> category / shortDescription") bounded cache.
  */
-const categoryCache = new Map<string, string>();
+const watchMetadataCache = new Map<string, WatchMetadataCacheEntry>();
 
 /**
- * Wether we should only scrobble music recognised by YouTube Music
+ * Mobile InnerTube `/next` metadata bounded cache.
+ */
+const mobileVideoCache = new Map<string, MobileVideoCacheEntry>();
+
+/**
+ * YouTube Music track recognition/metadata bounded cache.
+ */
+const ytMusicCache = new Map<string, YouTubeMusicCacheRecord>();
+
+/**
+ * Observed `<video>` elements to prevent duplicate listener registration across SPA mutations.
+ */
+const observedVideoElements = new WeakSet<HTMLVideoElement>();
+
+/**
+ * Whether connector options have been read from browser storage.
+ */
+let connectorOptionsLoaded = false;
+
+/**
+ * Whether we should only scrobble music recognised by YouTube Music.
  */
 let scrobbleMusicRecognisedOnly = false;
 
 /**
- * Wether the Youtube Music track info getter is enabled
+ * Whether the YouTube Music track info getter is enabled.
  */
 let getTrackInfoFromYtMusicEnabled = false;
 
 let currentVideoDescription: string | null = null;
 let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
 
-const getTrackInfoFromYoutubeMusicCache: {
-	[videoId: string]: {
-		done?: boolean;
-		recognisedByYtMusic?: boolean;
-		videoId?: string | null;
-		currentTrackInfo?: { artist?: string; track?: string };
-	};
-} = {};
+let activeVideoId: string | null = null;
+let navigationAbortController = new AbortController();
+
+let playerObserver: MutationObserver | null = null;
+let observedPlayerNode: Element | null = null;
+let bootstrapObserver: MutationObserver | null = null;
+
+const mobileClientVersion = readMobileClientVersion(
+	typeof document !== 'undefined' ? document : null,
+);
 
 const trackInfoGetters: (() =>
 	| ArtistTrackInfo
@@ -87,48 +173,71 @@ const trackInfoGetters: (() =>
 	getTrackInfoFromTitle,
 ];
 
-readConnectorOptions();
+void readConnectorOptions();
 setupEventListener();
 
-Connector.playerSelector = ['#content', '#player'];
+Connector.playerSelector = ['#content', '#app'];
 
-Connector.scrobbleInfoLocationSelector = '#primary #title.ytd-watch-metadata';
+Connector.scrobbleInfoLocationSelector =
+	'#primary #title.ytd-watch-metadata, ytm-slim-video-metadata-section-renderer';
 Connector.scrobbleInfoStyle = {
 	...Connector.scrobbleInfoStyle,
 	fontSize: '1.17em',
 	fontWeight: '700',
 };
 
-Connector.loveButtonSelector =
-	'ytd-watch-metadata like-button-view-model button[aria-pressed="false"]';
+Connector.loveButtonSelector = [
+	'ytd-watch-metadata like-button-view-model button[aria-pressed="false"]',
+	'ytm-slim-video-metadata-section-renderer like-button-view-model button[aria-pressed="false"]',
+];
 
-Connector.unloveButtonSelector =
-	'ytd-watch-metadata like-button-view-model button[aria-pressed="true"]';
+Connector.unloveButtonSelector = [
+	'ytd-watch-metadata like-button-view-model button[aria-pressed="true"]',
+	'ytm-slim-video-metadata-section-renderer like-button-view-model button[aria-pressed="true"]',
+];
 
-Connector.getChannelId = () =>
-	new URL(
-		(
-			Util.queryElements([
-				'#upload-info .ytd-channel-name .yt-simple-endpoint',
-				'.slim-owner-icon-and-title',
-			]) as NodeListOf<HTMLAnchorElement>
-		)?.[0]?.href ?? 'https://youtube.com/',
-	).pathname.slice(1);
+Connector.getChannelId = () => {
+	const videoId = getVideoId();
+
+	if (isMobileMode() && videoId) {
+		const mobileEntry = ensureMobileVideoMetadata(videoId);
+		if (mobileEntry.status === 'pending') {
+			return '';
+		}
+		if (mobileEntry.status === 'ready' && mobileEntry.data.channelId) {
+			return mobileEntry.data.channelId;
+		}
+	}
+
+	const channelAnchor = Util.queryElements<HTMLAnchorElement>(
+		channelAnchorSelector,
+	)?.[0];
+	return normalizeChannelId(channelAnchor?.href) ?? '';
+};
 
 Connector.channelLabelSelector = [
 	'#primary #title+#top-row ytd-channel-name .yt-formatted-string',
 	'.slim-owner-icon-and-title .yt-core-attributed-string',
+	'.slim-owner-channel-name',
+	'yt-channel-bar-header-view-model .ytChannelBarHeaderViewModelTitle',
 ];
 
+Connector.getChannelLabel = () => getChannelNameText();
+
 Connector.getTrackInfo = () => {
+	const videoId = getVideoId();
 	const trackInfo: TrackInfoWithAlbum = {};
 
-	if (getTrackInfoFromYtMusicEnabled) {
-		const videoId = getVideoId();
-		if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-			// start loading getTrackInfoFromYoutubeMusic
-			getTrackInfoFromYoutubeMusic();
+	if (isMobileMode() && videoId) {
+		const mobileEntry = ensureMobileVideoMetadata(videoId);
+		if (mobileEntry.status === 'pending') {
+			return trackInfo;
+		}
+	}
 
+	if (getTrackInfoFromYtMusicEnabled && videoId) {
+		const ytMusicEntry = ensureYouTubeMusicInfo(videoId);
+		if (!ytMusicEntry || ytMusicEntry.status === 'pending') {
 			// wait for getTrackInfoFromYoutubeMusic to finish
 			return trackInfo;
 		}
@@ -161,15 +270,15 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.getTimeInfo = () => {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
+	const videoElement = getMainVideoElement();
 	if (videoElement && !areChaptersAvailable()) {
-		let { currentTime, duration, playbackRate } = videoElement;
-
-		currentTime /= playbackRate;
-		duration /= playbackRate;
-
+		const { currentTime, duration, playbackRate } = videoElement;
+		if (Number.isFinite(playbackRate) && playbackRate > 0) {
+			return {
+				currentTime: currentTime / playbackRate,
+				duration: duration / playbackRate,
+			};
+		}
 		return { currentTime, duration };
 	}
 
@@ -177,11 +286,14 @@ Connector.getTimeInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	return Util.hasElementClass('.html5-video-player', 'playing-mode');
+	return Util.hasElementClass(playerContainerSelector, 'playing-mode');
 };
 
 Connector.getOriginUrl = () => {
 	const videoId = getVideoId();
+	if (!videoId) {
+		return document.location.href;
+	}
 
 	return `https://youtu.be/${videoId}`;
 };
@@ -195,7 +307,7 @@ Connector.getUniqueID = () => {
 };
 
 Connector.scrobblingDisallowedReason = () => {
-	if (document.querySelector('.ad-showing')) {
+	if (document.querySelector(adPlayingSelector)) {
 		return 'IsAd';
 	}
 
@@ -204,25 +316,41 @@ Connector.scrobblingDisallowedReason = () => {
 		return 'Other';
 	}
 
+	if (!connectorOptionsLoaded) {
+		return 'IsLoading';
+	}
+
+	const videoId = getVideoId();
+	const isMobilePending =
+		isMobileMode() &&
+		videoId !== null &&
+		ensureMobileVideoMetadata(videoId).status === 'pending';
+
+	let ytMusicPending = false;
+	let ytMusicRecognised = true;
 	if (scrobbleMusicRecognisedOnly) {
-		const videoId = getVideoId();
-		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId ?? ''];
-
-		if (!ytMusicCache) {
-			// start loading getTrackInfoFromYoutubeMusic
-			getTrackInfoFromYoutubeMusic();
-			return 'IsLoading';
+		if (!videoId) {
+			return 'Other';
 		}
-
-		if (!ytMusicCache.done) {
-			// not done loading yet
-			return 'IsLoading';
+		const ytMusicEntry = ensureYouTubeMusicInfo(videoId);
+		if (!ytMusicEntry || ytMusicEntry.status === 'pending') {
+			ytMusicPending = true;
+		} else if (!ytMusicEntry.data.recognisedByYtMusic) {
+			ytMusicRecognised = false;
 		}
+	}
 
-		if (!ytMusicCache.recognisedByYtMusic) {
-			// not recognised!
-			return 'NotOnYouTubeMusic';
-		}
+	let categoryPendingLoad = false;
+	if (allowedCategories.length > 0 && videoId) {
+		categoryPendingLoad = getVideoCategory() === categoryPending;
+	}
+
+	if (isMobilePending || ytMusicPending || categoryPendingLoad) {
+		return 'IsLoading';
+	}
+
+	if (scrobbleMusicRecognisedOnly && !ytMusicRecognised) {
+		return 'NotOnYouTubeMusic';
 	}
 
 	return isVideoCategoryAllowed() ? null : 'ForbiddenYouTubeCategory';
@@ -235,15 +363,280 @@ Connector.applyFilter(
 	}),
 );
 
-function setupEventListener() {
-	document
-		.querySelector(videoSelector)
-		?.addEventListener('timeupdate', Connector.onStateChanged);
+function isMobileMode(): boolean {
+	return isMobileYouTubePage(window.location.hostname);
 }
 
-function areChaptersAvailable() {
-	const text = Util.getTextFromSelectors(chapterNameSelector);
+function getMainVideoElement(): HTMLVideoElement | null {
+	for (const selector of mainVideoSelectors) {
+		const element = document.querySelector<HTMLVideoElement>(selector);
+		if (element) {
+			return element;
+		}
+	}
+	return null;
+}
 
+function attachVideoListeners(): void {
+	const videos = document.querySelectorAll<HTMLVideoElement>(
+		mainVideoSelectors.join(', '),
+	);
+	for (const videoEl of videos) {
+		if (observedVideoElements.has(videoEl)) {
+			continue;
+		}
+		observedVideoElements.add(videoEl);
+		for (const eventName of videoPlaybackEvents) {
+			videoEl.addEventListener(eventName, Connector.onStateChanged);
+		}
+	}
+}
+
+function syncPlayerObserver(): void {
+	attachVideoListeners();
+
+	if (typeof MutationObserver === 'undefined') {
+		return;
+	}
+
+	const playerEl =
+		document.querySelector('#movie_player') ??
+		document.querySelector('#player');
+
+	if (playerEl) {
+		if (bootstrapObserver) {
+			bootstrapObserver.disconnect();
+			bootstrapObserver = null;
+		}
+		if (playerEl !== observedPlayerNode) {
+			playerObserver?.disconnect();
+			observedPlayerNode = playerEl;
+			playerObserver = new MutationObserver(() => {
+				syncPlayerObserver();
+				Connector.onStateChanged();
+			});
+			playerObserver.observe(playerEl, {
+				childList: true,
+				subtree: true,
+				attributes: true,
+				attributeFilter: ['class', 'hidden'],
+			});
+		}
+		return;
+	}
+
+	if (!bootstrapObserver) {
+		const rootTarget = document.body ?? document.documentElement;
+		if (!rootTarget) {
+			return;
+		}
+		bootstrapObserver = new MutationObserver(() => {
+			if (
+				document.querySelector('#movie_player') ??
+				document.querySelector('#player')
+			) {
+				syncPlayerObserver();
+				Connector.onStateChanged();
+			}
+		});
+		bootstrapObserver.observe(rootTarget, {
+			childList: true,
+			subtree: true,
+		});
+	}
+}
+
+function handleNavigationEvent(): void {
+	getVideoId();
+	syncPlayerObserver();
+	Connector.onStateChanged();
+}
+
+function setupEventListener(): void {
+	getVideoId();
+	syncPlayerObserver();
+
+	for (const eventName of spaNavigationEvents) {
+		window.addEventListener(eventName, handleNavigationEvent);
+	}
+}
+
+function getReadyMobileMetadata(
+	videoId: string | null,
+): MobileNextVideoData | null {
+	if (!videoId) {
+		return null;
+	}
+	const entry = mobileVideoCache.get(videoId);
+	return entry?.status === 'ready' ? entry.data : null;
+}
+
+function isMobileMetadataPending(videoId: string | null): boolean {
+	if (!videoId) {
+		return false;
+	}
+	const entry = mobileVideoCache.get(videoId);
+	return entry?.status === 'pending' && !entry.signal.aborted;
+}
+
+function ensureMobileVideoMetadata(videoId: string): MobileVideoCacheEntry {
+	const existing = mobileVideoCache.get(videoId);
+	if (
+		existing &&
+		(existing.status !== 'pending' || !existing.signal.aborted)
+	) {
+		return existing;
+	}
+
+	const { signal } = navigationAbortController;
+	const pending: MobileVideoCacheEntry = { status: 'pending', signal };
+	setBoundedCache(mobileVideoCache, videoId, pending);
+
+	const { origin } = window.location;
+
+	void fetchMobileNextData(origin, videoId, mobileClientVersion, signal).then(
+		(result) => {
+			if (mobileVideoCache.get(videoId) !== pending) {
+				return;
+			}
+
+			if (result.status === 'aborted') {
+				mobileVideoCache.delete(videoId);
+				return;
+			}
+
+			if (result.status === 'ok') {
+				setBoundedCache(mobileVideoCache, videoId, {
+					status: 'ready',
+					data: result.data,
+				});
+				Util.debugLog(`Fetched mobile metadata for ${videoId}`);
+				if (result.data.description === null) {
+					ensureWatchMetadata(videoId);
+				}
+			} else {
+				setBoundedCache(mobileVideoCache, videoId, { status: 'error' });
+				Util.debugLog(
+					`Failed to fetch mobile metadata for ${videoId}: ${result.reason ?? 'unknown'}`,
+					'warn',
+				);
+			}
+
+			if (getVideoId() === videoId) {
+				Connector.onStateChanged();
+			}
+		},
+	);
+
+	return pending;
+}
+
+function ensureWatchMetadata(videoId: string): WatchMetadataCacheEntry {
+	const existing = watchMetadataCache.get(videoId);
+	if (
+		existing &&
+		(existing.status !== 'pending' || !existing.signal.aborted)
+	) {
+		return existing;
+	}
+
+	const { signal } = navigationAbortController;
+	const pending: WatchMetadataCacheEntry = { status: 'pending', signal };
+	setBoundedCache(watchMetadataCache, videoId, pending);
+
+	const { origin } = window.location;
+
+	void fetchWatchVideoMetadata(origin, videoId, signal).then((result) => {
+		if (watchMetadataCache.get(videoId) !== pending) {
+			return;
+		}
+
+		if (result.status === 'aborted') {
+			watchMetadataCache.delete(videoId);
+			return;
+		}
+
+		if (result.status === 'ok') {
+			setBoundedCache(watchMetadataCache, videoId, {
+				status: 'ready',
+				data: result.data,
+			});
+			Util.debugLog(
+				`Fetched category for ${videoId}: ${result.data.category ?? categoryUnknown}`,
+			);
+		} else {
+			setBoundedCache(watchMetadataCache, videoId, { status: 'error' });
+			Util.debugLog(
+				`Failed to fetch category for ${videoId}: ${result.reason ?? 'unknown'}`,
+				'warn',
+			);
+		}
+
+		if (getVideoId() === videoId) {
+			Connector.onStateChanged();
+		}
+	});
+
+	return pending;
+}
+
+function ensureYouTubeMusicInfo(
+	videoId: string,
+): YouTubeMusicCacheRecord | null {
+	if (!isValidYouTubeVideoId(videoId)) {
+		return null;
+	}
+
+	const existing = ytMusicCache.get(videoId);
+	if (
+		existing &&
+		(existing.status !== 'pending' || !existing.signal.aborted)
+	) {
+		return existing;
+	}
+
+	const { signal } = navigationAbortController;
+	const pending: YouTubeMusicCacheRecord = { status: 'pending', signal };
+	setBoundedCache(ytMusicCache, videoId, pending);
+
+	void fetchYouTubeMusicInfo(videoId, signal).then((result) => {
+		if (ytMusicCache.get(videoId) !== pending) {
+			return;
+		}
+
+		if (result.status === 'aborted') {
+			ytMusicCache.delete(videoId);
+			return;
+		}
+
+		if (result.status === 'ok') {
+			setBoundedCache(ytMusicCache, videoId, {
+				status: 'ready',
+				data: result.data,
+			});
+		} else {
+			Util.debugLog(
+				`Failed to fetch youtube music data for ${videoId}: ${result.reason ?? 'unknown'}`,
+				'warn',
+			);
+			setBoundedCache(ytMusicCache, videoId, {
+				status: 'ready',
+				data: {
+					done: true,
+					recognisedByYtMusic: false,
+				},
+			});
+		}
+
+		if (getVideoId() === videoId) {
+			Connector.onStateChanged();
+		}
+	});
+
+	return pending;
+}
+
+function areChaptersAvailable(): string | false | null {
 	// SponsorBlock extension hijacks chapter element. Ignore it.
 	if (
 		document.querySelector(
@@ -252,6 +645,23 @@ function areChaptersAvailable() {
 	) {
 		return false;
 	}
+
+	if (isMobileMode()) {
+		const videoId = getVideoId();
+		if (isMobileMetadataPending(videoId)) {
+			return false;
+		}
+		const mobileData = getReadyMobileMetadata(videoId);
+		if (mobileData) {
+			if (mobileData.chapters.length === 0) {
+				return false;
+			}
+			const currentTime = getMainVideoElement()?.currentTime ?? 0;
+			return getActiveChapterTitle(mobileData.chapters, currentTime);
+		}
+	}
+
+	const text = Util.getTextFromSelectors(chapterNameSelector);
 
 	// Chapters from the description have an "engagement panel" (sidebar),
 	// separate from "auto-chapters" which also have a one, but it's different.
@@ -270,7 +680,7 @@ function areChaptersAvailable() {
 	return text;
 }
 
-function getVideoId() {
+function resolveCurrentVideoId(): string | null {
 	/*
 	 * ytd-watch-flexy element contains ID of a first played video
 	 * if the miniplayer is visible, so we should check
@@ -281,112 +691,160 @@ function getVideoId() {
 		'href',
 	);
 	if (miniPlayerVideoUrl) {
-		return Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
+		const miniPlayerVideoId = Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
+		if (isValidYouTubeVideoId(miniPlayerVideoId)) {
+			return miniPlayerVideoId;
+		}
 	}
 
 	const videoIDDesktop = Util.getAttrFromSelectors(
 		'ytd-watch-flexy',
 		'video-id',
 	);
-	if (videoIDDesktop) {
+	if (isValidYouTubeVideoId(videoIDDesktop)) {
 		return videoIDDesktop;
 	}
 
-	// as a fallback on mobile, try to get the video ID from the URL
-	const videoIDMobile = new URLSearchParams(window.location.search).get('v');
-	return videoIDMobile;
+	// Fallback on mobile and /live/<id> URLs from the current location.
+	return extractVideoIdFromLocation(window.location);
 }
 
-function getVideoCategory() {
-	const videoId = getVideoId();
+function getVideoId(): string | null {
+	const videoId = resolveCurrentVideoId();
+	if (videoId !== activeVideoId) {
+		navigationAbortController.abort();
+		navigationAbortController = new AbortController();
+		activeVideoId = videoId;
+		currentVideoDescription = null;
+		artistTrackFromDescription = null;
+	}
+	return videoId;
+}
 
+function getVideoCategory(): string | null {
+	const videoId = getVideoId();
 	if (!videoId) {
 		return null;
 	}
 
-	if (categoryCache.has(videoId)) {
-		return categoryCache.get(videoId);
+	const watchEntry = ensureWatchMetadata(videoId);
+	if (watchEntry.status === 'pending') {
+		return categoryPending;
 	}
-
-	/*
-	 * Add dummy category for videoId to prevent
-	 * fetching category multiple times.
-	 */
-	categoryCache.set(videoId, categoryPending);
-
-	fetchCategoryName(videoId)
-		.then((category) => {
-			Util.debugLog(`Fetched category for ${videoId}: ${category}`);
-			categoryCache.set(videoId, category);
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch category for ${videoId}: ${err}`,
-				'warn',
-			);
-			categoryCache.set(videoId, categoryUnknown);
-		});
-
-	return null;
-}
-
-async function fetchCategoryName(videoId: string) {
-	/*
-	 * We cannot use `location.href`, since it could miss the video URL
-	 * in case when YouTube mini player is visible.
-	 */
-	const videoUrl = `${location.origin}/watch?v=${videoId}`;
-
-	try {
-		/*
-		 * Category info is not available via DOM API, so we should search it
-		 * in a page source.
-		 *
-		 * But we cannot use `document.documentElement.outerHtml`, since it
-		 * is not updated on video change.
-		 */
-		const response = await fetch(videoUrl);
-		const rawHtml = await response.text();
-
-		const categoryMatch = rawHtml.match(/"category":"(.+?)"/);
-		if (categoryMatch !== null) {
-			return categoryMatch[1];
-		}
-	} catch {
-		// Do nothing
+	if (watchEntry.status === 'error') {
+		return categoryUnknown;
 	}
-
-	return categoryUnknown;
+	return watchEntry.data.category ?? categoryUnknown;
 }
 
 /**
  * Asynchronously read connector options.
  */
-async function readConnectorOptions() {
-	if (await Util.getOption('YouTube', 'scrobbleMusicOnly')) {
-		allowedCategories.push(categoryMusic);
-	}
-	if (await Util.getOption('YouTube', 'scrobbleEntertainmentOnly')) {
-		allowedCategories.push(categoryEntertainment);
-	}
-	Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
+async function readConnectorOptions(): Promise<void> {
+	try {
+		const [
+			scrobbleMusicOnly,
+			scrobbleEntertainmentOnly,
+			scrobbleMusicRecognisedOnlyOption,
+			enableGetTrackInfoFromYtMusicOption,
+		] = await Promise.all([
+			Util.getOption('YouTube', 'scrobbleMusicOnly'),
+			Util.getOption('YouTube', 'scrobbleEntertainmentOnly'),
+			Util.getOption('YouTube', 'scrobbleMusicRecognisedOnly'),
+			Util.getOption('YouTube', 'enableGetTrackInfoFromYtMusic'),
+		]);
 
-	if (await Util.getOption('YouTube', 'scrobbleMusicRecognisedOnly')) {
-		scrobbleMusicRecognisedOnly = true;
-		Util.debugLog('Only scrobbling when recognised by YouTube Music');
-	}
+		if (scrobbleMusicOnly && !allowedCategories.includes(categoryMusic)) {
+			allowedCategories.push(categoryMusic);
+		}
+		if (
+			scrobbleEntertainmentOnly &&
+			!allowedCategories.includes(categoryEntertainment)
+		) {
+			allowedCategories.push(categoryEntertainment);
+		}
+		Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
 
-	if (await Util.getOption('YouTube', 'enableGetTrackInfoFromYtMusic')) {
-		getTrackInfoFromYtMusicEnabled = true;
-		Util.debugLog('Get track info from YouTube Music enabled');
+		if (scrobbleMusicRecognisedOnlyOption) {
+			scrobbleMusicRecognisedOnly = true;
+			Util.debugLog('Only scrobbling when recognised by YouTube Music');
+		}
+
+		if (enableGetTrackInfoFromYtMusicOption) {
+			getTrackInfoFromYtMusicEnabled = true;
+			Util.debugLog('Get track info from YouTube Music enabled');
+		}
+	} finally {
+		connectorOptionsLoaded = true;
+		Connector.onStateChanged();
 	}
 }
 
-function getVideoDescription() {
+function getVideoTitleText(): string | null {
+	if (isMobileMode()) {
+		const videoId = getVideoId();
+		if (isMobileMetadataPending(videoId)) {
+			return null;
+		}
+		const mobileData = getReadyMobileMetadata(videoId);
+		if (mobileData?.title) {
+			return mobileData.title;
+		}
+	}
+
+	return Util.getTextFromSelectors(videoTitleSelector)?.trim() ?? null;
+}
+
+function getChannelNameText(): string | null {
+	if (isMobileMode()) {
+		const videoId = getVideoId();
+		if (isMobileMetadataPending(videoId)) {
+			return null;
+		}
+		const mobileData = getReadyMobileMetadata(videoId);
+		if (mobileData?.channelName) {
+			return mobileData.channelName;
+		}
+	}
+
+	return Util.getTextFromSelectors(channelNameSelector)?.trim() ?? null;
+}
+
+function getVideoDescription(): string | null {
+	if (isMobileMode()) {
+		const videoId = getVideoId();
+		if (!videoId || isMobileMetadataPending(videoId)) {
+			return null;
+		}
+
+		const mobileData = getReadyMobileMetadata(videoId);
+		if (mobileData?.description) {
+			return mobileData.description;
+		}
+
+		const watchEntry = watchMetadataCache.get(videoId);
+		if (
+			watchEntry?.status === 'ready' &&
+			watchEntry.data.shortDescription
+		) {
+			return watchEntry.data.shortDescription;
+		}
+
+		const domDesc =
+			Util.getTextFromSelectors(videoDescriptionSelector)?.trim() ?? null;
+		if (domDesc) {
+			return domDesc;
+		}
+
+		return extractElementTextWithNewlines(
+			document.querySelector('ytm-crawler-description'),
+		);
+	}
+
 	return Util.getTextFromSelectors(videoDescriptionSelector)?.trim() ?? null;
 }
 
-function getTopicArtistTrackFromDescription() {
+function getTopicArtistTrackFromDescription(): TrackInfoWithAlbum | null {
 	const description = getVideoDescription();
 	if (currentVideoDescription === description) {
 		return artistTrackFromDescription;
@@ -400,8 +858,7 @@ function getTopicArtistTrackFromDescription() {
 
 function getTrackInfoFromYoutubeMusic():
 	| ArtistTrackInfo
-	| Record<string, never>
-	| undefined {
+	| Record<string, never> {
 	// if neither getTrackInfoFromYtMusicEnabled nor scrobbleMusicRecognisedOnly
 	// are enabled, there is no need to run this getter
 	if (!getTrackInfoFromYtMusicEnabled && !scrobbleMusicRecognisedOnly) {
@@ -409,101 +866,35 @@ function getTrackInfoFromYoutubeMusic():
 	}
 
 	const videoId = getVideoId();
-
-	if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
-		getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-			videoId: null,
-			done: false,
-			currentTrackInfo: {},
-		};
-	} else {
-		if (!getTrackInfoFromYtMusicEnabled) {
-			// this means that only scrobbleMusicRecognisedOnly is enabled,
-			// therefore only the cache is used and we return {} for the
-			// actual getter
-			return {};
-		}
-
-		if (getTrackInfoFromYoutubeMusicCache[videoId ?? ''].done) {
-			// already ran!
-			return getTrackInfoFromYoutubeMusicCache[videoId ?? '']
-				.currentTrackInfo;
-		}
-		// still running, lets be patient
+	if (!videoId) {
 		return {};
 	}
 
-	const body = JSON.stringify({
-		context: {
-			client: {
-				// parameters are needed, you get a 400 if you omit these
-				// specific values are just what I got when doing a request
-				// using firefox
-				clientName: 'WEB_REMIX',
-				clientVersion: '1.20221212.01.00',
-			},
-		},
-		captionParams: {},
-		videoId,
-	});
+	const cacheEntry = ensureYouTubeMusicInfo(videoId);
+	if (!getTrackInfoFromYtMusicEnabled) {
+		// this means that only scrobbleMusicRecognisedOnly is enabled,
+		// therefore only the cache is used and we return {} for the
+		// actual getter
+		return {};
+	}
 
-	fetch('https://music.youtube.com/youtubei/v1/player', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body,
-	})
-		.then((response) => response.json())
-		.then((videoInfo) => {
-			// TODO: type videoInfo
-			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-				done: true,
+	if (cacheEntry?.status === 'ready') {
+		return cacheEntry.data.currentTrackInfo ?? {};
+	}
 
-				recognisedByYtMusic:
-					videoInfo.videoDetails?.musicVideoType?.startsWith(
-						'MUSIC_VIDEO_',
-					) || false,
-			};
-
-			// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
-			// not something youtube music actually knows, so it usually gives
-			// wrong results, so we only return if it is that musicVideoType
-			if (
-				videoInfo.videoDetails?.musicVideoType ===
-				'MUSIC_VIDEO_TYPE_OMV'
-			) {
-				getTrackInfoFromYoutubeMusicCache[
-					videoId ?? ''
-				].currentTrackInfo = {
-					artist: videoInfo.videoDetails.author,
-
-					track: videoInfo.videoDetails.title,
-				};
-			}
-		})
-		.catch((err) => {
-			Util.debugLog(
-				`Failed to fetch youtube music data for ${videoId}: ${err}`,
-				'warn',
-			);
-			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
-				done: true,
-				recognisedByYtMusic: false,
-			};
-		});
+	return {};
 }
 
-function getTrackInfoFromChapters() {
+function getTrackInfoFromChapters(): ArtistTrackInfo {
+	const chapterName = areChaptersAvailable();
 	// Short circuit if chapters not available - necessary to avoid misscrobbling with SponsorBlock.
-	if (!areChaptersAvailable()) {
+	if (!chapterName) {
 		return {
 			artist: null,
 			track: null,
 		};
 	}
 
-	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
 	const artistTrack = Util.processYtVideoTitle(chapterName);
 	if (!artistTrack.track) {
 		artistTrack.track = chapterName;
@@ -512,11 +903,9 @@ function getTrackInfoFromChapters() {
 }
 
 function getTrackInfoFromTitle(): ArtistTrackInfo {
-	let { artist, track } = Util.processYtVideoTitle(
-		Util.getTextFromSelectors(videoTitleSelector),
-	);
+	let { artist, track } = Util.processYtVideoTitle(getVideoTitleText());
 	if (!artist) {
-		const channelName = Util.getTextFromSelectors(channelNameSelector);
+		const channelName = getChannelNameText();
 		const re =
 			// eslint-disable-next-line no-irregular-whitespace
 			/^(?:Mavzu|Тема|الموضوع|ਵਿਸ਼ਾ)\s[–-]\s|(?:(?:\s[-—–]|[:՝])\s(?:Onderwerp|Mövzu|Topik|tema|Tema|téma|Emne|Thema|teema|Topic|gaia|Paksa|Sujet|Isihloko|Efni|Mada|tēma|téma|emne|temat|Tópico|Subiect|aihekanava|Ämne|Chủ đề|Konu|тэма|Тема|Тақырып|Сэдэв|тема|Θέμα|թեմա|נושא|موضوع|عنوان|विषय|বিষয়বস্তু|বিষয়|મુદ્દો|ବିଷୟ|தலைப்பு|అంశం|ವಿಷಯ|വിഷയം|මාතෘකාව|หัวข้อ|ຫົວ​ຂໍ້|ခေါင်းစဉ်|თემა|ርዕስ|ប្រធាន​បទ|主题|主題|トピック|주제)|\s\(tema\))$/;
@@ -526,14 +915,14 @@ function getTrackInfoFromTitle(): ArtistTrackInfo {
 	return { artist, track };
 }
 
-function removeLtrRtlChars(text: string) {
+function removeLtrRtlChars(text: string): string {
 	return MetadataFilter.filterWithFilterRules(text, [
 		{ source: /\u200e/g, target: '' },
 		{ source: /\u200f/g, target: '' },
 	]);
 }
 
-function removeNumericPrefix(text: string) {
+function removeNumericPrefix(text: string): string {
 	return MetadataFilter.filterWithFilterRules(text, [
 		// `NN.` or `NN)`
 		{ source: /^\d{1,2}[.)]\s?/, target: '' },
@@ -546,20 +935,18 @@ function removeNumericPrefix(text: string) {
 	]);
 }
 
-function isVideoStartedPlaying() {
-	const videoElement = document.querySelector(
-		videoSelector,
-	) as HTMLVideoElement;
-	return videoElement && videoElement.currentTime > 0;
+function isVideoStartedPlaying(): boolean {
+	const videoElement = getMainVideoElement();
+	return Boolean(videoElement && videoElement.currentTime > 0);
 }
 
-function isVideoCategoryAllowed() {
+function isVideoCategoryAllowed(): boolean {
 	if (allowedCategories.length === 0) {
 		return true;
 	}
 
 	const videoCategory = getVideoCategory();
-	if (!videoCategory) {
+	if (!videoCategory || videoCategory === categoryPending) {
 		return false;
 	}
 
