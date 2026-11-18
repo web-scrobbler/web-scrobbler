@@ -234,7 +234,14 @@ function pushEdits(
 				const oldEdits = await editWrapper.get();
 
 				if (oldEdits instanceof Array && edits instanceof Array) {
-					const newEdits = [...(oldEdits ?? []), ...edits];
+					const exists = (edit: RegexEdit) =>
+						oldEdits.some(
+							(e) =>
+								JSON.stringify(e.search) === JSON.stringify(edit.search) &&
+								JSON.stringify(e.replace) === JSON.stringify(edit.replace)
+						);
+					const onlyNew = edits.filter((edit) => !exists(edit));
+					const newEdits = [...oldEdits, ...onlyNew];
 					editWrapper.set(newEdits);
 				} else if (isSavedEdits(oldEdits) && isSavedEdits(edits)) {
 					const newEdits = { ...(oldEdits || {}), ...edits };
