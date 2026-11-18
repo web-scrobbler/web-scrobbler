@@ -74,7 +74,7 @@ function getCurrentTrack() {
 	 */
 	// The dash is surrounded by non-breaking spaces (&nbsp;), not regular spaces.
 	let track = Util.getTextFromSelectors(trackSelector)
-		?.split(' – ')
+		?.split('\u00A0–\u00A0')
 		.slice(1)
 		.join(': ')
 		.trim();
