@@ -160,19 +160,19 @@
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Use Youtube Music to get track info",
+        "message": "Use the YouTube Music API to get track info",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
+        "message": "Use the YouTube Music API to get track info, if disabled defaults to using description and video title",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "Scrobble only videos that are recognized by YouTube Music as music",
+        "message": "Scrobble only videos that are recognized as music by the YouTube Music API",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignore videos that are not recognised by YouTube Music as music",
+        "message": "Ignore videos that are not recognised as music by the YouTube Music API",
         "description": "Option title"
     },
     "optionTheme": {
@@ -704,7 +704,7 @@
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-      "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+      "message": "The YouTube Music API does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized as music by the YouTube Music API\" in settings.",
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {

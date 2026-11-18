@@ -160,7 +160,7 @@
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Korzystaj z usługi Youtube Music aby uzyskać informacje o utworze",
+        "message": "Korzystaj z usługi YouTube Music API aby uzyskać informacje o utworze",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
@@ -168,11 +168,11 @@
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "Scrobbluj wyłącznie filmy rozpoznane przez YouTube Music jako muzyka",
+        "message": "Scrobbluj wyłącznie filmy rozpoznane przez YouTube Music API jako muzyka",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignoruje filmy, które nie zostały rozpoznane jako muzyka przez usługę YouTube Music",
+        "message": "Ignoruje filmy, które nie zostały rozpoznane jako muzyka przez usługę YouTube Music API",
         "description": "Option title"
     },
     "optionTheme": {
@@ -704,7 +704,7 @@
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-        "message": "YouTube Music nie rozpoznało tego filmu jako muzyki, a aktywowana została opcja \"Scrobbluj wyłącznie filmy rozpoznane przez YouTube Music jako muzyka\" w ustawieniach.",
+        "message": "YouTube Music API nie rozpoznało tego filmu jako muzyki, a aktywowana została opcja \"Scrobbluj wyłącznie filmy rozpoznane przez YouTube Music API jako muzyka\" w ustawieniach.",
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
