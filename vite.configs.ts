@@ -112,6 +112,10 @@ export const buildStart: UserConfig = {
 					src: resolvePath(root, '_locales'),
 					dest: '',
 				},
+				{
+					src: resolvePath(root, 'static-data'),
+					dest: '',
+				},
 			],
 		}),
 		compileConnectors({

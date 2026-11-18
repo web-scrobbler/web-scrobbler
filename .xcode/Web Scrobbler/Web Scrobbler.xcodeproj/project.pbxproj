@@ -57,6 +57,8 @@
 		CEB1C78E2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */; };
 		CEB1C7902AD612DA00E20CCB /* SwipedEvents.js in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */; };
 		CEB1C7912AD612DA00E20CCB /* SwipedEvents.js in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */; };
+		CE0E9A022A4D3B5000F1E2D4 /* static-data in Resources */ = {isa = PBXBuildFile; fileRef = CE0E9A012A4D3B5000F1E2D3 /* static-data */; };
+		CE0E9A032A4D3B5000F1E2D5 /* static-data in Resources */ = {isa = PBXBuildFile; fileRef = CE0E9A012A4D3B5000F1E2D3 /* static-data */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +136,7 @@
 		CE6FB7A22A175BB2007056D5 /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../../build/safariraw/_locales; sourceTree = "<group>"; };
 		CE6FB7A32A175BB2007056D5 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../build/safariraw/assets; sourceTree = "<group>"; };
 		CE6FB7A42A175BB2007056D5 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../../build/safariraw/src; sourceTree = "<group>"; };
+		CE0E9A012A4D3B5000F1E2D3 /* static-data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "static-data"; path = ../../../build/safariraw/static-data; sourceTree = "<group>"; };
 		CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = compiledsettings.jpg; sourceTree = "<group>"; };
 		CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = settinglist.jpg; sourceTree = "<group>"; };
 		CEB1C7892AD601BA00E20CCB /* accounttab.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = accounttab.jpg; sourceTree = "<group>"; };
@@ -284,6 +287,7 @@
 				CE6FB7A22A175BB2007056D5 /* _locales */,
 				CE6FB7A32A175BB2007056D5 /* assets */,
 				CE6FB7A42A175BB2007056D5 /* src */,
+				CE0E9A012A4D3B5000F1E2D3 /* static-data */,
 			);
 			name = Resources;
 			path = "Shared (Extension)";
@@ -460,6 +464,7 @@
 				CE6FB7B32A175BB2007056D5 /* manifest.json in Resources */,
 				CE6FB7B42A175BB2007056D5 /* _locales in Resources */,
 				CE6FB7AE2A175BB2007056D5 /* background in Resources */,
+				CE0E9A022A4D3B5000F1E2D4 /* static-data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +481,7 @@
 				CE6FB7AA2A175BB2007056D5 /* manifest.json in Resources */,
 				CE6FB7AB2A175BB2007056D5 /* _locales in Resources */,
 				CE6FB7A52A175BB2007056D5 /* background in Resources */,
+				CE0E9A032A4D3B5000F1E2D5 /* static-data in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
