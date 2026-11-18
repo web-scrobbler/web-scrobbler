@@ -23,8 +23,16 @@ export {};
 const adSelector =
 	'ytmusic-miniplayer.advertisement, .ytmusic-player-bar.advertisement';
 
+/**
+ * Official music video uploaded by the artist's own channel.
+ * Unlike user-generated videos (MUSIC_VIDEO_TYPE_UGC), the channel name
+ * of such videos is the artist name, so it can be trusted.
+ */
+const MUSIC_VIDEO_TYPE_OMV = 'MUSIC_VIDEO_TYPE_OMV';
+
 const mediaInfo = {
 	playbackState: 'none',
+	musicVideoType: undefined as string | undefined,
 	metadata: {
 		title: '',
 		artist: '',
@@ -35,6 +43,7 @@ const mediaInfo = {
 
 Connector.onScriptEvent = (event) => {
 	mediaInfo.playbackState = event.data.playbackState as string;
+	mediaInfo.musicVideoType = event.data.musicVideoType as string | undefined;
 	mediaInfo.metadata = event.data.metadata as {
 		title: string;
 		artist: string;
@@ -65,6 +74,14 @@ Connector.getArtistTrack = () => {
 	if (metadata?.album) {
 		artist = metadata.artist;
 		track = metadata.title;
+	} else if (
+		mediaInfo.musicVideoType === MUSIC_VIDEO_TYPE_OMV &&
+		metadata.artist
+	) {
+		({ artist, track } = getArtistTrackFromOfficialVideo(
+			metadata.title,
+			metadata.artist,
+		));
 	} else {
 		({ artist, track } = Util.processYtVideoTitle(metadata?.title));
 		if (!artist) {
@@ -73,6 +90,27 @@ Connector.getArtistTrack = () => {
 	}
 	return { artist, track };
 };
+
+/**
+ * Official video titles may or may not contain the artist name, e.g.
+ * "Sade - Smooth Operator" or "Kiss Of Life - Official - 1993".
+ * Use the parsed artist only if it matches the channel artist; otherwise
+ * the title starts with the track name, and the channel is the artist.
+ */
+function getArtistTrackFromOfficialVideo(title: string, channelArtist: string) {
+	const parsed = Util.processYtVideoTitle(title);
+	if (!parsed.artist || !parsed.track) {
+		return { artist: channelArtist, track: parsed.track ?? title };
+	}
+
+	const parsedArtist = parsed.artist.toLowerCase();
+	const channel = channelArtist.toLowerCase();
+	if (parsedArtist.includes(channel) || channel.includes(parsedArtist)) {
+		return parsed;
+	}
+
+	return { artist: channelArtist, track: parsed.artist };
+}
 
 Connector.timeInfoSelector =
 	'ytmusic-miniplayer .time-info, .ytmusic-player-bar.time-info';
