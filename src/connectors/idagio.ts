@@ -6,13 +6,27 @@ const commonNameSelector = `${trackSelector} span:nth-child(3) span:nth-child(2)
 const directorSelector =
 	'[class*="player-PlayerInfo__recordingInfo--"]>span:first-child span';
 
+/*
+ * When playing a "Mood" (https://app.idagio.com/moods), the player bar
+ * has no track info: it is shown in the center of the page instead.
+ */
+const moodInfoSelector = '[class*="mood-MoodTrackInfo__info--"]';
+const moodComposerSelector = `${moodInfoSelector} [class*="mood-MoodTrackInfo__composer--"]`;
+const moodTitleSelector = `${moodInfoSelector} [class*="mood-MoodTrackInfo__title--"] span[title]`;
+const moodDirectorSelector = `${moodInfoSelector} [class*="mood-MoodTrackInfo__interpreter--"] a`;
+
 Connector.playerSelector = '[class*="player-PlayerBar__bar--"]';
 
-Connector.artistSelector = `${trackSelector} span:first-child`;
+Connector.getArtist = () =>
+	isMoodPlayer()
+		? Util.getTextFromSelectors(moodComposerSelector)
+		: Util.getTextFromSelectors(`${trackSelector} span:first-child`);
 
-Connector.getTrack = getCurrentTrack;
+Connector.getTrack = () =>
+	isMoodPlayer() ? getMoodTrack() : getCurrentTrack();
 
-Connector.getAlbum = getCurrentSymphony;
+Connector.getAlbum = () =>
+	isMoodPlayer() ? getMoodSymphony() : getCurrentSymphony();
 
 Connector.currentTimeSelector =
 	'[class*="player-PlayerProgress__progress--"]>span';
@@ -23,12 +37,27 @@ Connector.durationSelector =
 Connector.pauseButtonSelector =
 	'[class*="player-PlayerControls__btn--"][data-test="player-controls.pause-btn"]';
 
+/*
+ * Sponsor messages are shown in the player bar also when playing a mood,
+ * so this check covers both modes.
+ */
 Connector.scrobblingDisallowedReason = () =>
 	Util.getTextFromSelectors(
 		'[class*="player-PlayerInfo__recordingInfo--"]',
 	) === 'Sponsor message'
 		? 'IsAd'
 		: null;
+
+/**
+ * Check if a mood is playing: the player bar has no track info,
+ * and the mood track info is displayed in the page.
+ */
+function isMoodPlayer() {
+	return (
+		!document.querySelector(trackSelector) &&
+		Boolean(document.querySelector(moodInfoSelector))
+	);
+}
 
 function getCurrentTrack() {
 	/*
@@ -44,7 +73,7 @@ function getCurrentTrack() {
 	 * -> "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
 	 */
 	let track = Util.getTextFromSelectors(trackSelector)
-		?.split(' – ')
+		?.split(' – ')
 		.slice(1)
 		.join(': ')
 		.trim();
@@ -60,14 +89,61 @@ function getCurrentTrack() {
 }
 
 function getCurrentSymphony() {
-	const symphonyShort = Util.getTextFromSelectors(symphonySelector)?.split(
-		/ in [A-G]| op. [0-9]| KV [0-9]/,
-	)[0];
+	const symphonyShort = getSymphonyShort(
+		Util.getTextFromSelectors(symphonySelector),
+	);
 	const commonName = Util.getTextFromSelectors(commonNameSelector) || '';
 	const director = removeParenthesis(
 		Util.getTextFromSelectors(directorSelector),
 	);
 	return `${symphonyShort}${commonName} (${director})`;
+}
+
+/**
+ * Get the work and movement titles of the mood track.
+ * The work is the first title and the movement the second one.
+ * @returns Array of non-empty titles
+ */
+function getMoodTitles() {
+	return Array.from(
+		document.querySelectorAll(moodTitleSelector),
+		(element) => element.getAttribute('title')?.trim() ?? '',
+	).filter(Boolean);
+}
+
+function getMoodTrack() {
+	/*
+	 * Join work and movement as "Work: Movement", like in the player bar.
+	 * If the movement name is already part of the work name, use only the work.
+	 * Example:
+	 * ["O Lord, In Thee Is All My Trust (Arr. for Saxophone and Vocal Ensemble)", "O Lord, In Thee Is All My Trust"]
+	 * -> "O Lord, In Thee Is All My Trust (Arr. for Saxophone and Vocal Ensemble)"
+	 */
+	const [work, movement] = getMoodTitles();
+	if (!work) {
+		return null;
+	}
+	if (!movement || work.toLowerCase().includes(movement.toLowerCase())) {
+		return work;
+	}
+	return `${work}: ${movement}`;
+}
+
+function getMoodSymphony() {
+	const [work] = getMoodTitles();
+	if (!work) {
+		return null;
+	}
+	const director = removeParenthesis(
+		Util.getTextFromSelectors(moodDirectorSelector),
+	);
+	return director
+		? `${getSymphonyShort(work)} (${director})`
+		: getSymphonyShort(work);
+}
+
+function getSymphonyShort(symphony: string | null) {
+	return symphony?.split(/ in [A-G]| op. [0-9]| KV [0-9]/)[0];
 }
 
 function removeParenthesis(text: string | null) {
