@@ -72,8 +72,9 @@ function getCurrentTrack() {
 	 * -> ["Sonata for Violin and Piano No. 1 in D minor op. 75 R 123", "I. Allegro agitato –"]
 	 * -> "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
 	 */
+	// The dash is surrounded by non-breaking spaces (&nbsp;), not regular spaces.
 	let track = Util.getTextFromSelectors(trackSelector)
-		?.split(' – ')
+		?.split(' – ')
 		.slice(1)
 		.join(': ')
 		.trim();
