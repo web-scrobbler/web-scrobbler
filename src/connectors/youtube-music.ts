@@ -23,6 +23,9 @@ export {};
 const adSelector =
 	'ytmusic-miniplayer.advertisement, .ytmusic-player-bar.advertisement';
 
+// track title in `mediaSession` is stripped compared to DOM
+const titleSelector = '.ytmusic-player-bar .title';
+
 const mediaInfo = {
 	playbackState: 'none',
 	metadata: {
@@ -61,12 +64,14 @@ Connector.getArtistTrack = () => {
 	let artist;
 	let track;
 	const metadata = mediaInfo.metadata;
+	const rawTitle =
+		Util.getTextFromSelectors(titleSelector) || metadata?.title;
 
 	if (metadata?.album) {
 		artist = metadata.artist;
-		track = metadata.title;
+		track = rawTitle;
 	} else {
-		({ artist, track } = Util.processYtVideoTitle(metadata?.title));
+		({ artist, track } = Util.processYtVideoTitle(rawTitle));
 		if (!artist) {
 			artist = metadata?.artist;
 		}
