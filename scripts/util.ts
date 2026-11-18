@@ -76,5 +76,16 @@ export function isGitRepository() {
 	}
 }
 
+export function gitVersion(): string | null {
+	try {
+		return execFileSync('git', ['describe', '--always', '--dirty'], {
+			encoding: 'utf8',
+			stdio: ['ignore', 'pipe', 'ignore'],
+		}).trim();
+	} catch {
+		return null;
+	}
+}
+
 export const releaseTarget = process.argv.at(-1);
 export const releaseType = process.argv.at(-2);

@@ -103,5 +103,12 @@ export function openTab(tabId: number): void {
  * @returns the extension version
  */
 export function getExtensionVersion(): string {
-	return browser.runtime.getManifest().version;
+	const manifest = browser.runtime.getManifest();
+	if (
+		manifest.description &&
+		manifest.description !== '__MSG_extDescription__'
+	) {
+		return manifest.description;
+	}
+	return manifest.version;
 }
