@@ -2539,4 +2539,10 @@ export default <ConnectorMeta[]>[
 		js: 'flavibot.js',
 		id: 'flavibot',
 	},
+	{
+		label: 'ARD Sounds',
+		matches: ['*://www.ardsounds.de/*'],
+		js: 'ardsounds.js',
+		id: 'ardsounds',
+	},
 ];
