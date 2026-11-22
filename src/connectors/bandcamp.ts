@@ -83,9 +83,11 @@ function setupDesktopConnector() {
 		initPropertiesForFeedPlayer();
 	} else if (isDiscoverPage()) {
 		Util.debugLog('Init props for discover player');
+
 		initPropertiesForDiscoverPlayer();
 	} else if (isPlaylistPage()) {
 		Util.debugLog('Init props for playlist player');
+
 		initPropertiesForPlaylistPlayer();
 	} else {
 		Util.debugLog('Init props for home page');
@@ -136,36 +138,29 @@ function initGenericProperties() {
 	Connector.getOriginUrl = () => document.location.href.split('?')[0];
 }
 
+// Example: https://bandcamp.com/discover/neofolk?s=new
 function initPropertiesForDiscoverPlayer() {
 	bandcampFilter = bandcampFilter.extend(
 		MetadataFilter.createFilter({
 			artist: [removeByPrefix],
 			album: [removeFromPrefix],
+			albumArtist: [removeByPrefix],
 		}),
 	);
 
-	Connector.playerSelector = '.discover-player';
+	Connector.playerSelector = '.player-bar';
+	Connector.artistSelector = '.artist-name';
+	Connector.albumArtistSelector = '.artist-name';
+	Connector.trackSelector = '.title-text strong';
+	Connector.durationSelector = '.track-progress span:nth-child(2)';
+	Connector.currentTimeSelector = '.track-progress span:nth-child(1)';
 
-	Connector.artistSelector = '.player-info a:nth-child(3)';
-
-	Connector.albumSelector = '.player-info a:nth-child(2)';
-
-	Connector.trackSelector = '.player-info p';
-
-	Connector.trackArtSelector = 'img.cover';
-
-	Connector.durationSelector = '.playback-time.total';
-
-	Connector.currentTimeSelector = '.playback-time.current';
+	// These properties are only available on the sidebar, not the player bar
+	Connector.albumSelector = '.album-title';
+	Connector.trackArtSelector = '.cover'; // high res only on sidebar
 
 	Connector.isPlaying = () => {
-		const playButton = document.querySelector(
-			'.player-top button.play-pause-button',
-		);
-		return (
-			playButton !== null &&
-			playButton.querySelector('svg.pause-circle-outline-icon') !== null
-		);
+		return Util.hasElementClass('.track-title', 'currently-playing');
 	};
 }
 
