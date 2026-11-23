@@ -100,6 +100,11 @@ Connector.getUniqueID = () => {
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
+Connector.getOriginUrl = () => {
+	const videoId = Connector.getUniqueID();
+	return videoId ? `https://music.youtube.com/watch?v=${videoId}` : null;
+};
+
 Connector.scrobblingDisallowedReason = () =>
 	Util.isElementVisible(adSelector) ? 'IsAd' : null;
 
