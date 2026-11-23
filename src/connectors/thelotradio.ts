@@ -2,7 +2,7 @@ export {};
 
 /**
  * Examples for testing:
- * With tracklist: https://www.thelotradio.com/shows/house-of-diggs-with-dee-diggs/2026-02-25-1300
+ * With tracklist: https://www.thelotradio.com/shows/special-guests/2026-11-23-1400
  * Missing tracklist: https://www.thelotradio.com/shows/special-guests/2025-08-08-2000
  */
 
@@ -25,26 +25,30 @@ Connector.isStateChangeAllowed = () => {
 
 Util.bindListeners(
 	['video'],
-	['playing', 'pause', 'timeupdate'],
+	['playing', 'pause', 'timeupdate', 'ended', 'durationchange'],
 	Connector.onStateChanged,
 );
 Util.bindListeners(['ul li > button'], ['click'], Connector.onStateChanged);
+
+Connector.isPlaying = () => {
+	const video = document.querySelector('video');
+	return Boolean(video && !video.paused && !video.ended);
+};
 
 /**
  * Some shows have no tracklist, so we scrobble the whole thing
  */
 const missingTracklistSelector = 'img[src^="/images/crying-nicolas-cage.gif"]';
-const showTitleSelector =
-	'header h1:has(+ div div button[aria-label="Save Episode"])';
+const showTitleSelector = 'main header h1';
 function isMissingTracklist() {
 	return Util.isElementVisible(missingTracklistSelector);
 }
 
-const notDisplayNone = ':not([style*="display: none"])'; // ignores hidden tracklists from previously navigated shows
-const nowPlayingSelector = `.grid${notDisplayNone} ul li > button.text-purple`;
-const nowPlayingNextSelector = `.grid${notDisplayNone} ul li:has(button.text-purple) + li > button`;
+const nowPlayingSelector = 'main ul > li > button[aria-current="true"]';
+const nowPlayingNextSelector =
+	'main ul > li:has(> button[aria-current="true"]) + li > button';
 const trackSelector = `${nowPlayingSelector} > div > span:nth-of-type(2) > span:first-of-type`;
-const artistSelector = `${nowPlayingSelector} > div > span:nth-of-type(2) > span.opacity-40`;
+const artistSelector = `${nowPlayingSelector} > div > span:nth-of-type(2) > span:nth-of-type(2)`;
 
 Connector.getTrack = () => {
 	if (isMissingTracklist()) {
@@ -62,45 +66,44 @@ Connector.getArtist = () => {
 	return getTextContentFromSelectors(artistSelector);
 };
 
-const fullDurationSelector = `${headerPlayer} span.hidden.${CSS.escape('xl:inline')}`;
+function getTrackStart() {
+	const timestamp = getTextContentFromSelectors(
+		`${nowPlayingSelector} > div > span:first-of-type`,
+	);
+	return timestamp === null ? undefined : Util.stringToSeconds(timestamp);
+}
+
+Connector.getCurrentTime = () => {
+	const currentTime = document.querySelector('video')?.currentTime;
+	const start = isMissingTracklist() ? 0 : getTrackStart();
+	if (currentTime === undefined || start === undefined) {
+		return undefined;
+	}
+	return Math.max(0, currentTime - start);
+};
 
 /**
  * Compare timestamps of tracks in setlist (last track is compared to full duration)
  */
 Connector.getDuration = () => {
+	const duration = document.querySelector('video')?.duration;
 	if (isMissingTracklist()) {
-		const fullDuration = Util.queryElements(fullDurationSelector)?.[0];
-		if (!fullDuration) {
-			return undefined;
-		}
-		return Util.stringToSeconds(fullDuration.innerText.replace(' / ', '0'));
+		return duration;
 	}
 
-	const nowPlayingStart = Util.queryElements<HTMLSpanElement>(
-		`${nowPlayingSelector} > div > span:first-of-type`,
-	)?.[0];
-	if (!nowPlayingStart) {
+	const start = getTrackStart();
+	if (start === undefined) {
 		return undefined;
 	}
 
-	const nextPlayingStart = Util.queryElements<HTMLSpanElement>(
+	const nextPlayingStart = getTextContentFromSelectors(
 		`${nowPlayingNextSelector} > div > span:first-of-type`,
-	)?.[0];
-	let nextTimestamp;
-	if (nextPlayingStart) {
-		nextTimestamp = nextPlayingStart.innerText;
-	} else {
-		const fullDuration = Util.queryElements(fullDurationSelector)?.[0];
-		nextTimestamp = fullDuration?.innerText.replace(' / ', '0');
-	}
-	if (!nextTimestamp) {
-		return undefined;
-	}
-
-	return (
-		Util.stringToSeconds(nextTimestamp) -
-		Util.stringToSeconds(nowPlayingStart.innerText)
 	);
+	const end =
+		nextPlayingStart === null
+			? duration
+			: Util.stringToSeconds(nextPlayingStart);
+	return end !== undefined && end > start ? end - start : undefined;
 };
 
 /**
@@ -120,6 +123,10 @@ function getTextContentFromSelectors(
 	}
 
 	for (const element of elements) {
+		// Ignore hidden show pages retained after client-side navigation.
+		if (element.closest('[style*="display: none"]')) {
+			continue;
+		}
 		const text = element.textContent;
 		if (text) {
 			return text;
