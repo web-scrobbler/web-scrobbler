@@ -6,7 +6,7 @@ Connector.trackSelector = '#player-track-title';
 Connector.getArtist = () => {
 	const artistText =
 		document.querySelector('#player-track-artist')?.textContent ?? '';
-	return artistText.includes(' • ') ? artistText.split(' • ')[0] : artistText;
+	return artistText.split(/\s[·•]\s/)[0];
 };
 
 Connector.isPlaying = () => {
