@@ -17,11 +17,28 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
+	type MoviePlayer = HTMLElement & {
+		getPlayerResponse?: () =>
+			| { videoDetails?: { musicVideoType?: string } }
+			| undefined;
+	};
+
+	const getMusicVideoType = (): string | undefined => {
+		try {
+			return (
+				document.getElementById('movie_player') as MoviePlayer | null
+			)?.getPlayerResponse?.()?.videoDetails?.musicVideoType;
+		} catch {
+			return undefined;
+		}
+	};
+
 	const sendData = () => {
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
 				playbackState: navigator.mediaSession.playbackState,
+				musicVideoType: getMusicVideoType(),
 				metadata: {
 					title: navigator.mediaSession.metadata?.title,
 					artist: navigator.mediaSession.metadata?.artist,
