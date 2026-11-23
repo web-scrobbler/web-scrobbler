@@ -2092,8 +2092,8 @@ export default <ConnectorMeta[]>[
 		id: 'chirpradio',
 	},
 	{
-		label: 'OnlyHit',
-		matches: ['*://onlyhit.us/*'],
+		label: 'Only Hits',
+		matches: ['*://onlyhitsradio.net/*', '*://*.onlyhitsradio.net/*'],
 		js: 'onlyhit.js',
 		id: 'onlyhit',
 	},
