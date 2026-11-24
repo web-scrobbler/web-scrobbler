@@ -28,11 +28,13 @@ interface ValidateTokenResponse {
 }
 
 export default class SonosphereScrobbler extends BaseScrobbler<'Sonosphere'> {
-	declare public userToken: string;
 	public isLocalOnly = true;
 
-	/** Cached result of validate-token, keyed by the token it was made with. */
-	private validatedSession: (SessionData & { token: string }) | null = null;
+	/**
+	 * Cached result of validate-token, keyed by the token it was made with.
+	 * Holds at most one entry.
+	 */
+	private validatedSessions = new Map<string, SessionData>();
 
 	/** @override */
 	protected getStorageName(): 'Sonosphere' {
@@ -86,7 +88,7 @@ export default class SonosphereScrobbler extends BaseScrobbler<'Sonosphere'> {
 
 	/** @override */
 	public async signOut(): Promise<void> {
-		this.validatedSession = null;
+		this.validatedSessions.clear();
 		if (this.userToken) {
 			await this.applyUserProperties({ userToken: null });
 		}
@@ -100,12 +102,12 @@ export default class SonosphereScrobbler extends BaseScrobbler<'Sonosphere'> {
 			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
-		if (this.validatedSession?.token === token) {
-			const { sessionID, sessionName } = this.validatedSession;
-			return { sessionID, sessionName };
+		const cached = this.validatedSessions.get(token);
+		if (cached) {
+			return { ...cached };
 		}
 
-		let result: ValidateTokenResponse | null = null;
+		let result: ValidateTokenResponse;
 		try {
 			const response = await timeoutPromise(
 				this.REQUEST_TIMEOUT,
@@ -120,17 +122,15 @@ export default class SonosphereScrobbler extends BaseScrobbler<'Sonosphere'> {
 			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
-		if (!result?.valid) {
+		if (!result.valid) {
 			this.debugLog(`Invalid token ${hideObjectValue(token)}`, 'warn');
 			throw new Error(ServiceCallResult.ERROR_AUTH);
 		}
 
-		this.validatedSession = {
-			token,
-			sessionID: token,
-			sessionName: result.user_name,
-		};
-		return { sessionID: token, sessionName: result.user_name };
+		const session = { sessionID: token, sessionName: result.user_name };
+		this.validatedSessions.clear();
+		this.validatedSessions.set(token, session);
+		return { ...session };
 	}
 
 	/** @override */
@@ -184,7 +184,7 @@ export default class SonosphereScrobbler extends BaseScrobbler<'Sonosphere'> {
 		sessionID: string,
 	): Promise<ServiceCallResult> {
 		let response: Response;
-		let result: Record<string, unknown> | null = null;
+		let result: Record<string, unknown>;
 		try {
 			response = await timeoutPromise(
 				this.REQUEST_TIMEOUT,
@@ -206,10 +206,10 @@ export default class SonosphereScrobbler extends BaseScrobbler<'Sonosphere'> {
 		this.debugLog(JSON.stringify(result, null, 2));
 
 		if (response.status === 401) {
-			this.validatedSession = null;
+			this.validatedSessions.clear();
 			return ServiceCallResult.ERROR_AUTH;
 		}
-		if (!response.ok || result?.status !== 'ok') {
+		if (!response.ok || result.status !== 'ok') {
 			return ServiceCallResult.ERROR_OTHER;
 		}
 		return ServiceCallResult.RESULT_OK;
