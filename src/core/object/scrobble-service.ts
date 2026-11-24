@@ -5,6 +5,7 @@ import ListenBrainzScrobbler from '@/core/scrobbler/listenbrainz/listenbrainz-sc
 import MalojaScrobbler from '@/core/scrobbler/maloja/maloja-scrobbler';
 import WebhookScrobbler from '@/core/scrobbler/webhook-scrobbler';
 import PleromaScrobbler from '@/core/scrobbler/pleroma/pleroma-scrobbler';
+import SonosphereScrobbler from '@/core/scrobbler/sonosphere/sonosphere-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import type { BaseSong } from '@/core/object/song';
 import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
@@ -23,7 +24,8 @@ export type Scrobbler =
 	| ListenBrainzScrobbler
 	| MalojaScrobbler
 	| WebhookScrobbler
-	| PleromaScrobbler;
+	| PleromaScrobbler
+	| SonosphereScrobbler;
 
 /**
  * Scrobblers that are registered and that can be bound.
@@ -35,6 +37,7 @@ const registeredScrobblers = [
 	new MalojaScrobbler(),
 	new WebhookScrobbler(),
 	new PleromaScrobbler(),
+	new SonosphereScrobbler(),
 ];
 
 export type ScrobblerLabel =
@@ -43,7 +46,8 @@ export type ScrobblerLabel =
 	| 'Libre.fm'
 	| 'Maloja'
 	| 'Webhook'
-	| 'Pleroma';
+	| 'Pleroma'
+	| 'Sonosphere';
 
 /**
  * Check if scrobbler is in given array of scrobblers.
