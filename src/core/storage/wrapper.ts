@@ -76,6 +76,7 @@ export interface ScrobblerModels {
 	Maloja?: Properties;
 	Webhook?: WebhookModel;
 	Pleroma?: Properties;
+	Sonosphere?: Properties;
 }
 
 export interface ManagerTab {

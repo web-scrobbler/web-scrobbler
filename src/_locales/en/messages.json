@@ -263,6 +263,10 @@
         "message": "Custom token",
         "description": "Input label"
     },
+    "accountsSonosphereTokenPlaceholder": {
+        "message": "Token from sonosphere.fm/settings/applications",
+        "description": "Input placeholder for the Sonosphere user token"
+    },
     "accountsApplicationName": {
         "message": "Application name",
         "description": "Input label"

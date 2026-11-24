@@ -63,6 +63,13 @@ const scrobblerPropertiesMap = {
 			placeholder: 'accountsUserTokenPlaceholder',
 		},
 	},
+	Sonosphere: {
+		userToken: {
+			type: 'password',
+			title: 'accountsUserToken',
+			placeholder: 'accountsSonosphereTokenPlaceholder',
+		},
+	},
 };
 
 /**
@@ -96,6 +103,7 @@ export default function Accounts() {
 			<ScrobblerDisplay label="Maloja" />
 			<ScrobblerDisplay label="Webhook" />
 			<ScrobblerDisplay label="Pleroma" />
+			<ScrobblerDisplay label="Sonosphere" />
 		</>
 	);
 }
