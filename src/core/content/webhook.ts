@@ -3,6 +3,13 @@ import scrobbleService from '../object/scrobble-service';
 import { sendContentMessage } from '@/util/communication';
 
 export function webhookListenForApproval() {
+	// Don't run the webhook auth flow in frames, as the consent page
+	// could be embedded in a frame and clickjacked to silently register
+	// a webhook (same guard as fetchConnector uses for connectors).
+	if (window !== top) {
+		throw new Error('dontlog');
+	}
+
 	const scriptUrl = browser.runtime.getURL(
 		'connectors/webhook-auth-dom-inject.js',
 	);
