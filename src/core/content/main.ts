@@ -13,8 +13,10 @@ main();
 async function main() {
 	updateTheme();
 	try {
+		const url = new URL(window.location.href);
 		if (
-			window.location.href.startsWith('https://webscrobbler.com/webhook')
+			url.origin === 'https://webscrobbler.com' &&
+			url.pathname.startsWith('/webhook')
 		) {
 			webhookListenForApproval();
 			return;
