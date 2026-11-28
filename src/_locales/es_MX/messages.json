@@ -419,6 +419,10 @@
         "message": "Haz clic en el icono del engranaje para configurar patrones de direcciones URL personalizados para los conectores.",
         "description": "Description of how to configure custom URL patterns"
     },
+    "optionsConnectorsWelcome": {
+        "message": "More connectors are always welcome! If you'd like to see support for a new website, feel free to <a href='$1'>contribute to the project</a>.",
+        "description": "Encouraging message about adding more connectors"
+    },
     "optionsSupportedWebsites": {
         "message": "Páginas web compatibles",
         "description": "'Supported websites' header"
